@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 4 – Series & Sequences | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4; --green: #10b981;
+      --blue: #3b82f6; --blue-l: #60a5fa; --orange: #f97316;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569; --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 680px; height: 680px; background: var(--blue); top: -280px; right: -180px; }
+    .orb-2 { width: 450px; height: 450px; background: var(--purple); bottom: -80px; left: -120px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-35px,25px)} }
+
+    .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px; }
+
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--blue-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--blue-l); font-weight: 600; }
+    .nav-pill { background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); color: var(--blue-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.28); color: var(--blue-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--blue-l), #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+
+    .prog-card { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--blue-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), #818cf8); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--blue-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+
+    /* ── PROBLEM CARD ── */
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done {
+      border-color: rgba(16,185,129,0.6);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18);
+    }
+    .pc.done::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%);
+      z-index: 2;
+    }
+    .pc.done:hover {
+      border-color: rgba(16,185,129,0.82);
+      background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 8px 44px rgba(16,185,129,0.34), 0 0 110px rgba(16,185,129,0.15), inset 0 0 50px rgba(16,185,129,0.08), inset 0 1px 0 rgba(52,211,153,0.25);
+      transform: translateY(-2px);
+    }
+    .pc.open { border-color: rgba(59,130,246,0.35); box-shadow: 0 8px 40px rgba(59,130,246,0.08); }
+
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 28px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--blue-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .try-btn { display:inline-flex; align-items:center; gap:5px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.28); color:var(--cyan); padding:5px 12px; border-radius:100px; font-size:11px; font-weight:600; text-decoration:none; transition:all .2s; white-space:nowrap; flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2); border-color:var(--cyan); transform:scale(1.03); }
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+
+    /* Test Cases */
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:9px; padding:10px 12px; }
+    .tc-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:7px; }
+    .tc-row { display:flex; gap:6px; font-size:11.5px; margin-bottom:3px; align-items:flex-start; }
+    .tc-key { color:var(--text3); min-width:50px; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+    .tc-val { color:var(--text2); font-family:'JetBrains Mono',monospace; white-space:pre-wrap; word-break:break-word; }
+
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 3500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--blue-l); color: var(--blue-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+
+    .concept-box { background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.18); border-left: 3px solid var(--blue); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(59,130,246,0.15); color: var(--blue-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+
+    /* Modal */
+    .modal-overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-box { background:#0d0d20; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:32px 28px; max-width:420px; width:100%; box-shadow:0 32px 80px rgba(0,0,0,0.7); animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px; text-align:center; margin-bottom:12px; }
+    .modal-box h3 { font-size:19px; font-weight:800; text-align:center; margin-bottom:8px; }
+    .modal-question { font-size:14px; color:var(--text2); text-align:center; line-height:1.55; margin-bottom:20px; }
+    .modal-hint-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+    .modal-hint-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.25); color:var(--blue-l); font-size:11.5px; padding:4px 10px; border-radius:100px; }
+    .modal-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--blue),#1d4ed8); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04); color:var(--text2); border:1px solid var(--card-border); padding:13px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4); color:#f87171; }
+
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--blue-l); }
+
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; }
+      .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; }
+      .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; }
+      .pc-body-inner { padding: 0 16px 20px; }
+    }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr}
+      .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;}
+      .pc-right{gap:8px;}
+      .pc-head{gap:10px;}
+      .pc-num{min-width:22px;font-size:12px;}
+      .check-btn{width:26px;height:26px;font-size:12px;}
+      .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo">
+            <div class="logo-ico">☕</div>
+            <span class="logo-txt">Java Core</span>
+          </a>
+          <div class="bc">
+            <span class="sep">›</span>
+            <a href="../index.html">Home</a>
+            <span class="sep">›</span>
+            <a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span>
+            <span class="cur">Level 4</span>
+          </div>
+        </div>
+        <span class="nav-pill">🔵 Sequences</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 4 of 9</div>
+          <h1>Series &amp; <span class="grad">Sequences</span></h1>
+          <p>15 problems on Fibonacci, Tribonacci, arithmetic &amp; geometric progressions, Pascal's triangle, and combinatorics (nCr / nPr).</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 15</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Fibonacci</span>
+        <span class="ts-tag">Recursion</span>
+        <span class="ts-tag">Tribonacci</span>
+        <span class="ts-tag">AP / GP</span>
+        <span class="ts-tag">Pascal's Triangle</span>
+        <span class="ts-tag">nCr / nPr</span>
+        <span class="ts-tag">Catalan Numbers</span>
+      </div>
+    </section>
+
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Core Programs &nbsp;·&nbsp; Numbers Level 4 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+    </div>
+  </footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this problem? Give it one more attempt!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level4';
+
+  const PROBLEMS = [
+    {
+      id: 61,
+      title: "Fibonacci Series (Iterative)",
+      tags: ["Fibonacci", "Iterative", "O(N)/O(1)"],
+      desc: "Print the first N terms of the <b>Fibonacci sequence</b> using a loop. Each term is the sum of the two preceding terms, starting from 0 and 1.",
+      code: `import java.util.Scanner;
+
+public class FibonacciIterative {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter number of terms: ");
+        int n = scanner.nextInt();
+
+        long a = 0, b = 1;
+        System.out.print("Fibonacci: ");
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(a);
+            if (i < n - 1) System.out.print(", ");
+            long next = a + b;
+            a = b;
+            b = next;
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}`,
+      input: "8",
+      output: "Enter number of terms: 8\nFibonacci: 0, 1, 1, 2, 3, 5, 8, 13",
+      time: "O(N)", space: "O(1)",
+      topics: ["Two-variable rolling state (a, b)", "Swap pattern: a=b, b=next", "No array needed — O(1) space"],
+      concept: "Store only the last two values (<code>a</code> and <code>b</code>). Each step: print <code>a</code>, compute <code>next = a+b</code>, then shift: <code>a=b, b=next</code>. This is <b>O(1) space</b> — no array, no memoisation table. The sequence: 0,1,1,2,3,5,8,13,21,34... Each term ≈ previous × φ (golden ratio ≈ 1.618)."
+    },
+    {
+      id: 62,
+      title: "Fibonacci Series (Recursive)",
+      tags: ["Fibonacci", "Recursion", "O(2ᴺ)"],
+      desc: "Print the first N Fibonacci numbers using <b>recursion</b>. Understand the dramatic difference in time complexity vs. the iterative approach.",
+      code: `import java.util.Scanner;
+
+public class FibonacciRecursive {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter number of terms: ");
+        int n = scanner.nextInt();
+
+        System.out.print("Fibonacci: ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(fib(i));
+            if (i < n - 1) System.out.print(", ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+
+    // Naive recursive Fibonacci — exponential time!
+    static long fib(int n) {
+        if (n == 0) return 0; // base case
+        if (n == 1) return 1; // base case
+        return fib(n - 1) + fib(n - 2); // recursive case
+    }
+}`,
+      input: "8",
+      output: "Enter number of terms: 8\nFibonacci: 0, 1, 1, 2, 3, 5, 8, 13",
+      time: "O(2ᴺ)", space: "O(N)",
+      topics: ["Recursive base cases: fib(0)=0, fib(1)=1", "Call tree grows exponentially", "Stack depth = N (O(N) space)"],
+      concept: "Same output as problem 61 but radically different performance. <code>fib(5)</code> calls <code>fib(4)</code> and <code>fib(3)</code>; <code>fib(4)</code> calls <code>fib(3)</code> again — <b>massive redundant recomputation</b>. fib(50) makes ~10¹⁰ calls! Fix: memoisation or iterative. This is the classic example taught to demonstrate why naive recursion can be catastrophic."
+    },
+    {
+      id: 63,
+      title: "Nth Fibonacci Number",
+      tags: ["Fibonacci", "1-Indexed", "Iterative"],
+      desc: "Find the <b>Nth Fibonacci number</b> (1-indexed: F(1)=0, F(2)=1, F(3)=1, F(4)=2...) in O(N) time and O(1) space.",
+      code: `import java.util.Scanner;
+
+public class NthFibonacci {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N (1-indexed): ");
+        int n = scanner.nextInt();
+
+        if (n <= 0) {
+            System.out.println("N must be positive.");
+            scanner.close(); return;
+        }
+
+        long a = 0, b = 1;
+
+        if (n == 1) {
+            System.out.println("Fibonacci(" + n + ") = " + a);
+        } else {
+            for (int i = 2; i < n; i++) {
+                long temp = a + b;
+                a = b;
+                b = temp;
+            }
+            System.out.println("Fibonacci(" + n + ") = " + b);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "7",
+      output: "Enter N (1-indexed): 7\nFibonacci(7) = 8",
+      time: "O(N)", space: "O(1)",
+      topics: ["1-indexed: F(1)=0, F(2)=1, F(7)=8", "Loop runs N-2 times for N≥3", "Edge cases: N=1 returns 0, N=2 returns 1"],
+      concept: "Sequence (1-indexed): F(1)=0, F(2)=1, F(3)=1, F(4)=2, F(5)=3, F(6)=5, <b>F(7)=8</b>. Handle N=1 separately (return 0). For N≥2, run loop N-2 times starting from the 3rd term. There's also a <b>closed-form formula</b>: F(n) = round(φⁿ/√5) where φ=(1+√5)/2, but it loses precision for large N due to floating-point limits."
+    },
+    {
+      id: 64,
+      title: "Sum of Fibonacci Numbers",
+      tags: ["Fibonacci", "Sum", "Identity"],
+      desc: "Find the <b>sum of the first N Fibonacci numbers</b>. There's a beautiful identity: sum of first N Fibs = F(N+2) − 1.",
+      code: `import java.util.Scanner;
+
+public class SumFibonacci {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter number of terms: ");
+        int n = scanner.nextInt();
+
+        long a = 0, b = 1, sum = 0;
+
+        for (int i = 0; i < n; i++) {
+            sum += a;
+            long next = a + b;
+            a = b;
+            b = next;
+        }
+
+        System.out.println("Sum of first " + n + " Fibonacci numbers = " + sum);
+
+        // Verify with identity: sum = F(n+2) - 1
+        long fa = 0, fb = 1;
+        for (int i = 2; i <= n + 1; i++) {
+            long t = fa + fb; fa = fb; fb = t;
+        }
+        System.out.println("Identity check (F(" + (n+2) + ") - 1) = " + (fb - 1));
+
+        scanner.close();
+    }
+}`,
+      input: "6",
+      output: "Enter number of terms: 6\nSum of first 6 Fibonacci numbers = 12\nIdentity check (F(8) - 1) = 12",
+      time: "O(N)", space: "O(1)",
+      topics: ["Accumulate sum in same loop as generation", "Identity: ΣF(0..n) = F(n+2) - 1", "F(8)=13, so sum of first 6 = 13-1 = 12"],
+      concept: "Sum the first 6 Fibs: 0+1+1+2+3+5 = <b>12</b>. The elegant identity: <b>sum of F(0) through F(n) = F(n+2) − 1</b>. For n=6 (0-indexed up to F(5)=5): F(7)=13, so sum=12. This identity arises from telescoping: F(k) = F(k+2)−F(k+1), summing across all k collapses to a two-term result."
+    },
+    {
+      id: 65,
+      title: "Check if a Number is Fibonacci",
+      tags: ["Fibonacci", "Perfect Square", "Math Test"],
+      desc: "Determine whether a given number belongs to the <b>Fibonacci sequence</b> using a mathematical perfect-square test — no need to generate the whole sequence.",
+      code: `import java.util.Scanner;
+
+public class CheckFibonacci {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        long n = scanner.nextLong();
+
+        // A number x is Fibonacci iff (5x²+4) or (5x²-4) is a perfect square
+        boolean isFib = isPerfectSquare(5 * n * n + 4)
+                     || isPerfectSquare(5 * n * n - 4);
+
+        System.out.println("Testing: (5×" + n + "²+4) or (5×" + n + "²-4) is a perfect square?");
+        System.out.println("5n²+4 = " + (5*n*n+4) + "  →  perfect square? " + isPerfectSquare(5*n*n+4));
+        System.out.println("5n²-4 = " + (5*n*n-4) + "  →  perfect square? " + isPerfectSquare(5*n*n-4));
+
+        if (isFib) {
+            System.out.println(n + " IS a Fibonacci number!");
+        } else {
+            System.out.println(n + " is NOT a Fibonacci number.");
+        }
+
+        scanner.close();
+    }
+
+    static boolean isPerfectSquare(long x) {
+        if (x < 0) return false;
+        long s = (long) Math.sqrt(x);
+        return s * s == x || (s + 1) * (s + 1) == x; // guard floating-point edge
+    }
+}`,
+      input: "8",
+      output: "Enter a number: 8\nTesting: (5×8²+4) or (5×8²-4) is a perfect square?\n5n²+4 = 324  →  perfect square? true\n5n²-4 = 316  →  perfect square? false\n8 IS a Fibonacci number!",
+      time: "O(1)", space: "O(1)",
+      topics: ["Iff test: (5n²±4) is perfect square", "Math.sqrt() floating-point guard", "O(1) — no sequence generation needed"],
+      concept: "Brilliant O(1) test discovered using the <b>golden ratio identity</b>: n is Fibonacci iff one of (5n²+4) or (5n²-4) is a perfect square. For n=8: 5×64+4=324=18². Floating-point guard: check both <code>s²==x</code> and <code>(s+1)²==x</code> since <code>Math.sqrt()</code> can be off by 1 for large integers."
+    },
+    {
+      id: 66,
+      title: "Tribonacci Series",
+      tags: ["Tribonacci", "Three-Term Sum", "Series"],
+      desc: "Print the <b>Tribonacci sequence</b> where each term is the <b>sum of the three preceding terms</b>. Starts: 0, 0, 1, 1, 2, 4, 7, 13...",
+      code: `import java.util.Scanner;
+
+public class Tribonacci {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter number of terms: ");
+        int n = scanner.nextInt();
+
+        // Seed values: T(0)=0, T(1)=0, T(2)=1
+        long a = 0, b = 0, c = 1;
+
+        System.out.print("Tribonacci: ");
+        for (int i = 0; i < n; i++) {
+            // Print current value
+            long curr = (i == 0) ? a : (i == 1) ? b : c;
+            System.out.print(curr);
+            if (i < n - 1) System.out.print(", ");
+
+            // Advance the three-variable window
+            if (i >= 2) {
+                long next = a + b + c;
+                a = b;
+                b = c;
+                c = next;
+            }
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}`,
+      input: "9",
+      output: "Enter number of terms: 9\nTribonacci: 0, 0, 1, 1, 2, 4, 7, 13, 24",
+      time: "O(N)", space: "O(1)",
+      topics: ["Three seed values: 0, 0, 1", "Three-variable rolling window (a, b, c)", "Generalises Fibonacci: sum of last k terms"],
+      concept: "Tribonacci = <b>sum of last 3 terms</b>, vs Fibonacci's last 2. Seeds: T(0)=0, T(1)=0, T(2)=1. Then T(3)=0+0+1=1, T(4)=0+1+1=2, T(5)=1+1+2=4, T(6)=1+2+4=7... Uses a <b>three-variable rolling window</b> — same O(1) space trick as Fibonacci but with one extra variable. The tribonacci constant ≈ 1.839 replaces φ."
+    },
+    {
+      id: 67,
+      title: "Geometric Progression",
+      tags: ["GP", "Common Ratio", "Exponential"],
+      desc: "Given first term <b>a</b>, common ratio <b>r</b>, and terms count <b>n</b>, print each GP term and compute the total sum. GP: a, ar, ar², ar³...",
+      code: `import java.util.Scanner;
+
+public class GeometricProgression {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("First term  (a): ");
+        double a = scanner.nextDouble();
+        System.out.print("Common ratio (r): ");
+        double r = scanner.nextDouble();
+        System.out.print("No. of terms (n): ");
+        int n = scanner.nextInt();
+
+        System.out.println("\nGeometric Progression:");
+        double term = a, sum = 0;
+
+        for (int i = 1; i <= n; i++) {
+            System.out.printf("  T(%d) = %.2f%n", i, term);
+            sum += term;
+            term *= r;
+        }
+
+        System.out.printf("%nSum = %.2f%n", sum);
+
+        // Formula: Sn = a(rⁿ−1)/(r−1) for r ≠ 1
+        if (r != 1) {
+            double formulaSum = a * (Math.pow(r, n) - 1) / (r - 1);
+            System.out.printf("Formula check: %.2f%n", formulaSum);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "2\n3\n5",
+      output: "First term  (a): 2\nCommon ratio (r): 3\nNo. of terms (n): 5\n\nGeometric Progression:\n  T(1) = 2.00\n  T(2) = 6.00\n  T(3) = 18.00\n  T(4) = 54.00\n  T(5) = 162.00\n\nSum = 242.00\nFormula check: 242.00",
+      time: "O(N)", space: "O(1)",
+      topics: ["Multiply by r each iteration", "Sum formula: a(rⁿ−1)/(r−1) for r≠1", "If r=1 → n×a (arithmetic degenerate case)"],
+      concept: "In a GP each term = previous × r (constant ratio). Term formula: <code>Tₙ = a × rⁿ⁻¹</code>. Sum formula: <code>Sₙ = a(rⁿ−1)/(r−1)</code> for r≠1. For r=1, all terms equal a and sum=n×a. GPs appear in compound interest, exponential growth/decay, and binary trees (level sizes form a GP with r=2)."
+    },
+    {
+      id: 68,
+      title: "Arithmetic Progression",
+      tags: ["AP", "Common Difference", "Sum Formula"],
+      desc: "Given first term <b>a</b>, common difference <b>d</b>, and count <b>n</b>, print the AP and compute sum using both a loop and the closed-form formula.",
+      code: `import java.util.Scanner;
+
+public class ArithmeticProgression {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("First term       (a): ");
+        int a = scanner.nextInt();
+        System.out.print("Common difference (d): ");
+        int d = scanner.nextInt();
+        System.out.print("No. of terms     (n): ");
+        int n = scanner.nextInt();
+
+        System.out.println("\nArithmetic Progression:");
+        long loopSum = 0;
+
+        for (int i = 0; i < n; i++) {
+            int term = a + i * d;
+            System.out.printf("  T(%d) = %d%n", i + 1, term);
+            loopSum += term;
+        }
+
+        // Formula: Sn = n/2 × (2a + (n-1)d)
+        long formulaSum = (long) n * (2 * a + (n - 1) * d) / 2;
+
+        System.out.println("\nSum (loop)    = " + loopSum);
+        System.out.println("Sum (formula) = " + formulaSum);
+        System.out.println("Last term     = " + (a + (n - 1) * d));
+
+        scanner.close();
+    }
+}`,
+      input: "2\n3\n5",
+      output: "First term       (a): 2\nCommon difference (d): 3\nNo. of terms     (n): 5\n\nArithmetic Progression:\n  T(1) = 2\n  T(2) = 5\n  T(3) = 8\n  T(4) = 11\n  T(5) = 14\n\nSum (loop)    = 40\nSum (formula) = 40\nLast term     = 14",
+      time: "O(N)", space: "O(1)",
+      topics: ["Tₙ = a + (n-1)×d", "Sum formula: n/2 × (2a + (n-1)d)", "Also: Sₙ = n/2 × (first + last)"],
+      concept: "AP adds a constant d each step. Term: <code>Tₙ = a + (n-1)d</code>. Sum formula (Gauss-style): <code>Sₙ = n/2 × (2a + (n-1)d)</code> — equivalently <code>n/2 × (first + last)</code>. This is why the sum 1+2+...+n = n(n+1)/2: a=1, d=1 gives n/2×(2+(n-1)) = n(n+1)/2."
+    },
+    {
+      id: 69,
+      title: "Find the Missing Number in an AP",
+      tags: ["AP", "Missing Term", "Common Difference"],
+      desc: "Given an AP with <b>exactly one term missing</b>, identify and print the missing value by computing the expected common difference.",
+      code: `import java.util.Scanner;
+
+public class MissingInAP {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("How many numbers given: ");
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter " + n + " numbers (AP with one missing):");
+        for (int i = 0; i < n; i++) arr[i] = scanner.nextInt();
+
+        // Complete AP has n+1 terms, so common difference:
+        int d = (arr[n - 1] - arr[0]) / n;
+
+        int missing = Integer.MIN_VALUE;
+        for (int i = 1; i < n; i++) {
+            if (arr[i] - arr[i - 1] != d) {
+                missing = arr[i - 1] + d;
+                break;
+            }
+        }
+
+        if (missing == Integer.MIN_VALUE) {
+            System.out.println("No missing element found (or last element is missing).");
+        } else {
+            System.out.println("Common difference d = " + d);
+            System.out.println("Missing number = " + missing);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "4\n2 4 6 10",
+      output: "How many numbers given: 4\nEnter 4 numbers (AP with one missing):\n2 4 6 10\nCommon difference d = 2\nMissing number = 8",
+      time: "O(N)", space: "O(N)",
+      topics: ["d = (last − first) / n (n given numbers, n+1 complete)", "Scan for the gap where arr[i]−arr[i-1] ≠ d", "Handles edge case where gap is double d"],
+      concept: "The complete AP has <b>n+1</b> terms (n given + 1 missing). So <code>d = (last − first) / n</code>. Scan pairs until you find the one where the difference is 2d — the missing term sits in that gap. E.g., [2,4,6,10]: d=(10-2)/4=2. Gap at 6→10 is 4≠2 → missing = 6+2 = <b>8</b>."
+    },
+    {
+      id: 70,
+      title: "Find the Missing Number in Array 1..N",
+      tags: ["Missing Number", "Gauss Sum", "Array"],
+      desc: "Given an array containing N−1 distinct numbers from 1 to N with <b>exactly one missing</b>, find it using the Gauss sum formula in O(1) space.",
+      code: `import java.util.Scanner;
+
+public class MissingNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.println("Enter " + (n - 1) + " distinct numbers from 1 to " + n + ":");
+
+        long expectedSum = (long) n * (n + 1) / 2; // Gauss formula
+        long actualSum = 0;
+        for (int i = 0; i < n - 1; i++) {
+            actualSum += scanner.nextInt();
+        }
+
+        long missing = expectedSum - actualSum;
+
+        System.out.println("Expected sum (1.."+n+") = " + expectedSum);
+        System.out.println("Actual sum              = " + actualSum);
+        System.out.println("Missing number          = " + missing);
+
+        scanner.close();
+    }
+}`,
+      input: "5\n1 2 4 5",
+      output: "Enter N: 5\nEnter 4 distinct numbers from 1 to 5:\n1 2 4 5\nExpected sum (1..5) = 15\nActual sum          = 12\nMissing number      = 3",
+      time: "O(N)", space: "O(1)",
+      topics: ["Gauss sum: N(N+1)/2 is the expected total", "missing = expectedSum − actualSum", "Classic interview problem — O(1) extra space"],
+      concept: "The <b>classic interview question</b>. Key insight: sum of 1..N = N(N+1)/2. The difference between expected and actual sum must be the missing element. No sorting, no extra array, no hash set needed — just one subtraction. XOR variant also works: XOR all numbers 1..N with all array elements; the surviving bit pattern is the missing number."
+    },
+    {
+      id: 71,
+      title: "Catalan Number",
+      tags: ["Catalan", "Combinatorics", "C(2n,n)/(n+1)"],
+      desc: "Compute the <b>Nth Catalan number</b> using the formula C(n) = C(2n, n) / (n+1). Catalan numbers count a surprising variety of combinatorial structures.",
+      code: `import java.util.Scanner;
+
+public class CatalanNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N (0-indexed): ");
+        int n = scanner.nextInt();
+
+        long cat = nCr(2 * n, n) / (n + 1);
+        System.out.println("Catalan(" + n + ") = C(" + (2*n) + "," + n + ") / " + (n+1) + " = " + cat);
+
+        System.out.print("Series C(0) to C(" + n + "): ");
+        for (int i = 0; i <= n; i++) {
+            System.out.print(nCr(2*i, i) / (i + 1));
+            if (i < n) System.out.print(", ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+
+    static long nCr(int n, int r) {
+        if (r > n - r) r = n - r;
+        long result = 1;
+        for (int i = 0; i < r; i++) {
+            result = result * (n - i) / (i + 1);
+        }
+        return result;
+    }
+}`,
+      input: "5",
+      output: "Enter N (0-indexed): 5\nCatalan(5) = C(10,5) / 6 = 42\nSeries C(0) to C(5): 1, 1, 2, 5, 14, 42",
+      time: "O(N)", space: "O(1)",
+      topics: ["Formula: C(n) = C(2n,n) / (n+1)", "Sequence: 1,1,2,5,14,42,132,429...", "Counts balanced parentheses, BST shapes, triangulations"],
+      concept: "Catalan numbers count: valid bracket sequences of length 2n, full binary trees with n+1 leaves, ways to triangulate a polygon, monotonic paths below diagonal... Formula: <b>C(n) = C(2n,n)/(n+1)</b>. C(0)=1, C(1)=1, C(2)=2, C(3)=5, C(4)=14, C(5)=<b>42</b>. Asymptotically grows as 4ⁿ/(n^(3/2)√π)."
+    },
+    {
+      id: 72,
+      title: "Pascal's Triangle — Single Value",
+      tags: ["Pascal", "nCr", "Row/Column"],
+      desc: "Find a single value in Pascal's triangle at a given <b>row and column</b> (both 0-indexed). Each value equals C(row, col).",
+      code: `import java.util.Scanner;
+
+public class PascalValue {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter row    (0-indexed): ");
+        int row = scanner.nextInt();
+        System.out.print("Enter column (0-indexed): ");
+        int col = scanner.nextInt();
+
+        if (col > row) {
+            System.out.println("Column cannot exceed row — value is 0.");
+            scanner.close(); return;
+        }
+
+        long value = nCr(row, col);
+
+        System.out.println("Pascal(" + row + ", " + col + ")"
+                         + " = C(" + row + ", " + col + ")"
+                         + " = " + value);
+        System.out.println("(Row " + row + " is: " + rowString(row) + ")");
+
+        scanner.close();
+    }
+
+    static long nCr(int n, int r) {
+        if (r > n - r) r = n - r;
+        long res = 1;
+        for (int i = 0; i < r; i++) res = res * (n - i) / (i + 1);
+        return res;
+    }
+
+    static String rowString(int r) {
+        StringBuilder sb = new StringBuilder();
+        for (int c = 0; c <= r; c++) {
+            if (c > 0) sb.append(", ");
+            sb.append(nCr(r, c));
+        }
+        return sb.toString();
+    }
+}`,
+      input: "4\n2",
+      output: "Enter row    (0-indexed): 4\nEnter column (0-indexed): 2\nPascal(4, 2) = C(4, 2) = 6\n(Row 4 is: 1, 4, 6, 4, 1)",
+      time: "O(min(col, row−col))", space: "O(1)",
+      topics: ["Pascal(r,c) = C(r,c) = r!/(c!(r-c)!)", "Symmetry: Pascal(r,c) = Pascal(r,r-c)", "Row 0: [1], Row 1: [1,1], Row 2: [1,2,1]..."],
+      concept: "Pascal's triangle entry at row r, col c = <code>C(r,c) = r! / (c! × (r-c)!)</code>. Key properties: each row sums to 2ʳ; diagonal 1,1,1... is C(n,0); diagonal 1,2,3,4... is C(n,1); symmetry C(r,c)=C(r,r-c). The triangle encodes binomial expansion coefficients: (x+y)ⁿ = Σ C(n,k) xᵏ yⁿ⁻ᵏ."
+    },
+    {
+      id: 73,
+      title: "Print Pascal's Triangle",
+      tags: ["Pascal", "Triangle", "Formatted Output"],
+      desc: "Print the first N rows of <b>Pascal's triangle</b>, formatted as a centred pyramid. Each element is computed directly using the nCr formula.",
+      code: `import java.util.Scanner;
+
+public class PascalTriangle {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter number of rows: ");
+        int n = scanner.nextInt();
+
+        System.out.println("\nPascal's Triangle:");
+
+        for (int i = 0; i < n; i++) {
+            // Leading spaces for pyramid shape
+            for (int s = 0; s < (n - i - 1); s++) System.out.print("   ");
+
+            long val = 1;
+            for (int j = 0; j <= i; j++) {
+                System.out.printf("%6d", val);
+                val = val * (i - j) / (j + 1); // next value in row
+            }
+            System.out.println();
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "6",
+      output: "Enter number of rows: 6\n\nPascal's Triangle:\n                 1\n              1     1\n           1     2     1\n        1     3     3     1\n     1     4     6     4     1\n  1     5    10    10     5     1",
+      time: "O(N²)", space: "O(1)",
+      topics: ["Compute each row left-to-right using val=val*(i-j)/(j+1)", "Leading spaces for pyramid centering", "O(N²) total elements, O(1) extra space"],
+      concept: "Building each row: start with 1, then each next value = <code>prev × (row−col) / (col+1)</code>. This avoids computing full factorials and keeps values exact. Space is O(1) — no 2D array needed. The centered pyramid uses <code>(N−row−1)</code> leading spaces per row. Total elements = 1+2+...+N = N(N+1)/2 = O(N²)."
+    },
+    {
+      id: 74,
+      title: "Compute nCr (Combinations)",
+      tags: ["nCr", "Combinations", "Divide First"],
+      desc: "Compute <b>C(n, r) = n! / (r! × (n−r)!)</b> — the number of ways to <b>choose</b> r items from n without regard to order.",
+      code: `import java.util.Scanner;
+
+public class NCR {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter n: ");
+        int n = scanner.nextInt();
+        System.out.print("Enter r: ");
+        int r = scanner.nextInt();
+
+        if (r < 0 || r > n) {
+            System.out.println("C(" + n + ", " + r + ") = 0");
+            scanner.close(); return;
+        }
+
+        long result = nCr(n, r);
+
+        System.out.println("C(" + n + ", " + r + ") = " + result);
+        System.out.println("Meaning: choose " + r + " from " + n
+                         + " = " + result + " way(s)");
+
+        // Symmetry check
+        System.out.println("Symmetry: C(" + n + "," + r + ") = C(" + n + "," + (n-r) + ") = " + nCr(n, n-r));
+
+        scanner.close();
+    }
+
+    static long nCr(int n, int r) {
+        if (r > n - r) r = n - r; // exploit symmetry, use smaller r
+        long result = 1;
+        for (int i = 0; i < r; i++) {
+            result = result * (n - i) / (i + 1); // divide at each step — stays integer!
+        }
+        return result;
+    }
+}`,
+      input: "6\n2",
+      output: "Enter n: 6\nEnter r: 2\nC(6, 2) = 15\nMeaning: choose 2 from 6 = 15 way(s)\nSymmetry: C(6,2) = C(6,4) = 15",
+      time: "O(min(r, n−r))", space: "O(1)",
+      topics: ["Exploit symmetry: use min(r, n-r)", "Divide-at-each-step stays integer", "C(n,0)=C(n,n)=1, C(n,1)=n"],
+      concept: "Key trick: <code>result = result × (n−i) / (i+1)</code> — divide at each step, not at the end. This keeps the running value an integer (it equals C(n-i-1, r-i-1) at step i). Symmetry: C(n,r) = C(n,n−r), so always use the smaller of r and n−r to minimise iterations. C(6,2) = C(6,4) = 15."
+    },
+    {
+      id: 75,
+      title: "Compute nPr (Permutations)",
+      tags: ["nPr", "Permutations", "Order Matters"],
+      desc: "Compute <b>P(n, r) = n! / (n−r)!</b> — the number of ways to <b>arrange</b> r items chosen from n, where order matters.",
+      code: `import java.util.Scanner;
+
+public class NPR {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter n: ");
+        int n = scanner.nextInt();
+        System.out.print("Enter r: ");
+        int r = scanner.nextInt();
+
+        if (r < 0 || r > n) {
+            System.out.println("P(" + n + ", " + r + ") = 0");
+            scanner.close(); return;
+        }
+
+        // P(n,r) = n × (n-1) × ... × (n-r+1)  [r terms]
+        long result = 1;
+        for (int i = 0; i < r; i++) {
+            result *= (n - i);
+        }
+
+        System.out.println("P(" + n + ", " + r + ") = " + result);
+        System.out.println("Meaning: arrange " + r + " from " + n
+                         + " = " + result + " way(s)");
+        System.out.println("Relation: P(" + n + "," + r + ") = C(" + n + "," + r
+                         + ") × " + r + "! = " + nCr(n,r) + " × " + factorial(r)
+                         + " = " + result);
+
+        scanner.close();
+    }
+
+    static long nCr(int n, int r) {
+        if (r > n - r) r = n - r;
+        long res = 1;
+        for (int i = 0; i < r; i++) res = res * (n - i) / (i + 1);
+        return res;
+    }
+
+    static long factorial(int n) {
+        long f = 1;
+        for (int i = 2; i <= n; i++) f *= i;
+        return f;
+    }
+}`,
+      input: "5\n3",
+      output: "Enter n: 5\nEnter r: 3\nP(5, 3) = 60\nMeaning: arrange 3 from 5 = 60 way(s)\nRelation: P(5,3) = C(5,3) × 3! = 10 × 6 = 60",
+      time: "O(r)", space: "O(1)",
+      topics: ["P(n,r) = n×(n-1)×...×(n-r+1)", "r multiplications — O(r)", "Key identity: P(n,r) = C(n,r) × r!"],
+      concept: "P(n,r) = n!/(n-r)! = n×(n-1)×...×(n-r+1). Loop r times multiplying descending values from n. Key identity: <b>P(n,r) = C(n,r) × r!</b> — first choose r items (C ways), then arrange them (r! ways). P(n,n) = n! (total permutations). P(n,1) = n. No symmetry: P(n,r) ≠ P(n,n-r) in general."
+    }
+  ];
+
+  const TESTCASES = {
+    61: [{in:"8",out:"Fibonacci: 0, 1, 1, 2, 3, 5, 8, 13"},{in:"5",out:"Fibonacci: 0, 1, 1, 2, 3"}],
+    62: [{in:"8",out:"Fibonacci: 0, 1, 1, 2, 3, 5, 8, 13"},{in:"5",out:"Fibonacci: 0, 1, 1, 2, 3"}],
+    63: [{in:"7",out:"Fibonacci(7) = 8"},{in:"1",out:"Fibonacci(1) = 0"}],
+    64: [{in:"6",out:"Sum of first 6 Fibonacci numbers = 12"},{in:"5",out:"Sum of first 5 Fibonacci numbers = 7"}],
+    65: [{in:"8",out:"8 IS a Fibonacci number!"},{in:"7",out:"7 is NOT a Fibonacci number."}],
+    66: [{in:"9",out:"Tribonacci: 0, 0, 1, 1, 2, 4, 7, 13, 24"},{in:"5",out:"Tribonacci: 0, 0, 1, 1, 2"}],
+    67: [{in:"2\n3\n5",out:"T(1)=2.00  T(2)=6.00  T(3)=18.00  T(4)=54.00  T(5)=162.00  Sum=242.00"},{in:"1\n2\n4",out:"T(1)=1.00  T(2)=2.00  T(3)=4.00  T(4)=8.00  Sum=15.00"}],
+    68: [{in:"2\n3\n5",out:"T(1)=2  T(2)=5  T(3)=8  T(4)=11  T(5)=14  Sum=40"},{in:"1\n2\n4",out:"T(1)=1  T(2)=3  T(3)=5  T(4)=7  Sum=16"}],
+    69: [{in:"4\n2 4 6 10",out:"Missing number = 8"},{in:"4\n1 5 9 17",out:"Missing number = 13"}],
+    70: [{in:"5\n1 2 4 5",out:"Missing number = 3"},{in:"6\n1 2 3 5 6",out:"Missing number = 4"}],
+    71: [{in:"5",out:"Catalan(5) = 42"},{in:"3",out:"Catalan(3) = 5"}],
+    72: [{in:"4\n2",out:"Pascal(4, 2) = C(4, 2) = 6"},{in:"5\n1",out:"Pascal(5, 1) = C(5, 1) = 5"}],
+    73: [{in:"5",out:"Row 0: 1\nRow 1: 1 1\nRow 2: 1 2 1\nRow 3: 1 3 3 1\nRow 4: 1 4 6 4 1"},{in:"4",out:"Row 0: 1\nRow 1: 1 1\nRow 2: 1 2 1\nRow 3: 1 3 3 1"}],
+    74: [{in:"6\n2",out:"C(6, 2) = 15"},{in:"5\n3",out:"C(5, 3) = 10"}],
+    75: [{in:"5\n3",out:"P(5, 3) = 60"},{in:"4\n2",out:"P(4, 2) = 12"}],
+  };
+
+  // ── State ──
+  const completed = new Set();
+  let openId = null;
+  let pendingId = null;
+
+  function loadProgress() {
+    try { const r = localStorage.getItem(STORAGE_KEY); if (r) JSON.parse(r).forEach(id => completed.add(id)); } catch(e){}
+  }
+  function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed])); }
+  function updateProgressUI() {
+    const done = completed.size, total = PROBLEMS.length, pct = Math.round(done/total*100);
+    document.getElementById('prog-done').textContent = done;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  function render() {
+    document.getElementById('problems-list').innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id) ? 'done' : ''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id)?'checked':''}" onclick="markDone(event,${p.id})" title="${completed.has(p.id)?'Mark incomplete':'Mark as done'}">${completed.has(p.id)?'✓':'○'}</button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp"><div class="io-box-label">▶ INPUT</div><div class="io-val">${escHtml(p.input)}</div></div>
+                <div class="io-box io-out"><div class="io-box-label">◀ OUTPUT</div><div class="io-val">${escHtml(p.output)}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box"><div class="cx-label">TIME</div><div class="cx-val cx-time">${p.time}</div></div>
+                <div class="cx-box"><div class="cx-label">SPACE</div><div class="cx-val cx-space">${p.space}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t=>`<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t=>`<span class="modal-hint-tag">${t}</span>`).join('');
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    completed.has(id) ? completed.delete(id) : completed.add(id);
+    saveProgress();
+    render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    if (!p) return;
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target;
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    if (!confirm('Reset all progress for Level 4?')) return;
+    completed.clear(); saveProgress(); openId = null; render();
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  loadProgress();
+  render();
+  </script>
+</body>
+</html>

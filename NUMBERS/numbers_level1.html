@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 1 – Absolute Basics | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --bg2: #0a0a1a;
+      --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4;
+      --green: #10b981; --orange: #f97316; --yellow: #eab308;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
+      --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 700px; height: 700px; background: var(--purple); top: -300px; left: -200px; }
+    .orb-2 { width: 500px; height: 500px; background: var(--cyan); bottom: -100px; right: -150px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-30px)} }
+
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--purple-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--purple-l); font-weight: 600; }
+    .nav-pill { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); color: #34d399; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    /* ── LEVEL HERO ── */
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-left {}
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); color: #34d399; border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+
+    /* progress card */
+    .prog-card {
+      background: rgba(124,58,237,0.07); border: 1px solid rgba(124,58,237,0.22);
+      border-radius: 16px; padding: 22px 26px; min-width: 220px;
+    }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--purple-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--cyan)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+
+    /* Tags strip */
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); color: var(--purple-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+
+    /* ── PROBLEM LIST ── */
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn {
+      background: transparent; border: 1px solid var(--card-border); color: var(--text3);
+      padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer;
+      transition: all .2s; font-family: inherit;
+    }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+
+    /* ── PROBLEM CARD ── */
+    .pc {
+      background: var(--card); border: 1px solid var(--card-border);
+      border-radius: 16px; overflow: hidden; position: relative;
+      transition: border-color .3s, box-shadow .3s, background .3s, transform .2s;
+    }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done {
+      border-color: rgba(16,185,129,0.6);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%);
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.22),
+        0 4px 32px rgba(16,185,129,0.24),
+        0 0 80px rgba(16,185,129,0.1),
+        inset 0 0 40px rgba(16,185,129,0.06),
+        inset 0 1px 0 rgba(52,211,153,0.18);
+    }
+    .pc.done::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%);
+      z-index: 2;
+    }
+    .pc.done:hover {
+      border-color: rgba(16,185,129,0.82);
+      background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%);
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.35),
+        0 8px 44px rgba(16,185,129,0.34),
+        0 0 110px rgba(16,185,129,0.15),
+        inset 0 0 50px rgba(16,185,129,0.08),
+        inset 0 1px 0 rgba(52,211,153,0.25);
+      transform: translateY(-2px);
+    }
+    .pc.open { border-color: rgba(124,58,237,0.3); box-shadow: 0 8px 40px rgba(124,58,237,0.08); }
+
+    /* card header */
+    .pc-head {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 22px; cursor: pointer; user-select: none;
+      transition: background .2s;
+    }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+
+    .pc-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; font-weight: 600; color: var(--text3);
+      min-width: 28px;
+    }
+    .pc.done .pc-num { color: var(--green); }
+
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.18); color: var(--purple-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+    /* Complete button */
+    .check-btn {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid var(--card-border); background: transparent;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; transition: all .2s; color: var(--text3);
+      flex-shrink: 0;
+    }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+
+    /* Expand icon */
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+
+    /* ── CARD BODY ── */
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 3000px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+
+    /* Section rows inside body */
+    .body-section { margin-top: 22px; }
+    .body-label {
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text3); margin-bottom: 10px; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+
+    /* Description */
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+
+    /* Code block */
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn {
+      background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2);
+      padding: 4px 12px; border-radius: 6px; font-size: 11px;
+      cursor: pointer; transition: all .2s; font-family: inherit;
+    }
+    .copy-btn:hover { border-color: var(--purple-l); color: var(--purple-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+
+    /* I/O Panel */
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+
+    /* Complexity Table */
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+      border-radius: 10px; padding: 14px; text-align: center;
+    }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+
+    /* Topics pills */
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill {
+      background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2);
+      color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px;
+    }
+
+    /* Key Concept */
+    .concept-box {
+      background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.18);
+      border-left: 3px solid var(--purple); border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(124,58,237,0.15); color: var(--purple-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--purple-l); }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; }
+      .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; }
+      .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; }
+      .pc-body-inner { padding: 0 16px 20px; }
+    }
+    .try-btn { display:inline-flex;align-items:center;gap:5px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.28);color:var(--cyan);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2);border-color:var(--cyan);transform:scale(1.03); }
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:9px;padding:10px 12px; }
+    .tc-title { font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px; }
+    .tc-row { display:flex;gap:6px;font-size:11.5px;margin-bottom:3px;align-items:flex-start; }
+    .tc-key { color:var(--text3);min-width:50px;font-family:'JetBrains Mono',monospace;flex-shrink:0; }
+    .tc-val { color:var(--text2);font-family:'JetBrains Mono',monospace;white-space:pre-wrap;word-break:break-word; }
+    .modal-overlay { position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px; }
+    .modal-box { background:#0d0d20;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 28px;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.7);animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px;text-align:center;margin-bottom:12px; }
+    .modal-box h3 { font-size:19px;font-weight:800;text-align:center;margin-bottom:8px; }
+    .modal-question { font-size:14px;color:var(--text2);text-align:center;line-height:1.55;margin-bottom:20px; }
+    .modal-hint-label { font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px; }
+    .modal-hint-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);color:var(--purple-l);font-size:11.5px;padding:4px 10px;border-radius:100px; }
+    .modal-btns { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--purple),#4c1d95);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--card-border);padding:13px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4);color:#f87171; }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr}
+      .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;}
+      .pc-right{gap:8px;}
+      .pc-head{gap:10px;}
+      .pc-num{min-width:22px;font-size:12px;}
+      .check-btn{width:26px;height:26px;font-size:12px;}
+      .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo">
+            <div class="logo-ico">☕</div>
+            <span class="logo-txt">Java Core</span>
+          </a>
+          <div class="bc">
+            <span class="sep">›</span>
+            <a href="../index.html">Home</a>
+            <span class="sep">›</span>
+            <a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span>
+            <span class="cur">Level 1</span>
+          </div>
+        </div>
+        <span class="nav-pill">🟢 Beginner</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 1 of 9</div>
+          <h1>Absolute <span class="grad">Basics</span></h1>
+          <p>20 foundational problems to build your Java foundation — variables, user input, conditionals, and your first loops.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 20</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Variables</span>
+        <span class="ts-tag">Scanner I/O</span>
+        <span class="ts-tag">if-else</span>
+        <span class="ts-tag">for-loop</span>
+        <span class="ts-tag">Math class</span>
+        <span class="ts-tag">Modulo</span>
+        <span class="ts-tag">Comparison</span>
+      </div>
+    </section>
+
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Core Programs &nbsp;·&nbsp; Numbers Level 1 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+    </div>
+  </footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this problem? Give it one more attempt — growth happens in the struggle!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level1';
+
+  const PROBLEMS = [
+    {
+      id: 1,
+      title: "Print a Number",
+      tags: ["Variables", "Output", "Basics"],
+      desc: "Declare an integer variable, assign a value to it, and print it to the console using <b>System.out.println()</b>.",
+      code: `public class PrintNumber {
+    public static void main(String[] args) {
+        // Declare and initialize an integer variable
+        int number = 42;
+
+        // Print the number to the console
+        System.out.println("Number: " + number);
+    }
+}`,
+      input: "None (value is hardcoded)",
+      output: "Number: 42",
+      time: "O(1)", space: "O(1)",
+      topics: ["int declaration", "Variable initialization", "System.out.println()", "String concatenation"],
+      concept: "Use <code>int</code> to declare an integer variable and <code>=</code> to assign a value. <code>System.out.println()</code> prints to the console and adds a newline at the end. The <code>+</code> operator joins a String and a number automatically."
+    },
+    {
+      id: 2,
+      title: "Take Integer Input and Print It",
+      tags: ["Input", "Scanner", "I/O"],
+      desc: "Use the <b>Scanner</b> class to read an integer from the user via the keyboard, then print it back.",
+      code: `import java.util.Scanner;
+
+public class TakeInput {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        System.out.println("You entered: " + number);
+        scanner.close(); // Always close to avoid resource leaks
+    }
+}`,
+      input: "7",
+      output: "Enter a number: 7\nYou entered: 7",
+      time: "O(1)", space: "O(1)",
+      topics: ["Scanner class", "nextInt()", "Standard input (System.in)", "Resource management"],
+      concept: "<code>Scanner(System.in)</code> reads keyboard input. <code>nextInt()</code> reads the next integer typed by the user. Always call <code>scanner.close()</code> when done — it's a good habit that prevents resource leaks."
+    },
+    {
+      id: 3,
+      title: "Check if Number is Positive",
+      tags: ["Conditional", "Comparison", "if-else"],
+      desc: "Take an integer input and determine whether it is <b>positive</b> (greater than zero).",
+      code: `import java.util.Scanner;
+
+public class CheckPositive {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n > 0) {
+            System.out.println(n + " is a positive number.");
+        } else {
+            System.out.println(n + " is NOT positive.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "15",
+      output: "Enter a number: 15\n15 is a positive number.",
+      time: "O(1)", space: "O(1)",
+      topics: ["if-else statement", "Greater-than operator (>)", "Boolean condition"],
+      concept: "A number is <b>positive</b> only when it is strictly greater than 0. Zero itself is <b>neither</b> positive nor negative. Use <code>n > 0</code> as the condition."
+    },
+    {
+      id: 4,
+      title: "Check if Number is Negative",
+      tags: ["Conditional", "Comparison", "if-else"],
+      desc: "Take an integer input and determine whether it is <b>negative</b> (less than zero).",
+      code: `import java.util.Scanner;
+
+public class CheckNegative {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n < 0) {
+            System.out.println(n + " is a negative number.");
+        } else {
+            System.out.println(n + " is NOT negative.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "-8",
+      output: "Enter a number: -8\n-8 is a negative number.",
+      time: "O(1)", space: "O(1)",
+      topics: ["if-else statement", "Less-than operator (<)", "Negative integers"],
+      concept: "A number is <b>negative</b> only when it is strictly less than 0. Use the <code>&lt;</code> (less-than) operator. Mirroring problem 3 — just flip the direction of comparison."
+    },
+    {
+      id: 5,
+      title: "Check if Number is Zero",
+      tags: ["Conditional", "Equality", "if-else"],
+      desc: "Take an integer input and check whether it is exactly equal to <b>zero</b>.",
+      code: `import java.util.Scanner;
+
+public class CheckZero {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n == 0) {
+            System.out.println("The number is zero.");
+        } else {
+            System.out.println(n + " is not zero.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "0",
+      output: "Enter a number: 0\nThe number is zero.",
+      time: "O(1)", space: "O(1)",
+      topics: ["Equality operator (==)", "if-else", "Zero as a special case"],
+      concept: "Use <code>==</code> (double-equals) to check equality — <b>not</b> <code>=</code>. Single <code>=</code> is <b>assignment</b>; double <code>==</code> is <b>comparison</b>. This is one of the most common beginner mistakes in Java."
+    },
+    {
+      id: 6,
+      title: "Check Even or Odd",
+      tags: ["Modulo", "Even/Odd", "Math"],
+      desc: "Take an integer and determine whether it is <b>even</b> (divisible by 2) or <b>odd</b> (not divisible by 2).",
+      code: `import java.util.Scanner;
+
+public class EvenOrOdd {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n % 2 == 0) {
+            System.out.println(n + " is an Even number.");
+        } else {
+            System.out.println(n + " is an Odd number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "4",
+      output: "Enter a number: 4\n4 is an Even number.",
+      time: "O(1)", space: "O(1)",
+      topics: ["Modulo operator (%)", "Divisibility", "Even and odd numbers"],
+      concept: "The <code>%</code> (modulo) operator returns the <b>remainder</b> of division. If <code>n % 2 == 0</code>, the remainder is zero — meaning n divides evenly by 2, so it's even. Any non-zero remainder means it's odd."
+    },
+    {
+      id: 7,
+      title: "Find Absolute Value",
+      tags: ["Math", "Built-in", "Math.abs"],
+      desc: "Take an integer (positive or negative) and find its <b>absolute value</b> — the non-negative magnitude.",
+      code: `import java.util.Scanner;
+
+public class AbsoluteValue {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int absValue = Math.abs(n);
+        System.out.println("Absolute value of " + n + " = " + absValue);
+
+        scanner.close();
+    }
+}`,
+      input: "-13",
+      output: "Enter a number: -13\nAbsolute value of -13 = 13",
+      time: "O(1)", space: "O(1)",
+      topics: ["Math.abs()", "Java Math class", "Absolute value definition"],
+      concept: "<code>Math.abs(n)</code> returns <code>n</code> if positive, <code>-n</code> if negative. Mathematically: <b>|x| = x if x ≥ 0, else -x</b>. The <code>Math</code> class is a built-in utility class — no import needed as it's in <code>java.lang</code>."
+    },
+    {
+      id: 8,
+      title: "Swap Two Numbers (With Temp Variable)",
+      tags: ["Swap", "Variables", "Algorithm"],
+      desc: "Take two integers, swap their values using a <b>temporary variable</b>, and print before/after.",
+      code: `import java.util.Scanner;
+
+public class SwapWithTemp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number (a):  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number (b): ");
+        int b = scanner.nextInt();
+
+        System.out.println("Before swap: a = " + a + ", b = " + b);
+
+        // Classic 3-step swap using a temp variable
+        int temp = a;  // Step 1: save a
+        a = b;         // Step 2: overwrite a with b
+        b = temp;      // Step 3: restore original a into b
+
+        System.out.println("After swap:  a = " + a + ", b = " + b);
+
+        scanner.close();
+    }
+}`,
+      input: "10\n20",
+      output: "Enter first number (a):  10\nEnter second number (b): 20\nBefore swap: a = 10, b = 20\nAfter swap:  a = 20, b = 10",
+      time: "O(1)", space: "O(1)",
+      topics: ["Temporary variable", "3-step swap", "Variable assignment"],
+      concept: "The classic <b>3-step swap</b>: save <code>a</code> into <code>temp</code>, then overwrite <code>a</code> with <code>b</code>, then restore the saved value into <code>b</code>. Without the temp variable, you'd lose one of the values permanently."
+    },
+    {
+      id: 9,
+      title: "Swap Two Numbers (Without Temp Variable)",
+      tags: ["Swap", "Arithmetic", "Trick"],
+      desc: "Swap two integers using only <b>arithmetic operations</b> — no temporary variable allowed.",
+      code: `import java.util.Scanner;
+
+public class SwapWithoutTemp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number (a):  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number (b): ");
+        int b = scanner.nextInt();
+
+        System.out.println("Before swap: a = " + a + ", b = " + b);
+
+        // Arithmetic swap (no temp variable)
+        a = a + b;  // a = 30 (sum)
+        b = a - b;  // b = 30 - 20 = 10 (original a)
+        a = a - b;  // a = 30 - 10 = 20 (original b)
+
+        System.out.println("After swap:  a = " + a + ", b = " + b);
+
+        scanner.close();
+    }
+}`,
+      input: "10\n20",
+      output: "Enter first number (a):  10\nEnter second number (b): 20\nBefore swap: a = 10, b = 20\nAfter swap:  a = 20, b = 10",
+      time: "O(1)", space: "O(1)",
+      topics: ["Arithmetic swap", "No extra space", "Integer overflow concern"],
+      concept: "Step-by-step: <b>a=a+b</b> stores sum (30). <b>b=a-b</b> subtracts new b to get original a (30-20=10). <b>a=a-b</b> subtracts to get original b (30-10=20). ⚠️ <b>Caution:</b> <code>a+b</code> can overflow for large integers — the XOR swap avoids this."
+    },
+    {
+      id: 10,
+      title: "Find Largest of Two Numbers",
+      tags: ["Comparison", "Max", "if-else"],
+      desc: "Take two integers and determine which one is <b>larger</b> (handle the equal case too).",
+      code: `import java.util.Scanner;
+
+public class LargestOfTwo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number:  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number: ");
+        int b = scanner.nextInt();
+
+        if (a > b) {
+            System.out.println("Largest: " + a);
+        } else if (b > a) {
+            System.out.println("Largest: " + b);
+        } else {
+            System.out.println("Both numbers are equal: " + a);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "45\n30",
+      output: "Enter first number:  45\nEnter second number: 30\nLargest: 45",
+      time: "O(1)", space: "O(1)",
+      topics: ["if-else if-else chain", "Three-case comparison", "Math.max() alternative"],
+      concept: "Three cases to handle: <b>a > b</b>, <b>b > a</b>, or <b>a == b</b>. Always handle the equal case for robustness. Alternatively, use <code>Math.max(a, b)</code> for a one-liner — but knowing the manual approach builds logical thinking."
+    },
+    {
+      id: 11,
+      title: "Find Smallest of Two Numbers",
+      tags: ["Comparison", "Min", "if-else"],
+      desc: "Take two integers and determine which one is <b>smaller</b> (handle the equal case too).",
+      code: `import java.util.Scanner;
+
+public class SmallestOfTwo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number:  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number: ");
+        int b = scanner.nextInt();
+
+        if (a < b) {
+            System.out.println("Smallest: " + a);
+        } else if (b < a) {
+            System.out.println("Smallest: " + b);
+        } else {
+            System.out.println("Both numbers are equal: " + a);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "12\n35",
+      output: "Enter first number:  12\nEnter second number: 35\nSmallest: 12",
+      time: "O(1)", space: "O(1)",
+      topics: ["Less-than comparison", "Minimum value", "Math.min() alternative"],
+      concept: "Mirror of problem 10 — just flip <code>&gt;</code> to <code>&lt;</code>. The logic structure (three cases) stays identical. You can also use <code>Math.min(a, b)</code> for a concise solution."
+    },
+    {
+      id: 12,
+      title: "Find Largest of Three Numbers",
+      tags: ["Math.max", "Three-way", "Comparison"],
+      desc: "Take <b>three integers</b> and find the largest value among them.",
+      code: `import java.util.Scanner;
+
+public class LargestOfThree {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number:  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number: ");
+        int b = scanner.nextInt();
+        System.out.print("Enter third number:  ");
+        int c = scanner.nextInt();
+
+        // Using nested Math.max
+        int largest = Math.max(a, Math.max(b, c));
+
+        System.out.println("Largest of " + a + ", " + b + ", " + c
+                           + " is: " + largest);
+
+        scanner.close();
+    }
+}`,
+      input: "15\n42\n27",
+      output: "Enter first number:  15\nEnter second number: 42\nEnter third number:  27\nLargest of 15, 42, 27 is: 42",
+      time: "O(1)", space: "O(1)",
+      topics: ["Math.max()", "Nested method calls", "Three-value comparison"],
+      concept: "<code>Math.max(b, c)</code> runs first (inner call), giving the larger of b and c. Then <code>Math.max(a, result)</code> compares that with a. The nesting evaluates <b>inside-out</b>. Alternatively write nested <code>if-else</code> to see the full logic."
+    },
+    {
+      id: 13,
+      title: "Find Smallest of Three Numbers",
+      tags: ["Math.min", "Three-way", "Comparison"],
+      desc: "Take <b>three integers</b> and find the smallest value among them.",
+      code: `import java.util.Scanner;
+
+public class SmallestOfThree {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number:  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number: ");
+        int b = scanner.nextInt();
+        System.out.print("Enter third number:  ");
+        int c = scanner.nextInt();
+
+        // Using nested Math.min
+        int smallest = Math.min(a, Math.min(b, c));
+
+        System.out.println("Smallest of " + a + ", " + b + ", " + c
+                           + " is: " + smallest);
+
+        scanner.close();
+    }
+}`,
+      input: "15\n42\n7",
+      output: "Enter first number:  15\nEnter second number: 42\nEnter third number:  7\nSmallest of 15, 42, 7 is: 7",
+      time: "O(1)", space: "O(1)",
+      topics: ["Math.min()", "Nested method calls", "Three-value comparison"],
+      concept: "<code>Math.min(b, c)</code> gives the smaller of b and c, then <code>Math.min(a, result)</code> compares with a. Identical pattern to problem 12 — just swap <code>max</code> for <code>min</code>."
+    },
+    {
+      id: 14,
+      title: "Check Divisible by 5",
+      tags: ["Modulo", "Divisibility", "Math"],
+      desc: "Take an integer and check whether it is <b>exactly divisible by 5</b> (no remainder).",
+      code: `import java.util.Scanner;
+
+public class DivisibleBy5 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n % 5 == 0) {
+            System.out.println(n + " IS divisible by 5.");
+        } else {
+            System.out.println(n + " is NOT divisible by 5.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "25",
+      output: "Enter a number: 25\n25 IS divisible by 5.",
+      time: "O(1)", space: "O(1)",
+      topics: ["Modulo operator (%)", "Divisibility check", "Zero remainder condition"],
+      concept: "<code>n % 5</code> gives the remainder when n is divided by 5. If remainder is <code>0</code>, n has no leftover — it divides perfectly. Numbers like 5, 10, 15, 20, 25... all give remainder 0."
+    },
+    {
+      id: 15,
+      title: "Check Divisible by 3 AND 5",
+      tags: ["Logical AND", "FizzBuzz", "Modulo"],
+      desc: "Check if a number is divisible by <b>both 3 and 5</b> simultaneously — the core of the classic FizzBuzz problem.",
+      code: `import java.util.Scanner;
+
+public class DivisibleBy3And5 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n % 3 == 0 && n % 5 == 0) {
+            System.out.println(n + " is divisible by BOTH 3 and 5.");
+        } else if (n % 3 == 0) {
+            System.out.println(n + " is divisible by 3 only.");
+        } else if (n % 5 == 0) {
+            System.out.println(n + " is divisible by 5 only.");
+        } else {
+            System.out.println(n + " is NOT divisible by 3 or 5.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "15",
+      output: "Enter a number: 15\n15 is divisible by BOTH 3 and 5.",
+      time: "O(1)", space: "O(1)",
+      topics: ["Logical AND (&&)", "Multiple conditions", "FizzBuzz foundation"],
+      concept: "<code>&&</code> (logical AND) requires <b>both</b> conditions to be true. A number divisible by both 3 and 5 must also be divisible by <b>15</b> (their LCM). This is literally the heart of the famous <b>FizzBuzz</b> interview question!"
+    },
+    {
+      id: 16,
+      title: "Print Numbers from 1 to N",
+      tags: ["for-loop", "Sequence", "Ascending"],
+      desc: "Take an integer N and print all numbers from <b>1 up to N</b> in ascending order.",
+      code: `import java.util.Scanner;
+
+public class Print1ToN {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.print("Numbers 1 to " + n + ": ");
+        for (int i = 1; i <= n; i++) {
+            System.out.print(i);
+            if (i < n) System.out.print(", ");
+        }
+        System.out.println(); // Newline at end
+
+        scanner.close();
+    }
+}`,
+      input: "7",
+      output: "Enter N: 7\nNumbers 1 to 7: 1, 2, 3, 4, 5, 6, 7",
+      time: "O(N)", space: "O(1)",
+      topics: ["for loop structure", "Loop variable (i)", "Increment (i++)", "Loop condition (i <= n)"],
+      concept: "Your <b>first real loop</b>! The <code>for</code> loop has 3 parts: <b>init</b> (<code>int i=1</code>), <b>condition</b> (<code>i<=n</code>), <b>update</b> (<code>i++</code>). The body runs repeatedly until condition fails. Time is O(N) because it runs N times."
+    },
+    {
+      id: 17,
+      title: "Print Numbers from N to 1",
+      tags: ["for-loop", "Reverse", "Descending"],
+      desc: "Take an integer N and print numbers counting <b>down from N to 1</b> in descending order.",
+      code: `import java.util.Scanner;
+
+public class PrintNTo1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.print("Numbers " + n + " to 1: ");
+        for (int i = n; i >= 1; i--) {
+            System.out.print(i);
+            if (i > 1) System.out.print(", ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}`,
+      input: "5",
+      output: "Enter N: 5\nNumbers 5 to 1: 5, 4, 3, 2, 1",
+      time: "O(N)", space: "O(1)",
+      topics: ["Reverse for loop", "Decrement (i--)", "Counting down"],
+      concept: "Reverse of problem 16: start at <code>n</code>, condition is <code>i >= 1</code>, and update is <code>i--</code> (decrement). Three small changes flip the direction. This teaches you the loop is completely flexible — init, condition, and update are all customizable."
+    },
+    {
+      id: 18,
+      title: "Print Even Numbers up to N",
+      tags: ["for-loop", "Even", "Step-2"],
+      desc: "Take an integer N and print all <b>even numbers</b> from 2 up to N.",
+      code: `import java.util.Scanner;
+
+public class PrintEvenUpToN {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.print("Even numbers up to " + n + ": ");
+        for (int i = 2; i <= n; i += 2) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}`,
+      input: "10",
+      output: "Enter N: 10\nEven numbers up to 10: 2 4 6 8 10",
+      time: "O(N)", space: "O(1)",
+      topics: ["Step size (i += 2)", "Even number pattern", "Loop optimization"],
+      concept: "By starting at <code>2</code> and using <code>i += 2</code> (step of 2), we skip all odd numbers automatically. This is <b>more efficient</b> than looping every number and checking <code>i % 2 == 0</code> — we do half the iterations."
+    },
+    {
+      id: 19,
+      title: "Print Odd Numbers up to N",
+      tags: ["for-loop", "Odd", "Step-2"],
+      desc: "Take an integer N and print all <b>odd numbers</b> from 1 up to N.",
+      code: `import java.util.Scanner;
+
+public class PrintOddUpToN {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.print("Odd numbers up to " + n + ": ");
+        for (int i = 1; i <= n; i += 2) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}`,
+      input: "10",
+      output: "Enter N: 10\nOdd numbers up to 10: 1 3 5 7 9",
+      time: "O(N)", space: "O(1)",
+      topics: ["Step size (i += 2)", "Odd number pattern", "Start value matters"],
+      concept: "Same pattern as problem 18 — just <b>start at 1 instead of 2</b>. Starting at an odd number and stepping by 2 always lands on odd numbers (1 → 3 → 5 → 7...). The start value controls even vs. odd, the step controls the cadence."
+    },
+    {
+      id: 20,
+      title: "Print Multiplication Table",
+      tags: ["for-loop", "printf", "Formatting"],
+      desc: "Take a number N and print its full <b>multiplication table</b> from 1 × N to 10 × N with aligned formatting.",
+      code: `import java.util.Scanner;
+
+public class MultiplicationTable {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        System.out.println();
+        System.out.println("=== Multiplication Table of " + n + " ===");
+        for (int i = 1; i <= 10; i++) {
+            // %d = integer, %2d = right-align in 2 chars, %3d = right-align in 3 chars
+            System.out.printf("%d x %2d = %3d%n", n, i, n * i);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "7",
+      output: "Enter a number: 7\n\n=== Multiplication Table of 7 ===\n7 x  1 =   7\n7 x  2 =  14\n7 x  3 =  21\n7 x  4 =  28\n7 x  5 =  35\n7 x  6 =  42\n7 x  7 =  49\n7 x  8 =  56\n7 x  9 =  63\n7 x 10 =  70",
+      time: "O(1)", space: "O(1)",
+      topics: ["for loop (fixed 10 iterations)", "System.out.printf()", "Format specifiers (%d, %2d, %3d)", "Platform newline (%n)"],
+      concept: "<code>printf()</code> uses format specifiers: <code>%d</code> = integer, <code>%2d</code> = right-align in 2-char field, <code>%3d</code> = right-align in 3-char field, <code>%n</code> = platform newline. The loop runs exactly 10 times regardless of N — so it's technically <b>O(1)</b>!"
+    }
+  ];
+
+  // ── State ──
+  const completed = new Set();
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) JSON.parse(raw).forEach(id => completed.add(id));
+    } catch (e) {}
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed]));
+  }
+
+  function updateProgressUI() {
+    const done = completed.size;
+    const total = PROBLEMS.length;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('prog-done').textContent = done;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  // ── Render ──
+  function render() {
+    const list = document.getElementById('problems-list');
+    list.innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id) ? 'done' : ''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${String(p.id).padStart(2,'0')}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t => `<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id) ? 'checked' : ''}"
+                    onclick="markDone(event, ${p.id})"
+                    title="${completed.has(p.id) ? 'Mark incomplete' : 'Mark as done'}">
+              ${completed.has(p.id) ? '✓' : '○'}
+            </button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event, ${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp">
+                  <div class="io-box-label">▶ INPUT</div>
+                  <div class="io-val">${escHtml(p.input)}</div>
+                </div>
+                <div class="io-box io-out">
+                  <div class="io-box-label">◀ OUTPUT</div>
+                  <div class="io-val">${escHtml(p.output)}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box">
+                  <div class="cx-label">TIME COMPLEXITY</div>
+                  <div class="cx-val cx-time">${p.time}</div>
+                </div>
+                <div class="cx-box">
+                  <div class="cx-label">SPACE COMPLEXITY</div>
+                  <div class="cx-val cx-space">${p.space}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t => `<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Syntax highlight all code blocks
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  // ── Actions ──
+  let openId = null;
+  let pendingId = null;
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t => `<span class="modal-hint-tag">${t}</span>`).join('');
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    if (completed.has(id)) {
+      completed.delete(id);
+    } else {
+      completed.add(id);
+    }
+    saveProgress();
+    render();
+    if (openId) {
+      document.getElementById('pc-' + openId)?.classList.add('open');
+    }
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    if (!p) return;
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    if (!confirm('Reset all progress for Level 1?')) return;
+    completed.clear();
+    saveProgress();
+    openId = null;
+    render();
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  const TESTCASES = {
+    1:  [{in:"(none — value hardcoded)",out:"Number: 42"},{in:"(none — value hardcoded)",out:"Number: 42"}],
+    2:  [{in:"5",out:"You entered: 5"},{in:"-3",out:"You entered: -3"}],
+    3:  [{in:"10",out:"10 is a positive number."},{in:"-5",out:"-5 is NOT positive."}],
+    4:  [{in:"-7",out:"-7 is a negative number."},{in:"4",out:"4 is NOT negative."}],
+    5:  [{in:"0",out:"The number is zero."},{in:"9",out:"9 is not zero."}],
+    6:  [{in:"4",out:"4 is an Even number."},{in:"7",out:"7 is an Odd number."}],
+    7:  [{in:"-13",out:"Absolute value of -13 = 13"},{in:"5",out:"Absolute value of 5 = 5"}],
+    8:  [{in:"5\n3",out:"Before swap: a = 5, b = 3\nAfter swap:  a = 3, b = 5"},{in:"10\n20",out:"Before swap: a = 10, b = 20\nAfter swap:  a = 20, b = 10"}],
+    9:  [{in:"5\n3",out:"Before swap: a = 5, b = 3\nAfter swap:  a = 3, b = 5"},{in:"10\n20",out:"Before swap: a = 10, b = 20\nAfter swap:  a = 20, b = 10"}],
+    10: [{in:"45\n30",out:"Largest: 45"},{in:"7\n7",out:"Both numbers are equal: 7"}],
+    11: [{in:"12\n35",out:"Smallest: 12"},{in:"8\n8",out:"Both numbers are equal: 8"}],
+    12: [{in:"15\n42\n27",out:"Largest of 15, 42, 27 is: 42"},{in:"10\n5\n8",out:"Largest of 10, 5, 8 is: 10"}],
+    13: [{in:"15\n42\n7",out:"Smallest of 15, 42, 7 is: 7"},{in:"10\n5\n8",out:"Smallest of 10, 5, 8 is: 5"}],
+    14: [{in:"25",out:"25 IS divisible by 5."},{in:"17",out:"17 is NOT divisible by 5."}],
+    15: [{in:"15",out:"15 is divisible by BOTH 3 and 5."},{in:"9",out:"9 is divisible by 3 only."}],
+    16: [{in:"5",out:"Numbers 1 to 5: 1, 2, 3, 4, 5"},{in:"3",out:"Numbers 1 to 3: 1, 2, 3"}],
+    17: [{in:"5",out:"Numbers 5 to 1: 5, 4, 3, 2, 1"},{in:"3",out:"Numbers 3 to 1: 3, 2, 1"}],
+    18: [{in:"10",out:"Even numbers up to 10: 2 4 6 8 10"},{in:"6",out:"Even numbers up to 6: 2 4 6 "}],
+    19: [{in:"9",out:"Odd numbers up to 9: 1 3 5 7 9 "},{in:"7",out:"Odd numbers up to 7: 1 3 5 7 "}],
+    20: [{in:"5",out:"5 x  1 =   5\n5 x  2 =  10\n...\n5 x 10 =  50"},{in:"2",out:"2 x  1 =   2\n2 x  2 =   4\n...\n2 x 10 =  20"}],
+  };
+
+  // ── Init ──
+  loadProgress();
+  render();
+  </script>
+</body>
+</html>

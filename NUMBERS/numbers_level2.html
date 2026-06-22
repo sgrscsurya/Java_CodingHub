@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 2 – Basic Mathematical Logic | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --bg2: #0a0a1a;
+      --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4;
+      --green: #10b981; --amber: #f59e0b; --amber-l: #fbbf24;
+      --orange: #f97316; --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
+      --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 700px; height: 700px; background: var(--amber); top: -300px; right: -200px; }
+    .orb-2 { width: 500px; height: 500px; background: var(--purple); bottom: -100px; left: -150px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,30px)} }
+
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--amber-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--amber-l); font-weight: 600; }
+    .nav-pill { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.28); color: var(--amber-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    /* ── LEVEL HERO ── */
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.28); color: var(--amber-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--amber-l), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+
+    .prog-card { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--amber-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--orange)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); color: var(--amber-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+
+    /* ── PROBLEM CARD ── */
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done {
+      border-color: rgba(16,185,129,0.6);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%);
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.22),
+        0 4px 32px rgba(16,185,129,0.24),
+        0 0 80px rgba(16,185,129,0.1),
+        inset 0 0 40px rgba(16,185,129,0.06),
+        inset 0 1px 0 rgba(52,211,153,0.18);
+    }
+    .pc.done::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%);
+      z-index: 2;
+    }
+    .pc.done:hover {
+      border-color: rgba(16,185,129,0.82);
+      background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%);
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.35),
+        0 8px 44px rgba(16,185,129,0.34),
+        0 0 110px rgba(16,185,129,0.15),
+        inset 0 0 50px rgba(16,185,129,0.08),
+        inset 0 1px 0 rgba(52,211,153,0.25);
+      transform: translateY(-2px);
+    }
+    .pc.open { border-color: rgba(245,158,11,0.35); box-shadow: 0 8px 40px rgba(245,158,11,0.08); }
+
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 28px; }
+    .pc.done .pc-num { color: var(--green); }
+
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); color: var(--amber-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 3500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--amber-l); color: var(--amber-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+
+    .concept-box { background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.18); border-left: 3px solid var(--amber); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(245,158,11,0.15); color: var(--amber-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--amber-l); }
+
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; }
+      .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; }
+      .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; }
+      .pc-body-inner { padding: 0 16px 20px; }
+    }
+    .try-btn { display:inline-flex;align-items:center;gap:5px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.28);color:var(--cyan);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2);border-color:var(--cyan);transform:scale(1.03); }
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:9px;padding:10px 12px; }
+    .tc-title { font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px; }
+    .tc-row { display:flex;gap:6px;font-size:11.5px;margin-bottom:3px;align-items:flex-start; }
+    .tc-key { color:var(--text3);min-width:50px;font-family:'JetBrains Mono',monospace;flex-shrink:0; }
+    .tc-val { color:var(--text2);font-family:'JetBrains Mono',monospace;white-space:pre-wrap;word-break:break-word; }
+    .modal-overlay { position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px; }
+    .modal-box { background:#0d0d20;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 28px;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.7);animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px;text-align:center;margin-bottom:12px; }
+    .modal-box h3 { font-size:19px;font-weight:800;text-align:center;margin-bottom:8px; }
+    .modal-question { font-size:14px;color:var(--text2);text-align:center;line-height:1.55;margin-bottom:20px; }
+    .modal-hint-label { font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px; }
+    .modal-hint-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);color:var(--amber-l);font-size:11.5px;padding:4px 10px;border-radius:100px; }
+    .modal-btns { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--amber),#b45309);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--card-border);padding:13px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4);color:#f87171; }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr}
+      .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;}
+      .pc-right{gap:8px;}
+      .pc-head{gap:10px;}
+      .pc-num{min-width:22px;font-size:12px;}
+      .check-btn{width:26px;height:26px;font-size:12px;}
+      .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo">
+            <div class="logo-ico">☕</div>
+            <span class="logo-txt">Java Core</span>
+          </a>
+          <div class="bc">
+            <span class="sep">›</span>
+            <a href="../index.html">Home</a>
+            <span class="sep">›</span>
+            <a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span>
+            <span class="cur">Level 2</span>
+          </div>
+        </div>
+        <span class="nav-pill">🟡 Elementary</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 2 of 9</div>
+          <h1>Basic <span class="grad">Math Logic</span></h1>
+          <p>20 problems covering summation formulas, factorial, powers, digit manipulation, and classic special-number checks.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 20</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Summation</span>
+        <span class="ts-tag">Factorial</span>
+        <span class="ts-tag">Powers</span>
+        <span class="ts-tag">Digit Ops</span>
+        <span class="ts-tag">while-loop</span>
+        <span class="ts-tag">Special Numbers</span>
+        <span class="ts-tag">Math Class</span>
+      </div>
+    </section>
+
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Core Programs &nbsp;·&nbsp; Numbers Level 2 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+    </div>
+  </footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this problem? Give it one more attempt — growth happens in the struggle!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level2';
+
+  const PROBLEMS = [
+    {
+      id: 21,
+      title: "Sum of First N Natural Numbers",
+      tags: ["Summation", "Gauss Formula", "Math"],
+      desc: "Find the sum of all natural numbers from <b>1 to N</b>. Show both the mathematical formula approach and a loop-based approach.",
+      code: `import java.util.Scanner;
+
+public class SumNaturalNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        // Method 1: Gauss Formula — O(1)
+        long sumFormula = (long) n * (n + 1) / 2;
+
+        // Method 2: Loop — O(N)
+        long sumLoop = 0;
+        for (int i = 1; i <= n; i++) {
+            sumLoop += i;
+        }
+
+        System.out.println("Sum of first " + n + " natural numbers = " + sumFormula);
+        System.out.println("(Loop verification: " + sumLoop + ")");
+
+        scanner.close();
+    }
+}`,
+      input: "10",
+      output: "Enter N: 10\nSum of first 10 natural numbers = 55\n(Loop verification: 55)",
+      time: "O(1)",
+      space: "O(1)",
+      topics: ["Gauss formula: N(N+1)/2", "Long casting for overflow", "Formula vs loop tradeoff"],
+      concept: "Carl Friedrich Gauss at age 9 spotted the trick: pair 1+100, 2+99, 3+98... each pair sums to 101, and there are 50 pairs → 5050. Generalises to <code>N*(N+1)/2</code>. Cast to <code>long</code> first with <code>(long)n*(n+1)</code> to prevent overflow before dividing — <b>not</b> <code>(long)(n*(n+1))</code> which overflows first!"
+    },
+    {
+      id: 22,
+      title: "Sum of Even Numbers up to N",
+      tags: ["Even", "Summation", "Step-2 Loop"],
+      desc: "Find the sum of all <b>even numbers</b> from 2 up to N (inclusive if N is even).",
+      code: `import java.util.Scanner;
+
+public class SumEvenNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        // Loop: start at 2, step by 2
+        long sum = 0;
+        for (int i = 2; i <= n; i += 2) {
+            sum += i;
+        }
+
+        // Formula: k*(k+1) where k = N/2 (integer division)
+        int k = n / 2;
+        long formula = (long) k * (k + 1);
+
+        System.out.println("Sum of even numbers up to " + n + " = " + sum);
+        System.out.println("(Formula result: " + formula + ")");
+
+        scanner.close();
+    }
+}`,
+      input: "10",
+      output: "Enter N: 10\nSum of even numbers up to 10 = 30\n(Formula result: 30)",
+      time: "O(N)",
+      space: "O(1)",
+      topics: ["Step-2 for loop", "Even-sum formula: k(k+1)", "Integer division k = N/2"],
+      concept: "Even numbers ≤ N form the series 2,4,6,...,2k where <code>k = N/2</code>. Their sum = 2+4+...+2k = 2(1+2+...+k) = 2·k(k+1)/2 = <code>k*(k+1)</code>. For N=10: k=5, sum = 5×6 = 30. The loop approach is more intuitive; the formula gives an O(1) shortcut."
+    },
+    {
+      id: 23,
+      title: "Sum of Odd Numbers up to N",
+      tags: ["Odd", "Summation", "Step-2 Loop"],
+      desc: "Find the sum of all <b>odd numbers</b> from 1 up to N (inclusive if N is odd).",
+      code: `import java.util.Scanner;
+
+public class SumOddNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        // Loop: start at 1, step by 2
+        long sum = 0;
+        for (int i = 1; i <= n; i += 2) {
+            sum += i;
+        }
+
+        // Formula: k^2 where k = count of odd numbers = (N+1)/2
+        int k = (n + 1) / 2;
+        long formula = (long) k * k;
+
+        System.out.println("Sum of odd numbers up to " + n + " = " + sum);
+        System.out.println("(Formula k=" + k + " → k² = " + formula + ")");
+
+        scanner.close();
+    }
+}`,
+      input: "9",
+      output: "Enter N: 9\nSum of odd numbers up to 9 = 25\n(Formula k=5 → k² = 25)",
+      time: "O(N)",
+      space: "O(1)",
+      topics: ["Step-2 for loop", "Odd-sum formula: k²", "Count of odds: (N+1)/2"],
+      concept: "The sum of the first k odd numbers is always <b>k²</b> — a beautiful pattern! 1=1², 1+3=4=2², 1+3+5=9=3². For N=9: there are k=(9+1)/2=5 odd numbers (1,3,5,7,9), so sum = 5²=25. This also explains why n² equals the sum of first n odd numbers."
+    },
+    {
+      id: 24,
+      title: "Factorial of a Number",
+      tags: ["Factorial", "Product", "Loop"],
+      desc: "Calculate <b>N!</b> (N factorial) — the product of all integers from 1 to N. Handle the special case 0! = 1.",
+      code: `import java.util.Scanner;
+
+public class Factorial {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a non-negative number: ");
+        int n = scanner.nextInt();
+
+        if (n < 0) {
+            System.out.println("Factorial is undefined for negative numbers.");
+        } else {
+            long factorial = 1; // 0! = 1 by convention (loop won't run for n=0)
+            for (int i = 2; i <= n; i++) {
+                factorial *= i;
+            }
+            System.out.println(n + "! = " + factorial);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "6",
+      output: "Enter a non-negative number: 6\n6! = 720",
+      time: "O(N)",
+      space: "O(1)",
+      topics: ["Factorial definition: n! = n×(n-1)×...×1", "Base case: 0! = 1", "Long for large values"],
+      concept: "<code>0! = 1</code> by mathematical convention (empty product). The loop starts at <code>i=2</code> (not 1) because multiplying by 1 changes nothing. Use <code>long</code> — int overflows after 12!, long overflows after 20!. For larger values, use <code>BigInteger</code>."
+    },
+    {
+      id: 25,
+      title: "Print Factorial Series",
+      tags: ["Factorial", "Series", "Running Product"],
+      desc: "Print the factorial of each number from 1 to N, efficiently using a <b>running product</b> without recomputing from scratch each time.",
+      code: `import java.util.Scanner;
+
+public class FactorialSeries {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.println("Factorial Series up to " + n + ":");
+        System.out.println("-".repeat(25));
+
+        long running = 1; // Running product (avoids recomputing)
+        for (int i = 1; i <= n; i++) {
+            running *= i;  // running = i! (multiply previous result by i)
+            System.out.printf("%2d! = %,d%n", i, running);
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "8",
+      output: "Enter N: 8\nFactorial Series up to 8:\n-------------------------\n 1! = 1\n 2! = 2\n 3! = 6\n 4! = 24\n 5! = 120\n 6! = 720\n 7! = 5,040\n 8! = 40,320",
+      time: "O(N)",
+      space: "O(1)",
+      topics: ["Running product optimisation", "Avoiding redundant recomputation", "printf with comma formatting (%,d)"],
+      concept: "Naïve approach (recompute each i! from scratch) costs O(N²). The <b>running product</b> trick: since i! = (i-1)! × i, just multiply the previous result by i each iteration → O(N). This is a key optimisation pattern you'll see repeatedly."
+    },
+    {
+      id: 26,
+      title: "Power of a Number",
+      tags: ["Power", "Exponent", "Loop"],
+      desc: "Calculate <b>base^exponent</b> using a manual loop, then verify with <code>Math.pow()</code>. Handle zero exponent (result = 1).",
+      code: `import java.util.Scanner;
+
+public class PowerOfNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter base:     ");
+        int base = scanner.nextInt();
+        System.out.print("Enter exponent: ");
+        int exp = scanner.nextInt();
+
+        // Manual loop approach
+        long result = 1;
+        for (int i = 0; i < exp; i++) {
+            result *= base;
+        }
+
+        System.out.printf("%d^%d = %d%n", base, exp, result);
+        System.out.printf("(Math.pow check: %.0f)%n", Math.pow(base, exp));
+
+        scanner.close();
+    }
+}`,
+      input: "2\n8",
+      output: "Enter base:     2\nEnter exponent: 8\n2^8 = 256\n(Math.pow check: 256)",
+      time: "O(exp)",
+      space: "O(1)",
+      topics: ["Repeated multiplication", "base^0 = 1 (loop doesn't run)", "Math.pow() returns double"],
+      concept: "When <code>exp = 0</code> the loop runs 0 times, so <code>result</code> stays 1 — correctly giving <b>base⁰ = 1</b>. <code>Math.pow()</code> returns a <code>double</code> so cast to <code>long</code> for exact integers. For large exponents, use <b>fast power (exponentiation by squaring)</b> to achieve O(log exp)."
+    },
+    {
+      id: 27,
+      title: "Reverse a Number",
+      tags: ["Digits", "Reverse", "While Loop"],
+      desc: "Take an integer and <b>reverse its digits</b>. E.g., 12345 → 54321. This is the most fundamental digit-manipulation pattern.",
+      code: `import java.util.Scanner;
+
+public class ReverseNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int original = n;
+        int reversed = 0;
+        int temp = Math.abs(n); // handle negatives
+
+        while (temp != 0) {
+            int lastDigit = temp % 10;        // extract last digit
+            reversed = reversed * 10 + lastDigit; // shift left, append digit
+            temp = temp / 10;                 // drop last digit
+        }
+
+        if (n < 0) reversed = -reversed; // restore sign
+
+        System.out.println("Original: " + original);
+        System.out.println("Reversed: " + reversed);
+
+        scanner.close();
+    }
+}`,
+      input: "12345",
+      output: "Enter a number: 12345\nOriginal: 12345\nReversed: 54321",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Extract last digit: n%10", "Shift-and-append: rev*10+digit", "Remove last digit: n/10", "While loop on digits"],
+      concept: "The <b>core digit-extraction pattern</b> — you will use this in 80%+ of digit problems: <code>digit = n % 10</code> extracts the last digit, <code>rev = rev*10 + digit</code> appends it to the reversed number, <code>n = n/10</code> discards it. Time is O(log N) because the number of digits = floor(log₁₀(N))+1."
+    },
+    {
+      id: 28,
+      title: "Count Digits in a Number",
+      tags: ["Digits", "Count", "log10"],
+      desc: "Count how many digits a number has. Show both the <b>loop approach</b> and the <b>one-liner formula</b> using String conversion.",
+      code: `import java.util.Scanner;
+
+public class CountDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int temp = Math.abs(n);
+        int count = 0;
+
+        if (temp == 0) {
+            count = 1; // Special case: 0 has one digit
+        } else {
+            while (temp > 0) {
+                temp /= 10;
+                count++;
+            }
+        }
+
+        // Alternative using String (one-liner)
+        int countStr = String.valueOf(Math.abs(n)).length();
+
+        System.out.println("Number: " + n);
+        System.out.println("Digits (loop):   " + count);
+        System.out.println("Digits (String): " + countStr);
+
+        scanner.close();
+    }
+}`,
+      input: "98765",
+      output: "Enter a number: 98765\nNumber: 98765\nDigits (loop):   5\nDigits (String): 5",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Division-based counting", "String.valueOf().length()", "Special case: n=0 has 1 digit"],
+      concept: "Loop: divide by 10 repeatedly, counting iterations until 0. The number of iterations = digits = <code>floor(log₁₀(N)) + 1</code>. String approach: <code>String.valueOf(n).length()</code> is convenient but creates a String object. <b>Edge case</b>: 0 has 1 digit, but the loop would give 0 — always check for 0 separately."
+    },
+    {
+      id: 29,
+      title: "Sum of Digits",
+      tags: ["Digits", "Sum", "Modulo"],
+      desc: "Extract each digit of a number and <b>find their sum</b>. E.g., 1234 → 1+2+3+4 = 10.",
+      code: `import java.util.Scanner;
+
+public class SumOfDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int sum = 0;
+        int temp = Math.abs(n); // handle negatives
+
+        while (temp > 0) {
+            sum += temp % 10; // add last digit
+            temp /= 10;       // remove last digit
+        }
+
+        System.out.println("Number: " + n);
+        System.out.println("Sum of digits = " + sum);
+
+        scanner.close();
+    }
+}`,
+      input: "1234",
+      output: "Enter a number: 1234\nNumber: 1234\nSum of digits = 10",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Extract last digit: n%10", "Accumulate sum", "Remove digit: n/10"],
+      concept: "Same extract-and-remove pattern as reversing (problem 27) — just <b>add</b> each digit instead of appending it to a reversed number. The sum of digits is also called the <b>digital root's predecessor</b> and appears in Harshad, Armstrong, and many other problems."
+    },
+    {
+      id: 30,
+      title: "Product of Digits",
+      tags: ["Digits", "Product", "Modulo"],
+      desc: "Extract each digit and compute their <b>product</b>. E.g., 234 → 2×3×4 = 24.",
+      code: `import java.util.Scanner;
+
+public class ProductOfDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        long product = 1;
+        int temp = Math.abs(n);
+
+        while (temp > 0) {
+            int digit = temp % 10;
+            if (digit == 0) {
+                System.out.println("Product = 0 (contains a zero digit).");
+                scanner.close();
+                return;
+            }
+            product *= digit;
+            temp /= 10;
+        }
+
+        System.out.println("Number: " + n);
+        System.out.println("Product of digits = " + product);
+
+        scanner.close();
+    }
+}`,
+      input: "234",
+      output: "Enter a number: 234\nNumber: 234\nProduct of digits = 24",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Multiply digits instead of sum", "Zero-digit short-circuit", "Long for large products"],
+      concept: "Identical pattern to sum-of-digits but with multiplication. Key insight: <b>any zero digit makes the product zero</b>, so exit early when a 0 is found. Use <code>long</code> — the product of digits grows much faster than the sum. E.g., 999→9×9×9=729."
+    },
+    {
+      id: 31,
+      title: "Find the First (Leading) Digit",
+      tags: ["Digits", "First Digit", "Division"],
+      desc: "Find the <b>leftmost (most significant) digit</b> of a number without converting to a String.",
+      code: `import java.util.Scanner;
+
+public class FirstDigit {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int temp = Math.abs(n);
+
+        // Keep dividing by 10 until single digit remains
+        while (temp >= 10) {
+            temp /= 10;
+        }
+
+        System.out.println("Number:       " + n);
+        System.out.println("First digit:  " + temp);
+
+        scanner.close();
+    }
+}`,
+      input: "98765",
+      output: "Enter a number: 98765\nNumber:       98765\nFirst digit:  9",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Repeated division to strip digits", "Loop exits when single digit remains", "Alternative: n / 10^(digits-1)"],
+      concept: "Divide by 10 repeatedly until the value has only one digit left. That remaining value IS the leading digit. Alternative: <code>temp / (int)Math.pow(10, digits-1)</code> in one step, but the loop is cleaner. Also works with <code>String.valueOf(n).charAt(0) - '0'</code>."
+    },
+    {
+      id: 32,
+      title: "Find the Last Digit",
+      tags: ["Digits", "Last Digit", "Modulo"],
+      desc: "Find the <b>rightmost (least significant) digit</b> of a number in a single operation.",
+      code: `import java.util.Scanner;
+
+public class LastDigit {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int lastDigit = Math.abs(n) % 10;
+
+        System.out.println("Number:      " + n);
+        System.out.println("Last digit:  " + lastDigit);
+
+        scanner.close();
+    }
+}`,
+      input: "98765",
+      output: "Enter a number: 98765\nNumber:      98765\nLast digit:  5",
+      time: "O(1)",
+      space: "O(1)",
+      topics: ["Modulo 10 extracts last digit", "Math.abs() for negative numbers", "O(1) single operation"],
+      concept: "<code>n % 10</code> gives the remainder when dividing by 10 — which is always the last digit (0-9). This is the simplest digit operation and is O(1). Use <code>Math.abs(n)</code> first to correctly handle negatives like -197 → last digit is 7, not -7."
+    },
+    {
+      id: 33,
+      title: "Remove the Last Digit",
+      tags: ["Digits", "Remove", "Integer Division"],
+      desc: "Remove the <b>rightmost digit</b> from a number using integer division. E.g., 12345 → 1234.",
+      code: `import java.util.Scanner;
+
+public class RemoveLastDigit {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int result = n / 10; // Integer division drops the last digit
+
+        System.out.println("Original:              " + n);
+        System.out.println("After removing last:   " + result);
+
+        scanner.close();
+    }
+}`,
+      input: "12345",
+      output: "Enter a number: 12345\nOriginal:              12345\nAfter removing last:   1234",
+      time: "O(1)",
+      space: "O(1)",
+      topics: ["Integer division by 10 truncates last digit", "Java int truncates toward zero (floor for positives)", "O(1) single step"],
+      concept: "<code>n / 10</code> in integer arithmetic discards the remainder — effectively dropping the last digit. This is the complement of <code>n % 10</code>: modulo gives you the last digit, division removes it. Together these two operations let you iterate through every digit."
+    },
+    {
+      id: 34,
+      title: "Remove the First Digit",
+      tags: ["Digits", "Remove", "String / Math"],
+      desc: "Remove the <b>leftmost (leading) digit</b> from a number. E.g., 12345 → 2345.",
+      code: `import java.util.Scanner;
+
+public class RemoveFirstDigit {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int temp = Math.abs(n);
+
+        // Method 1: String approach (clean)
+        String s = String.valueOf(temp);
+        int resultStr = (s.length() > 1) ? Integer.parseInt(s.substring(1)) : 0;
+
+        // Method 2: Math approach
+        int digits = String.valueOf(temp).length();
+        int resultMath = temp % (int) Math.pow(10, digits - 1);
+
+        System.out.println("Original:           " + n);
+        System.out.println("After removing first (String): " + resultStr);
+        System.out.println("After removing first (Math):   " + resultMath);
+
+        scanner.close();
+    }
+}`,
+      input: "12345",
+      output: "Enter a number: 12345\nOriginal:           12345\nAfter removing first (String): 2345\nAfter removing first (Math):   2345",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["String.substring(1) skips first char", "Modulo by 10^(digits-1)", "Two approaches compared"],
+      concept: "Removing the first digit is harder than the last. String approach: <code>substring(1)</code> skips the first character. Math approach: <code>n % 10^(d-1)</code> keeps only the last d-1 digits. String is more readable; math avoids String allocation. Both are O(log N)."
+    },
+    {
+      id: 35,
+      title: "Check Palindrome Number",
+      tags: ["Palindrome", "Reverse", "Comparison"],
+      desc: "A number is a <b>palindrome</b> if it reads the same forwards and backwards. E.g., 121, 12321, 9009.",
+      code: `import java.util.Scanner;
+
+public class PalindromeNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        // Negative numbers are never palindromes (minus sign)
+        if (n < 0) {
+            System.out.println(n + " is NOT a palindrome (negative).");
+            scanner.close();
+            return;
+        }
+
+        int original = n;
+        int reversed = 0;
+        int temp = n;
+
+        while (temp != 0) {
+            reversed = reversed * 10 + temp % 10;
+            temp /= 10;
+        }
+
+        if (original == reversed) {
+            System.out.println(original + " IS a palindrome number.");
+        } else {
+            System.out.println(original + " is NOT a palindrome. (Reversed = " + reversed + ")");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "12321",
+      output: "Enter a number: 12321\n12321 IS a palindrome number.",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Reverse-and-compare technique", "Negative numbers edge case", "Connects to problem 27 (Reverse)"],
+      concept: "Palindrome check = Reverse + Compare. Build on problem 27's reversal code. Important edge case: <b>negative numbers are never palindromes</b> (the minus sign). In LeetCode style, you can also check only half the digits to avoid potential overflow, but for int-range inputs this is fine."
+    },
+    {
+      id: 36,
+      title: "Check Strong Number",
+      tags: ["Strong Number", "Digit Factorial", "Special Number"],
+      desc: "A <b>Strong number</b> is one whose <b>sum of factorials of its digits equals the number itself</b>. E.g., 145 = 1! + 4! + 5! = 1 + 24 + 120 = 145.",
+      code: `import java.util.Scanner;
+
+public class StrongNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int temp = n;
+        int sum = 0;
+        StringBuilder work = new StringBuilder();
+
+        while (temp > 0) {
+            int digit = temp % 10;
+            long f = factorial(digit);
+            sum += f;
+            work.insert(0, digit + "!(" + f + ") + ");
+            temp /= 10;
+        }
+
+        String expr = work.toString().replaceAll(" \\+ $", "");
+        System.out.println("Work: " + expr + " = " + sum);
+
+        if (sum == n) {
+            System.out.println(n + " IS a Strong number!");
+        } else {
+            System.out.println(n + " is NOT a Strong number.");
+        }
+
+        scanner.close();
+    }
+
+    static long factorial(int d) {
+        long f = 1;
+        for (int i = 2; i <= d; i++) f *= i;
+        return f;
+    }
+}`,
+      input: "145",
+      output: "Enter a number: 145\nWork: 1!(1) + 4!(24) + 5!(120) = 145\n145 IS a Strong number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Sum of factorial of digits", "Helper method for factorial", "Known strong numbers: 1, 2, 145, 40585"],
+      concept: "Strong numbers (also called factorions) are rare — only <b>1, 2, 145, 40585</b> exist! The factorial of each digit (0–9) is bounded at 9!=362880 — constant work per digit, so overall O(log N). Helper method pattern: extract <code>factorial()</code> as a separate static method for reuse."
+    },
+    {
+      id: 37,
+      title: "Check Neon Number",
+      tags: ["Neon Number", "Square", "Digit Sum"],
+      desc: "A <b>Neon number</b> is one where the <b>sum of digits of its square equals the number itself</b>. E.g., 9: 9²=81, 8+1=9 ✓",
+      code: `import java.util.Scanner;
+
+public class NeonNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        long square = (long) n * n;
+
+        // Sum the digits of the square
+        int digitSum = 0;
+        long temp = square;
+        while (temp > 0) {
+            digitSum += temp % 10;
+            temp /= 10;
+        }
+
+        System.out.println(n + "² = " + square);
+        System.out.println("Sum of digits of " + square + " = " + digitSum);
+
+        if (digitSum == n) {
+            System.out.println(n + " IS a Neon number!");
+        } else {
+            System.out.println(n + " is NOT a Neon number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "9",
+      output: "Enter a number: 9\n9² = 81\nSum of digits of 81 = 9\n9 IS a Neon number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Square then digit-sum", "Composing earlier patterns", "Only 0, 1, 9 are neon numbers"],
+      concept: "Neon numbers are extremely rare — <b>only 0, 1, and 9</b> qualify! (0²=0→0, 1²=1→1, 9²=81→9). This problem is a composition of two earlier patterns: <b>squaring</b> (problem 40) + <b>sum of digits</b> (problem 29). Recognising pattern reuse is a key skill."
+    },
+    {
+      id: 38,
+      title: "Check Harshad (Niven) Number",
+      tags: ["Harshad", "Digit Sum", "Divisibility"],
+      desc: "A <b>Harshad number</b> is an integer that is <b>divisible by the sum of its own digits</b>. E.g., 18: digit sum = 1+8=9, 18÷9 = 2 ✓",
+      code: `import java.util.Scanner;
+
+public class HarshadNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        // Sum digits
+        int digitSum = 0;
+        int temp = Math.abs(n);
+        while (temp > 0) {
+            digitSum += temp % 10;
+            temp /= 10;
+        }
+
+        System.out.println("Number:         " + n);
+        System.out.println("Sum of digits:  " + digitSum);
+
+        if (digitSum == 0) {
+            System.out.println("Not applicable (digit sum is 0).");
+        } else if (n % digitSum == 0) {
+            System.out.println(n + "/" + digitSum + " = " + (n / digitSum));
+            System.out.println(n + " IS a Harshad (Niven) number!");
+        } else {
+            System.out.println(n + " is NOT a Harshad number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "18",
+      output: "Enter a number: 18\nNumber:         18\nSum of digits:  9\n18/9 = 2\n18 IS a Harshad (Niven) number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Digit sum then divisibility check", "Named after D. R. Harshad", "Guard against digit-sum = 0"],
+      concept: "<b>Harshad</b> means 'great joy' in Sanskrit, coined by Indian mathematician D. R. Kaprekar. All single-digit numbers are Harshad. Most everyday numbers are Harshad (1–18 are all Harshad). Algorithm: compute digit sum, then check <code>n % digitSum == 0</code>. Guard against digit sum = 0 to avoid division by zero."
+    },
+    {
+      id: 39,
+      title: "Check Duck Number",
+      tags: ["Duck Number", "Zero Digit", "Non-leading"],
+      desc: "A <b>Duck number</b> is a positive number that contains <b>at least one zero digit, but not as the leading digit</b>. E.g., 1023 ✓, 3400 ✓, 0023 ✗",
+      code: `import java.util.Scanner;
+
+public class DuckNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a positive number: ");
+        int n = scanner.nextInt();
+
+        if (n <= 0) {
+            System.out.println("Duck number is defined only for positive integers.");
+            scanner.close();
+            return;
+        }
+
+        String numStr = String.valueOf(n);
+        boolean isDuck = false;
+
+        // Check every digit EXCEPT the first (index 0)
+        for (int i = 1; i < numStr.length(); i++) {
+            if (numStr.charAt(i) == '0') {
+                isDuck = true;
+                break;
+            }
+        }
+
+        System.out.println("Number: " + n);
+        if (isDuck) {
+            System.out.println(n + " IS a Duck number (has zero in non-leading position).");
+        } else {
+            System.out.println(n + " is NOT a Duck number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "1023",
+      output: "Enter a positive number: 1023\nNumber: 1023\n1023 IS a Duck number (has zero in non-leading position).",
+      time: "O(log N)",
+      space: "O(log N)",
+      topics: ["String representation of number", "charAt() for digit check", "Leading vs. non-leading position"],
+      concept: "Convert to String for easy character-by-character scanning. Start the loop at index <b>1</b> (not 0) to skip the leading digit — a leading zero would mean it's not a valid positive integer representation. Examples: 1023 ✓, 3400 ✓, 500 ✓, 123 ✗, 100000 ✓"
+    },
+    {
+      id: 40,
+      title: "Find Square of a Number",
+      tags: ["Square", "Math", "Overflow Aware"],
+      desc: "Compute <b>N × N</b> (N squared). Use <code>long</code> to avoid integer overflow for larger inputs.",
+      code: `import java.util.Scanner;
+
+public class SquareOfNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        long n = scanner.nextLong(); // Use long for larger inputs
+
+        long square = n * n;
+
+        System.out.println(n + "² = " + square);
+        System.out.println("Using Math.pow: " + (long) Math.pow(n, 2));
+
+        // Fun fact display
+        System.out.println();
+        System.out.println("Square root check: √" + square + " ≈ " +
+                           String.format("%.2f", Math.sqrt(square)));
+
+        scanner.close();
+    }
+}`,
+      input: "15",
+      output: "Enter a number: 15\n15² = 225\nUsing Math.pow: 225\n\nSquare root check: √225 ≈ 15.00",
+      time: "O(1)",
+      space: "O(1)",
+      topics: ["n*n vs Math.pow(n,2)", "Long to prevent overflow", "Math.sqrt() for verification"],
+      concept: "<code>n*n</code> is the direct approach. <code>Math.pow(n,2)</code> works but returns a <code>double</code> — cast to <code>long</code> for exact results. Overflow danger: <code>int</code> maxes out at ~2.1 billion; 46341² already overflows int! Always use <code>long</code> (or <code>BigInteger</code>) when squaring user inputs."
+    }
+  ];
+
+  // ── State ──
+  const completed = new Set();
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) JSON.parse(raw).forEach(id => completed.add(id));
+    } catch (e) {}
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed]));
+  }
+
+  function updateProgressUI() {
+    const done = completed.size;
+    const total = PROBLEMS.length;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('prog-done').textContent = done;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  // ── Render ──
+  function render() {
+    const list = document.getElementById('problems-list');
+    list.innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id) ? 'done' : ''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t => `<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id) ? 'checked' : ''}"
+                    onclick="markDone(event, ${p.id})"
+                    title="${completed.has(p.id) ? 'Mark incomplete' : 'Mark as done'}">
+              ${completed.has(p.id) ? '✓' : '○'}
+            </button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event, ${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp">
+                  <div class="io-box-label">▶ INPUT</div>
+                  <div class="io-val">${escHtml(p.input)}</div>
+                </div>
+                <div class="io-box io-out">
+                  <div class="io-box-label">◀ OUTPUT</div>
+                  <div class="io-val">${escHtml(p.output)}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box">
+                  <div class="cx-label">TIME COMPLEXITY</div>
+                  <div class="cx-val cx-time">${p.time}</div>
+                </div>
+                <div class="cx-box">
+                  <div class="cx-label">SPACE COMPLEXITY</div>
+                  <div class="cx-val cx-space">${p.space}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t => `<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  // ── Actions ──
+  let openId = null;
+  let pendingId = null;
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t => `<span class="modal-hint-tag">${t}</span>`).join('');
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    if (completed.has(id)) { completed.delete(id); } else { completed.add(id); }
+    saveProgress();
+    render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    if (!p) return;
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    if (!confirm('Reset all progress for Level 2?')) return;
+    completed.clear();
+    saveProgress();
+    openId = null;
+    render();
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  const TESTCASES = {
+    21: [{in:"10",out:"Sum of first 10 natural numbers = 55"},{in:"5",out:"Sum of first 5 natural numbers = 15"}],
+    22: [{in:"10",out:"Sum of even numbers up to 10 = 30"},{in:"6",out:"Sum of even numbers up to 6 = 12"}],
+    23: [{in:"9",out:"Sum of odd numbers up to 9 = 25"},{in:"5",out:"Sum of odd numbers up to 5 = 9"}],
+    24: [{in:"6",out:"6! = 720"},{in:"0",out:"0! = 1"}],
+    25: [{in:"5",out:" 1! = 1\n 2! = 2\n 3! = 6\n 4! = 24\n 5! = 120"},{in:"3",out:" 1! = 1\n 2! = 2\n 3! = 6"}],
+    26: [{in:"2\n8",out:"2^8 = 256"},{in:"3\n4",out:"3^4 = 81"}],
+    27: [{in:"12345",out:"Original: 12345\nReversed: 54321"},{in:"9100",out:"Original: 9100\nReversed: 19"}],
+    28: [{in:"98765",out:"Digits (loop):   5"},{in:"7",out:"Digits (loop):   1"}],
+    29: [{in:"1234",out:"Sum of digits = 10"},{in:"999",out:"Sum of digits = 27"}],
+    30: [{in:"234",out:"Product of digits = 24"},{in:"102",out:"Product = 0 (contains a zero digit)."}],
+    31: [{in:"98765",out:"First digit:  9"},{in:"42",out:"First digit:  4"}],
+    32: [{in:"98765",out:"Last digit:  5"},{in:"120",out:"Last digit:  0"}],
+    33: [{in:"12345",out:"After removing last:   1234"},{in:"10",out:"After removing last:   1"}],
+    34: [{in:"12345",out:"After removing first (String): 2345"},{in:"9876",out:"After removing first (String): 876"}],
+    35: [{in:"12321",out:"12321 IS a palindrome number."},{in:"123",out:"123 is NOT a palindrome. (Reversed = 321)"}],
+    36: [{in:"145",out:"145 IS a Strong number!"},{in:"100",out:"100 is NOT a Strong number. (Sum = 2)"}],
+    37: [{in:"9",out:"9 IS a Neon number!"},{in:"8",out:"8 is NOT a Neon number."}],
+    38: [{in:"18",out:"18 IS a Harshad (Niven) number!"},{in:"19",out:"19 is NOT a Harshad number."}],
+    39: [{in:"1023",out:"1023 IS a Duck number."},{in:"123",out:"123 is NOT a Duck number."}],
+    40: [{in:"15",out:"15² = 225"},{in:"7",out:"7² = 49"}],
+  };
+
+  loadProgress();
+  render();
+  </script>
+</body>
+</html>

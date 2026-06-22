@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Core Programs | By MajestiQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #06060f;
+      --bg2: #0a0a1a;
+      --card: rgba(255,255,255,0.035);
+      --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed;
+      --purple-l: #a78bfa;
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --orange: #f97316;
+      --pink: #ec4899;
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #475569;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Background orbs ── */
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); opacity: 0.13;
+      animation: float 22s ease-in-out infinite;
+    }
+    .orb-1 { width: 700px; height: 700px; background: var(--purple); top: -250px; left: -250px; animation-delay: 0s; }
+    .orb-2 { width: 500px; height: 500px; background: var(--cyan); bottom: -150px; right: -150px; animation-delay: -8s; }
+    .orb-3 { width: 350px; height: 350px; background: var(--pink); top: 45%; left: 55%; animation-delay: -16s; }
+    @keyframes float {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(50px,-40px) scale(1.06); }
+      66% { transform: translate(-35px,25px) scale(0.94); }
+    }
+
+    /* ── Grid lines bg ── */
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── Container ── */
+    .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Navbar ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(6,6,15,0.8);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .logo-text {
+      font-size: 17px; font-weight: 700;
+      background: linear-gradient(135deg, var(--purple-l), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-pill {
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.28);
+      color: var(--purple-l);
+      padding: 6px 16px; border-radius: 100px;
+      font-size: 13px; font-weight: 500;
+    }
+
+    /* ── Hero ── */
+    .hero { text-align: center; padding: 90px 0 60px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,58,237,0.1);
+      border: 1px solid rgba(124,58,237,0.22);
+      border-radius: 100px; padding: 8px 20px;
+      font-size: 13px; color: var(--purple-l);
+      margin-bottom: 36px;
+      animation: fadeUp 0.6s ease-out both;
+    }
+    .pulse-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--purple-l);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+    .hero-title {
+      font-size: clamp(38px, 6.5vw, 76px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s ease-out 0.1s both;
+    }
+    .grad {
+      background: linear-gradient(135deg, var(--purple-l) 0%, var(--cyan) 50%, var(--green) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 19px); color: var(--text2);
+      max-width: 580px; margin: 0 auto 16px;
+      line-height: 1.65;
+      animation: fadeUp 0.6s ease-out 0.2s both;
+    }
+    .hero-by {
+      font-size: 13px; color: var(--text3);
+      margin-bottom: 52px;
+      animation: fadeUp 0.6s ease-out 0.3s both;
+    }
+    .hero-by strong { color: var(--purple-l); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Stat chips ── */
+    .stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 72px; animation: fadeUp 0.6s ease-out 0.4s both; }
+    .chip {
+      background: var(--card); border: 1px solid var(--card-border);
+      border-radius: 100px; padding: 10px 20px;
+      font-size: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .chip-num { font-weight: 700; }
+    .chip-label { color: var(--text2); }
+
+    /* ── Section heading ── */
+    .section-head {
+      text-align: center; font-size: 12px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text3); margin-bottom: 48px;
+      position: relative;
+    }
+    .section-head::before, .section-head::after {
+      content: ''; position: absolute;
+      top: 50%; height: 1px;
+      background: linear-gradient(to right, transparent, var(--card-border));
+      width: 30%;
+    }
+    .section-head::before { right: calc(50% + 100px); }
+    .section-head::after  { left: calc(50% + 100px); background: linear-gradient(to left, transparent, var(--card-border)); }
+
+    /* ── Topic Grid ── */
+    .topics { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; margin-bottom: 80px; }
+
+    .topic-card {
+      background: var(--card); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 28px 22px;
+      text-decoration: none; color: var(--text);
+      display: flex; flex-direction: column; gap: 14px;
+      position: relative; overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .topic-card.live { cursor: pointer; }
+    .topic-card.live:hover {
+      border-color: rgba(124,58,237,0.5);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 60px rgba(124,58,237,0.14);
+      background: rgba(124,58,237,0.06);
+    }
+    .topic-card::after {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .topic-card.live::after { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+    .topic-card.live:hover::after { opacity: 1; }
+    .topic-card.dim { opacity: 0.45; cursor: not-allowed; }
+
+    .topic-icon {
+      width: 50px; height: 50px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+    .ic-1 { background: rgba(124,58,237,0.15); }
+    .ic-2 { background: rgba(6,182,212,0.15); }
+    .ic-3 { background: rgba(16,185,129,0.15); }
+    .ic-4 { background: rgba(249,115,22,0.15); }
+    .ic-5 { background: rgba(236,72,153,0.15); }
+
+    .topic-name { font-size: 17px; font-weight: 700; }
+    .topic-desc { font-size: 13px; color: var(--text2); line-height: 1.55; }
+    .topic-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .topic-count { font-size: 12px; color: var(--text3); }
+    .badge {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .badge-live { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+    .badge-soon { background: rgba(71,85,105,0.2); color: var(--text3); border: 1px solid var(--card-border); }
+
+    .topic-arrow {
+      position: absolute; top: 26px; right: 22px;
+      font-size: 18px; color: var(--text3);
+      transition: all 0.3s;
+    }
+    .topic-card.live:hover .topic-arrow { color: var(--purple-l); transform: translate(3px,-2px); }
+
+    /* ── Bottom CTA ── */
+    .cta-section {
+      text-align: center; padding: 60px 0;
+      border-top: 1px solid var(--card-border);
+      margin-bottom: 60px;
+    }
+    .cta-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+    .cta-section p { color: var(--text2); margin-bottom: 28px; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--purple), #5b21b6);
+      color: white; text-decoration: none;
+      padding: 14px 32px; border-radius: 100px;
+      font-size: 15px; font-weight: 600;
+      transition: all 0.3s; box-shadow: 0 0 30px rgba(124,58,237,0.25);
+    }
+    .cta-btn:hover { transform: scale(1.04); box-shadow: 0 0 50px rgba(124,58,237,0.45); }
+
+    /* ── Footer ── */
+    footer { border-top: 1px solid var(--card-border); padding: 32px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--purple-l); }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .topics { grid-template-columns: 1fr; }
+      .hero-title { letter-spacing: -1.5px; }
+      .section-head::before, .section-head::after { display: none; }
+    }
+    @media (max-width: 480px) {
+      .stats { gap: 8px; }
+      .chip { padding: 8px 14px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">☕</div>
+          <span class="logo-text">Java Core Programs</span>
+        </a>
+        <span class="nav-pill">By MajestiQ</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="hero">
+      <div class="hero-badge">
+        <div class="pulse-dot"></div>
+        150+ Problems &nbsp;·&nbsp; 9 Levels &nbsp;·&nbsp; 5 Topics
+      </div>
+      <h1 class="hero-title">Master <span class="grad">Java</span><br>One Problem at a Time</h1>
+      <p class="hero-sub">A structured, level-by-level collection of Java programming problems — built to take you from absolute scratch to confident interview performance.</p>
+      <p class="hero-by">Curated by <strong>MajestiQ</strong> &nbsp;·&nbsp; Java Core Series 2025</p>
+      <div class="stats">
+        <div class="chip"><span class="chip-num">150+</span><span class="chip-label">Problems</span></div>
+        <div class="chip"><span class="chip-num">9</span><span class="chip-label">Levels</span></div>
+        <div class="chip"><span class="chip-num">5</span><span class="chip-label">Topics</span></div>
+        <div class="chip"><span class="chip-num">O(n)</span><span class="chip-label">Complexity Explained</span></div>
+        <div class="chip"><span class="chip-num">✓</span><span class="chip-label">Progress Tracking</span></div>
+      </div>
+    </section>
+
+    <p class="section-head">Choose Your Topic</p>
+
+    <div class="topics">
+      <a class="topic-card live" href="NUMBERS/numbers_hub.html">
+        <span class="topic-arrow">→</span>
+        <div class="topic-icon ic-1">🔢</div>
+        <div class="topic-name">Numbers</div>
+        <p class="topic-desc">Integer math, modulo, loops, comparisons, prime theory, and number algorithms.</p>
+        <div class="topic-footer">
+          <span class="topic-count">150+ problems · 9 levels</span>
+          <span class="badge badge-live">Active</span>
+        </div>
+      </a>
+
+      <div class="topic-card dim">
+        <div class="topic-icon ic-2">📋</div>
+        <div class="topic-name">Arrays</div>
+        <p class="topic-desc">Traversals, sorting, searching, two-pointer technique, sliding window patterns.</p>
+        <div class="topic-footer">
+          <span class="topic-count">Coming soon</span>
+          <span class="badge badge-soon">Soon</span>
+        </div>
+      </div>
+
+      <div class="topic-card dim">
+        <div class="topic-icon ic-3">🔤</div>
+        <div class="topic-name">Strings</div>
+        <p class="topic-desc">Manipulation, palindromes, anagrams, pattern matching, StringBuilder usage.</p>
+        <div class="topic-footer">
+          <span class="topic-count">Coming soon</span>
+          <span class="badge badge-soon">Soon</span>
+        </div>
+      </div>
+
+      <div class="topic-card dim">
+        <div class="topic-icon ic-4">⭐</div>
+        <div class="topic-name">Patterns</div>
+        <p class="topic-desc">Star pyramids, number patterns, diamond shapes, and nested loop mastery.</p>
+        <div class="topic-footer">
+          <span class="topic-count">Coming soon</span>
+          <span class="badge badge-soon">Soon</span>
+        </div>
+      </div>
+
+      <div class="topic-card dim">
+        <div class="topic-icon ic-5">🔄</div>
+        <div class="topic-name">Recursion</div>
+        <p class="topic-desc">Base cases, call stacks, factorial, Fibonacci, tree traversal fundamentals.</p>
+        <div class="topic-footer">
+          <span class="topic-count">Coming soon</span>
+          <span class="badge badge-soon">Soon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <h2>Start with <span class="grad">Numbers</span></h2>
+      <p>The Numbers topic is live! Begin with Level 1 and build your foundation.</p>
+      <a href="NUMBERS/numbers_hub.html" class="cta-btn">
+        Start Coding Now &nbsp; →
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Core Programs &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong> &nbsp;·&nbsp; Built for learners, by learners</p>
+    </div>
+  </footer>
+</body>
+</html>

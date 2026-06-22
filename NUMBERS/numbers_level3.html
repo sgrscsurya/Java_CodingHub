@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 3 – Pattern-Based Number Logic | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4; --green: #10b981;
+      --orange: #f97316; --orange-l: #fb923c; --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
+      --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 650px; height: 650px; background: var(--orange); top: -280px; left: -150px; }
+    .orb-2 { width: 450px; height: 450px; background: var(--purple); bottom: -100px; right: -100px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(35px,-25px)} }
+
+    .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px); background-size: 60px 60px; }
+
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--orange-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--orange-l); font-weight: 600; }
+    .nav-pill { background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.3); color: var(--orange-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.28); color: var(--orange-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--orange-l), #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+
+    .prog-card { background: rgba(249,115,22,0.07); border: 1px solid rgba(249,115,22,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--orange-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--orange), #f43f5e); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.2); color: var(--orange-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done {
+      border-color: rgba(16,185,129,0.6);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%);
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.22),
+        0 4px 32px rgba(16,185,129,0.24),
+        0 0 80px rgba(16,185,129,0.1),
+        inset 0 0 40px rgba(16,185,129,0.06),
+        inset 0 1px 0 rgba(52,211,153,0.18);
+    }
+    .pc.done::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%);
+      z-index: 2;
+    }
+    .pc.done:hover {
+      border-color: rgba(16,185,129,0.82);
+      background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%);
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.35),
+        0 8px 44px rgba(16,185,129,0.34),
+        0 0 110px rgba(16,185,129,0.15),
+        inset 0 0 50px rgba(16,185,129,0.08),
+        inset 0 1px 0 rgba(52,211,153,0.25);
+      transform: translateY(-2px);
+    }
+    .pc.open { border-color: rgba(249,115,22,0.35); box-shadow: 0 8px 40px rgba(249,115,22,0.08); }
+
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 28px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.2); color: var(--orange-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 3500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--orange-l); color: var(--orange-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+
+    .concept-box { background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.18); border-left: 3px solid var(--orange); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(249,115,22,0.15); color: var(--orange-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--orange-l); }
+
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; }
+      .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; }
+      .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; }
+      .pc-body-inner { padding: 0 16px 20px; }
+    }
+    .try-btn { display:inline-flex;align-items:center;gap:5px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.28);color:var(--cyan);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2);border-color:var(--cyan);transform:scale(1.03); }
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:9px;padding:10px 12px; }
+    .tc-title { font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px; }
+    .tc-row { display:flex;gap:6px;font-size:11.5px;margin-bottom:3px;align-items:flex-start; }
+    .tc-key { color:var(--text3);min-width:50px;font-family:'JetBrains Mono',monospace;flex-shrink:0; }
+    .tc-val { color:var(--text2);font-family:'JetBrains Mono',monospace;white-space:pre-wrap;word-break:break-word; }
+    .modal-overlay { position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px; }
+    .modal-box { background:#0d0d20;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 28px;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.7);animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px;text-align:center;margin-bottom:12px; }
+    .modal-box h3 { font-size:19px;font-weight:800;text-align:center;margin-bottom:8px; }
+    .modal-question { font-size:14px;color:var(--text2);text-align:center;line-height:1.55;margin-bottom:20px; }
+    .modal-hint-label { font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px; }
+    .modal-hint-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);color:var(--orange-l);font-size:11.5px;padding:4px 10px;border-radius:100px; }
+    .modal-btns { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--orange),#c2410c);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--card-border);padding:13px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4);color:#f87171; }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr}
+      .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;}
+      .pc-right{gap:8px;}
+      .pc-head{gap:10px;}
+      .pc-num{min-width:22px;font-size:12px;}
+      .check-btn{width:26px;height:26px;font-size:12px;}
+      .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo">
+            <div class="logo-ico">☕</div>
+            <span class="logo-txt">Java Core</span>
+          </a>
+          <div class="bc">
+            <span class="sep">›</span>
+            <a href="../index.html">Home</a>
+            <span class="sep">›</span>
+            <a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span>
+            <span class="cur">Level 3</span>
+          </div>
+        </div>
+        <span class="nav-pill">🟠 Pattern-Based</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 3 of 9</div>
+          <h1>Pattern-Based <span class="grad">Number Logic</span></h1>
+          <p>20 problems on Armstrong, palindromes, primes, GCD/LCM, perfect numbers, and fascinating special-property checks.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 20</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Armstrong</span>
+        <span class="ts-tag">Palindrome Range</span>
+        <span class="ts-tag">Prime Numbers</span>
+        <span class="ts-tag">GCD / LCM</span>
+        <span class="ts-tag">Perfect Numbers</span>
+        <span class="ts-tag">Special Numbers</span>
+        <span class="ts-tag">Helper Methods</span>
+      </div>
+    </section>
+
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Core Programs &nbsp;·&nbsp; Numbers Level 3 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+    </div>
+  </footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this problem? Give it one more attempt — growth happens in the struggle!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level3';
+
+  const PROBLEMS = [
+    {
+      id: 41,
+      title: "Check Armstrong Number (3-Digit)",
+      tags: ["Armstrong", "Cube", "3-Digit"],
+      desc: "A <b>3-digit Armstrong number</b> (narcissistic number) is one whose sum of <b>cubes of its digits</b> equals the number. E.g., 153 = 1³+5³+3³ = 1+125+27 = 153.",
+      code: `import java.util.Scanner;
+
+public class Armstrong3Digit {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a 3-digit number: ");
+        int n = scanner.nextInt();
+
+        // Extract each digit directly
+        int a = n / 100;          // hundreds digit
+        int b = (n / 10) % 10;   // tens digit
+        int c = n % 10;           // units digit
+
+        int sum = a*a*a + b*b*b + c*c*c;
+
+        System.out.println("Digits: " + a + ", " + b + ", " + c);
+        System.out.println(a+"³ + "+b+"³ + "+c+"³ = "+a*a*a+"+"+b*b*b+"+"+c*c*c+" = "+sum);
+
+        if (sum == n) {
+            System.out.println(n + " IS an Armstrong number!");
+        } else {
+            System.out.println(n + " is NOT an Armstrong number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "153",
+      output: "Enter a 3-digit number: 153\nDigits: 1, 5, 3\n1³ + 5³ + 3³ = 1+125+27 = 153\n153 IS an Armstrong number!",
+      time: "O(1)",
+      space: "O(1)",
+      topics: ["Digit extraction (/, %, /10)", "Cube: a*a*a", "Only four 3-digit Armstrong numbers exist"],
+      concept: "Only <b>four</b> 3-digit Armstrong numbers exist: <b>153, 370, 371, 407</b>. For 3 digits we always raise to power 3 (cubes), so we can hardcode the extraction. This hardcoded approach is O(1) for exactly 3 digits. Problem 42 generalises this to any number of digits."
+    },
+    {
+      id: 42,
+      title: "Check Armstrong Number (N-Digit Generalised)",
+      tags: ["Armstrong", "Math.pow", "Generalised"],
+      desc: "An <b>N-digit Armstrong number</b> is one where the sum of each digit raised to the <b>power of N</b> (number of digits) equals the number itself. E.g., 9474 = 9⁴+4⁴+7⁴+4⁴.",
+      code: `import java.util.Scanner;
+
+public class ArmstrongNDigit {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int digits = String.valueOf(n).length(); // count digits
+        int sum = 0;
+        int temp = n;
+
+        System.out.println("Digits: " + digits + "  →  each digit raised to power " + digits);
+
+        while (temp > 0) {
+            int d = temp % 10;
+            int power = (int) Math.pow(d, digits);
+            System.out.println("  " + d + "^" + digits + " = " + power);
+            sum += power;
+            temp /= 10;
+        }
+
+        System.out.println("Sum = " + sum);
+
+        if (sum == n) {
+            System.out.println(n + " IS an Armstrong number!");
+        } else {
+            System.out.println(n + " is NOT an Armstrong number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "9474",
+      output: "Enter a number: 9474\nDigits: 4  →  each digit raised to power 4\n  4^4 = 256\n  7^4 = 2401\n  4^4 = 256\n  9^4 = 6561\nSum = 9474\n9474 IS an Armstrong number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["String.valueOf().length() for digit count", "Math.pow(digit, numDigits)", "General narcissistic number check"],
+      concept: "All single-digit numbers (1–9) are trivially Armstrong (e.g. 5¹=5). Known multi-digit ones: <b>1, 2, 153, 370, 371, 407, 1634, 8208, 9474...</b>. Note: <code>Math.pow()</code> returns double — cast to <code>int</code> is safe for digit^9 (max is 9⁹ = 387,420,489 which fits in int)."
+    },
+    {
+      id: 43,
+      title: "Print All Armstrong Numbers in Range",
+      tags: ["Armstrong", "Range", "Helper Method"],
+      desc: "Print all Armstrong numbers between a given <b>start</b> and <b>end</b> (inclusive). Reuse the generalised check from problem 42.",
+      code: `import java.util.Scanner;
+
+public class ArmstrongInRange {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter start: ");
+        int start = scanner.nextInt();
+        System.out.print("Enter end:   ");
+        int end = scanner.nextInt();
+
+        System.out.println("Armstrong numbers in [" + start + ", " + end + "]:");
+        int count = 0;
+        for (int i = start; i <= end; i++) {
+            if (isArmstrong(i)) {
+                System.out.print(i + "  ");
+                count++;
+            }
+        }
+        System.out.println("\nTotal found: " + count);
+
+        scanner.close();
+    }
+
+    static boolean isArmstrong(int n) {
+        if (n < 0) return false;
+        int digits = String.valueOf(n).length();
+        int sum = 0, temp = n;
+        while (temp > 0) {
+            int d = temp % 10;
+            sum += (int) Math.pow(d, digits);
+            temp /= 10;
+        }
+        return sum == n;
+    }
+}`,
+      input: "1\n500",
+      output: "Enter start: 1\nEnter end:   500\nArmstrong numbers in [1, 500]:\n1  2  3  4  5  6  7  8  9  153  370  371  407  \nTotal found: 13",
+      time: "O((end−start) × log(end))",
+      space: "O(1)",
+      topics: ["Reusable static boolean helper", "Scanning a range with for loop", "Single-digit numbers are all Armstrong"],
+      concept: "Extracting logic into a <b>static boolean helper</b> method (<code>isArmstrong()</code>) makes the range loop clean. All 1-digit numbers are trivially Armstrong — so 1–9 each qualify. The next ones only appear at 153, 370, 371, 407 in 3-digit space. This is a key <b>code reuse</b> pattern."
+    },
+    {
+      id: 44,
+      title: "Print All Palindrome Numbers in Range",
+      tags: ["Palindrome", "Range", "Helper Method"],
+      desc: "Print every number between <b>start</b> and <b>end</b> that reads the same forwards and backwards.",
+      code: `import java.util.Scanner;
+
+public class PalindromeInRange {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter start: ");
+        int start = scanner.nextInt();
+        System.out.print("Enter end:   ");
+        int end = scanner.nextInt();
+
+        System.out.println("Palindrome numbers in [" + start + ", " + end + "]:");
+        int count = 0;
+        for (int i = start; i <= end; i++) {
+            if (isPalindrome(i)) {
+                System.out.print(i + "  ");
+                count++;
+            }
+        }
+        System.out.println("\nTotal found: " + count);
+
+        scanner.close();
+    }
+
+    static boolean isPalindrome(int n) {
+        if (n < 0) return false;
+        int reversed = 0, temp = n;
+        while (temp != 0) {
+            reversed = reversed * 10 + temp % 10;
+            temp /= 10;
+        }
+        return n == reversed;
+    }
+}`,
+      input: "100\n200",
+      output: "Enter start: 100\nEnter end:   200\nPalindrome numbers in [100, 200]:\n101  111  121  131  141  151  161  171  181  191  \nTotal found: 10",
+      time: "O((end−start) × log(end))",
+      space: "O(1)",
+      topics: ["Reverse-and-compare per number", "Range loop pattern", "Negative numbers are not palindromes"],
+      concept: "In the range 100–199, palindromes follow pattern <b>1_1</b> where the tens digit can be anything. All 3-digit palindromes have the form <b>ABA</b>. Notice: there are exactly <b>10 palindromes</b> in every century (100s, 200s...) for 3-digit numbers. This pattern matters for counting problems."
+    },
+    {
+      id: 45,
+      title: "Print All Prime Numbers up to N",
+      tags: ["Prime", "Sieve Lite", "sqrt Optimisation"],
+      desc: "Print every <b>prime number</b> from 2 up to N. A prime has exactly two divisors: 1 and itself.",
+      code: `import java.util.Scanner;
+
+public class PrimesUpToN {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.println("Prime numbers up to " + n + ":");
+        int count = 0;
+        for (int i = 2; i <= n; i++) {
+            if (isPrime(i)) {
+                System.out.print(i + "  ");
+                count++;
+            }
+        }
+        System.out.println("\nTotal primes: " + count);
+
+        scanner.close();
+    }
+
+    // Trial division up to sqrt(n)
+    static boolean isPrime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;         // even ≠ prime
+        for (int i = 3; i * i <= n; i += 2) { // only odd divisors
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+}`,
+      input: "50",
+      output: "Enter N: 50\nPrime numbers up to 50:\n2  3  5  7  11  13  17  19  23  29  31  37  41  43  47  \nTotal primes: 15",
+      time: "O(N × √N)",
+      space: "O(1)",
+      topics: ["Trial division up to √n", "Skip even numbers after 2", "Prime counting function π(N)"],
+      concept: "Why check only up to <b>√N</b>? If N has a factor greater than √N, it must also have a corresponding factor <em>less</em> than √N — we'd have found it already. Also: after handling 2, skip all even numbers (<code>i += 2</code>) — this halves the work. For large N, the <b>Sieve of Eratosthenes</b> (Level 8) is dramatically faster."
+    },
+    {
+      id: 46,
+      title: "Check Prime Number",
+      tags: ["Prime", "Trial Division", "√N Check"],
+      desc: "Determine whether a given number is <b>prime</b>. A prime is greater than 1 and divisible only by 1 and itself.",
+      code: `import java.util.Scanner;
+
+public class CheckPrime {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n < 2) {
+            System.out.println(n + " is NOT prime (primes must be ≥ 2).");
+        } else if (n == 2) {
+            System.out.println(n + " IS prime (the only even prime!).");
+        } else if (n % 2 == 0) {
+            System.out.println(n + " is NOT prime (even, divisible by 2).");
+        } else {
+            boolean prime = true;
+            for (int i = 3; i * i <= n; i += 2) {
+                if (n % i == 0) {
+                    System.out.println(n + " is NOT prime (divisible by " + i + ").");
+                    prime = false;
+                    break;
+                }
+            }
+            if (prime) {
+                System.out.println(n + " IS prime.");
+            }
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "97",
+      output: "Enter a number: 97\n97 IS prime.",
+      time: "O(√N)",
+      space: "O(1)",
+      topics: ["Edge cases: n<2, n=2, even n", "Trial division: odd divisors only", "Early exit on first divisor found"],
+      concept: "Handle edge cases in order: n&lt;2 → not prime, n=2 → prime (only even prime), even n → not prime, then trial-divide odd numbers up to √N. <b>Early exit</b> with <code>break</code> is crucial — once one divisor is found, the number is composite and we stop. For n=97, the loop checks 3,5,7,9 (9²=81≤97) and finds no divisors."
+    },
+    {
+      id: 47,
+      title: "Count Prime Numbers in Range",
+      tags: ["Prime", "Count", "Range"],
+      desc: "Count how many <b>prime numbers</b> exist within a given range [start, end].",
+      code: `import java.util.Scanner;
+
+public class CountPrimesInRange {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter start: ");
+        int start = scanner.nextInt();
+        System.out.print("Enter end:   ");
+        int end = scanner.nextInt();
+
+        int count = 0;
+        for (int i = start; i <= end; i++) {
+            if (isPrime(i)) count++;
+        }
+
+        System.out.println("Primes in [" + start + ", " + end + "] = " + count);
+        System.out.printf("Prime density: %.2f%%%n",
+                          (count * 100.0 / (end - start + 1)));
+
+        scanner.close();
+    }
+
+    static boolean isPrime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+        for (int i = 3; i * i <= n; i += 2) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+}`,
+      input: "1\n100",
+      output: "Enter start: 1\nEnter end:   100\nPrimes in [1, 100] = 25\nPrime density: 25.00%",
+      time: "O((end−start) × √end)",
+      space: "O(1)",
+      topics: ["Counter variable pattern", "Reused isPrime helper", "Prime density (prime counting function)"],
+      concept: "There are exactly <b>25 primes below 100</b> — a famous result in number theory (prime counting function π(100)=25). Prime density decreases as numbers grow larger. The <b>Prime Number Theorem</b> states π(N) ≈ N/ln(N). For N=100: 100/ln(100)≈21.7, reasonably close to the actual 25."
+    },
+    {
+      id: 48,
+      title: "Find Sum of Primes in Range",
+      tags: ["Prime", "Sum", "Range"],
+      desc: "Calculate the <b>sum</b> of all prime numbers within a given range [start, end].",
+      code: `import java.util.Scanner;
+
+public class SumPrimesInRange {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter start: ");
+        int start = scanner.nextInt();
+        System.out.print("Enter end:   ");
+        int end = scanner.nextInt();
+
+        long sum = 0;
+        int count = 0;
+        for (int i = start; i <= end; i++) {
+            if (isPrime(i)) {
+                sum += i;
+                count++;
+            }
+        }
+
+        System.out.println("Primes in [" + start + ", " + end + "]: count = " + count);
+        System.out.println("Sum of primes = " + sum);
+
+        scanner.close();
+    }
+
+    static boolean isPrime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+        for (int i = 3; i * i <= n; i += 2) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+}`,
+      input: "1\n10",
+      output: "Enter start: 1\nEnter end:   10\nPrimes in [1, 10]: count = 4\nSum of primes = 17",
+      time: "O((end−start) × √end)",
+      space: "O(1)",
+      topics: ["Accumulate sum with long", "Simultaneous count and sum", "Primes 1-10: 2,3,5,7 → sum=17"],
+      concept: "Use <code>long sum</code> (not int) — summing primes up to 10,000 gives ~5,736,396, which overflows int (max ~2.1 billion — safe here but a good habit). Tracking count and sum simultaneously in one loop avoids a second pass. The sum of first 4 primes (2+3+5+7) = <b>17</b>."
+    },
+    {
+      id: 49,
+      title: "Print First N Prime Numbers",
+      tags: ["Prime", "First N", "While Loop"],
+      desc: "Print exactly the <b>first N prime numbers</b>, starting from 2, regardless of how large they get.",
+      code: `import java.util.Scanner;
+
+public class FirstNPrimes {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter N: ");
+        int n = scanner.nextInt();
+
+        System.out.println("First " + n + " prime numbers:");
+        int count = 0;
+        int num = 2; // start checking from 2
+
+        while (count < n) {
+            if (isPrime(num)) {
+                System.out.printf("%4d", num);
+                count++;
+                if (count % 10 == 0) System.out.println(); // new line every 10
+            }
+            num++;
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+
+    static boolean isPrime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+        for (int i = 3; i * i <= n; i += 2) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+}`,
+      input: "10",
+      output: "Enter N: 10\nFirst 10 prime numbers:\n   2   3   5   7  11  13  17  19  23  29",
+      time: "O(N × √Pₙ)",
+      space: "O(1)",
+      topics: ["While loop with count condition", "Unknown upper bound — while vs for", "Formatted output with printf"],
+      concept: "Unlike printing primes up to N (fixed bound), here we don't know the upper bound in advance — so a <code>while</code> loop is more natural than <code>for</code>. We count found primes and stop when we hit N. The 10th prime is 29; the 100th is 541; the 1000th is 7919. This is the <b>inverse prime counting function</b>."
+    },
+    {
+      id: 50,
+      title: "Check Co-Prime Numbers",
+      tags: ["Co-prime", "GCD", "Euclidean"],
+      desc: "Two numbers are <b>co-prime</b> (relatively prime) if their GCD equals 1 — they share no common factor other than 1.",
+      code: `import java.util.Scanner;
+
+public class CoPrimeCheck {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number:  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number: ");
+        int b = scanner.nextInt();
+
+        int g = gcd(Math.abs(a), Math.abs(b));
+
+        System.out.println("GCD(" + a + ", " + b + ") = " + g);
+
+        if (g == 1) {
+            System.out.println(a + " and " + b + " ARE co-prime! (share no common factor)");
+        } else {
+            System.out.println(a + " and " + b + " are NOT co-prime. (common factor: " + g + ")");
+        }
+
+        scanner.close();
+    }
+
+    static int gcd(int a, int b) {
+        while (b != 0) {
+            int t = b;
+            b = a % b;
+            a = t;
+        }
+        return a;
+    }
+}`,
+      input: "14\n15",
+      output: "Enter first number:  14\nEnter second number: 15\nGCD(14, 15) = 1\n14 and 15 ARE co-prime! (share no common factor)",
+      time: "O(log min(a,b))",
+      space: "O(1)",
+      topics: ["GCD = 1 means co-prime", "Consecutive integers are always co-prime", "Used in fraction reduction, RSA cryptography"],
+      concept: "<b>Consecutive integers</b> are always co-prime (e.g. 14 and 15). Co-primality is foundational in <b>RSA encryption</b> — the public and private keys are based on two co-prime numbers. Any two distinct primes are also co-prime. GCD = 1 is the definition: no shared prime factor."
+    },
+    {
+      id: 51,
+      title: "Find GCD – Euclidean Algorithm",
+      tags: ["GCD", "Euclidean", "Step-by-Step"],
+      desc: "Find the <b>Greatest Common Divisor</b> of two numbers using the Euclidean algorithm — one of the oldest algorithms in mathematics (300 BC).",
+      code: `import java.util.Scanner;
+
+public class GCDEuclidean {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number:  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number: ");
+        int b = scanner.nextInt();
+
+        System.out.println("\nEuclidean Algorithm steps:");
+        int x = Math.abs(a), y = Math.abs(b);
+
+        while (y != 0) {
+            int remainder = x % y;
+            System.out.printf("  GCD(%d, %d) → %d = %d × %d + %d%n",
+                              x, y, x, x/y, y, remainder);
+            x = y;
+            y = remainder;
+        }
+
+        System.out.println("\nGCD(" + a + ", " + b + ") = " + x);
+
+        scanner.close();
+    }
+}`,
+      input: "48\n18",
+      output: "Enter first number:  48\nEnter second number: 18\n\nEuclidean Algorithm steps:\n  GCD(48, 18) → 48 = 2 × 18 + 12\n  GCD(18, 12) → 18 = 1 × 12 + 6\n  GCD(12, 6)  → 12 = 2 × 6 + 0\n\nGCD(48, 18) = 6",
+      time: "O(log min(a,b))",
+      space: "O(1)",
+      topics: ["gcd(a,b) = gcd(b, a%b)", "Terminates when remainder = 0", "Convergence in O(log n) steps"],
+      concept: "The Euclidean algorithm is ~<b>2300 years old</b> and still the standard. Key insight: <code>GCD(a,b) = GCD(b, a%b)</code>. It converges because the remainder strictly decreases each step. For consecutive Fibonacci numbers (worst case), it takes the most steps. For GCD(48,18): 2 steps, because 48 = 2×18+12, then 18 = 1×12+6, then 12 = 2×6+0."
+    },
+    {
+      id: 52,
+      title: "Find LCM of Two Numbers",
+      tags: ["LCM", "GCD", "Formula"],
+      desc: "Find the <b>Least Common Multiple</b> of two numbers using the formula: <b>LCM(a,b) = |a×b| / GCD(a,b)</b>.",
+      code: `import java.util.Scanner;
+
+public class FindLCM {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number:  ");
+        int a = scanner.nextInt();
+        System.out.print("Enter second number: ");
+        int b = scanner.nextInt();
+
+        int g = gcd(Math.abs(a), Math.abs(b));
+        // Divide BEFORE multiplying to avoid overflow: (a/g)*b
+        long lcm = (long)(a / g) * b;
+
+        System.out.println("GCD(" + a + ", " + b + ")  = " + g);
+        System.out.println("LCM(" + a + ", " + b + ")  = " + Math.abs(lcm));
+        System.out.println("Proof: " + a + " × " + b + " = GCD × LCM  →  "
+                           + (long)a*b + " = " + g + " × " + Math.abs(lcm));
+
+        scanner.close();
+    }
+
+    static int gcd(int a, int b) {
+        while (b != 0) { int t = b; b = a % b; a = t; }
+        return a;
+    }
+}`,
+      input: "12\n18",
+      output: "Enter first number:  12\nEnter second number: 18\nGCD(12, 18)  = 6\nLCM(12, 18)  = 36\nProof: 12 × 18 = GCD × LCM  →  216 = 6 × 36",
+      time: "O(log min(a,b))",
+      space: "O(1)",
+      topics: ["LCM formula: (a/GCD)*b", "Divide first to prevent overflow", "GCD × LCM = a × b (proof)"],
+      concept: "Key relationship: <b>GCD(a,b) × LCM(a,b) = a × b</b>. So LCM = a×b/GCD. Overflow trick: compute <code>(a/g)*b</code> instead of <code>a*b/g</code> — dividing first keeps the intermediate value smaller. E.g., for a=12, b=18: 12/6=2, then 2×18=36. If we multiplied first: 12×18=216 (safe here, but dangerous for large inputs)."
+    },
+    {
+      id: 53,
+      title: "Check Perfect Number",
+      tags: ["Perfect Number", "Divisors", "Sum"],
+      desc: "A <b>perfect number</b> is one whose proper divisors (all divisors except itself) <b>sum to the number</b>. E.g., 6 = 1+2+3 = 6.",
+      code: `import java.util.Scanner;
+
+public class PerfectNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        if (n < 2) {
+            System.out.println(n + " is NOT a perfect number (must be ≥ 2).");
+            scanner.close();
+            return;
+        }
+
+        long sum = 1; // 1 is always a proper divisor for n > 1
+        StringBuilder divs = new StringBuilder("1");
+
+        // Check pairs of divisors up to sqrt(n)
+        for (int i = 2; (long)i * i <= n; i++) {
+            if (n % i == 0) {
+                sum += i;
+                divs.append("+").append(i);
+                if (i != n / i) {
+                    sum += n / i;
+                    divs.append("+").append(n / i);
+                }
+            }
+        }
+
+        System.out.println("Proper divisors: " + divs + " = " + sum);
+
+        if (sum == n) {
+            System.out.println(n + " IS a Perfect number!");
+        } else {
+            System.out.println(n + " is NOT a Perfect number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "28",
+      output: "Enter a number: 28\nProper divisors: 1+2+14+4+7 = 28\n28 IS a Perfect number!",
+      time: "O(√N)",
+      space: "O(1)",
+      topics: ["Divisor pair optimisation: check up to √N", "Proper divisors (exclude n itself)", "Perfect numbers are extremely rare"],
+      concept: "Instead of checking all divisors 1..n-1 (O(N)), use <b>divisor pairs</b>: if i divides n, so does n/i. Check only up to √N and add both — O(√N). Only <b>51 perfect numbers are known</b>. They are: 6, 28, 496, 8128, 33550336... All known perfect numbers are <b>even</b>. No odd perfect number has ever been found."
+    },
+    {
+      id: 54,
+      title: "Print Perfect Numbers in Range",
+      tags: ["Perfect Number", "Range", "Optimised Check"],
+      desc: "Print all <b>perfect numbers</b> in a given range. Perfect numbers are so rare that you'll likely find very few even in large ranges.",
+      code: `import java.util.Scanner;
+
+public class PerfectInRange {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter start: ");
+        int start = scanner.nextInt();
+        System.out.print("Enter end:   ");
+        int end = scanner.nextInt();
+
+        System.out.println("Perfect numbers in [" + start + ", " + end + "]:");
+        int count = 0;
+        for (int i = start; i <= end; i++) {
+            if (isPerfect(i)) {
+                System.out.print(i + "  ");
+                count++;
+            }
+        }
+        if (count == 0) System.out.print("None found.");
+        System.out.println("\nTotal: " + count);
+        System.out.println("(Hint: known ones below 10000 → 6, 28, 496, 8128)");
+
+        scanner.close();
+    }
+
+    static boolean isPerfect(int n) {
+        if (n < 2) return false;
+        long sum = 1;
+        for (int i = 2; (long)i * i <= n; i++) {
+            if (n % i == 0) {
+                sum += i;
+                if (i != n / i) sum += n / i;
+            }
+        }
+        return sum == n;
+    }
+}`,
+      input: "1\n10000",
+      output: "Enter start: 1\nEnter end:   10000\nPerfect numbers in [1, 10000]:\n6  28  496  8128  \nTotal: 4\n(Hint: known ones below 10000 → 6, 28, 496, 8128)",
+      time: "O((end−start) × √end)",
+      space: "O(1)",
+      topics: ["Reusable isPerfect boolean helper", "Using long for divisor sum safety", "Rarity of perfect numbers"],
+      concept: "There are only <b>4 perfect numbers below 10,000</b>: 6, 28, 496, 8128. The fifth is 33,550,336. All known perfect numbers follow the form <b>2^(p-1) × (2^p - 1)</b> where (2^p-1) is a Mersenne prime. Finding new perfect numbers is an active area of number theory research."
+    },
+    {
+      id: 55,
+      title: "Check Automorphic Number",
+      tags: ["Automorphic", "Square", "Trailing Digits"],
+      desc: "A number is <b>automorphic</b> if its <b>square ends with the number itself</b>. E.g., 5²=25 (ends in 5), 25²=625 (ends in 25), 76²=5776 (ends in 76).",
+      code: `import java.util.Scanner;
+
+public class AutomorphicNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        long square = (long) n * n;
+        int digits = String.valueOf(n).length();
+
+        // Get last 'digits' digits of square using modulo
+        long divisor = (long) Math.pow(10, digits);
+        long lastDigits = square % divisor;
+
+        System.out.println(n + "²  = " + square);
+        System.out.println("Last " + digits + " digit(s) of " + square + " = " + lastDigits);
+
+        if (lastDigits == n) {
+            System.out.println(n + " IS an Automorphic number!");
+        } else {
+            System.out.println(n + " is NOT an Automorphic number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "76",
+      output: "Enter a number: 76\n76²  = 5776\nLast 2 digit(s) of 5776 = 76\n76 IS an Automorphic number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["square % 10^digits extracts trailing digits", "String.valueOf().length() for digit count", "Automorphic 1-digit: 1, 5, 6"],
+      concept: "Key operation: <code>square % 10^digits</code> extracts the last d digits of the square. Single-digit automorphic numbers: <b>1, 5, 6</b>. Two-digit: <b>25, 76</b>. Three-digit: <b>376, 625</b>. Notice 5² always ends in 5, 6² always ends in 6 — every power of 5 ends in 5, every power of 6 ends in 6."
+    },
+    {
+      id: 56,
+      title: "Check Sunny Number",
+      tags: ["Sunny", "Perfect Square", "Math.sqrt"],
+      desc: "A number N is <b>sunny</b> if <b>N+1 is a perfect square</b>. E.g., 3 is sunny because 3+1=4=2², and 8 is sunny because 8+1=9=3².",
+      code: `import java.util.Scanner;
+
+public class SunnyNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int next = n + 1;
+        double sqrtVal = Math.sqrt(next);
+        boolean isSunny = (sqrtVal == Math.floor(sqrtVal) && sqrtVal > 0);
+
+        System.out.println("n + 1 = " + next);
+        System.out.printf("√%d  = %.4f%n", next, sqrtVal);
+
+        if (isSunny) {
+            System.out.println(n + " IS a Sunny number! ("
+                               + next + " = " + (int)sqrtVal + "²)");
+        } else {
+            System.out.println(n + " is NOT a Sunny number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "24",
+      output: "Enter a number: 24\nn + 1 = 25\n√25  = 5.0000\n24 IS a Sunny number! (25 = 5²)",
+      time: "O(1)",
+      space: "O(1)",
+      topics: ["Perfect square check: √n == floor(√n)", "Math.sqrt() and Math.floor()", "Sunny numbers: 3,8,15,24,35,48..."],
+      concept: "A perfect square check: if <code>√n</code> is a whole number (sqrt == floor(sqrt)), then n is a perfect square. Sunny numbers follow the pattern: <b>3, 8, 15, 24, 35, 48, 63...</b> — these are all <b>(k²-1)</b> for k=2,3,4... Floating-point caveat: for very large numbers, compare <code>(int)sqrt</code> squared against n to avoid floating-point errors."
+    },
+    {
+      id: 57,
+      title: "Check Spy Number",
+      tags: ["Spy Number", "Sum = Product", "Digit Ops"],
+      desc: "A <b>Spy number</b> is one where the <b>sum of digits equals the product of digits</b>. E.g., 1124: sum=1+1+2+4=8, product=1×1×2×4=8 ✓",
+      code: `import java.util.Scanner;
+
+public class SpyNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        int sum = 0, product = 1;
+        int temp = Math.abs(n);
+
+        while (temp > 0) {
+            int d = temp % 10;
+            sum += d;
+            product *= d;
+            temp /= 10;
+        }
+
+        System.out.println("Number:            " + n);
+        System.out.println("Sum of digits:     " + sum);
+        System.out.println("Product of digits: " + product);
+
+        if (sum == product) {
+            System.out.println(n + " IS a Spy number! (sum == product)");
+        } else {
+            System.out.println(n + " is NOT a Spy number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "1124",
+      output: "Enter a number: 1124\nNumber:            1124\nSum of digits:     8\nProduct of digits: 8\n1124 IS a Spy number! (sum == product)",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Simultaneous sum and product in one pass", "Zero digit collapses product to 0", "Examples: 1, 2, 3, ..., 9, 1124, 1421..."],
+      concept: "Compute sum AND product in a <b>single loop pass</b> — two accumulators, one loop. If any digit is 0, product = 0. For 0 to be a spy number, sum must also equal 0 (impossible for positive integers). Single-digit numbers 1–9 are all spy (trivially, digit=digit). First multi-digit spy numbers: <b>1124, 1214, 1241, 1412, 2114, 4112...</b>"
+    },
+    {
+      id: 58,
+      title: "Check Fascinating Number",
+      tags: ["Fascinating", "Concatenation", "Digit Check"],
+      desc: "A <b>fascinating number</b> has 3+ digits. Concatenating N, 2N, 3N produces a 9-digit string containing each digit <b>1–9 exactly once</b> (no zeros, no repeats).",
+      code: `import java.util.Scanner;
+
+public class FascinatingNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number (3+ digits): ");
+        int n = scanner.nextInt();
+
+        String concat = String.valueOf(n)
+                      + String.valueOf(n * 2)
+                      + String.valueOf(n * 3);
+
+        System.out.println("N   = " + n);
+        System.out.println("2N  = " + (n * 2));
+        System.out.println("3N  = " + (n * 3));
+        System.out.println("Concatenated: " + concat);
+
+        boolean fascinating = false;
+        if (concat.length() == 9) {
+            boolean[] seen = new boolean[10];
+            fascinating = true;
+            for (char c : concat.toCharArray()) {
+                int d = c - '0';
+                if (d == 0 || seen[d]) { // 0 not allowed, no repeats
+                    fascinating = false;
+                    break;
+                }
+                seen[d] = true;
+            }
+        }
+
+        if (fascinating) {
+            System.out.println(n + " IS a Fascinating number!");
+        } else {
+            System.out.println(n + " is NOT a Fascinating number.");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "192",
+      output: "Enter a number (3+ digits): 192\nN   = 192\n2N  = 384\n3N  = 576\nConcatenated: 192384576\n192 IS a Fascinating number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["String concatenation of n, 2n, 3n", "boolean[] seen array for digit tracking", "Result must be exactly 9 chars, digits 1–9"],
+      concept: "192, 384, 576, 1, 2, 3, 4, 5, 6, 7, 8, 9 all appear exactly once in '192384576'. Other fascinating numbers: <b>219, 273, 327...</b>. The <code>boolean[] seen</code> array of size 10 is a classic technique for checking digit uniqueness in O(1) per digit — a <b>frequency/presence array</b> pattern you'll see repeatedly."
+    },
+    {
+      id: 59,
+      title: "Check Tech Number",
+      tags: ["Tech Number", "Split Halves", "Kaprekar Style"],
+      desc: "A <b>Tech number</b> has an even number of digits. Split into two equal halves, <b>square the sum of halves</b> — if the result equals the original number, it's a Tech number. E.g., 2025: (20+25)²=45²=2025 ✓",
+      code: `import java.util.Scanner;
+
+public class TechNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = scanner.nextInt();
+
+        String s = String.valueOf(n);
+
+        if (s.length() % 2 != 0) {
+            System.out.println(n + " has an odd number of digits (" + s.length() + ").");
+            System.out.println("NOT a Tech number (even digits required).");
+        } else {
+            int half = s.length() / 2;
+            int left  = Integer.parseInt(s.substring(0, half));
+            int right = Integer.parseInt(s.substring(half));
+            long sumSq = (long)(left + right) * (left + right);
+
+            System.out.println("Left half:  " + left);
+            System.out.println("Right half: " + right);
+            System.out.printf("(%d + %d)² = %d² = %d%n", left, right, left+right, sumSq);
+
+            if (sumSq == n) {
+                System.out.println(n + " IS a Tech number!");
+            } else {
+                System.out.println(n + " is NOT a Tech number.");
+            }
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "2025",
+      output: "Enter a number: 2025\nLeft half:  20\nRight half: 25\n(20 + 25)² = 45² = 2025\n2025 IS a Tech number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["String.substring() to split halves", "Integer.parseInt() to convert back", "Must have even number of digits"],
+      concept: "Tech numbers (also called <b>Kaprekar numbers</b> in some definitions) satisfy <b>(left + right)² = n</b>. Examples: <b>2025</b> (20+25=45, 45²=2025), <b>3025</b> (30+25=55, 55²=3025), <b>9801</b> (98+01=99, 99²=9801). Also: 1 (trivial). The split uses <code>substring()</code> and <code>parseInt()</code> — string manipulation combined with arithmetic."
+    },
+    {
+      id: 60,
+      title: "Check Evil Number",
+      tags: ["Evil", "Binary", "Bit Count"],
+      desc: "A number is <b>evil</b> if its binary representation contains an <b>even number of 1-bits</b>. Numbers with an odd count of 1-bits are called <b>odious</b>.",
+      code: `import java.util.Scanner;
+
+public class EvilNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a non-negative number: ");
+        int n = scanner.nextInt();
+
+        if (n < 0) {
+            System.out.println("Evil number is defined for non-negative integers only.");
+            scanner.close();
+            return;
+        }
+
+        String binary = Integer.toBinaryString(n);
+
+        // Count 1-bits manually
+        int onesCount = 0;
+        for (char c : binary.toCharArray()) {
+            if (c == '1') onesCount++;
+        }
+
+        // Java built-in alternative: Integer.bitCount(n)
+        int builtIn = Integer.bitCount(n);
+
+        System.out.println("Number:          " + n);
+        System.out.println("Binary:          " + binary);
+        System.out.println("Count of 1-bits: " + onesCount
+                           + "  (Integer.bitCount = " + builtIn + ")");
+        System.out.println("1-bits count is: " + (onesCount % 2 == 0 ? "EVEN" : "ODD"));
+
+        if (onesCount % 2 == 0) {
+            System.out.println(n + " IS an Evil number!");
+        } else {
+            System.out.println(n + " is an Odious number (NOT Evil).");
+        }
+
+        scanner.close();
+    }
+}`,
+      input: "3",
+      output: "Enter a non-negative number: 3\nNumber:          3\nBinary:          11\nCount of 1-bits: 2  (Integer.bitCount = 2)\n1-bits count is: EVEN\n3 IS an Evil number!",
+      time: "O(log N)",
+      space: "O(1)",
+      topics: ["Integer.toBinaryString(n)", "Character counting in a string", "Integer.bitCount() built-in", "Evil vs Odious numbers"],
+      concept: "Evil numbers: <b>0, 3, 5, 6, 9, 10, 12, 15...</b> (even popcount). Odious: <b>1, 2, 4, 7, 8, 11, 13, 14...</b> (odd popcount). The built-in <code>Integer.bitCount(n)</code> is the most efficient way (uses hardware popcount instruction). This concept is used in <b>Nim theory</b> (combinatorial game theory) and the <b>Thue-Morse sequence</b>."
+    }
+  ];
+
+  // ── State ──
+  const completed = new Set();
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) JSON.parse(raw).forEach(id => completed.add(id));
+    } catch (e) {}
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed]));
+  }
+
+  function updateProgressUI() {
+    const done = completed.size, total = PROBLEMS.length;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('prog-done').textContent = done;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  function render() {
+    const list = document.getElementById('problems-list');
+    list.innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id) ? 'done' : ''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t => `<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id) ? 'checked' : ''}"
+                    onclick="markDone(event,${p.id})"
+                    title="${completed.has(p.id) ? 'Mark incomplete' : 'Mark as done'}">
+              ${completed.has(p.id) ? '✓' : '○'}
+            </button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp">
+                  <div class="io-box-label">▶ INPUT</div>
+                  <div class="io-val">${escHtml(p.input)}</div>
+                </div>
+                <div class="io-box io-out">
+                  <div class="io-box-label">◀ OUTPUT</div>
+                  <div class="io-val">${escHtml(p.output)}</div>
+                </div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box">
+                  <div class="cx-label">TIME COMPLEXITY</div>
+                  <div class="cx-val cx-time">${p.time}</div>
+                </div>
+                <div class="cx-box">
+                  <div class="cx-label">SPACE COMPLEXITY</div>
+                  <div class="cx-val cx-space">${p.space}</div>
+                </div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t => `<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  let openId = null;
+  let pendingId = null;
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t => `<span class="modal-hint-tag">${t}</span>`).join('');
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    completed.has(id) ? completed.delete(id) : completed.add(id);
+    saveProgress();
+    render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    if (!p) return;
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target;
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    if (!confirm('Reset all progress for Level 3?')) return;
+    completed.clear(); saveProgress(); openId = null; render();
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  const TESTCASES = {
+    41: [{in:"153",out:"153 IS an Armstrong number!"},{in:"200",out:"200 is NOT an Armstrong number."}],
+    42: [{in:"9474",out:"9474 IS an Armstrong number!"},{in:"1634",out:"1634 IS an Armstrong number!"}],
+    43: [{in:"1\n500",out:"1  2  3  4  5  6  7  8  9  153  370  371  407"},{in:"100\n400",out:"153  370  371"}],
+    44: [{in:"100\n200",out:"101  111  121  131  141  151  161  171  181  191"},{in:"10\n50",out:"11  22  33  44"}],
+    45: [{in:"20",out:"2  3  5  7  11  13  17  19"},{in:"10",out:"2  3  5  7"}],
+    46: [{in:"97",out:"97 IS prime."},{in:"91",out:"91 is NOT prime (divisible by 7)."}],
+    47: [{in:"1\n100",out:"Primes in [1, 100] = 25"},{in:"1\n50",out:"Primes in [1, 50] = 15"}],
+    48: [{in:"1\n10",out:"Sum of primes = 17"},{in:"1\n5",out:"Sum of primes = 10"}],
+    49: [{in:"5",out:"   2   3   5   7  11"},{in:"10",out:"   2   3   5   7  11  13  17  19  23  29"}],
+    50: [{in:"14\n15",out:"14 and 15 ARE co-prime!"},{in:"12\n8",out:"12 and 8 are NOT co-prime. (common factor: 4)"}],
+    51: [{in:"48\n18",out:"GCD(48, 18) = 6"},{in:"56\n98",out:"GCD(56, 98) = 14"}],
+    52: [{in:"12\n18",out:"LCM(12, 18)  = 36"},{in:"4\n6",out:"LCM(4, 6)  = 12"}],
+    53: [{in:"28",out:"28 IS a Perfect number!"},{in:"12",out:"12 is NOT a Perfect number."}],
+    54: [{in:"1\n1000",out:"6  28  496  \nTotal: 3"},{in:"1\n100",out:"6  28  \nTotal: 2"}],
+    55: [{in:"76",out:"76 IS an Automorphic number!"},{in:"25",out:"25 IS an Automorphic number!"}],
+    56: [{in:"24",out:"24 IS a Sunny number! (25 = 5²)"},{in:"8",out:"8 IS a Sunny number! (9 = 3²)"}],
+    57: [{in:"1124",out:"1124 IS a Spy number!"},{in:"1342",out:"1342 is NOT a Spy number."}],
+    58: [{in:"192",out:"192 IS a Fascinating number!"},{in:"273",out:"273 IS a Fascinating number!"}],
+    59: [{in:"2025",out:"2025 IS a Tech number!"},{in:"3025",out:"3025 IS a Tech number!"}],
+    60: [{in:"3",out:"3 IS an Evil number!"},{in:"7",out:"7 is an Odious number (NOT Evil)."}],
+  };
+
+  loadProgress();
+  render();
+  </script>
+</body>
+</html>
