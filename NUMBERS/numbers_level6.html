@@ -196,6 +196,13 @@
       .pc-num{min-width:26px;font-size:11px;}
       .check-btn{width:26px;height:26px;font-size:12px;} .exp-ico{font-size:12px;}
     }
+
+    .nav-actions{display:flex;align-items:center;gap:6px;}.nav-act-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;border:1px solid var(--card-border);background:rgba(255,255,255,0.04);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;}.nav-act-btn:hover{border-color:rgba(255,255,255,0.18);color:var(--text);background:rgba(255,255,255,0.09);}
+    .rev-overlay{position:fixed;inset:0;z-index:1000;background:rgba(4,4,18,0.96);backdrop-filter:blur(14px);display:flex;flex-direction:column;}.rev-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--card-border);flex-shrink:0;gap:12px;}.rev-title{font-size:15px;font-weight:700;}.rev-subtitle{font-size:12px;color:var(--text3);margin-top:3px;}.rev-close{background:transparent;border:1px solid var(--card-border);color:var(--text2);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}.rev-close:hover{color:var(--text);border-color:rgba(255,255,255,0.2);}.rev-body{flex:1;overflow-y:auto;padding:20px 24px;}.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}.rev-card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;}.rev-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text3);}.rev-name{font-size:13px;font-weight:700;line-height:1.3;color:var(--text);word-break:break-word;}.rev-tags{display:flex;flex-wrap:wrap;gap:4px;}.rev-tag{font-size:9px;padding:2px 6px;border-radius:100px;background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid var(--card-border);}.rev-code-wrap{background:#0d1117;border-radius:8px;overflow:auto;max-height:180px;}.rev-code-wrap pre{margin:0!important;border-radius:0!important;}.rev-code-wrap code.hljs{font-size:10.5px!important;padding:10px 12px!important;line-height:1.5!important;}
+    .sp-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);}@keyframes spSlide{from{transform:translateX(100%)}to{transform:translateX(0)}}@keyframes spSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.sp-panel{position:fixed;top:0;right:0;bottom:0;width:340px;max-width:100vw;background:#0d0d20;border-left:1px solid var(--card-border);z-index:1001;display:flex;flex-direction:column;animation:spSlide .25s ease;}.sp-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--card-border);flex-shrink:0;}.sp-title{font-size:15px;font-weight:700;}.sp-close{background:transparent;border:1px solid var(--card-border);color:var(--text2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;}.sp-close:hover{color:var(--text);border-color:rgba(255,255,255,0.18);}.sp-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px;}.sp-sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:10px;}.sp-divider{height:1px;background:var(--card-border);}.toggle-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}.toggle-label{font-size:13px;color:var(--text);font-weight:500;line-height:1.3;}.toggle-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4;}.sw{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;margin-top:2px;}.sw input{opacity:0;width:0;height:0;position:absolute;}.sw-track{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:100px;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,0.12);}.sw-track::before{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;bottom:2px;left:2px;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,0.4);}.sw input:checked + .sw-track{background:#10b981;border-color:#10b981;}.sw input:checked + .sw-track::before{transform:translateX(20px);}.sec-list{display:flex;flex-direction:column;gap:6px;}.sec-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:9px;cursor:pointer;transition:border-color .2s;}.sec-item:hover{border-color:rgba(255,255,255,0.14);}.sec-item input[type="checkbox"]{width:16px;height:16px;accent-color:#10b981;cursor:pointer;flex-shrink:0;}.sec-item label{font-size:13px;color:var(--text2);cursor:pointer;flex:1;user-select:none;}.sp-save-btn{width:100%;padding:12px;background:#10b981;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit;margin-top:8px;}.sp-save-btn:hover{opacity:.85;}.theme-row{display:flex;align-items:center;background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:10px;padding:4px;gap:4px;}.theme-btn{flex:1;padding:8px;border-radius:7px;border:none;background:transparent;color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;}.theme-btn.active{background:rgba(255,255,255,0.1);color:var(--text);}
+    body.light-mode{--bg:#eef0f7;--card:rgba(255,255,255,0.9);--card-border:rgba(0,0,0,0.1);--text:#0f172a;--text2:#334155;--text3:#64748b;}body.light-mode .bg-anim .orb{opacity:.04;}body.light-mode .grid-bg{background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);}body.light-mode nav{background:rgba(238,240,247,0.92);}body.light-mode .modal-box{background:#fff;}body.light-mode .sp-panel{background:#fff;}body.light-mode .rev-overlay{background:rgba(238,240,247,0.97);}body.light-mode .sec-item{background:rgba(0,0,0,0.03);}body.light-mode .theme-row{background:rgba(0,0,0,0.04);}
+    body.hide-sec-problem .body-section[data-sec="problem"]{display:none;}body.hide-sec-code .body-section[data-sec="code"]{display:none;}body.hide-sec-io .body-section[data-sec="io"]{display:none;}body.hide-sec-complexity .body-section[data-sec="complexity"]{display:none;}body.hide-sec-topics .body-section[data-sec="topics"]{display:none;}body.hide-sec-concept .body-section[data-sec="concept"]{display:none;}
+    @media(max-width:700px){.nav-actions{gap:4px;}.nav-act-btn .btn-label{display:none;}.sp-panel{width:100%;border-left:none;border-top:1px solid var(--card-border);top:auto;border-radius:20px 20px 0 0;animation:spSlideUp .25s ease;}.rev-grid{grid-template-columns:repeat(2,1fr);}}@media(max-width:420px){.rev-grid{grid-template-columns:1fr;}.nav-act-btn{padding:6px 8px;}}
   </style>
 </head>
 <body>
@@ -215,6 +222,10 @@
             <span class="sep">›</span><a href="numbers_hub.html">Numbers</a>
             <span class="sep">›</span><span class="cur">Level 6</span>
           </div>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-act-btn" onclick="openRevision()">📋 <span class="btn-label">Revision</span></button>
+          <button class="nav-act-btn" onclick="openSettings()">⚙️ <span class="btn-label">Settings</span></button>
         </div>
         <span class="nav-pill">🩵 Advanced Math</span>
       </div>
@@ -288,6 +299,49 @@
     </div>
   </div>
 
+  <!-- REVISION SHEET -->
+  <div id="rev-overlay" class="rev-overlay" style="display:none">
+    <div class="rev-header">
+      <div><div class="rev-title">📋 Revision Sheet</div><div class="rev-subtitle">Key logic for every problem — great for interview prep</div></div>
+      <button class="rev-close" onclick="closeRevision()">✕</button>
+    </div>
+    <div class="rev-body"><div id="rev-grid" class="rev-grid"></div></div>
+  </div>
+  <!-- SETTINGS -->
+  <div id="sp-overlay" class="sp-overlay" style="display:none" onclick="closeSettings()"></div>
+  <div id="sp-panel" class="sp-panel" style="display:none">
+    <div class="sp-head"><span class="sp-title">⚙️ Settings</span><button class="sp-close" onclick="closeSettings()">✕</button></div>
+    <div class="sp-body">
+      <div>
+        <div class="sp-sec-title">Solution Reveal</div>
+        <div class="toggle-row">
+          <div><div class="toggle-label">Ask before peeking at solution</div><div class="toggle-hint">Shows a "have you tried?" prompt before expanding any answer</div></div>
+          <label class="sw"><input type="checkbox" id="sp-peek-toggle"><span class="sw-track"></span></label>
+        </div>
+      </div>
+      <div class="sp-divider"></div>
+      <div>
+        <div class="sp-sec-title">Visible Sections When Expanded</div>
+        <div class="sec-list">
+          <div class="sec-item"><input type="checkbox" id="sp-sec-problem"><label for="sp-sec-problem">📝 Problem Description</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-code"><label for="sp-sec-code">☕ Java Code</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-io"><label for="sp-sec-io">▶ Sample I/O</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-complexity"><label for="sp-sec-complexity">⏱ Complexity (Time &amp; Space)</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-topics"><label for="sp-sec-topics">🏷 Topics Covered</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-concept"><label for="sp-sec-concept">💡 Key Concept</label></div>
+        </div>
+        <button class="sp-save-btn" onclick="saveSettings()">✓ Save Preferences</button>
+      </div>
+      <div class="sp-divider"></div>
+      <div>
+        <div class="sp-sec-title">Theme</div>
+        <div class="theme-row">
+          <button class="theme-btn active" id="sp-theme-dark" onclick="setTheme('dark')">🌙 Dark</button>
+          <button class="theme-btn" id="sp-theme-light" onclick="setTheme('light')">☀️ Light</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
   <script>
@@ -1085,6 +1139,7 @@ SPF[97]  = 97
         </div>
       </div>`).join('');
     document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    applyDataSec();
     updateProgressUI();
   }
 
@@ -1169,5 +1224,20 @@ SPF[97]  = 97
 
   render();
   </script>
+
+<script>
+const JC_KEY='jc-settings';
+const JC_DEF={peekConfirm:true,sections:{problem:true,code:true,io:true,complexity:true,topics:true,concept:true},theme:'dark'};
+let jcS=(()=>{try{const s=JSON.parse(localStorage.getItem(JC_KEY)||'{}');return{...JC_DEF,...s,sections:{...JC_DEF.sections,...(s.sections||{})}};}catch{return{...JC_DEF};}})();
+function jcApply(s){document.body.classList.toggle('light-mode',s.theme==='light');['problem','code','io','complexity','topics','concept'].forEach(k=>document.body.classList.toggle('hide-sec-'+k,s.sections[k]===false));}
+function openSettings(){document.getElementById('sp-peek-toggle').checked=jcS.peekConfirm!==false;['problem','code','io','complexity','topics','concept'].forEach(k=>{const el=document.getElementById('sp-sec-'+k);if(el)el.checked=jcS.sections[k]!==false;});document.getElementById('sp-theme-dark').classList.toggle('active',jcS.theme!=='light');document.getElementById('sp-theme-light').classList.toggle('active',jcS.theme==='light');document.getElementById('sp-overlay').style.display='block';document.getElementById('sp-panel').style.display='flex';document.body.style.overflow='hidden';}
+function closeSettings(){document.getElementById('sp-overlay').style.display='none';document.getElementById('sp-panel').style.display='none';document.body.style.overflow='';}
+function setTheme(t){jcS.theme=t;document.body.classList.toggle('light-mode',t==='light');document.getElementById('sp-theme-dark').classList.toggle('active',t!=='light');document.getElementById('sp-theme-light').classList.toggle('active',t==='light');}
+function saveSettings(){jcS.peekConfirm=document.getElementById('sp-peek-toggle').checked;['problem','code','io','complexity','topics','concept'].forEach(k=>{const el=document.getElementById('sp-sec-'+k);if(el)jcS.sections[k]=el.checked;});localStorage.setItem(JC_KEY,JSON.stringify(jcS));jcApply(jcS);closeSettings();}
+function openRevision(){const grid=document.getElementById('rev-grid');const eh=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');grid.innerHTML=PROBLEMS.map(p=>`<div class="rev-card"><div class="rev-num">#${p.id}</div><div class="rev-name">${eh(p.title)}</div><div class="rev-tags">${(p.tags||[]).map(t=>`<span class="rev-tag">${eh(t)}</span>`).join('')}</div><div class="rev-code-wrap"><pre><code class="language-java">${eh(p.code||p.snippet||'')}</code></pre></div></div>`).join('');grid.querySelectorAll('code.language-java').forEach(el=>hljs.highlightElement(el));document.getElementById('rev-overlay').style.display='flex';document.body.style.overflow='hidden';}
+function closeRevision(){document.getElementById('rev-overlay').style.display='none';document.body.style.overflow='';}
+function applyDataSec(){const map={'Problem':'problem','Java Code':'code','Sample I/O':'io','Complexity':'complexity','Topics Covered':'topics','Key Concept':'concept'};document.querySelectorAll('.body-section').forEach(sec=>{const lbl=sec.querySelector('.body-label');if(!lbl)return;const txt=lbl.textContent.trim();const key=Object.keys(map).find(k=>txt.startsWith(k));if(key)sec.setAttribute('data-sec',map[key]);});}
+jcApply(jcS);
+</script>
 </body>
 </html>
