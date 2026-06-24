@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 9 – Interview & Trick Problems | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4; --green: #10b981;
+      --accent: #d97706; --accent-l: #fbbf24; --orange: #f97316;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569; --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 680px; height: 680px; background: var(--accent); top: -280px; right: -180px; }
+    .orb-2 { width: 450px; height: 450px; background: var(--purple); bottom: -80px; left: -120px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-35px,25px)} }
+    .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px; }
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--accent-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--accent-l); font-weight: 600; }
+    .nav-pill { background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: var(--accent-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-left { flex: 1; min-width: 0; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.28); color: var(--accent-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--accent-l), #fde68a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+    .prog-card { background: rgba(217,119,6,0.07); border: 1px solid rgba(217,119,6,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; flex-shrink: 0; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--accent-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-l)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2); color: var(--accent-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done { border-color: rgba(16,185,129,0.6); background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%); box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18); }
+    .pc.done::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%); z-index: 2; }
+    .pc.done:hover { border-color: rgba(16,185,129,0.82); background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%); box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 8px 44px rgba(16,185,129,0.34), 0 0 110px rgba(16,185,129,0.15), inset 0 0 50px rgba(16,185,129,0.08), inset 0 1px 0 rgba(52,211,153,0.25); transform: translateY(-2px); }
+    .pc.open { border-color: rgba(217,119,6,0.35); box-shadow: 0 8px 40px rgba(217,119,6,0.08); }
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 32px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2); color: var(--accent-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .try-btn { display:inline-flex; align-items:center; gap:5px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.28); color:var(--cyan); padding:5px 12px; border-radius:100px; font-size:11px; font-weight:600; text-decoration:none; transition:all .2s; white-space:nowrap; flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2); border-color:var(--cyan); transform:scale(1.03); }
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:9px; padding:10px 12px; }
+    .tc-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:7px; }
+    .tc-row { display:flex; gap:6px; font-size:11.5px; margin-bottom:3px; align-items:flex-start; }
+    .tc-key { color:var(--text3); min-width:50px; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+    .tc-val { color:var(--text2); font-family:'JetBrains Mono',monospace; white-space:pre-wrap; word-break:break-word; }
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 4500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--accent-l); color: var(--accent-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+    .concept-box { background: rgba(217,119,6,0.06); border: 1px solid rgba(217,119,6,0.18); border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(217,119,6,0.15); color: var(--accent-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+    .modal-overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-box { background:#0d0d20; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:32px 28px; max-width:420px; width:100%; box-shadow:0 32px 80px rgba(0,0,0,0.7); animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px; text-align:center; margin-bottom:12px; }
+    .modal-box h3 { font-size:19px; font-weight:800; text-align:center; margin-bottom:8px; }
+    .modal-question { font-size:14px; color:var(--text2); text-align:center; line-height:1.55; margin-bottom:20px; }
+    .modal-hint-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+    .modal-hint-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(217,119,6,0.12); border:1px solid rgba(217,119,6,0.25); color:var(--accent-l); font-size:11.5px; padding:4px 10px; border-radius:100px; }
+    .modal-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--accent),#92400e); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04); color:var(--text2); border:1px solid var(--card-border); padding:13px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4); color:#f87171; }
+    .btn-reset-confirm { background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-reset-confirm:hover { opacity:.85; }
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--accent-l); }
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; } .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; } .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; } .pc-body-inner { padding: 0 16px 20px; }
+    }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr} .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;} .pc-right{gap:8px;} .pc-head{gap:10px;}
+      .pc-num{min-width:26px;font-size:11px;} .check-btn{width:26px;height:26px;font-size:12px;} .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo"><div class="logo-ico">☕</div><span class="logo-txt">Java Core</span></a>
+          <div class="bc">
+            <span class="sep">›</span><a href="../index.html">Home</a>
+            <span class="sep">›</span><a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span><span class="cur">Level 9</span>
+          </div>
+        </div>
+        <span class="nav-pill">🏆 Final Level</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 9 of 9 · FINAL</div>
+          <h1>Interview &amp; <span class="grad">Trick Problems</span></h1>
+          <p>15 classic interview tricks — operate without operators, convert bases, reverse with overflow guards, number-to-words, Roman numerals, and more.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 15</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Overflow Guards</span>
+        <span class="ts-tag">Bit Arithmetic</span>
+        <span class="ts-tag">Base Conversion</span>
+        <span class="ts-tag">Roman Numerals</span>
+        <span class="ts-tag">Number to Words</span>
+        <span class="ts-tag">Unique Digits</span>
+        <span class="ts-tag">Palindromes</span>
+        <span class="ts-tag">Randomisation</span>
+      </div>
+    </section>
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer><div class="container"><p>Java Core Programs &nbsp;·&nbsp; Numbers Level 9 · FINAL &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p></div></footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this? These interview tricks reward lateral thinking — one more attempt!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
+    <div class="modal-box">
+      <div class="modal-emoji">⚠️</div>
+      <h3>Reset Progress?</h3>
+      <p class="modal-question">This will clear all <b>completed problems</b> for Level 9. This action <b>cannot be undone</b>.</p>
+      <div class="modal-btns">
+        <button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button>
+        <button class="btn-no" onclick="cancelReset()">↩ Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level9';
+
+  const PROBLEMS = [
+    {
+      id:141, title:"Reverse Integer with Overflow Check",
+      tags:["Math","Overflow","Interview"],
+      desc:"Reverse the digits of a 32-bit signed integer. If the reversed value <b>overflows</b> the int range [−2³¹, 2³¹−1], return 0.",
+      code:`public class ReverseInteger {
+    public static int reverse(int x) {
+        long rev = 0;
+        while (x != 0) {
+            rev = rev * 10 + x % 10;
+            x /= 10;
+        }
+        if (rev > Integer.MAX_VALUE || rev < Integer.MIN_VALUE) return 0;
+        return (int) rev;
+    }
+    public static void main(String[] args) {
+        int[] tests = {123, -456, 1200, 1534236469, -2147483648};
+        for (int n : tests)
+            System.out.printf("reverse(%12d) = %d%n", n, reverse(n));
+    }
+}`,
+      sampleIn:"123  /  -456  /  1200  /  1534236469 (overflow)  /  MIN_INT",
+      output:`reverse(         123) = 321
+reverse(        -456) = -654
+reverse(        1200) = 21
+reverse(  1534236469) = 0
+reverse( -2147483648) = 0`,
+      time:"O(log n)", space:"O(1)",
+      topics:["Use long to detect overflow before casting back to int","Remainder x%10 gives the last digit (works for negative in Java)","Trailing zeros vanish when reversed (1200 → 21)"],
+      concept:"Accumulate the reversed digits in a <code>long</code>. At each step: multiply rev by 10 and add the last digit of x (x%10), then divide x by 10. After the loop, check if the result fits in a 32-bit signed integer; if not, return 0. Using long avoids undefined overflow behavior that would occur with int arithmetic."
+    },
+    {
+      id:142, title:"Palindrome Number Without String Conversion",
+      tags:["Math","Palindrome","Interview"],
+      desc:"Determine if an integer is a <b>palindrome</b> without converting it to a string — by reversing only the second half of the number and comparing.",
+      code:`public class PalindromeNumber {
+    public static boolean isPalindrome(int x) {
+        if (x < 0) return false;               // negatives are never palindromes
+        if (x != 0 && x % 10 == 0) return false; // e.g. 10, 100 — trailing zero
+        int reversed = 0;
+        // Reverse the second half only — stop when reversed >= x
+        while (x > reversed) {
+            reversed = reversed * 10 + x % 10;
+            x /= 10;
+        }
+        // Even digits: x == reversed
+        // Odd digits:  x == reversed/10  (middle digit can be ignored)
+        return x == reversed || x == reversed / 10;
+    }
+    public static void main(String[] args) {
+        int[] tests = {121, -121, 10, 0, 1221, 12321, 12345, 1000021};
+        for (int n : tests)
+            System.out.printf("%8d -> %s%n", n,
+                isPalindrome(n) ? "Palindrome" : "Not Palindrome");
+    }
+}`,
+      sampleIn:"121, -121, 10, 0, 1221, 12321, 12345",
+      output:`     121 -> Palindrome
+    -121 -> Not Palindrome
+      10 -> Not Palindrome
+       0 -> Palindrome
+    1221 -> Palindrome
+   12321 -> Palindrome
+   12345 -> Not Palindrome
+ 1000021 -> Not Palindrome`,
+      time:"O(log n)", space:"O(1)",
+      topics:["Only reverse the SECOND half — stop when reversed >= x","Even digits: full match x == reversed","Odd digits: middle digit ignored → x == reversed/10"],
+      concept:"Reversing all digits risks overflow and uses O(log n) extra steps. Instead, reverse only the back half: peel digits from x and build reversed until reversed catches up to x. For 1221: peel 1→21, peel 2→122, now reversed(22)>x(12) — stop. x==reversed/10? 12==12 ✓. Elegant O(1) space and no string conversion needed."
+    },
+    {
+      id:143, title:"Divide Two Integers Without / Operator",
+      tags:["Bit Manipulation","Math","Overflow"],
+      desc:"Compute integer division <b>a ÷ b</b> without using <code>/</code>, <code>*</code>, or <code>%</code> operators — use bit shifts to double the divisor repeatedly.",
+      code:`public class DivideWithoutOperator {
+    public static int divide(int dividend, int divisor) {
+        // Only overflow case: MIN_VALUE / -1 exceeds MAX_VALUE
+        if (dividend == Integer.MIN_VALUE && divisor == -1)
+            return Integer.MAX_VALUE;
+        long a = Math.abs((long) dividend);
+        long b = Math.abs((long) divisor);
+        boolean neg = (dividend < 0) ^ (divisor < 0);
+        long result = 0;
+        while (a >= b) {
+            long temp = b, multiple = 1;
+            // Double temp until it would exceed a
+            while (a >= (temp << 1)) { temp <<= 1; multiple <<= 1; }
+            a -= temp;
+            result += multiple;
+        }
+        return neg ? (int) -result : (int) result;
+    }
+    public static void main(String[] args) {
+        System.out.println("10 / 3          = " + divide(10, 3));
+        System.out.println("7 / -2          = " + divide(7, -2));
+        System.out.println("-10 / 3         = " + divide(-10, 3));
+        System.out.println("MIN_INT / -1    = " + divide(Integer.MIN_VALUE, -1));
+        System.out.println("-2147483648 / 2 = " + divide(-2147483648, 2));
+    }
+}`,
+      sampleIn:"10÷3  /  7÷(−2)  /  MIN_INT÷(−1)",
+      output:`10 / 3          = 3
+7 / -2          = -3
+-10 / 3         = -3
+MIN_INT / -1    = 2147483647
+-2147483648 / 2 = -1073741824`,
+      time:"O(log² n)", space:"O(1)",
+      topics:["Double the divisor with <<1 until it would exceed the dividend","Subtract the largest fitting doubled value, add that multiple to result","Sign: XOR of dividend and divisor signs gives the result sign"],
+      concept:"At each outer iteration, find the largest power-of-2 multiple of b that fits in a. Do this by left-shifting b: 1b, 2b, 4b, 8b... until 2^k×b > a. Subtract 2^(k-1)×b from a and add 2^(k-1) to result. This is O(log n) per outer step and the outer loop runs O(log n) times → O(log² n) total. Handle MIN_VALUE÷(-1) separately — the true result (2^31) overflows int."
+    },
+    {
+      id:144, title:"Multiply Without * Operator",
+      tags:["Bit Manipulation","Russian Peasant","Shift"],
+      desc:"Multiply two integers <b>without using the * operator</b> — using the Russian Peasant (binary) multiplication: halve one factor, double the other, accumulate.",
+      code:`public class MultiplyWithout {
+    public static long multiply(long a, long b) {
+        if (a == 0 || b == 0) return 0;
+        boolean neg = (a < 0) ^ (b < 0);
+        a = Math.abs(a); b = Math.abs(b);
+        long result = 0;
+        while (b > 0) {
+            if ((b & 1) == 1) result += a; // if b is odd, add a to result
+            a <<= 1;   // double a
+            b >>= 1;   // halve b
+        }
+        return neg ? -result : result;
+    }
+    public static void main(String[] args) {
+        System.out.println("3 * 4     = " + multiply(3, 4));
+        System.out.println("-5 * 6    = " + multiply(-5, 6));
+        System.out.println("7 * 0     = " + multiply(7, 0));
+        System.out.println("123 * 456 = " + multiply(123, 456));
+        System.out.println("-9 * -8   = " + multiply(-9, -8));
+    }
+}`,
+      sampleIn:"3×4  /  −5×6  /  123×456",
+      output:`3 * 4     = 12
+-5 * 6    = -30
+7 * 0     = 0
+123 * 456 = 56088
+-9 * -8   = 72`,
+      time:"O(log b)", space:"O(1)",
+      topics:["If b is odd: add current a to result (bit contribution)","Left-shift a (doubles it), right-shift b (halves it)","Mirrors binary multiplication: each 1-bit of b adds a×2^k"],
+      concept:"Russian Peasant (binary) multiplication processes each bit of b. When bit k of b is 1, the contribution to the product is a×2^k — which is just a left-shifted by k positions. By doubling a and halving b each iteration, we naturally collect these contributions when b's bits are set. Same as how CPUs implement multiplication in hardware using an adder and shifter."
+    },
+    {
+      id:145, title:"Add Two Numbers Without + Operator",
+      tags:["Bit Manipulation","XOR","Carry"],
+      desc:"Add two integers <b>without using + or any arithmetic operator</b> — using XOR for the sum bits and AND+shift for the carry, iterating until carry is zero.",
+      code:`public class AddWithout {
+    public static int add(int a, int b) {
+        while (b != 0) {
+            int carry = (a & b) << 1;  // carry: bits that need to propagate
+            a = a ^ b;                  // partial sum: bits without carry
+            b = carry;                  // next round: add the carry
+        }
+        return a;
+    }
+    public static void main(String[] args) {
+        System.out.println("3 + 5     = " + add(3, 5));
+        System.out.println("-7 + 3    = " + add(-7, 3));
+        System.out.println("100 + 200 = " + add(100, 200));
+        System.out.println("-50 + -30 = " + add(-50, -30));
+        System.out.println("0 + 0     = " + add(0, 0));
+    }
+}`,
+      sampleIn:"3+5  /  −7+3  /  100+200  /  −50+(−30)",
+      output:`3 + 5     = 8
+-7 + 3    = -4
+100 + 200 = 300
+-50 + -30 = -80
+0 + 0     = 0`,
+      time:"O(1) for 32-bit ints", space:"O(1)",
+      topics:["a XOR b = sum bits without considering carry","(a AND b) << 1 = carry bits shifted into position","Repeat until carry is 0 — at most 32 iterations for int"],
+      concept:"This mirrors a hardware half-adder. <code>a XOR b</code> adds bits independently (0+0=0, 1+0=1, 0+1=1, 1+1=0 — just like XOR). <code>(a AND b) &lt;&lt; 1</code> finds where both bits are 1 (carry) and shifts left (propagates). Assign partial sum to a, carry to b, and repeat. Works for negatives because Java integers use two's complement — XOR and AND behave correctly for all 32 bits."
+    },
+    {
+      id:146, title:"Count Numbers with Unique Digits",
+      tags:["Math","Counting","Permutation"],
+      desc:"Count all numbers in [0, 10ⁿ) where <b>every digit is unique</b> — no repeated digits. Uses a counting formula based on available digit choices.",
+      code:`public class UniqueDigits {
+    public static int count(int n) {
+        if (n == 0) return 1;   // only 0
+        if (n > 10) n = 10;     // only 10 distinct digits exist
+        int result = 10;        // 1-digit: 0..9 all unique
+        int choices = 9;        // 2nd digit: can't repeat 1st (but 0 allowed)
+        int available = 9;      // 1st digit: 1..9 (9 options, no leading zero)
+        for (int i = 2; i <= n; i++) {
+            choices *= available;
+            result += choices;
+            available--;
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        System.out.println("n  range          count");
+        for (int n = 0; n <= 5; n++)
+            System.out.printf("%-3d[0, 10^%-2d)    %d%n", n, n, count(n));
+        // Breakdown for n=2
+        System.out.println("\nBreakdown for n=2:");
+        System.out.println("  1-digit (0-9)   : 10");
+        System.out.println("  2-digit unique  : 9 * 9 = 81  (1st: 1-9, 2nd: 0-9 except 1st)");
+        System.out.println("  Total           : 91");
+    }
+}`,
+      sampleIn:"n=0,1,2,3,4,5",
+      output:`n  range          count
+0  [0, 10^0 )    1
+1  [0, 10^1 )    10
+2  [0, 10^2 )    91
+3  [0, 10^3 )    739
+4  [0, 10^4 )    5275
+5  [0, 10^5 )    32491
+
+Breakdown for n=2:
+  1-digit (0-9)   : 10
+  2-digit unique  : 9 * 9 = 81  (1st: 1-9, 2nd: 0-9 except 1st)
+  Total           : 91`,
+      time:"O(n)", space:"O(1)",
+      topics:["k-digit unique numbers: 9 × 9 × 8 × 7 × ... × (11-k)","First digit has 9 choices (1-9, no leading zero)","Remaining digits each have one fewer choice"],
+      concept:"For k-digit numbers with unique digits: the first digit has 9 choices (1–9), the second has 9 (0–9 minus the first), the third has 8, etc. So count(k) = 9 × 9 × 8 × 7 × ... × (11-k). Sum from k=1 to n and add 1 for the number 0. The formula caps at n=10 since there are only 10 distinct digits (0–9). count(10) = 8,877,690."
+    },
+    {
+      id:147, title:"Count Palindromic Numbers in a Range",
+      tags:["Palindrome","Counting","Math"],
+      desc:"Count all <b>palindromic integers</b> in the range [L, R] — numbers that read the same forwards and backwards.",
+      code:`public class PalindromeInRange {
+    public static boolean isPalindrome(int n) {
+        if (n < 0) return false;
+        int original = n, rev = 0;
+        while (n > 0) { rev = rev * 10 + n % 10; n /= 10; }
+        return original == rev;
+    }
+    public static int count(int l, int r) {
+        int c = 0;
+        for (int i = l; i <= r; i++) if (isPalindrome(i)) c++;
+        return c;
+    }
+    public static void main(String[] args) {
+        System.out.println("Palindromes in [1, 100]  : " + count(1, 100));
+        System.out.println("Palindromes in [1, 1000] : " + count(1, 1000));
+        System.out.print("Palindromes in [100,200]: ");
+        for (int i = 100; i <= 200; i++) if (isPalindrome(i)) System.out.print(i + " ");
+        System.out.println("\nCount in [100, 200]      : " + count(100, 200));
+        System.out.println("\nFun fact — structure:");
+        System.out.println("  1-digit (1-9)   : 9 palindromes");
+        System.out.println("  2-digit (11,22..99): 9 palindromes");
+        System.out.println("  3-digit (101..999): 90 palindromes (first+last fixed, middle free)");
+    }
+}`,
+      sampleIn:"[1,100]  /  [1,1000]  /  [100,200]",
+      output:`Palindromes in [1, 100]  : 18
+Palindromes in [1, 1000] : 108
+Palindromes in [100,200]: 101 111 121 131 141 151 161 171 181 191
+Count in [100, 200]      : 10
+
+Fun fact — structure:
+  1-digit (1-9)   : 9 palindromes
+  2-digit (11,22..99): 9 palindromes
+  3-digit (101..999): 90 palindromes (first+last fixed, middle free)`,
+      time:"O((R-L) × log n)", space:"O(1)",
+      topics:["1-digit: 9, 2-digit: 9, 3-digit: 90, 4-digit: 90, 5-digit: 900","k-digit palindromes: 9 × 10^(⌊k/2⌋-1) for k≥2","For a range, brute-force is fine up to ~10^6; beyond that use DP"],
+      concept:"A d-digit palindrome is determined by its first ⌈d/2⌉ digits. The first digit has 9 choices (1–9), each subsequent half-digit has 10 — giving 9×10^(⌊d/2⌋-1) palindromes per digit length. For ranges up to ~10^6, brute-force with isPalindrome() is practical. For large ranges (up to 10^18), use digit-DP to count without enumeration."
+    },
+    {
+      id:148, title:"Generate Random Number in a Given Range",
+      tags:["Random","Probability","Simulation"],
+      desc:"Generate uniformly distributed <b>random integers in [min, max]</b> and verify the distribution is even — a common interview question about randomness.",
+      code:`import java.util.Random;
+
+public class RandomInRange {
+    // Formula: min + (int)(Math.random() * (max - min + 1))
+    public static int randomMath(int min, int max) {
+        return min + (int)(Math.random() * (max - min + 1));
+    }
+    // Using java.util.Random
+    public static int randomClass(int min, int max, Random r) {
+        return r.nextInt(max - min + 1) + min;
+    }
+    public static void main(String[] args) {
+        System.out.println("5 random numbers in [1, 10] via Math.random():");
+        Random seed = new Random(42);
+        for (int i = 0; i < 5; i++)
+            System.out.print(randomClass(1, 10, seed) + " ");
+        System.out.println("\n\nDistribution — 60000 dice rolls [1,6]:");
+        int[] freq = new int[7];
+        Random dice = new Random(0);
+        for (int i = 0; i < 60000; i++) freq[randomClass(1, 6, dice)]++;
+        for (int f = 1; f <= 6; f++)
+            System.out.printf("  Face %d: %5d  (%.2f%%)%n", f, freq[f], freq[f]/600.0);
+        System.out.println("\nWhy (max-min+1)? — Example: random in [3,5]");
+        System.out.println("  Math.random() in [0,1) -> *3 -> [0,3) -> +3 -> [3,6)");
+        System.out.println("  (int) truncates to {3,4,5} — exactly 3 values. ✓");
+    }
+}`,
+      sampleIn:"[1,10] 5 samples  /  [1,6] 60000 rolls distribution",
+      output:`5 random numbers in [1, 10] via Math.random():
+1 5 3 10 10
+
+Distribution — 60000 dice rolls [1,6]:
+  Face 1:  9999  (16.67%)
+  Face 2: 10017  (16.70%)
+  Face 3:  9985  (16.64%)
+  Face 4: 10072  (16.79%)
+  Face 5:  9928  (16.55%)
+  Face 6:  9999  (16.67%)
+
+Why (max-min+1)? — Example: random in [3,5]
+  Math.random() in [0,1) -> *3 -> [0,3) -> +3 -> [3,6)
+  (int) truncates to {3,4,5} — exactly 3 values. ✓`,
+      time:"O(1)", space:"O(1)",
+      topics:["Math.random() gives [0,1) → scale to (max-min+1) values","+1 in the range is critical — without it, max is never reachable","Use Random(seed) for reproducible output; ThreadLocalRandom for concurrency"],
+      concept:"<code>Math.random()</code> returns a double in [0.0, 1.0). Multiplying by (max-min+1) scales to [0, max-min+1), then casting to int gives values 0..max-min, and adding min shifts to [min..max]. The +1 is critical: without it the formula gives [min..max-1]. For cryptographic randomness, use <code>SecureRandom</code>. Distribution test confirms each face gets ~16.67% of rolls."
+    },
+    {
+      id:149, title:"Convert Number to English Words",
+      tags:["String","Recursion","Interview Classic"],
+      desc:"Convert an integer to its <b>English word representation</b> — e.g. 12345 → 'Twelve Thousand Three Hundred Forty Five'. A classic interview problem.",
+      code:`public class NumberToWords {
+    private static final String[] ONES = {
+        "","One","Two","Three","Four","Five","Six","Seven","Eight","Nine",
+        "Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen",
+        "Sixteen","Seventeen","Eighteen","Nineteen"
+    };
+    private static final String[] TENS = {
+        "","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"
+    };
+    private static String chunk(int n) {
+        if (n == 0) return "";
+        if (n < 20) return ONES[n] + " ";
+        if (n < 100) return TENS[n/10] + " " + chunk(n % 10);
+        return ONES[n/100] + " Hundred " + chunk(n % 100);
+    }
+    public static String toWords(int n) {
+        if (n == 0) return "Zero";
+        if (n < 0)  return "Negative " + toWords(-n);
+        String[] groups = {"","Thousand ","Million ","Billion "};
+        String result = "";
+        int g = 0;
+        while (n > 0) {
+            if (n % 1000 != 0)
+                result = chunk(n % 1000) + groups[g] + result;
+            n /= 1000; g++;
+        }
+        return result.trim();
+    }
+    public static void main(String[] args) {
+        int[] tests = {0, 13, 100, 1000, 12345, 1000000, 1000000000};
+        for (int n : tests)
+            System.out.printf("%11d -> %s%n", n, toWords(n));
+    }
+}`,
+      sampleIn:"0, 13, 100, 1000, 12345, 1000000, 1000000000",
+      output:`          0 -> Zero
+         13 -> Thirteen
+        100 -> One Hundred
+       1000 -> One Thousand
+      12345 -> Twelve Thousand Three Hundred Forty Five
+    1000000 -> One Million
+ 1000000000 -> One Billion`,
+      time:"O(log n)", space:"O(log n)",
+      topics:["Process number in groups of 3 digits (chunk by 1000)","chunk(n): handles 0-19, 20-99, 100-999 via recursion","Append Thousand/Million/Billion group suffix only if chunk is non-zero"],
+      concept:"Split the number into 3-digit groups (ones, thousands, millions, billions). Each group is converted by <code>chunk(n)</code> which recursively handles 0–19 (ones/teens array), 20–99 (tens + recursive ones), and 100–999 (hundreds + recursive). Prepend the group label (Thousand, Million, Billion) only for non-zero groups. Edge: trailing spaces need trimming."
+    },
+    {
+      id:150, title:"Roman Numeral Conversion (Both Ways)",
+      tags:["String","Greedy","Interview Classic"],
+      desc:"Convert <b>integers to Roman numerals</b> and back — using a greedy value-table descent for int→Roman and a sign-check scan for Roman→int.",
+      code:`import java.util.*;
+
+public class RomanNumbers {
+    static final int[]    VALS = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+    static final String[] SYMS = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+
+    public static String toRoman(int num) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < VALS.length; i++)
+            while (num >= VALS[i]) { sb.append(SYMS[i]); num -= VALS[i]; }
+        return sb.toString();
+    }
+    public static int fromRoman(String s) {
+        Map<Character,Integer> m = new HashMap<>();
+        m.put('I',1); m.put('V',5); m.put('X',10); m.put('L',50);
+        m.put('C',100); m.put('D',500); m.put('M',1000);
+        int result = 0, prev = 0;
+        for (int i = s.length()-1; i >= 0; i--) {
+            int curr = m.get(s.charAt(i));
+            result += (curr < prev) ? -curr : curr;
+            prev = curr;
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        int[] nums = {1, 4, 9, 14, 58, 1994, 3999};
+        for (int n : nums) {
+            String r = toRoman(n);
+            System.out.printf("%4d -> %-12s -> back: %d%n", n, r, fromRoman(r));
+        }
+    }
+}`,
+      sampleIn:"1, 4, 9, 14, 58, 1994, 3999",
+      output:`   1 -> I            -> back: 1
+   4 -> IV           -> back: 4
+   9 -> IX           -> back: 9
+  14 -> XIV          -> back: 14
+  58 -> LVIII        -> back: 58
+1994 -> MCMXCIV     -> back: 1994
+3999 -> MMMCMXCIX   -> back: 3999`,
+      time:"O(1) — max value 3999, bounded", space:"O(1)",
+      topics:["int→Roman: greedy — subtract largest fitting symbol, append, repeat","Roman→int: scan right-to-left, subtract if curr < prev (subtractive rule)","Subtractive pairs (IV=4, IX=9, XL=40...) are explicit table entries"],
+      concept:"Int→Roman: greedily subtract the largest value that fits, appending its symbol — including the subtractive pairs (CM, CD, XL, etc.) as explicit entries so no special-case logic is needed. Roman→int: scan right-to-left. If the current symbol's value is less than the previous seen, it's a subtractive position (e.g. I in IV) — subtract instead of add."
+    },
+    {
+      id:151, title:"Convert Decimal to Binary",
+      tags:["Base Conversion","Binary","Bit Shifting"],
+      desc:"Convert a decimal integer to its <b>binary representation</b> manually (repeated division by 2) and using built-in Java methods.",
+      code:`public class DecimalToBinary {
+    public static String toBinary(int n) {
+        if (n == 0) return "0";
+        boolean neg = n < 0;
+        long num = Math.abs((long) n);
+        StringBuilder sb = new StringBuilder();
+        while (num > 0) { sb.append(num % 2); num /= 2; }
+        if (neg) sb.append("-");
+        return sb.reverse().toString();
+    }
+    public static void main(String[] args) {
+        int[] tests = {0, 1, 5, 10, 42, 255, 1023};
+        System.out.printf("%-6s  %-15s  %s%n", "n", "manual", "Integer.toBinaryString");
+        for (int n : tests)
+            System.out.printf("%-6d  %-15s  %s%n",
+                n, toBinary(n), Integer.toBinaryString(n));
+        System.out.println("\nUsing bit shifts (for positive n):");
+        int n = 42;
+        System.out.print(n + " in binary: ");
+        for (int i = 31; i >= 0; i--)
+            if ((n >> i & 1) == 1 || i < 6)
+                System.out.print((n >> i) & 1);
+        System.out.println(" (= " + Integer.toBinaryString(n) + ")");
+    }
+}`,
+      sampleIn:"0, 1, 5, 10, 42, 255, 1023",
+      output:`n       manual           Integer.toBinaryString
+0       0                0
+1       1                1
+5       101              101
+10      1010             1010
+42      101010           101010
+255     11111111         11111111
+1023    1111111111       1111111111
+
+Using bit shifts (for positive n):
+42 in binary: 101010 (= 101010)`,
+      time:"O(log n)", space:"O(log n)",
+      topics:["Divide by 2, collect remainders right-to-left","Reverse the remainder string to get MSB first","Integer.toBinaryString() is Java built-in (no leading zeros)"],
+      concept:"The manual algorithm divides n repeatedly by 2; the remainders (0 or 1) form the binary digits from LSB to MSB — reverse to get the final string. The bit-shift method extracts bit k via <code>(n >> k) & 1</code>. Note: <code>Integer.toBinaryString(n)</code> shows the two's complement pattern for negative n (all 32 bits), while the manual approach shows sign-magnitude."
+    },
+    {
+      id:152, title:"Convert Binary to Decimal",
+      tags:["Base Conversion","Binary","Parsing"],
+      desc:"Parse a <b>binary string to a decimal integer</b> manually (Horner's method) and verify against Java's built-in parser.",
+      code:`public class BinaryToDecimal {
+    public static long toDecimal(String binary) {
+        long result = 0;
+        for (char c : binary.toCharArray()) {
+            if (c != '0' && c != '1') throw new IllegalArgumentException("Not binary: " + c);
+            result = result * 2 + (c - '0');
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        String[] tests = {"0","1","101","1010","101010","11111111","1111111111"};
+        System.out.printf("%-14s  %-10s  %s%n", "binary", "manual", "Integer.parseInt");
+        for (String b : tests)
+            System.out.printf("%-14s  %-10d  %d%n",
+                b, toDecimal(b), Integer.parseInt(b, 2));
+        // Visual: 101010 broken down
+        System.out.println("\n101010 = 1×2^5 + 0×2^4 + 1×2^3 + 0×2^2 + 1×2^1 + 0×2^0");
+        System.out.println("       = 32 + 0 + 8 + 0 + 2 + 0 = 42");
+    }
+}`,
+      sampleIn:"'101'  /  '101010'  /  '11111111'",
+      output:`binary          manual      Integer.parseInt
+0               0           0
+1               1           1
+101             5           5
+1010            10          10
+101010          42          42
+11111111        255         255
+1111111111      1023        1023
+
+101010 = 1×2^5 + 0×2^4 + 1×2^3 + 0×2^2 + 1×2^1 + 0×2^0
+       = 32 + 0 + 8 + 0 + 2 + 0 = 42`,
+      time:"O(d)  d = number of digits", space:"O(1)",
+      topics:["Horner's method: result = result×2 + current_bit","Same as evaluating a polynomial at x=2","Integer.parseInt(s, 2) is the built-in one-liner"],
+      concept:"Horner's method evaluates the polynomial <code>b_n×2^n + ... + b_1×2 + b_0</code> efficiently: start with 0, then for each bit from left to right: <code>result = result×2 + bit</code>. This avoids computing powers of 2 explicitly. The built-in <code>Integer.parseInt(s, 2)</code> does exactly this internally."
+    },
+    {
+      id:153, title:"Convert Decimal to Octal",
+      tags:["Base Conversion","Octal","Modulo"],
+      desc:"Convert a decimal integer to <b>octal (base 8)</b> by repeated division by 8, and compare with Java's built-in method.",
+      code:`public class DecimalToOctal {
+    public static String toOctal(int n) {
+        if (n == 0) return "0";
+        boolean neg = n < 0;
+        long num = Math.abs((long) n);
+        StringBuilder sb = new StringBuilder();
+        while (num > 0) { sb.append(num % 8); num /= 8; }
+        if (neg) sb.append("-");
+        return sb.reverse().toString();
+    }
+    public static void main(String[] args) {
+        int[] tests = {0, 8, 64, 255, 512, 1023, 4096};
+        System.out.printf("%-6s  %-10s  %s%n", "dec", "manual", "Integer.toOctalString");
+        for (int n : tests)
+            System.out.printf("%-6d  %-10s  %s%n",
+                n, toOctal(n), Integer.toOctalString(n));
+        System.out.println("\nOctal quick reference:");
+        System.out.println("  8 = 1×8^1 + 0×8^0  = 10₈");
+        System.out.println("  64 = 1×8^2          = 100₈");
+        System.out.println("  255 = 3×64+7×8+7    = 377₈");
+    }
+}`,
+      sampleIn:"0, 8, 64, 255, 512, 1023, 4096",
+      output:`dec     manual      Integer.toOctalString
+0       0           0
+8       10          10
+64      100         100
+255     377         377
+512     1000        1000
+1023    1777        1777
+4096    10000       10000
+
+Octal quick reference:
+  8 = 1×8^1 + 0×8^0  = 10₈
+  64 = 1×8^2          = 100₈
+  255 = 3×64+7×8+7    = 377₈`,
+      time:"O(log n)", space:"O(log n)",
+      topics:["Same division algorithm as binary but divide by 8","Each octal digit uses 3 binary bits (oct digit 0-7)","Binary 101010 (42) = octal 52 (5=101, 2=010)"],
+      concept:"Same repeated-division algorithm as binary, but divide by 8 and take remainders 0–7. Each octal digit encodes exactly 3 binary bits — making octal a natural shorthand for binary on older systems. Key relationships: 8 = 10₈, 64 = 100₈, 512 = 1000₈ (powers of 8 always end in a 1 followed by zeros in octal, just like powers of 10 in decimal)."
+    },
+    {
+      id:154, title:"Convert Decimal to Hexadecimal",
+      tags:["Base Conversion","Hexadecimal","Two's Complement"],
+      desc:"Convert a decimal integer to <b>hexadecimal (base 16)</b> — handling negative numbers via two's complement representation.",
+      code:`public class DecimalToHex {
+    static final char[] HEX = "0123456789ABCDEF".toCharArray();
+    public static String toHex(int n) {
+        if (n == 0) return "0";
+        // Negative: show 32-bit two's complement (same as Integer.toHexString)
+        long num = n < 0 ? (long) n + (1L << 32) : n;
+        StringBuilder sb = new StringBuilder();
+        while (num > 0) { sb.append(HEX[(int)(num % 16)]); num /= 16; }
+        return sb.reverse().toString();
+    }
+    public static void main(String[] args) {
+        int[] tests = {0, 10, 15, 16, 255, 256, 65535, -1, -16};
+        System.out.printf("%-8s  %-12s  %s%n", "dec", "manual", "toHexString().upper");
+        for (int n : tests)
+            System.out.printf("%-8d  %-12s  %s%n",
+                n, toHex(n), Integer.toHexString(n).toUpperCase());
+        System.out.println("\nHex digit map: 10=A 11=B 12=C 13=D 14=E 15=F");
+        System.out.println("-1 in hex = FFFFFFFF  (all 32 bits set in two's complement)");
+    }
+}`,
+      sampleIn:"0, 10, 15, 255, 65535, -1, -16",
+      output:`dec       manual        toHexString().upper
+0         0             0
+10        A             A
+15        F             F
+16        10            10
+255       FF            FF
+256       100           100
+65535     FFFF          FFFF
+-1        FFFFFFFF      FFFFFFFF
+-16       FFFFFFF0      FFFFFFF0
+
+Hex digit map: 10=A 11=B 12=C 13=D 14=E 15=F
+-1 in hex = FFFFFFFF  (all 32 bits set in two's complement)`,
+      time:"O(log n)", space:"O(log n)",
+      topics:["Each hex digit encodes 4 binary bits (nibble)","Negative: add 2^32 to convert to unsigned before dividing","255=FF, 65535=FFFF, -1=FFFFFFFF — memorise these!"],
+      concept:"Hex digits 0–9 map to 0–9, and A–F map to 10–15. Each digit represents 4 binary bits (a nibble). For negative numbers, Java's <code>Integer.toHexString()</code> shows the 32-bit two's complement pattern — e.g. -1 is FFFFFFFF (all 32 bits set). Our manual version replicates this by adding 2^32 to convert a negative int to its unsigned 32-bit equivalent before applying the division algorithm."
+    },
+    {
+      id:155, title:"Base Conversion Between Any Two Bases",
+      tags:["Base Conversion","Radix","String Parsing"],
+      desc:"Convert a number <b>from any base to any other base</b> (2 to 36) — by first decoding to decimal via Horner's method, then encoding to the target base.",
+      code:`public class BaseConversion {
+    static final String DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    // Decode string from srcBase to decimal (long)
+    public static long toDecimal(String n, int srcBase) {
+        long result = 0;
+        for (char c : n.toUpperCase().toCharArray())
+            result = result * srcBase + DIGITS.indexOf(c);
+        return result;
+    }
+    // Encode decimal (long) to dstBase string
+    public static String fromDecimal(long n, int dstBase) {
+        if (n == 0) return "0";
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) { sb.append(DIGITS.charAt((int)(n % dstBase))); n /= dstBase; }
+        return sb.reverse().toString();
+    }
+    public static String convert(String num, int from, int to) {
+        return fromDecimal(toDecimal(num, from), to);
+    }
+    public static void main(String[] args) {
+        System.out.println("Binary -> Hex   : 1010  (b2) = " + convert("1010",  2, 16));
+        System.out.println("Hex -> Binary   : FF    (b16)= " + convert("FF",   16,  2));
+        System.out.println("Octal -> Dec    : 17    (b8) = " + convert("17",    8, 10));
+        System.out.println("Dec -> Base 7   : 100   (b10)= " + convert("100",  10,  7));
+        System.out.println("Dec -> Base 36  : 255   (b10)= " + convert("255",  10, 36));
+        System.out.println("Hex -> Octal    : 1F    (b16)= " + convert("1F",   16,  8));
+        System.out.println("Base5 -> Base3  : 20    (b5) = " + convert("20",    5,  3));
+    }
+}`,
+      sampleIn:"'FF' base16→2  /  '17' base8→10  /  '255' base10→36",
+      output:`Binary -> Hex   : 1010  (b2) = A
+Hex -> Binary   : FF    (b16)= 11111111
+Octal -> Dec    : 17    (b8) = 15
+Dec -> Base 7   : 100   (b10)= 202
+Dec -> Base 36  : 255   (b10)= 73
+Hex -> Octal    : 1F    (b16)= 37
+Base5 -> Base3  : 20    (b5) = 101`,
+      time:"O(d × log_dst(n))", space:"O(log n)",
+      topics:["Step 1: Horner's method decodes any base to decimal","Step 2: repeated division by dstBase encodes decimal to target","Supports bases 2–36 using the DIGITS string '0-9A-Z'"],
+      concept:"Any base conversion goes through decimal as an intermediate step. <b>Decoding</b> uses Horner's method: <code>result = result × srcBase + digit_value</code> for each character. <b>Encoding</b> uses repeated division: take remainders modulo dstBase, map via the DIGITS string, reverse. Supports bases up to 36 (0–9 then A–Z). Verify: '1F'₁₆ = 31₁₀ = 37₈ (3×8+7=31 ✓)."
+    }
+  ];
+
+  const TESTCASES = {
+    141:[{in:"n = 123",out:"321"},{in:"n = 1534236469",out:"0  (reversed 9646324351 > MAX_INT)"}],
+    142:[{in:"n = 121",out:"Palindrome"},{in:"n = -121  or  10",out:"Not Palindrome"}],
+    143:[{in:"10 ÷ 3",out:"3"},{in:"MIN_INT ÷ -1",out:"2147483647  (overflow clamped to MAX_INT)"}],
+    144:[{in:"3 × 4",out:"12  via Russian Peasant (shift + add)"},{in:"123 × 456",out:"56088"}],
+    145:[{in:"3 + 5",out:"8  (XOR=6, carry=4→8, carry=0)"},{in:"-50 + -30",out:"-80"}],
+    146:[{in:"n = 2",out:"91  (10 one-digit + 81 two-digit)"},{in:"n = 3",out:"739  (+648 three-digit: 9×9×8)"}],
+    147:[{in:"range [1, 100]",out:"18  (9 one-digit + 9 two-digit)"},{in:"range [100, 200]",out:"10  (101,111,121,...191)"}],
+    148:[{in:"random in [1, 6] × 60000",out:"each face ≈ 16.67% (uniform)"},{in:"formula: min + rand(max-min+1)",out:"guarantees max is reachable"}],
+    149:[{in:"n = 12345",out:"Twelve Thousand Three Hundred Forty Five"},{in:"n = 1000000",out:"One Million"}],
+    150:[{in:"1994 → Roman",out:"MCMXCIV"},{in:"'MCMXCIV' → int",out:"1994"}],
+    151:[{in:"n = 42",out:"binary: 101010"},{in:"n = 255",out:"binary: 11111111"}],
+    152:[{in:"'101010' binary",out:"42 decimal"},{in:"'11111111' binary",out:"255 decimal"}],
+    153:[{in:"n = 255",out:"octal: 377  (3×64+7×8+7)"},{in:"n = 512",out:"octal: 1000  (8^3)"}],
+    154:[{in:"n = 255",out:"hex: FF"},{in:"n = -1",out:"hex: FFFFFFFF  (32-bit two's complement)"}],
+    155:[{in:"'FF' base16 → base2",out:"11111111"},{in:"'100' base10 → base7",out:"202  (2×49+0×7+2=100 ✓)"}]
+  };
+
+  let openId = null, pendingId = null;
+  const completed = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render() {
+    document.getElementById('problems-list').innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id)?'done':''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id)?'checked':''}" onclick="markDone(event,${p.id})" title="${completed.has(p.id)?'Mark incomplete':'Mark as done'}">${completed.has(p.id)?'✓':'○'}</button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button></div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp"><div class="io-box-label">▶ TEST INPUTS</div><div class="io-val">${escHtml(p.sampleIn)}</div></div>
+                <div class="io-box io-out"><div class="io-box-label">◀ OUTPUT</div><div class="io-val">${escHtml(p.output)}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box"><div class="cx-label">TIME</div><div class="cx-val cx-time">${p.time}</div></div>
+                <div class="cx-box"><div class="cx-label">SPACE</div><div class="cx-val cx-space">${p.space}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t=>`<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t=>`<span class="modal-hint-tag">${t}</span>`).join('');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    completed.has(id) ? completed.delete(id) : completed.add(id);
+    saveProgress(); render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target; btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('reset-modal').style.display = 'flex';
+  }
+  function confirmReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    completed.clear(); saveProgress(); openId = null; render();
+  }
+  function cancelReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed])); }
+
+  function updateProgressUI() {
+    const done = completed.size;
+    document.getElementById('prog-done').textContent = done;
+    const pct = PROBLEMS.length ? Math.round(done / PROBLEMS.length * 100) : 0;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  render();
+  </script>
+</body>
+</html>

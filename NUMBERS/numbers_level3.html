@@ -195,6 +195,8 @@
     .btn-yes:hover { opacity:.85; }
     .btn-no { background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--card-border);padding:13px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit; }
     .btn-no:hover { border-color:rgba(239,68,68,.4);color:#f87171; }
+    .btn-reset-confirm { background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit; }
+    .btn-reset-confirm:hover { opacity:.85; }
     @media(max-width:480px){
       .tc-grid{grid-template-columns:1fr}
       .modal-btns{grid-template-columns:1fr}
@@ -283,6 +285,18 @@
       <div class="modal-btns">
         <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
         <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
+    <div class="modal-box">
+      <div class="modal-emoji">⚠️</div>
+      <h3>Reset Progress?</h3>
+      <p class="modal-question">This will clear all <b>completed problems</b> for Level 3. This action <b>cannot be undone</b>.</p>
+      <div class="modal-btns">
+        <button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button>
+        <button class="btn-no" onclick="cancelReset()">↩ Cancel</button>
       </div>
     </div>
   </div>
@@ -1325,16 +1339,19 @@ public class EvilNumber {
     pendingId = id;
     const p = PROBLEMS.find(x => x.id === id);
     document.getElementById('modal-tags').innerHTML = p.tags.map(t => `<span class="modal-hint-tag">${t}</span>`).join('');
+    document.body.style.overflow = 'hidden';
     document.getElementById('confirm-modal').style.display = 'flex';
   }
 
   function confirmYes() {
     document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
     if (pendingId !== null) { toggle(pendingId); pendingId = null; }
   }
 
   function confirmNo() {
     document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
     pendingId = null;
   }
 
@@ -1358,8 +1375,17 @@ public class EvilNumber {
   }
 
   function resetProgress() {
-    if (!confirm('Reset all progress for Level 3?')) return;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('reset-modal').style.display = 'flex';
+  }
+  function confirmReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
     completed.clear(); saveProgress(); openId = null; render();
+  }
+  function cancelReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
   }
 
   function escHtml(s) {

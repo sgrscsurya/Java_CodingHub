@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 7 – Competitive Programming | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4; --green: #10b981;
+      --accent: #f43f5e; --accent-l: #fb7185; --orange: #f97316;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569; --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 680px; height: 680px; background: var(--accent); top: -280px; right: -180px; }
+    .orb-2 { width: 450px; height: 450px; background: var(--purple); bottom: -80px; left: -120px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-35px,25px)} }
+    .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px; }
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--accent-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--accent-l); font-weight: 600; }
+    .nav-pill { background: rgba(244,63,94,0.12); border: 1px solid rgba(244,63,94,0.3); color: var(--accent-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.28); color: var(--accent-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--accent-l), #fda4af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+    .prog-card { background: rgba(244,63,94,0.07); border: 1px solid rgba(244,63,94,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--accent-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-l)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.2); color: var(--accent-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done { border-color: rgba(16,185,129,0.6); background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%); box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18); }
+    .pc.done::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%); z-index: 2; }
+    .pc.done:hover { border-color: rgba(16,185,129,0.82); background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%); box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 8px 44px rgba(16,185,129,0.34), 0 0 110px rgba(16,185,129,0.15), inset 0 0 50px rgba(16,185,129,0.08), inset 0 1px 0 rgba(52,211,153,0.25); transform: translateY(-2px); }
+    .pc.open { border-color: rgba(244,63,94,0.35); box-shadow: 0 8px 40px rgba(244,63,94,0.08); }
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 32px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.2); color: var(--accent-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .try-btn { display:inline-flex; align-items:center; gap:5px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.28); color:var(--cyan); padding:5px 12px; border-radius:100px; font-size:11px; font-weight:600; text-decoration:none; transition:all .2s; white-space:nowrap; flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2); border-color:var(--cyan); transform:scale(1.03); }
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:9px; padding:10px 12px; }
+    .tc-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:7px; }
+    .tc-row { display:flex; gap:6px; font-size:11.5px; margin-bottom:3px; align-items:flex-start; }
+    .tc-key { color:var(--text3); min-width:50px; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+    .tc-val { color:var(--text2); font-family:'JetBrains Mono',monospace; white-space:pre-wrap; word-break:break-word; }
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 4500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--accent-l); color: var(--accent-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+    .concept-box { background: rgba(244,63,94,0.06); border: 1px solid rgba(244,63,94,0.18); border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(244,63,94,0.15); color: var(--accent-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+    .modal-overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-box { background:#0d0d20; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:32px 28px; max-width:420px; width:100%; box-shadow:0 32px 80px rgba(0,0,0,0.7); animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px; text-align:center; margin-bottom:12px; }
+    .modal-box h3 { font-size:19px; font-weight:800; text-align:center; margin-bottom:8px; }
+    .modal-question { font-size:14px; color:var(--text2); text-align:center; line-height:1.55; margin-bottom:20px; }
+    .modal-hint-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+    .modal-hint-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(244,63,94,0.12); border:1px solid rgba(244,63,94,0.25); color:var(--accent-l); font-size:11.5px; padding:4px 10px; border-radius:100px; }
+    .modal-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--accent),#be123c); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04); color:var(--text2); border:1px solid var(--card-border); padding:13px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4); color:#f87171; }
+    .btn-reset-confirm { background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit; }
+    .btn-reset-confirm:hover { opacity:.85; }
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--accent-l); }
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; } .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; } .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; } .pc-body-inner { padding: 0 16px 20px; }
+    }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr} .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;} .pc-right{gap:8px;} .pc-head{gap:10px;}
+      .pc-num{min-width:26px;font-size:11px;} .check-btn{width:26px;height:26px;font-size:12px;} .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo"><div class="logo-ico">☕</div><span class="logo-txt">Java Core</span></a>
+          <div class="bc">
+            <span class="sep">›</span><a href="../index.html">Home</a>
+            <span class="sep">›</span><a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span><span class="cur">Level 7</span>
+          </div>
+        </div>
+        <span class="nav-pill">🔴 Competitive</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 7 of 9</div>
+          <h1>Competitive <span class="grad">Programming</span></h1>
+          <p>15 problems from CP classics — circular primes, Kadane's, Boyer-Moore, binary search on answer, fast doubling Fibonacci, and matrix exponentiation.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 15</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Circular / Emirp Primes</span>
+        <span class="ts-tag">Sliding Window</span>
+        <span class="ts-tag">Prefix Sum</span>
+        <span class="ts-tag">Kadane's</span>
+        <span class="ts-tag">Boyer-Moore</span>
+        <span class="ts-tag">Binary Search</span>
+        <span class="ts-tag">Fast Fibonacci</span>
+        <span class="ts-tag">Matrix Expo</span>
+      </div>
+    </section>
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer><div class="container"><p>Java Core Programs &nbsp;·&nbsp; Numbers Level 7 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p></div></footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this? These are CP-level problems — one more attempt sharpens your edge!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
+    <div class="modal-box">
+      <div class="modal-emoji">⚠️</div>
+      <h3>Reset Progress?</h3>
+      <p class="modal-question">This will clear all <b>completed problems</b> for Level 7. This action <b>cannot be undone</b>.</p>
+      <div class="modal-btns">
+        <button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button>
+        <button class="btn-no" onclick="cancelReset()">↩ Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level7';
+
+  const PROBLEMS = [
+    {
+      id:111, title:"Check Circular Prime",
+      tags:["Prime","Rotation","Sieve"],
+      desc:"A <b>circular prime</b> is a prime that remains prime under every rotation of its digits — e.g. 197 → 971 → 719, all prime.",
+      code:`public class CircularPrime {
+    public static boolean isPrime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+        for (int i = 3; i * i <= n; i += 2)
+            if (n % i == 0) return false;
+        return true;
+    }
+    public static int rotate(int n) {
+        int digits = (int) Math.log10(n) + 1;
+        return (n % 10) * (int) Math.pow(10, digits - 1) + n / 10;
+    }
+    public static boolean isCircularPrime(int n) {
+        if (!isPrime(n)) return false;
+        int rotated = rotate(n);
+        while (rotated != n) {
+            if (!isPrime(rotated)) return false;
+            rotated = rotate(rotated);
+        }
+        return true;
+    }
+    public static void main(String[] args) {
+        int[] tests = {2, 13, 197, 199, 100, 11};
+        for (int n : tests)
+            System.out.println(n + " -> " + (isCircularPrime(n) ? "Circular Prime" : "Not Circular Prime"));
+        System.out.print("Circular primes up to 100: ");
+        for (int i = 2; i <= 100; i++)
+            if (isCircularPrime(i)) System.out.print(i + " ");
+    }
+}`,
+      sampleIn:"2, 13, 197, 199, 100, 11  /  all circular primes ≤ 100",
+      output:`2 -> Circular Prime
+13 -> Circular Prime
+197 -> Circular Prime
+199 -> Circular Prime
+100 -> Not Circular Prime
+11 -> Circular Prime
+Circular primes up to 100: 2 3 5 7 11 13 17 31 37 71 73 79 97 `,
+      time:"O(d × √n)", space:"O(1)",
+      topics:["Rotate: move last digit to front via math","All d rotations of an n must be prime","Single-digit primes 2,3,5,7 are trivially circular"],
+      concept:"Rotate a number by moving its last digit to the front: <code>rotate(197) = 719</code>. Check primality for each rotation until we cycle back to the original. If any rotation fails the primality test, it's not circular. The rotate helper uses digit count to compute the leading position of the moved digit."
+    },
+    {
+      id:112, title:"Check Emirp Number",
+      tags:["Prime","Reverse","Number Theory"],
+      desc:"An <b>emirp</b> is a prime whose digit reversal is a <b>different</b> prime — e.g. 13 (prime) reversed is 31 (also prime, and 13≠31).",
+      code:`public class EmirpNumber {
+    public static boolean isPrime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+        for (int i = 3; i * i <= n; i += 2)
+            if (n % i == 0) return false;
+        return true;
+    }
+    public static int reverse(int n) {
+        int rev = 0;
+        while (n > 0) { rev = rev * 10 + n % 10; n /= 10; }
+        return rev;
+    }
+    public static boolean isEmirp(int n) {
+        if (!isPrime(n)) return false;
+        int rev = reverse(n);
+        return rev != n && isPrime(rev);
+    }
+    public static void main(String[] args) {
+        int[] tests = {13, 17, 11, 7, 31, 97};
+        for (int n : tests)
+            System.out.println(n + " -> " + (isEmirp(n) ? "Emirp" : "Not Emirp"));
+        System.out.print("Emirps up to 100: ");
+        for (int i = 2; i <= 100; i++) if (isEmirp(i)) System.out.print(i + " ");
+    }
+}`,
+      sampleIn:"13, 17, 11, 7, 31, 97",
+      output:`13 -> Emirp
+17 -> Emirp
+11 -> Not Emirp
+7 -> Not Emirp
+31 -> Emirp
+97 -> Emirp
+Emirps up to 100: 13 17 31 37 71 73 79 97 `,
+      time:"O(√n)", space:"O(1)",
+      topics:["Must be prime AND have a prime reversal","rev(n) must differ from n (excludes palindrome primes like 11)","Emirp pairs: (13,31), (17,71), (37,73), (79,97)"],
+      concept:"Emirp (emirp = prime spelled backwards) requires three conditions: n is prime, reverse(n) is prime, and n ≠ reverse(n). The third condition excludes palindrome primes like 11 and 101. Emirps come in mirrored pairs — every emirp has a partner: 13↔31, 17↔71, 37↔73, 79↔97."
+    },
+    {
+      id:113, title:"Count Subarrays with Given Sum",
+      tags:["Prefix Sum","HashMap","Subarray"],
+      desc:"Count the number of <b>contiguous subarrays</b> whose elements sum to exactly <b>target</b> — handles negative numbers elegantly with prefix sums.",
+      code:`import java.util.HashMap;
+
+public class SubarrayWithSum {
+    public static int countSubarrays(int[] arr, int target) {
+        HashMap<Integer, Integer> prefixCount = new HashMap<>();
+        prefixCount.put(0, 1); // empty prefix
+        int sum = 0, count = 0;
+        for (int num : arr) {
+            sum += num;
+            // subarrays ending here with sum = target
+            count += prefixCount.getOrDefault(sum - target, 0);
+            prefixCount.merge(sum, 1, Integer::sum);
+        }
+        return count;
+    }
+    public static void main(String[] args) {
+        System.out.println("[1,1,1] target=2: "
+            + countSubarrays(new int[]{1, 1, 1}, 2));
+        System.out.println("[1,2,1,2,1] target=3: "
+            + countSubarrays(new int[]{1, 2, 1, 2, 1}, 3));
+        System.out.println("[0,0,0,0] target=0: "
+            + countSubarrays(new int[]{0, 0, 0, 0}, 0));
+        System.out.println("[3,4,7,2,-3,1,4,2] target=7: "
+            + countSubarrays(new int[]{3, 4, 7, 2, -3, 1, 4, 2}, 7));
+    }
+}`,
+      sampleIn:"[1,1,1] target=2  /  [0,0,0,0] target=0",
+      output:`[1,1,1] target=2: 2
+[1,2,1,2,1] target=3: 4
+[0,0,0,0] target=0: 10
+[3,4,7,2,-3,1,4,2] target=7: 4`,
+      time:"O(n)", space:"O(n)",
+      topics:["prefixSum[j] - prefixSum[i] = target means arr[i..j-1] sums to target","HashMap counts how many times each prefix sum has appeared","Initialise map with {0:1} to count subarrays starting at index 0"],
+      concept:"For any subarray arr[i..j], sum = prefixSum[j+1] - prefixSum[i]. We want this to equal target, i.e. prefixSum[j+1] - target = prefixSum[i]. So for each new prefix sum, we look up how many times <code>(currentSum - target)</code> has appeared before. The initial <code>{0:1}</code> handles subarrays starting at index 0."
+    },
+    {
+      id:114, title:"Subarray Product Less Than K",
+      tags:["Sliding Window","Two Pointers","Subarray"],
+      desc:"Count <b>contiguous subarrays</b> whose product of all elements is <b>strictly less than K</b> — solved in O(n) with a shrinking sliding window.",
+      code:`public class SubarrayProductLessThanK {
+    public static int numSubarrays(int[] arr, int k) {
+        if (k <= 1) return 0;
+        int left = 0, product = 1, count = 0;
+        for (int right = 0; right < arr.length; right++) {
+            product *= arr[right];
+            while (product >= k) product /= arr[left++];
+            // subarrays ending at right with left..right all valid
+            count += right - left + 1;
+        }
+        return count;
+    }
+    public static void main(String[] args) {
+        System.out.println("[10,5,2,6] k=100:  " + numSubarrays(new int[]{10,5,2,6}, 100));
+        System.out.println("[1,2,3,4]  k=10:   " + numSubarrays(new int[]{1,2,3,4}, 10));
+        System.out.println("[1,2,3]    k=0:    " + numSubarrays(new int[]{1,2,3}, 0));
+        System.out.println("[2,3,4]    k=100:  " + numSubarrays(new int[]{2,3,4}, 100));
+    }
+}`,
+      sampleIn:"[10,5,2,6] k=100  /  [1,2,3,4] k=10",
+      output:`[10,5,2,6] k=100:  8
+[1,2,3,4]  k=10:   7
+[1,2,3]    k=0:    0
+[2,3,4]    k=100:  6`,
+      time:"O(n)", space:"O(1)",
+      topics:["Expand right pointer, shrink left when product ≥ k","Subarrays ending at right: right-left+1 new valid ones","Each element enters and leaves the window at most once → O(n)"],
+      concept:"Maintain a window [left, right] whose product is &lt; k. Expand right each step; if product ≥ k, shrink from the left until it's valid again. The count of NEW valid subarrays ending at <code>right</code> is exactly <code>right - left + 1</code> — these are arr[right], arr[right-1..right], ..., arr[left..right]. Each pointer moves O(n) in total."
+    },
+    {
+      id:115, title:"Kadane's Algorithm — Maximum Subarray Sum",
+      tags:["Dynamic Programming","Greedy","Subarray","Kadane"],
+      desc:"Find the <b>maximum sum contiguous subarray</b> in O(n) using Kadane's algorithm — one of the most elegant DP/greedy hybrids.",
+      code:`public class Kadane {
+    public static long maxSubarraySum(int[] arr) {
+        long maxSum = arr[0], currSum = arr[0];
+        int start = 0, end = 0, tempStart = 0;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > currSum + arr[i]) {
+                currSum = arr[i]; tempStart = i;
+            } else {
+                currSum += arr[i];
+            }
+            if (currSum > maxSum) {
+                maxSum = currSum; start = tempStart; end = i;
+            }
+        }
+        System.out.print("  Subarray: [");
+        for (int i = start; i <= end; i++)
+            System.out.print(arr[i] + (i < end ? "," : ""));
+        System.out.println("]");
+        return maxSum;
+    }
+    public static void main(String[] args) {
+        int[] a1 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        System.out.println("Max sum: " + maxSubarraySum(a1));
+        int[] a2 = {-1, -2, -3, -4};
+        System.out.println("Max sum: " + maxSubarraySum(a2));
+        int[] a3 = {5, -3, 5};
+        System.out.println("Max sum: " + maxSubarraySum(a3));
+    }
+}`,
+      sampleIn:"[-2,1,-3,4,-1,2,1,-5,4]  /  [-1,-2,-3,-4]  /  [5,-3,5]",
+      output:`  Subarray: [4,-1,2,1]
+Max sum: 6
+  Subarray: [-1]
+Max sum: -1
+  Subarray: [5,-3,5]
+Max sum: 7`,
+      time:"O(n)", space:"O(1)",
+      topics:["At each element: restart or extend — whichever is larger","If arr[i] alone > currSum+arr[i], start fresh subarray","Track start/end indices alongside the max to recover the subarray"],
+      concept:"At each position, decide: extend the current subarray or start fresh. If <code>arr[i] > currSum + arr[i]</code>, starting fresh is better (currSum is dragging us down). This is the greedy choice. Works even for all-negative arrays — the answer is the single least-negative element. The algorithm is also equivalent to the simple DP: <code>dp[i] = max(arr[i], dp[i-1] + arr[i])</code>."
+    },
+    {
+      id:116, title:"Maximum Product Subarray",
+      tags:["Dynamic Programming","Subarray","Negative Numbers"],
+      desc:"Find the <b>maximum product of a contiguous subarray</b> — trickier than max sum because a negative × negative can flip the sign back to a large positive.",
+      code:`public class MaxProductSubarray {
+    public static long maxProduct(int[] arr) {
+        long maxProd = arr[0], currMax = arr[0], currMin = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            long temp = currMax;
+            currMax = Math.max(arr[i], Math.max(currMax * arr[i], currMin * arr[i]));
+            currMin = Math.min(arr[i], Math.min(temp    * arr[i], currMin * arr[i]));
+            maxProd = Math.max(maxProd, currMax);
+        }
+        return maxProd;
+    }
+    public static void main(String[] args) {
+        System.out.println("[2,3,-2,4]   -> " + maxProduct(new int[]{2, 3, -2, 4}));
+        System.out.println("[-2,0,-1]    -> " + maxProduct(new int[]{-2, 0, -1}));
+        System.out.println("[-2,3,-4]    -> " + maxProduct(new int[]{-2, 3, -4}));
+        System.out.println("[6,-3,-10,0,2] -> " + maxProduct(new int[]{6,-3,-10,0,2}));
+    }
+}`,
+      sampleIn:"[2,3,-2,4]  /  [-2,3,-4]  /  [6,-3,-10,0,2]",
+      output:`[2,3,-2,4]   -> 6
+[-2,0,-1]    -> 0
+[-2,3,-4]    -> 24
+[6,-3,-10,0,2] -> 180`,
+      time:"O(n)", space:"O(1)",
+      topics:["Track both currMax AND currMin at every step","Multiplying by a negative swaps max and min","At each element: choose arr[i], currMax×arr[i], or currMin×arr[i]"],
+      concept:"Unlike sum, a large negative product can become a large positive if multiplied by another negative. So we track <b>both</b> the maximum and minimum product ending at each position. When we encounter a negative number, the roles of max and min swap. At each step, the new max is the best of: starting fresh (arr[i]), extending the max subarray, or extending the min subarray (in case arr[i] is negative)."
+    },
+    {
+      id:117, title:"Majority Element — Boyer-Moore Voting",
+      tags:["Boyer-Moore","Voting","O(1) Space"],
+      desc:"Find the element appearing <b>more than n/2 times</b> in an array — the Boyer-Moore Voting Algorithm solves this in O(n) time and O(1) space.",
+      code:`public class MajorityElement {
+    public static int majorityElement(int[] arr) {
+        int candidate = arr[0], count = 1;
+        // Phase 1: find candidate
+        for (int i = 1; i < arr.length; i++) {
+            if (count == 0)          { candidate = arr[i]; count = 1; }
+            else if (arr[i] == candidate) count++;
+            else                          count--;
+        }
+        // Phase 2: verify (needed if majority not guaranteed)
+        int freq = 0;
+        for (int x : arr) if (x == candidate) freq++;
+        return freq > arr.length / 2 ? candidate : -1;
+    }
+    public static void main(String[] args) {
+        System.out.println("[3,2,3]           -> " + majorityElement(new int[]{3,2,3}));
+        System.out.println("[2,2,1,1,1,2,2]   -> " + majorityElement(new int[]{2,2,1,1,1,2,2}));
+        System.out.println("[1,1,2,1,3,1,1]   -> " + majorityElement(new int[]{1,1,2,1,3,1,1}));
+        System.out.println("[1,2,3]           -> " + majorityElement(new int[]{1,2,3}));
+    }
+}`,
+      sampleIn:"[3,2,3]  /  [2,2,1,1,1,2,2]  /  [1,2,3]",
+      output:`[3,2,3]           -> 3
+[2,2,1,1,1,2,2]   -> 2
+[1,1,2,1,3,1,1]   -> 1
+[1,2,3]           -> -1`,
+      time:"O(n)", space:"O(1)",
+      topics:["Maintain one (candidate, count) pair — O(1) space","Non-matching elements cancel one matching element","Phase 2 verification: confirm candidate appears > n/2 times"],
+      concept:"Think of it as vote cancellation: a majority element has more votes than all others combined. Pair every non-candidate element with one candidate element and cancel them. The true majority element (if it exists) always survives the cancellation because it outnumbers all others. Phase 2 is needed when a majority may not exist — the algorithm always produces a candidate, but it may be wrong."
+    },
+    {
+      id:118, title:"Find Missing and Repeating Number",
+      tags:["Math","Sum Formula","Array"],
+      desc:"Given an array of n integers (1 to n) where one number <b>repeats</b> and one is <b>missing</b>, find both in O(n) time and O(1) space using algebra.",
+      code:`public class MissingAndRepeating {
+    public static void findBoth(int[] arr) {
+        int n = arr.length;
+        long sumExpected   = (long) n * (n + 1) / 2;
+        long sumSqExpected = (long) n * (n + 1) * (2 * n + 1) / 6;
+        long sumActual = 0, sumSqActual = 0;
+        for (int x : arr) { sumActual += x; sumSqActual += (long) x * x; }
+
+        long diff   = sumActual - sumExpected;       // rep - miss
+        long sqDiff = sumSqActual - sumSqExpected;   // rep^2 - miss^2
+        long pairSum = sqDiff / diff;                // rep + miss
+
+        long rep  = (diff + pairSum) / 2;
+        long miss = pairSum - rep;
+        System.out.println("Repeating: " + rep + "  Missing: " + miss);
+    }
+    public static void main(String[] args) {
+        findBoth(new int[]{3, 1, 3});
+        findBoth(new int[]{4, 3, 6, 2, 1, 1});
+        findBoth(new int[]{1, 2, 2, 4});
+        findBoth(new int[]{2, 2});
+    }
+}`,
+      sampleIn:"{3,1,3}  /  {4,3,6,2,1,1}  /  {1,2,2,4}",
+      output:`Repeating: 3  Missing: 2
+Repeating: 1  Missing: 5
+Repeating: 2  Missing: 3
+Repeating: 2  Missing: 1`,
+      time:"O(n)", space:"O(1)",
+      topics:["diff = rep - miss  (from sum formula)","sqDiff = rep² - miss²  (from sum-of-squares formula)","pairSum = sqDiff/diff = rep + miss; solve the 2-equation system"],
+      concept:"Two unknowns (rep, miss), two equations: <b>rep − miss = Σactual − Σexpected</b> and <b>rep² − miss² = Σsq_actual − Σsq_expected</b>. Dividing equation 2 by equation 1 gives <b>rep + miss</b>. Then: rep = (diff + pairSum)/2, miss = pairSum − rep. No extra space needed — pure algebra on the cumulative differences."
+    },
+    {
+      id:119, title:"Find Single Non-Duplicate Element (Sorted Array)",
+      tags:["Binary Search","Sorted Array","XOR"],
+      desc:"In a sorted array where every element appears <b>exactly twice except one</b>, find the unique element in O(log n) using binary search on index parity.",
+      code:`public class SingleNonDuplicate {
+    public static int singleNonDuplicate(int[] arr) {
+        int left = 0, right = arr.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (mid % 2 == 1) mid--;   // snap to even index
+            // If pair is intact, unique is to the right
+            if (arr[mid] == arr[mid + 1]) left  = mid + 2;
+            else                           right = mid;
+        }
+        return arr[left];
+    }
+    public static void main(String[] args) {
+        System.out.println("[1,1,2,3,3,4,4,8,8]     -> "
+            + singleNonDuplicate(new int[]{1,1,2,3,3,4,4,8,8}));
+        System.out.println("[3,3,7,7,10,11,11]       -> "
+            + singleNonDuplicate(new int[]{3,3,7,7,10,11,11}));
+        System.out.println("[1]                       -> "
+            + singleNonDuplicate(new int[]{1}));
+        System.out.println("[1,1,2,3,3,4,4,5,5,8,8] -> "
+            + singleNonDuplicate(new int[]{1,1,2,3,3,4,4,5,5,8,8}));
+    }
+}`,
+      sampleIn:"[1,1,2,3,3,4,4,8,8]  /  [3,3,7,7,10,11,11]",
+      output:`[1,1,2,3,3,4,4,8,8]     -> 2
+[3,3,7,7,10,11,11]       -> 10
+[1]                       -> 1
+[1,1,2,3,3,4,4,5,5,8,8] -> 2`,
+      time:"O(log n)", space:"O(1)",
+      topics:["Before the unique element: pairs sit at (even, odd) indices","After it: pairs sit at (odd, even) indices — parity shifts","Snap mid to even index, check if arr[mid]==arr[mid+1]"],
+      concept:"In a sorted array with all pairs, pair i sits at indices (2i, 2i+1). Before the unique element, pairs are at (even, odd) positions; after it, parity flips. Snap mid to the nearest even index. If <code>arr[mid] == arr[mid+1]</code>, the pair is intact — the unique element is to the right. Otherwise it's at mid or to the left. O(log n) vs O(n) XOR approach, but requires sorted input."
+    },
+    {
+      id:120, title:"Square Root Using Binary Search",
+      tags:["Binary Search","Math","Floor Function"],
+      desc:"Compute the <b>integer floor square root</b> of n without using <code>Math.sqrt()</code> — binary search on the answer space [1, n/2].",
+      code:`public class SquareRootBS {
+    public static long sqrtFloor(long n) {
+        if (n < 2) return n;
+        long left = 1, right = n / 2, result = 1;
+        while (left <= right) {
+            long mid = left + (right - left) / 2;
+            if      (mid * mid == n) return mid;
+            else if (mid * mid < n)  { result = mid; left  = mid + 1; }
+            else                       right = mid - 1;
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        long[] tests = {0, 1, 4, 9, 50, 100, 144, 10000};
+        for (long n : tests)
+            System.out.printf("sqrt(%-6d) = %d%s%n", n, sqrtFloor(n),
+                sqrtFloor(n) * sqrtFloor(n) == n ? " (exact)" : " (floor)");
+    }
+}`,
+      sampleIn:"n = 4, 9, 50, 144, 10000",
+      output:`sqrt(0     ) = 0 (exact)
+sqrt(1     ) = 1 (exact)
+sqrt(4     ) = 2 (exact)
+sqrt(9     ) = 3 (exact)
+sqrt(50    ) = 7 (floor)
+sqrt(100   ) = 10 (exact)
+sqrt(144   ) = 12 (exact)
+sqrt(10000 ) = 100 (exact)`,
+      time:"O(log n)", space:"O(1)",
+      topics:["Binary search on answer space [1, n/2]","Track best result when mid² < n","Guard against overflow: use long arithmetic"],
+      concept:"Binary search on the answer space: if <code>mid²  = n</code> → exact square root. If <code>mid² &lt; n</code> → mid is a candidate floor result, search right half. If <code>mid² &gt; n</code> → search left half. The search space is [1, n/2] because for n≥4, sqrt(n) ≤ n/2. Use <code>long</code> to prevent overflow when squaring mid."
+    },
+    {
+      id:121, title:"Nth Root Using Binary Search",
+      tags:["Binary Search","Math","nth Root"],
+      desc:"Find the <b>integer floor of the nth root</b> of a number using binary search — generalises square root to any power.",
+      code:`public class NthRoot {
+    private static long safePow(long base, int exp) {
+        long result = 1;
+        for (int i = 0; i < exp; i++) {
+            result *= base;
+            if (result > 2_000_000_000L) return result; // overflow guard
+        }
+        return result;
+    }
+    public static long nthRootFloor(long num, int n) {
+        if (n == 1) return num;
+        long left = 1, right = num, result = 1;
+        while (left <= right) {
+            long mid = left + (right - left) / 2;
+            long pw  = safePow(mid, n);
+            if      (pw == num) return mid;
+            else if (pw <  num) { result = mid; left  = mid + 1; }
+            else                  right = mid - 1;
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        System.out.println("cbrt(27)   = " + nthRootFloor(27,   3));
+        System.out.println("4th(81)    = " + nthRootFloor(81,   4));
+        System.out.println("cbrt(100)  = " + nthRootFloor(100,  3) + " (floor)");
+        System.out.println("5th(32)    = " + nthRootFloor(32,   5));
+        System.out.println("cbrt(1000) = " + nthRootFloor(1000, 3));
+    }
+}`,
+      sampleIn:"cbrt(27), 4th(81), cbrt(100), 5th(32), cbrt(1000)",
+      output:`cbrt(27)   = 3
+4th(81)    = 3
+cbrt(100)  = 4 (floor)
+5th(32)    = 2
+cbrt(1000) = 10`,
+      time:"O(log(num) × n)", space:"O(1)",
+      topics:["Binary search on [1, num] for the nth root","safePow guards against overflow during mid^n","n=1 is trivially the number itself"],
+      concept:"Generalise the binary search sqrt: instead of <code>mid²</code>, compute <code>mid^n</code>. Binary search on [1, num] — when <code>mid^n == num</code>, mid is exact; when less, mid is a candidate floor and we search higher; when greater, search lower. The overflow guard in safePow is critical — mid^n for large mid and large n overflows long easily."
+    },
+    {
+      id:122, title:"Check Perfect Square Without sqrt()",
+      tags:["Binary Search","Math","Perfect Square"],
+      desc:"Determine if n is a <b>perfect square</b> without using any square-root function — two methods: binary search and the odd-number summation identity.",
+      code:`public class PerfectSquare {
+    // Method 1: Binary search O(log n)
+    public static boolean isPerfectSquareBS(long n) {
+        if (n < 0) return false;
+        if (n == 0 || n == 1) return true;
+        long left = 1, right = n / 2;
+        while (left <= right) {
+            long mid = left + (right - left) / 2;
+            long sq  = mid * mid;
+            if      (sq == n) return true;
+            else if (sq <  n) left  = mid + 1;
+            else              right = mid - 1;
+        }
+        return false;
+    }
+    // Method 2: n² = 1+3+5+...+(2n-1) — subtract odd numbers
+    public static boolean isPerfectSquareOdd(long n) {
+        long i = 1;
+        while (n > 0) { n -= i; i += 2; }
+        return n == 0;
+    }
+    public static void main(String[] args) {
+        long[] tests = {0, 1, 4, 14, 16, 25, 100, 101};
+        for (long n : tests)
+            System.out.printf("%-5d  BS=%-5s  OddSum=%s%n",
+                n, isPerfectSquareBS(n), isPerfectSquareOdd(n));
+    }
+}`,
+      sampleIn:"n = 0, 1, 4, 14, 16, 25, 100, 101",
+      output:`0      BS=true   OddSum=true
+1      BS=true   OddSum=true
+4      BS=true   OddSum=true
+14     BS=false  OddSum=false
+16     BS=true   OddSum=true
+25     BS=true   OddSum=true
+100    BS=true   OddSum=true
+101    BS=false  OddSum=false`,
+      time:"O(log n) BS / O(√n) OddSum", space:"O(1)",
+      topics:["Binary search: find mid s.t. mid*mid == n","Odd sum: k² = 1+3+5+...+(2k-1) — subtract consecutive odds","If n reduces to exactly 0, it was a perfect square"],
+      concept:"Method 1 (binary search): find mid whose square equals n. Method 2 exploits the identity <b>k² = sum of first k odd numbers</b>: 1, 1+3=4, 1+3+5=9, 1+3+5+7=16... Subtract consecutive odd numbers (1,3,5,...) from n; if n hits exactly 0, it's a perfect square. Method 2 is elegant but O(√n); Method 1 is O(log n)."
+    },
+    {
+      id:123, title:"Count Trailing Zeros in Binary Representation",
+      tags:["Bit Manipulation","Trailing Zeros","Two's Complement"],
+      desc:"Count the number of <b>trailing 0-bits</b> in the binary representation of n — equivalently, find the position of the rightmost set bit.",
+      code:`public class TrailingZerosBinary {
+    // O(1) using n & (-n) trick
+    public static int trailingZeros(int n) {
+        if (n == 0) return 32;
+        int count = 0;
+        while ((n & 1) == 0) { n >>= 1; count++; }
+        return count;
+    }
+    // Alternative: Integer.numberOfTrailingZeros(n) built-in
+    public static void main(String[] args) {
+        int[] tests = {0, 1, 4, 12, 16, 48, 64, 96};
+        for (int n : tests)
+            System.out.printf("n=%-3d  binary=%-12s  trailing 0s=%d%n",
+                n, (n == 0 ? "0" : Integer.toBinaryString(n)), trailingZeros(n));
+    }
+}`,
+      sampleIn:"n = 1, 4, 12, 16, 48, 64",
+      output:`n=0    binary=0             trailing 0s=32
+n=1    binary=1             trailing 0s=0
+n=4    binary=100           trailing 0s=2
+n=12   binary=1100          trailing 0s=2
+n=16   binary=10000         trailing 0s=4
+n=48   binary=110000        trailing 0s=4
+n=64   binary=1000000       trailing 0s=6
+n=96   binary=1100000       trailing 0s=5`,
+      time:"O(trailing zeros) loop / O(1) with bit tricks", space:"O(1)",
+      topics:["Trailing zeros = position of rightmost set bit","n & (-n) isolates the rightmost set bit value","Java built-in: Integer.numberOfTrailingZeros(n)"],
+      concept:"Trailing zeros in binary = the exponent of the largest power of 2 dividing n. The loop right-shifts until bit 0 is 1 — counting shifts gives the answer. The bit trick: <code>n & (-n)</code> isolates the rightmost set bit as a value; taking log2 of that gives the position. Java provides <code>Integer.numberOfTrailingZeros(n)</code> which maps to a single CPU instruction (BSF/TZCNT) on modern hardware."
+    },
+    {
+      id:124, title:"Fast Doubling Fibonacci",
+      tags:["Fibonacci","Fast Doubling","Math Identity"],
+      desc:"Compute F(n) in <b>O(log n)</b> using the fast doubling identities — far faster than matrix exponentiation in practice due to simpler arithmetic.",
+      code:`public class FastDoublingFib {
+    // Returns {F(n), F(n+1)}
+    private static long[] fastDoubling(long n) {
+        if (n == 0) return new long[]{0, 1};
+        long[] half = fastDoubling(n / 2);
+        long fk  = half[0];                  // F(k)
+        long fk1 = half[1];                  // F(k+1)
+        long f2k  = fk  * (2 * fk1 - fk);   // F(2k)
+        long f2k1 = fk  * fk + fk1 * fk1;   // F(2k+1)
+        if (n % 2 == 0) return new long[]{f2k, f2k1};
+        else            return new long[]{f2k1, f2k + f2k1};
+    }
+    public static long fib(long n) {
+        return fastDoubling(n)[0];
+    }
+    public static void main(String[] args) {
+        long[] tests = {0, 1, 5, 10, 20, 50, 70};
+        for (long n : tests)
+            System.out.println("F(" + n + ") = " + fib(n));
+    }
+}`,
+      sampleIn:"F(0), F(1), F(10), F(50), F(70)",
+      output:`F(0) = 0
+F(1) = 1
+F(5) = 5
+F(10) = 55
+F(20) = 6765
+F(50) = 12586269025
+F(70) = 190392490709135`,
+      time:"O(log n)", space:"O(log n) stack",
+      topics:["F(2k)   = F(k) × [2F(k+1) − F(k)]","F(2k+1) = F(k)² + F(k+1)²","Halve n each recursion → O(log n) levels"],
+      concept:"Two identities derived from matrix exponentiation: <code>F(2k) = F(k)×[2F(k+1)−F(k)]</code> and <code>F(2k+1) = F(k)² + F(k+1)²</code>. These let us jump from F(k) to F(2k) in O(1) arithmetic. Starting from F(n), we recurse on n/2 and combine — processing O(log n) levels total. In practice faster than matrix exponentiation due to simpler scalar arithmetic."
+    },
+    {
+      id:125, title:"Matrix Exponentiation for Fibonacci",
+      tags:["Matrix Exponentiation","Fibonacci","Linear Algebra"],
+      desc:"Compute F(n) in <b>O(log n)</b> using the identity that raising the 2×2 Fibonacci matrix to the nth power gives F(n) in its entries.",
+      code:`public class MatrixExpoFib {
+    private static long[][] multiply(long[][] A, long[][] B) {
+        long[][] C = new long[2][2];
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
+                for (int k = 0; k < 2; k++)
+                    C[i][j] += A[i][k] * B[k][j];
+        return C;
+    }
+    private static long[][] matPow(long[][] M, long p) {
+        long[][] result = {{1,0},{0,1}}; // identity
+        while (p > 0) {
+            if ((p & 1) == 1) result = multiply(result, M);
+            M = multiply(M, M);
+            p >>= 1;
+        }
+        return result;
+    }
+    // [[1,1],[1,0]]^n = [[F(n+1),F(n)],[F(n),F(n-1)]]
+    public static long fib(long n) {
+        if (n <= 0) return 0;
+        long[][] M = {{1,1},{1,0}};
+        return matPow(M, n)[0][1];
+    }
+    public static void main(String[] args) {
+        long[] tests = {0, 1, 5, 10, 20, 50, 70};
+        for (long n : tests)
+            System.out.println("F(" + n + ") = " + fib(n));
+    }
+}`,
+      sampleIn:"F(0), F(1), F(10), F(50), F(70)",
+      output:`F(0) = 0
+F(1) = 1
+F(5) = 5
+F(10) = 55
+F(20) = 6765
+F(50) = 12586269025
+F(70) = 190392490709135`,
+      time:"O(log n) matrix mults", space:"O(1)",
+      topics:["[[1,1],[1,0]]^n gives F(n) at position [0][1]","Matrix fast power: square M, apply if bit is set","Each matrix multiply is 8 multiplications (2×2 fixed size)"],
+      concept:"The Fibonacci recurrence can be written as a matrix equation: <code>[[F(n+1)],[F(n)]] = [[1,1],[1,0]] × [[F(n)],[F(n-1)]]</code>. Applying this n times gives <code>[[1,1],[1,0]]^n = [[F(n+1), F(n)],[F(n), F(n-1)]]</code>. Fast matrix exponentiation (binary exponentiation applied to matrices) computes M^n in O(log n) multiplications, each O(1) for fixed 2×2 size. This technique generalises to any linear recurrence."
+    }
+  ];
+
+  const TESTCASES = {
+    111:[{in:"n = 197",out:"Circular Prime (197→971→719, all prime)"},{in:"n = 100",out:"Not Circular Prime (100→001=1, not prime)"}],
+    112:[{in:"n = 13",out:"Emirp  (rev=31, both prime, 13≠31)"},{in:"n = 11",out:"Not Emirp (rev=11, palindrome prime)"}],
+    113:[{in:"[1,1,1] target=2",out:"2 subarrays: [1,1](0-1), [1,1](1-2)"},{in:"[0,0,0,0] target=0",out:"10 subarrays (C(5,2)=10 pairs)"}],
+    114:[{in:"[10,5,2,6] k=100",out:"8 subarrays"},{in:"[1,2,3,4] k=10",out:"7 subarrays"}],
+    115:[{in:"[-2,1,-3,4,-1,2,1,-5,4]",out:"Max sum=6, subarray=[4,-1,2,1]"},{in:"[-1,-2,-3,-4]",out:"Max sum=-1 (all negative, pick least)"}],
+    116:[{in:"[2,3,-2,4]",out:"6  (subarray [2,3])"},{in:"[-2,3,-4]",out:"24 (subarray [-2,3,-4])"}],
+    117:[{in:"[3,2,3]",out:"3  (appears 2/3 times > n/2)"},{in:"[2,2,1,1,1,2,2]",out:"2  (appears 4/7 times > n/2)"}],
+    118:[{in:"[3,1,3]",out:"Repeating=3, Missing=2"},{in:"[4,3,6,2,1,1]",out:"Repeating=1, Missing=5"}],
+    119:[{in:"[1,1,2,3,3,4,4,8,8]",out:"2  (appears once at index 2)"},{in:"[3,3,7,7,10,11,11]",out:"10 (appears once at index 4)"}],
+    120:[{in:"n = 50",out:"7 (floor), 7.0711 (precise)"},{in:"n = 144",out:"12 (exact)"}],
+    121:[{in:"cbrt(27)",out:"3  (exact: 3³=27)"},{in:"cbrt(100)",out:"4  (floor: 4³=64 < 100 < 125=5³)"}],
+    122:[{in:"n = 16",out:"true  (4²=16)"},{in:"n = 14",out:"false (3²=9 < 14 < 16=4²)"}],
+    123:[{in:"n=12  (binary: 1100)",out:"2 trailing zeros"},{in:"n=48  (binary: 110000)",out:"4 trailing zeros"}],
+    124:[{in:"F(50)",out:"12586269025"},{in:"F(70)",out:"190392490709135"}],
+    125:[{in:"F(10) via matrix expo",out:"55"},{in:"F(50) via matrix expo",out:"12586269025"}]
+  };
+
+  let openId = null, pendingId = null;
+  const completed = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render() {
+    document.getElementById('problems-list').innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id)?'done':''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id)?'checked':''}" onclick="markDone(event,${p.id})" title="${completed.has(p.id)?'Mark incomplete':'Mark as done'}">${completed.has(p.id)?'✓':'○'}</button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp"><div class="io-box-label">▶ TEST INPUTS</div><div class="io-val">${escHtml(p.sampleIn)}</div></div>
+                <div class="io-box io-out"><div class="io-box-label">◀ OUTPUT</div><div class="io-val">${escHtml(p.output)}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box"><div class="cx-label">TIME</div><div class="cx-val cx-time">${p.time}</div></div>
+                <div class="cx-box"><div class="cx-label">SPACE</div><div class="cx-val cx-space">${p.space}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t=>`<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t=>`<span class="modal-hint-tag">${t}</span>`).join('');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    completed.has(id) ? completed.delete(id) : completed.add(id);
+    saveProgress();
+    render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target;
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('reset-modal').style.display = 'flex';
+  }
+  function confirmReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    completed.clear(); saveProgress(); openId = null; render();
+  }
+  function cancelReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed])); }
+
+  function updateProgressUI() {
+    const done = completed.size;
+    document.getElementById('prog-done').textContent = done;
+    const pct = PROBLEMS.length ? Math.round(done / PROBLEMS.length * 100) : 0;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  render();
+  </script>
+</body>
+</html>

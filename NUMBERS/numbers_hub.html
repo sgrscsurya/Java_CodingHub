@@ -93,15 +93,15 @@
       position: relative; overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     }
-    .level-card.active { border-color: rgba(124,58,237,0.25); }
+    .level-card.active { border-color: rgba(var(--lv-rgb,124,58,237), 0.25); }
     .level-card.active:hover {
-      border-color: rgba(124,58,237,0.55);
+      border-color: rgba(var(--lv-rgb,124,58,237), 0.55);
       transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(124,58,237,0.15);
-      background: rgba(124,58,237,0.05);
+      box-shadow: 0 20px 50px rgba(var(--lv-rgb,124,58,237), 0.18);
+      background: rgba(var(--lv-rgb,124,58,237), 0.05);
     }
     .level-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.3s; }
-    .level-card.active::before { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+    .level-card.active::before { background: linear-gradient(90deg, var(--lv-color, var(--purple)), var(--cyan)); }
     .level-card.active:hover::before { opacity: 1; }
     .level-card.locked { opacity: 0.42; cursor: not-allowed; pointer-events: none; }
 
@@ -111,7 +111,7 @@
       font-size: 42px; font-weight: 700; line-height: 1;
       color: rgba(255,255,255,0.08);
     }
-    .level-card.active .level-num { color: rgba(124,58,237,0.3); }
+    .level-card.active .level-num { color: rgba(var(--lv-rgb,124,58,237), 0.3); }
     .level-badge-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
     .l-badge {
       font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px;
@@ -125,18 +125,18 @@
 
     .level-topics { display: flex; flex-wrap: wrap; gap: 6px; }
     .topic-tag {
-      background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.18);
-      color: var(--purple-l); font-size: 11px; padding: 3px 9px; border-radius: 100px;
+      background: rgba(var(--lv-rgb,124,58,237), 0.1); border: 1px solid rgba(var(--lv-rgb,124,58,237), 0.22);
+      color: var(--lv-color, var(--purple-l)); font-size: 11px; padding: 3px 9px; border-radius: 100px;
     }
     .level-card.locked .topic-tag { background: rgba(71,85,105,0.15); border-color: var(--card-border); color: var(--text3); }
 
     .level-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
     .l-prog-mini { flex: 1; margin-right: 16px; }
     .l-prog-mini-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; margin-top: 4px; }
-    .l-prog-mini-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--cyan)); border-radius: 100px; transition: width 0.8s; }
+    .l-prog-mini-fill { height: 100%; background: var(--lv-color, var(--purple)); border-radius: 100px; transition: width 0.8s; }
     .l-prog-label { font-size: 11px; color: var(--text3); }
     .level-arrow { font-size: 20px; color: var(--text3); transition: all 0.3s; }
-    .level-card.active:hover .level-arrow { color: var(--purple-l); transform: translate(4px,-2px); }
+    .level-card.active:hover .level-arrow { color: var(--lv-color, var(--purple-l)); transform: translate(4px,-2px); }
 
     /* Footer */
     footer { border-top: 1px solid var(--card-border); padding: 32px 0; text-align: center; }
@@ -219,52 +219,66 @@
     const LEVELS = [
       {
         num: 1, name: "Absolute Basics", problems: 20, active: true,
+        color: "#10b981", rgb: "16,185,129",
         desc: "Print numbers, take input, check conditions, and write your first loops.",
         tags: ["Variables", "I/O", "if-else", "for-loop"],
         link: "numbers_level1.html", storageKey: "java-numbers-level1"
       },
       {
         num: 2, name: "Basic Mathematical Logic", problems: 20, active: true,
+        color: "#f59e0b", rgb: "245,158,11",
         desc: "Summation formulas, factorial, powers, digit extraction, and classic special-number checks.",
         tags: ["Summation", "Factorial", "Digits", "Special Numbers"],
         link: "numbers_level2.html", storageKey: "java-numbers-level2"
       },
       {
         num: 3, name: "Pattern-Based Number Logic", problems: 20, active: true,
+        color: "#f97316", rgb: "249,115,22",
         desc: "Armstrong, palindromes, primes, GCD/LCM, perfect numbers, and special-property checks.",
         tags: ["Armstrong", "Prime", "GCD/LCM", "Special Numbers"],
         link: "numbers_level3.html", storageKey: "java-numbers-level3"
       },
       {
         num: 4, name: "Series & Sequence Problems", problems: 15, active: true,
+        color: "#3b82f6", rgb: "59,130,246",
         desc: "Fibonacci, Tribonacci, AP/GP, Pascal's triangle, Catalan numbers, nCr and nPr.",
         tags: ["Fibonacci", "Pascal", "nCr/nPr", "Catalan"],
         link: "numbers_level4.html", storageKey: "java-numbers-level4"
       },
       {
-        num: 5, name: "Digit Operations", problems: 20, active: false,
-        desc: "Reverse a number, count digits, sum of digits, digit extraction tricks.",
-        tags: ["Reverse", "Count Digits", "Sum", "Extraction"]
+        num: 5, name: "Bit Manipulation", problems: 15, active: true,
+        color: "#8b5cf6", rgb: "139,92,246",
+        desc: "AND, OR, XOR, shifts — power-of-2/4 checks, set/clear/toggle bits, XOR tricks, Gray codes.",
+        tags: ["XOR", "AND/OR", "Shifts", "Gray Code"],
+        link: "numbers_level5.html", storageKey: "java-numbers-level5"
       },
       {
-        num: 6, name: "Powers & Series", problems: 20, active: false,
-        desc: "Factorial, power functions, square roots, Fibonacci, and mathematical series.",
-        tags: ["Factorial", "Power", "Fibonacci", "Series"]
+        num: 6, name: "Advanced Number Logic", problems: 20, active: true,
+        color: "#14b8a6", rgb: "20,184,166",
+        desc: "Sieves, modular arithmetic, fast exponentiation, factorisation, divisors, ugly numbers.",
+        tags: ["Sieve", "Mod Arithmetic", "Factorization", "Divisors"],
+        link: "numbers_level6.html", storageKey: "java-numbers-level6"
       },
       {
-        num: 7, name: "Number Systems", problems: 20, active: false,
-        desc: "Binary, octal, hexadecimal conversions and base-system arithmetic.",
-        tags: ["Binary", "Hex", "Octal", "Conversion"]
+        num: 7, name: "Competitive Programming", problems: 15, active: true,
+        color: "#f43f5e", rgb: "244,63,94",
+        desc: "Circular primes, Kadane's, Boyer-Moore, binary search on answer, fast doubling Fibonacci, matrix exponentiation.",
+        tags: ["Kadane's", "Boyer-Moore", "Binary Search", "Matrix Expo"],
+        link: "numbers_level7.html", storageKey: "java-numbers-level7"
       },
       {
-        num: 8, name: "Advanced Algorithms", problems: 20, active: false,
-        desc: "Sieve of Eratosthenes, Euler's totient, modular exponentiation, and more.",
-        tags: ["Sieve", "Euler", "Modular Exp", "Advanced"]
+        num: 8, name: "Very Advanced Mathematical", problems: 15, active: true,
+        color: "#6366f1", rgb: "99,102,241",
+        desc: "Miller-Rabin, Pollard's Rho, Extended GCD, Lucas theorem, partitions, inversions, Newton's method.",
+        tags: ["Miller-Rabin", "Pollard Rho", "Extended GCD", "Partitions"],
+        link: "numbers_level8.html", storageKey: "java-numbers-level8"
       },
       {
-        num: 9, name: "Interview Level", problems: 20, active: false,
-        desc: "LeetCode-style number problems, edge cases, and optimization challenges.",
-        tags: ["Interview", "LeetCode", "Optimization", "Edge Cases"]
+        num: 9, name: "Interview & Trick Problems", problems: 15, active: true,
+        color: "#d97706", rgb: "217,119,6",
+        desc: "Operate without operators, base conversions, overflow guards, number-to-words, Roman numerals, palindromes, randomisation.",
+        tags: ["Bit Arithmetic", "Base Conversion", "Roman Numerals", "Number to Words"],
+        link: "numbers_level9.html", storageKey: "java-numbers-level9"
       }
     ];
 
@@ -292,8 +306,9 @@
         const tot = l.problems;
         const filledPct = l.active ? Math.round((isDone / tot) * 100) : 0;
 
+        const lvStyle = l.active && l.color ? `style="--lv-color:${l.color};--lv-rgb:${l.rgb}"` : '';
         return `
-          <${l.active ? `a href="${l.link}"` : 'div'} class="level-card ${l.active ? 'active' : 'locked'}">
+          <${l.active ? `a href="${l.link}"` : 'div'} class="level-card ${l.active ? 'active' : 'locked'}" ${lvStyle}>
             <div class="level-top">
               <div class="level-num">${String(l.num).padStart(2,'0')}</div>
               <div class="level-badge-wrap">

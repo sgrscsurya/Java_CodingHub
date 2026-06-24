@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 6 – Advanced Number Logic | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4; --green: #10b981;
+      --accent: #14b8a6; --accent-l: #2dd4bf; --orange: #f97316;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569; --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 680px; height: 680px; background: var(--accent); top: -280px; right: -180px; }
+    .orb-2 { width: 450px; height: 450px; background: var(--purple); bottom: -80px; left: -120px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-35px,25px)} }
+
+    .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px; }
+
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--accent-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--accent-l); font-weight: 600; }
+    .nav-pill { background: rgba(20,184,166,0.12); border: 1px solid rgba(20,184,166,0.3); color: var(--accent-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.28); color: var(--accent-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--accent-l), #67e8f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+
+    .prog-card { background: rgba(20,184,166,0.07); border: 1px solid rgba(20,184,166,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--accent-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-l)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.2); color: var(--accent-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done {
+      border-color: rgba(16,185,129,0.6);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18);
+    }
+    .pc.done::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%);
+      z-index: 2;
+    }
+    .pc.done:hover {
+      border-color: rgba(16,185,129,0.82);
+      background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 8px 44px rgba(16,185,129,0.34), 0 0 110px rgba(16,185,129,0.15), inset 0 0 50px rgba(16,185,129,0.08), inset 0 1px 0 rgba(52,211,153,0.25);
+      transform: translateY(-2px);
+    }
+    .pc.open { border-color: rgba(20,184,166,0.35); box-shadow: 0 8px 40px rgba(20,184,166,0.08); }
+
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 32px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.2); color: var(--accent-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .try-btn { display:inline-flex; align-items:center; gap:5px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.28); color:var(--cyan); padding:5px 12px; border-radius:100px; font-size:11px; font-weight:600; text-decoration:none; transition:all .2s; white-space:nowrap; flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2); border-color:var(--cyan); transform:scale(1.03); }
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:9px; padding:10px 12px; }
+    .tc-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:7px; }
+    .tc-row { display:flex; gap:6px; font-size:11.5px; margin-bottom:3px; align-items:flex-start; }
+    .tc-key { color:var(--text3); min-width:50px; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+    .tc-val { color:var(--text2); font-family:'JetBrains Mono',monospace; white-space:pre-wrap; word-break:break-word; }
+
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 4500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--accent-l); color: var(--accent-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+
+    .concept-box { background: rgba(20,184,166,0.06); border: 1px solid rgba(20,184,166,0.18); border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(20,184,166,0.15); color: var(--accent-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+
+    .modal-overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-box { background:#0d0d20; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:32px 28px; max-width:420px; width:100%; box-shadow:0 32px 80px rgba(0,0,0,0.7); animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px; text-align:center; margin-bottom:12px; }
+    .modal-box h3 { font-size:19px; font-weight:800; text-align:center; margin-bottom:8px; }
+    .modal-question { font-size:14px; color:var(--text2); text-align:center; line-height:1.55; margin-bottom:20px; }
+    .modal-hint-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+    .modal-hint-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(20,184,166,0.12); border:1px solid rgba(20,184,166,0.25); color:var(--accent-l); font-size:11.5px; padding:4px 10px; border-radius:100px; }
+    .modal-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--accent),#0d9488); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04); color:var(--text2); border:1px solid var(--card-border); padding:13px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4); color:#f87171; }
+    .btn-reset-confirm { background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit; }
+    .btn-reset-confirm:hover { opacity:.85; }
+
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--accent-l); }
+
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; }
+      .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; }
+      .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; }
+      .pc-body-inner { padding: 0 16px 20px; }
+    }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr} .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;}
+      .pc-right{gap:8px;} .pc-head{gap:10px;}
+      .pc-num{min-width:26px;font-size:11px;}
+      .check-btn{width:26px;height:26px;font-size:12px;} .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo">
+            <div class="logo-ico">☕</div>
+            <span class="logo-txt">Java Core</span>
+          </a>
+          <div class="bc">
+            <span class="sep">›</span><a href="../index.html">Home</a>
+            <span class="sep">›</span><a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span><span class="cur">Level 6</span>
+          </div>
+        </div>
+        <span class="nav-pill">🩵 Advanced Math</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 6 of 9</div>
+          <h1>Advanced <span class="grad">Number Logic</span></h1>
+          <p>20 problems — sieves, modular arithmetic, fast exponentiation, prime factorisation, divisors, ugly numbers and number-theory classics.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 20</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Fast Exponentiation</span>
+        <span class="ts-tag">Sieve</span>
+        <span class="ts-tag">Mod Arithmetic</span>
+        <span class="ts-tag">Euler's Totient</span>
+        <span class="ts-tag">CRT</span>
+        <span class="ts-tag">Factorization</span>
+        <span class="ts-tag">Divisors</span>
+        <span class="ts-tag">BigInteger</span>
+      </div>
+    </section>
+
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Core Programs &nbsp;·&nbsp; Numbers Level 6 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+    </div>
+  </footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this? These are advanced topics — one more attempt builds real depth!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
+    <div class="modal-box">
+      <div class="modal-emoji">⚠️</div>
+      <h3>Reset Progress?</h3>
+      <p class="modal-question">This will clear all <b>completed problems</b> for Level 6. This action <b>cannot be undone</b>.</p>
+      <div class="modal-btns">
+        <button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button>
+        <button class="btn-no" onclick="cancelReset()">↩ Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level6';
+
+  const PROBLEMS = [
+    {
+      id:91, title:"Fast Exponentiation (Binary Exponentiation)",
+      tags:["Math","Exponentiation","Divide & Conquer"],
+      desc:"Compute <b>base^exp</b> in O(log exp) multiplications using the binary exponentiation (repeated squaring) technique — the foundation of modular power.",
+      code:`public class FastExponentiation {
+    public static long power(long base, long exp) {
+        long result = 1;
+        while (exp > 0) {
+            if ((exp & 1) == 1)   // current bit of exp is set
+                result *= base;
+            base *= base;
+            exp >>= 1;
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        System.out.println("2^10  = " + power(2, 10));
+        System.out.println("3^5   = " + power(3, 5));
+        System.out.println("2^20  = " + power(2, 20));
+        System.out.println("7^0   = " + power(7, 0));
+        System.out.println("10^6  = " + power(10, 6));
+    }
+}`,
+      sampleIn:"2^10, 3^5, 2^20, 7^0, 10^6",
+      output:`2^10  = 1024
+3^5   = 243
+2^20  = 1048576
+7^0   = 1
+10^6  = 1000000`,
+      time:"O(log exp)", space:"O(1)",
+      topics:["Process each bit of exp from right to left","If current bit is set: result *= base","Square base on every iteration regardless"],
+      concept:"At each step, check if the current bit of exp is set — if yes, multiply result by base. Then square the base and right-shift exp. This processes all bits in O(log exp) multiplications instead of O(exp). Works because <code>base^exp = (base²)^(exp/2)</code> when exp is even."
+    },
+    {
+      id:92, title:"Modular Exponentiation",
+      tags:["Math","Modular Arithmetic","Fast Power"],
+      desc:"Compute <b>(base^exp) % mod</b> efficiently by applying modulo at every multiplication — essential for cryptography and competitive programming.",
+      code:`public class ModularExponentiation {
+    public static long modPow(long base, long exp, long mod) {
+        long result = 1;
+        base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1)
+                result = result * base % mod;
+            base = base * base % mod;
+            exp >>= 1;
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        System.out.println("2^10 % 1000        = " + modPow(2, 10, 1000));
+        System.out.println("3^5 % 13           = " + modPow(3, 5, 13));
+        System.out.println("2^100 % 1000000007 = " + modPow(2, 100, 1000000007L));
+    }
+}`,
+      sampleIn:"2^10 %1000 / 3^5 %13 / 2^100 %1e9+7",
+      output:`2^10 % 1000        = 24
+3^5 % 13           = 9
+2^100 % 1000000007 = 976371285`,
+      time:"O(log exp)", space:"O(1)",
+      topics:["Apply %mod after every multiplication","(a*b)%m = ((a%m)*(b%m))%m","Prevents overflow even for huge exponents"],
+      concept:"Apply mod at every multiplication to prevent overflow: <code>result = result * base % mod</code>. The property <code>(a*b)%m = ((a%m)*(b%m))%m</code> ensures correctness. This is essential in competitive programming — computing <code>a^b</code> directly for large exponents overflows any primitive type, but <code>(a^b)%m</code> stays bounded."
+    },
+    {
+      id:93, title:"Check Prime Using Square Root Method",
+      tags:["Math","Prime","Optimization"],
+      desc:"Test whether n is <b>prime</b> by trial division up to √n only, skipping even numbers after 2 — from O(n) naive to O(√n).",
+      code:`public class IsPrime {
+    public static boolean isPrime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+        for (int i = 3; i * i <= n; i += 2)
+            if (n % i == 0) return false;
+        return true;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 2, 3, 4, 17, 18, 97, 100, 7919};
+        for (int n : tests)
+            System.out.printf("%5d  ->  %s%n", n, isPrime(n) ? "Prime" : "Not Prime");
+    }
+}`,
+      sampleIn:"1, 2, 3, 4, 17, 18, 97, 100, 7919",
+      output:`    1  ->  Not Prime
+    2  ->  Prime
+    3  ->  Prime
+    4  ->  Not Prime
+   17  ->  Prime
+   18  ->  Not Prime
+   97  ->  Prime
+  100  ->  Not Prime
+ 7919  ->  Prime`,
+      time:"O(√n)", space:"O(1)",
+      topics:["Any factor d > √n pairs with n/d < √n (already found)","Check 2 separately; then only odd i starting at 3","Edge cases: n<2 and n=even (n≠2) return false early"],
+      concept:"If n has a factor d &gt; √n, then <code>n/d &lt; √n</code> is also a factor — we'd have found it first. Therefore checking up to √n is sufficient. Skipping even numbers after 2 halves the iterations. For 7919 (prime), the naive O(n) approach checks ~7919 divisions; this checks only ~44."
+    },
+    {
+      id:94, title:"Sieve of Eratosthenes",
+      tags:["Sieve","Prime","Array"],
+      desc:"Find <b>all primes up to N</b> in near-linear time by iteratively marking composites, starting from i² for each prime i.",
+      code:`import java.util.Arrays;
+
+public class SieveOfEratosthenes {
+    public static boolean[] sieve(int n) {
+        boolean[] isPrime = new boolean[n + 1];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = isPrime[1] = false;
+        for (int i = 2; (long) i * i <= n; i++)
+            if (isPrime[i])
+                for (int j = i * i; j <= n; j += i)
+                    isPrime[j] = false;
+        return isPrime;
+    }
+    public static void main(String[] args) {
+        boolean[] p = sieve(50);
+        System.out.print("Primes up to 50: ");
+        int count = 0;
+        for (int i = 2; i <= 50; i++)
+            if (p[i]) { System.out.print(i + " "); count++; }
+        System.out.println("\nCount: " + count);
+    }
+}`,
+      sampleIn:"n = 50",
+      output:`Primes up to 50: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47
+Count: 15`,
+      time:"O(n log log n)", space:"O(n)",
+      topics:["Start marking from i² — all smaller multiples already marked","Outer loop only needs to reach √n","Best algorithm for finding ALL primes up to N at once"],
+      concept:"For each prime i, start marking composites at i² (all smaller multiples j*i with j &lt; i have already been marked by j). The outer loop only needs to run to √n. Runtime O(n log log n) — essentially linear. Uses O(n) boolean space; for large n use a bitset to reduce by 8×."
+    },
+    {
+      id:95, title:"Segmented Sieve",
+      tags:["Sieve","Prime","Segmented"],
+      desc:"Find all primes in a <b>range [L, R]</b> without allocating an array of size R — crucial when R can be in the billions.",
+      code:`import java.util.*;
+
+public class SegmentedSieve {
+    private static List<Integer> simpleSieve(int limit) {
+        boolean[] isPrime = new boolean[limit + 1];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = isPrime[1] = false;
+        for (int i = 2; i * i <= limit; i++)
+            if (isPrime[i])
+                for (int j = i * i; j <= limit; j += i)
+                    isPrime[j] = false;
+        List<Integer> primes = new ArrayList<>();
+        for (int i = 2; i <= limit; i++) if (isPrime[i]) primes.add(i);
+        return primes;
+    }
+    public static void segmentedSieve(int lo, int hi) {
+        int limit = (int) Math.sqrt(hi) + 1;
+        List<Integer> base = simpleSieve(limit);
+        boolean[] isComposite = new boolean[hi - lo + 1];
+        for (int p : base) {
+            int start = (int) Math.max((long) p * p,
+                ((long)(lo + p - 1) / p) * p);
+            for (int j = start; j <= hi; j += p)
+                isComposite[j - lo] = true;
+        }
+        System.out.print("Primes in [" + lo + "," + hi + "]: ");
+        for (int i = lo; i <= hi; i++)
+            if (!isComposite[i - lo] && i >= 2) System.out.print(i + " ");
+        System.out.println();
+    }
+    public static void main(String[] args) {
+        segmentedSieve(10, 30);
+        segmentedSieve(50, 70);
+        segmentedSieve(100, 130);
+    }
+}`,
+      sampleIn:"[10,30]  /  [50,70]  /  [100,130]",
+      output:`Primes in [10,30]: 11 13 17 19 23 29
+Primes in [50,70]: 53 59 61 67
+Primes in [100,130]: 101 103 107 109 113 127 `,
+      time:"O((R-L) log log R)", space:"O(√R + R-L)",
+      topics:["Base primes ≤ √R found by simple sieve O(√R)","Mark composites only within [L,R] window","Memory: O(√R + R-L) vs O(R) for the full sieve"],
+      concept:"When R is huge (e.g. 10¹²), a standard sieve needs O(R) memory. Segmented sieve: run simple sieve to √R to get base primes, then for each base prime p mark its multiples in [L, R] using only an array of size R-L+1. Space is <b>O(√R + R-L)</b> — often millions of times smaller."
+    },
+    {
+      id:96, title:"Euler's Totient Function φ(n)",
+      tags:["Math","Number Theory","Euler"],
+      desc:"Compute <b>φ(n)</b> — the count of integers in [1, n] that are coprime to n — using the prime factorisation formula in O(√n).",
+      code:`public class EulersTotient {
+    public static int phi(int n) {
+        int result = n;
+        for (int p = 2; p * p <= n; p++) {
+            if (n % p == 0) {
+                while (n % p == 0) n /= p;
+                result -= result / p;
+            }
+        }
+        if (n > 1) result -= result / n;
+        return result;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 2, 6, 9, 12, 36, 100};
+        for (int n : tests)
+            System.out.println("phi(" + n + ") = " + phi(n));
+    }
+}`,
+      sampleIn:"n = 1, 2, 6, 9, 12, 36, 100",
+      output:`phi(1) = 1
+phi(2) = 1
+phi(6) = 2
+phi(9) = 6
+phi(12) = 4
+phi(36) = 12
+phi(100) = 40`,
+      time:"O(√n)", space:"O(1)",
+      topics:["φ(n) = n × ∏(1 - 1/p) for each distinct prime p of n","For each prime p found: result -= result/p","φ(p) = p-1 for prime p; φ(pᵏ) = pᵏ - p^(k-1)"],
+      concept:"φ(n) counts integers ≤ n that share no common factor with n. Formula: φ(n) = n × ∏(1 − 1/p) for all distinct prime factors p. Implementation: start with result = n, then for each prime factor p found by trial division, apply <code>result -= result/p</code>. This avoids fractions and stays in integers throughout."
+    },
+    {
+      id:97, title:"Modular Inverse",
+      tags:["Math","Modular Arithmetic","Fermat","Extended GCD"],
+      desc:"Find x such that <b>a × x ≡ 1 (mod p)</b> — the modular inverse — using Fermat's Little Theorem or the Extended Euclidean Algorithm.",
+      code:`public class ModularInverse {
+    private static long modPow(long base, long exp, long mod) {
+        long r = 1; base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) r = r * base % mod;
+            base = base * base % mod; exp >>= 1;
+        }
+        return r;
+    }
+    // Fermat's Little Theorem: inv(a) = a^(p-2) % p  [p must be prime]
+    public static long modInverseFermat(long a, long mod) {
+        return modPow(a, mod - 2, mod);
+    }
+    // Extended Euclidean — works for any coprime (a, mod)
+    private static long[] extGCD(long a, long b) {
+        if (b == 0) return new long[]{a, 1, 0};
+        long[] r = extGCD(b, a % b);
+        return new long[]{r[0], r[2], r[1] - (a / b) * r[2]};
+    }
+    public static long modInverseExtGCD(long a, long mod) {
+        return (extGCD(a, mod)[1] % mod + mod) % mod;
+    }
+    public static void main(String[] args) {
+        System.out.println("inv(3) mod 7  = " + modInverseFermat(3, 7));  // 5
+        System.out.println("inv(2) mod 7  = " + modInverseFermat(2, 7));  // 4
+        System.out.println("inv(5) mod 11 = " + modInverseFermat(5, 11)); // 9
+        System.out.println("inv(3) mod 7  [ExtGCD] = " + modInverseExtGCD(3, 7));
+    }
+}`,
+      sampleIn:"inv(3)%7 / inv(2)%7 / inv(5)%11",
+      output:`inv(3) mod 7  = 5
+inv(2) mod 7  = 4
+inv(5) mod 11 = 9
+inv(3) mod 7  [ExtGCD] = 5`,
+      time:"O(log mod)", space:"O(1)",
+      topics:["Fermat: inv(a) = a^(p-2) % p when p is prime","ExtGCD works for any coprime (a, mod)","Used heavily for nCr mod prime in competitive programming"],
+      concept:"Modular inverse of a mod p is x such that <code>a*x ≡ 1 (mod p)</code>. Method 1 — Fermat's Little Theorem: when p is prime, <code>x = a^(p-2) mod p</code>. Method 2 — Extended GCD: works even when mod is not prime, as long as <code>gcd(a, mod) = 1</code>. Verification: 3×5=15, 15%7=1 ✓"
+    },
+    {
+      id:98, title:"Chinese Remainder Theorem (Basic)",
+      tags:["Math","Number Theory","CRT","Congruence"],
+      desc:"Find the smallest <b>x</b> satisfying two simultaneous congruences <b>x ≡ r₁ (mod m₁)</b> and <b>x ≡ r₂ (mod m₂)</b> with coprime moduli.",
+      code:`public class ChineseRemainderTheorem {
+    public static long crt(long r1, long m1, long r2, long m2) {
+        for (long x = r1; x < m1 * m2; x += m1)
+            if (x % m2 == r2) return x;
+        return -1;
+    }
+    public static void main(String[] args) {
+        long x1 = crt(2, 3, 3, 5);
+        System.out.printf("x%%3=%d, x%%5=%d  =>  x = %d%n",
+            x1 % 3, x1 % 5, x1);
+        long x2 = crt(1, 2, 2, 3);
+        System.out.printf("x%%2=%d, x%%3=%d  =>  x = %d%n",
+            x2 % 2, x2 % 3, x2);
+        long x3 = crt(3, 4, 1, 7);
+        System.out.printf("x%%4=%d, x%%7=%d  =>  x = %d%n",
+            x3 % 4, x3 % 7, x3);
+    }
+}`,
+      sampleIn:"x≡2(mod3),x≡3(mod5) / x≡1(mod2),x≡2(mod3) / x≡3(mod4),x≡1(mod7)",
+      output:`x%3=2, x%5=3  =>  x = 8
+x%2=1, x%3=2  =>  x = 5
+x%4=3, x%7=1  =>  x = 15`,
+      time:"O(m1 × m2) brute", space:"O(1)",
+      topics:["Brute force: start at r1, step by m1, check mod m2","Unique solution exists mod (m1×m2) when gcd(m1,m2)=1","Constructive formula uses modular inverse for O(log) time"],
+      concept:"CRT: a system of congruences with pairwise coprime moduli has a <b>unique</b> solution mod (m1 × m2 × ... × mk). The brute-force approach starts at r1 and steps by m1 — the first value satisfying mod m2 is the answer. For production code, use the constructive formula with modular inverse for guaranteed O(log) time."
+    },
+    {
+      id:99, title:"Check if a Number is a Happy Number",
+      tags:["Math","Simulation","Floyd Cycle","Digit Manipulation"],
+      desc:"Determine if a number is <b>happy</b> — does repeatedly replacing n with the sum of squares of its digits eventually reach 1?",
+      code:`public class HappyNumber {
+    private static int sumOfSquares(int n) {
+        int sum = 0;
+        while (n > 0) { int d = n % 10; sum += d * d; n /= 10; }
+        return sum;
+    }
+    // Floyd's cycle detection — O(1) space, no HashSet needed
+    public static boolean isHappy(int n) {
+        int slow = n, fast = sumOfSquares(n);
+        while (fast != 1 && slow != fast) {
+            slow = sumOfSquares(slow);
+            fast = sumOfSquares(sumOfSquares(fast));
+        }
+        return fast == 1;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 7, 19, 4, 20, 100, 116};
+        for (int n : tests)
+            System.out.printf("%4d  ->  %s%n", n,
+                isHappy(n) ? "Happy" : "Not Happy");
+    }
+}`,
+      sampleIn:"n = 1, 7, 19, 4, 20, 100, 116",
+      output:`   1  ->  Happy
+   7  ->  Happy
+  19  ->  Happy
+   4  ->  Not Happy
+  20  ->  Happy
+ 100  ->  Happy
+ 116  ->  Happy`,
+      time:"O(log n)", space:"O(1)",
+      topics:["Unhappy numbers always cycle back through 4","Floyd cycle detection: slow/fast pointer","O(1) space — no HashSet or Set needed"],
+      concept:"Happy numbers eventually reach 1. Unhappy numbers cycle forever through the sequence 4→16→37→58→89→145→42→20→4. <b>Floyd's cycle detection</b>: move slow pointer one step and fast two steps — if they meet at a value ≠ 1, a cycle was detected (unhappy). If fast reaches 1, the number is happy."
+    },
+    {
+      id:100, title:"Digital Root",
+      tags:["Math","Digit Sum","Number Theory"],
+      desc:"Compute the <b>digital root</b> — the single digit reached by repeatedly summing all digits — in O(1) using a mod-9 congruence shortcut.",
+      code:`public class DigitalRoot {
+    public static int digitalRoot(int n) {
+        if (n == 0) return 0;
+        return 1 + (n - 1) % 9;
+    }
+    public static int digitalRootIterative(int n) {
+        while (n >= 10) {
+            int sum = 0;
+            while (n > 0) { sum += n % 10; n /= 10; }
+            n = sum;
+        }
+        return n;
+    }
+    public static void main(String[] args) {
+        int[] tests = {0, 9, 10, 493, 942, 999, 12345};
+        for (int n : tests)
+            System.out.printf("digitalRoot(%5d) = %d%n", n, digitalRoot(n));
+    }
+}`,
+      sampleIn:"n = 0, 9, 10, 493, 942, 999, 12345",
+      output:`digitalRoot(    0) = 0
+digitalRoot(    9) = 9
+digitalRoot(   10) = 1
+digitalRoot(  493) = 7
+digitalRoot(  942) = 6
+digitalRoot(  999) = 9
+digitalRoot(12345) = 6`,
+      time:"O(1)", space:"O(1)",
+      topics:["O(1) formula: 1 + (n-1) % 9  for n > 0","Based on casting-out-nines: n ≡ digit sum (mod 9)","Edge cases: 0→0, multiples of 9→9"],
+      concept:"Every number n is congruent to its digit sum modulo 9. The digital root is this congruence value — but 0 maps to 9 (not 0) for positive multiples of 9. The formula <code>1 + (n-1) % 9</code> handles this: subtracting 1 shifts 9 to 8 (mod 9 = 8), then +1 restores it to 9. Verify: 493 → 1+(492%9) = 1+6 = 7 ✓"
+    },
+    {
+      id:101, title:"Trailing Zeros in N Factorial",
+      tags:["Math","Factorial","Prime Factor 5"],
+      desc:"Count the <b>trailing zeros in n!</b> by counting factors of 5 — they are always fewer than factors of 2, so they're the bottleneck.",
+      code:`public class TrailingZerosFactorial {
+    public static int trailingZeros(int n) {
+        int count = 0;
+        while (n >= 5) { n /= 5; count += n; }
+        return count;
+    }
+    public static void main(String[] args) {
+        int[] tests = {5, 10, 25, 100, 1000};
+        for (int n : tests)
+            System.out.println(n + "! has " + trailingZeros(n) + " trailing zeros");
+    }
+}`,
+      sampleIn:"n = 5, 10, 25, 100, 1000",
+      output:`5! has 1 trailing zeros
+10! has 2 trailing zeros
+25! has 6 trailing zeros
+100! has 24 trailing zeros
+1000! has 249 trailing zeros`,
+      time:"O(log n)", space:"O(1)",
+      topics:["Trailing zeros = factors of 10 = min(2s, 5s) = count of 5s","n/5 counts multiples of 5; n/25 adds extra factor from 25s...","25 contributes 2 factors of 5; 125 contributes 3, etc."],
+      concept:"Trailing zeros in n! come from 10 = 2 × 5. Factors of 2 always outnumber factors of 5, so count only factors of 5. The sum <code>n/5 + n/25 + n/125 + ...</code> counts: multiples of 5 (each contribute 1), multiples of 25 (contribute an extra 1), multiples of 125 (yet another), and so on. The loop divides n by 5 each iteration, accumulating the count."
+    },
+    {
+      id:102, title:"Count Digits in N Factorial",
+      tags:["Math","Factorial","Logarithm","Stirling"],
+      desc:"Count the number of decimal <b>digits in n!</b> without computing the factorial, using the identity digits(k) = ⌊log₁₀(k)⌋ + 1.",
+      code:`public class CountDigitsFactorial {
+    public static int countDigits(int n) {
+        if (n == 0 || n == 1) return 1;
+        double digits = 0;
+        for (int i = 2; i <= n; i++)
+            digits += Math.log10(i);
+        return (int) digits + 1;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 5, 10, 20, 50, 100};
+        for (int n : tests)
+            System.out.printf("%4d! has %d digits%n", n, countDigits(n));
+    }
+}`,
+      sampleIn:"n = 1, 5, 10, 20, 50, 100",
+      output:`   1! has 1 digits
+   5! has 3 digits
+  10! has 7 digits
+  20! has 19 digits
+  50! has 65 digits
+ 100! has 158 digits`,
+      time:"O(n)", space:"O(1)",
+      topics:["digits(n!) = floor(log₁₀(n!)) + 1","log₁₀(n!) = Σ log₁₀(i) for i = 2 to n","Stirling approximation gives O(1) alternative"],
+      concept:"Number of digits of k = ⌊log₁₀(k)⌋ + 1. So digits in n! = ⌊log₁₀(n!)⌋ + 1. Since log₁₀(n!) = Σ log₁₀(i), we sum log10 values from 2 to n. For an O(1) alternative, Stirling's approximation gives <code>log₁₀(n!) ≈ n·log₁₀(n/e) + 0.5·log₁₀(2πn)</code>, which works well for large n."
+    },
+    {
+      id:103, title:"Big Factorial Using BigInteger",
+      tags:["BigInteger","Factorial","Large Numbers"],
+      desc:"Compute the <b>exact factorial of large n</b> using Java's <code>BigInteger</code> which handles arbitrarily large integers.",
+      code:`import java.math.BigInteger;
+
+public class BigFactorial {
+    public static BigInteger factorial(int n) {
+        BigInteger result = BigInteger.ONE;
+        for (int i = 2; i <= n; i++)
+            result = result.multiply(BigInteger.valueOf(i));
+        return result;
+    }
+    public static void main(String[] args) {
+        System.out.println("10! = " + factorial(10));
+        System.out.println("20! = " + factorial(20));
+        BigInteger f50 = factorial(50);
+        System.out.println("50! digit count = " + f50.toString().length());
+        System.out.println("50! starts: " + f50.toString().substring(0, 20) + "...");
+        System.out.println("100! digit count = " + factorial(100).toString().length());
+    }
+}`,
+      sampleIn:"n = 10, 20, 50, 100",
+      output:`10! = 3628800
+20! = 2432902008176640000
+50! digit count = 65
+50! starts: 30414093201713378043...
+100! digit count = 158`,
+      time:"O(n²) digit operations", space:"O(n) digits",
+      topics:["int overflows at ~13!; long overflows at ~21!","BigInteger stores digits as an int[] array internally","multiply() costs O(d²) per step where d = current digit count"],
+      concept:"Java's int (32-bit) overflows at ~2.1×10⁹ and long (64-bit) at ~9.2×10¹⁸. 21! already exceeds long range. <code>java.math.BigInteger</code> stores arbitrarily large integers as an int array. <code>multiply()</code> costs O(d²) per call where d is the current digit count — acceptable for moderate n. For very large n, use FFT-based multiplication."
+    },
+    {
+      id:104, title:"Find the Nth Ugly Number",
+      tags:["Dynamic Programming","Three Pointers","Ugly Number"],
+      desc:"Find the <b>nth ugly number</b> — a positive integer whose only prime factors are 2, 3, and 5 — without brute-force checking every integer.",
+      code:`public class NthUglyNumber {
+    public static int nthUgly(int n) {
+        int[] ugly = new int[n];
+        ugly[0] = 1;
+        int i2 = 0, i3 = 0, i5 = 0;
+        for (int i = 1; i < n; i++) {
+            int next2 = ugly[i2] * 2, next3 = ugly[i3] * 3, next5 = ugly[i5] * 5;
+            int next = Math.min(next2, Math.min(next3, next5));
+            ugly[i] = next;
+            if (next == next2) i2++;
+            if (next == next3) i3++;
+            if (next == next5) i5++;
+        }
+        return ugly[n - 1];
+    }
+    public static void main(String[] args) {
+        System.out.print("First 15 ugly numbers: ");
+        for (int i = 1; i <= 15; i++) System.out.print(nthUgly(i) + " ");
+        System.out.println();
+        System.out.println("10th ugly: " + nthUgly(10));
+        System.out.println("15th ugly: " + nthUgly(15));
+    }
+}`,
+      sampleIn:"n = 10, n = 15 (first 15 printed)",
+      output:`First 15 ugly numbers: 1 2 3 4 5 6 8 9 10 12 15 16 18 20 24
+10th ugly: 12
+15th ugly: 24`,
+      time:"O(n)", space:"O(n)",
+      topics:["Three pointers i2, i3, i5 track which ugly to multiply next","Always pick min(ugly[i2]×2, ugly[i3]×3, ugly[i5]×5)","Advance ALL matching pointers to avoid duplicates like 6=2×3"],
+      concept:"Three pointers each track which previously computed ugly number should be multiplied by 2, 3, or 5 respectively. Always pick the minimum candidate as the next ugly number, then advance every pointer that produced that minimum. Advancing <b>all</b> matching pointers is critical — e.g. 6 = 2×3 would be generated by both pointer 2 and pointer 3."
+    },
+    {
+      id:105, title:"Find Super Ugly Number",
+      tags:["Dynamic Programming","Multi-Pointer","Prime Factors"],
+      desc:"Generalise ugly numbers to a <b>custom set of primes</b> — find the nth super ugly number using k pointers, one per prime.",
+      code:`public class SuperUglyNumber {
+    public static int superUgly(int n, int[] primes) {
+        int k = primes.length;
+        int[] ugly = new int[n];
+        ugly[0] = 1;
+        int[] idx = new int[k];
+        for (int i = 1; i < n; i++) {
+            int next = Integer.MAX_VALUE;
+            for (int j = 0; j < k; j++)
+                next = Math.min(next, ugly[idx[j]] * primes[j]);
+            ugly[i] = next;
+            for (int j = 0; j < k; j++)
+                if (ugly[idx[j]] * primes[j] == next) idx[j]++;
+        }
+        return ugly[n - 1];
+    }
+    public static void main(String[] args) {
+        int[] p1 = {2, 7, 13, 19};
+        System.out.print("Super ugly [2,7,13,19] first 12: ");
+        for (int i = 1; i <= 12; i++) System.out.print(superUgly(i, p1) + " ");
+        System.out.println();
+        System.out.println("n=12: " + superUgly(12, p1));
+        System.out.println("Super ugly [2,3,5] n=10: " + superUgly(10, new int[]{2,3,5}));
+    }
+}`,
+      sampleIn:"primes=[2,7,13,19] n=12  /  primes=[2,3,5] n=10",
+      output:`Super ugly [2,7,13,19] first 12: 1 2 4 7 8 13 14 16 19 26 28 32
+n=12: 32
+Super ugly [2,3,5] n=10: 12`,
+      time:"O(n × k)", space:"O(n + k)",
+      topics:["k pointers, one per prime in the given set","Same min-pick + advance pattern as the ugly number problem","With primes=[2,3,5] reduces exactly to the standard ugly number"],
+      concept:"Identical to the 3-pointer ugly number approach but generalised to k primes. Each pointer tracks which super ugly number to multiply by its corresponding prime. Pick the minimum candidate, set it as the next super ugly number, then advance all pointers that generated that minimum. Time is O(n×k); a priority queue reduces it to O(n log k)."
+    },
+    {
+      id:106, title:"Count Divisors of a Number",
+      tags:["Math","Divisors","Square Root"],
+      desc:"Count <b>all divisors</b> of n efficiently by iterating only to √n and counting both d and n/d for each divisor d found.",
+      code:`public class CountDivisors {
+    public static int countDivisors(int n) {
+        int count = 0;
+        for (int i = 1; (long) i * i <= n; i++) {
+            if (n % i == 0) {
+                count++;
+                if (i != n / i) count++;
+            }
+        }
+        return count;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 6, 12, 28, 36, 100, 1000};
+        for (int n : tests)
+            System.out.printf("%-5d  ->  %d divisors%n", n, countDivisors(n));
+    }
+}`,
+      sampleIn:"n = 1, 6, 12, 28, 36, 100, 1000",
+      output:`1      ->  1 divisors
+6      ->  4 divisors
+12     ->  6 divisors
+28     ->  6 divisors
+36     ->  9 divisors
+100    ->  9 divisors
+1000   ->  16 divisors`,
+      time:"O(√n)", space:"O(1)",
+      topics:["Divisors pair up as (i, n/i) where i ≤ √n","Perfect square i=√n: count only once to avoid duplication","36: pairs (1,36),(2,18),(3,12),(4,9),(6,6) → 9 divisors"],
+      concept:"Divisors of n come in pairs <code>(i, n/i)</code>. For every i from 1 to √n that divides n, both i and n/i are divisors. If i = n/i (n is a perfect square), count only once. This gives O(√n) vs O(n) for the naive approach. E.g., 36's pairs: (1,36),(2,18),(3,12),(4,9),(6,6) — 5 pairs but the last is one value = 9 divisors."
+    },
+    {
+      id:107, title:"Sum of Divisors",
+      tags:["Math","Divisors","Square Root","Perfect Numbers"],
+      desc:"Compute the <b>sum of all divisors σ(n)</b> using the same pair-counting trick as divisor count — and discover perfect numbers along the way.",
+      code:`public class SumOfDivisors {
+    public static long sumDivisors(int n) {
+        long sum = 0;
+        for (int i = 1; (long) i * i <= n; i++) {
+            if (n % i == 0) {
+                sum += i;
+                if (i != n / i) sum += n / i;
+            }
+        }
+        return sum;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 6, 12, 28, 36};
+        for (int n : tests)
+            System.out.printf("sigma(%d) = %d%n", n, sumDivisors(n));
+        System.out.println("\nPerfect numbers up to 1000:");
+        for (int n = 1; n <= 1000; n++)
+            if (sumDivisors(n) == 2L * n) System.out.print(n + " ");
+    }
+}`,
+      sampleIn:"n = 1, 6, 12, 28, 36  /  perfect numbers ≤ 1000",
+      output:`sigma(1) = 1
+sigma(6) = 12
+sigma(12) = 28
+sigma(28) = 56
+sigma(36) = 91
+
+Perfect numbers up to 1000:
+6 28 496 `,
+      time:"O(√n)", space:"O(1)",
+      topics:["Add both i and n/i for each divisor pair","σ(n) = 2n defines a perfect number","Perfect numbers: 6=1+2+3, 28=1+2+4+7+14, 496, 8128..."],
+      concept:"Same pair-counting as divisor count, but add both values in each pair. σ(n) = 2n is the definition of a <b>perfect number</b> — one where the sum of its proper divisors (all divisors except itself) equals n. Classic: σ(6) = 12 = 2×6; σ(28) = 56 = 2×28. Only 5 perfect numbers are known below 10³⁴."
+    },
+    {
+      id:108, title:"Prime Factorization",
+      tags:["Math","Prime Factors","Trial Division"],
+      desc:"Decompose n into its <b>prime factors with exponents</b> by trial division — divide out 2 first, then all odd numbers to √n.",
+      code:`public class PrimeFactorization {
+    public static void primeFactors(int n) {
+        StringBuilder sb = new StringBuilder();
+        int original = n, cnt;
+        cnt = 0;
+        while (n % 2 == 0) { n /= 2; cnt++; }
+        if (cnt > 0) sb.append("2").append(cnt > 1 ? "^" + cnt : "");
+        for (int i = 3; i * i <= n; i += 2) {
+            cnt = 0;
+            while (n % i == 0) { n /= i; cnt++; }
+            if (cnt > 0) {
+                if (sb.length() > 0) sb.append(" x ");
+                sb.append(i).append(cnt > 1 ? "^" + cnt : "");
+            }
+        }
+        if (n > 1) {
+            if (sb.length() > 0) sb.append(" x ");
+            sb.append(n);
+        }
+        System.out.println(original + " = " + sb);
+    }
+    public static void main(String[] args) {
+        int[] tests = {12, 360, 97, 1000, 7919};
+        for (int n : tests) primeFactors(n);
+    }
+}`,
+      sampleIn:"n = 12, 360, 97, 1000, 7919",
+      output:`12 = 2^2 x 3
+360 = 2^3 x 3^2 x 5
+97 = 97
+1000 = 2^3 x 5^3
+7919 = 7919`,
+      time:"O(√n)", space:"O(log n)",
+      topics:["Divide 2 fully before any odd factor","Each prime p is fully divided out before moving to p+2","Remaining n>1 after loop is a prime factor > √n"],
+      concept:"Divide out all 2s first, then try odd divisors from 3 upward stepping by 2. Each prime factor is completely divided out (with exponent tracked) before moving on. After the loop, if n &gt; 1, the remaining n is a prime factor greater than √original. This works in O(√n) and produces the complete prime factorisation."
+    },
+    {
+      id:109, title:"Largest Prime Factor",
+      tags:["Math","Prime Factors","Optimization"],
+      desc:"Find the <b>largest prime factor</b> of n in O(√n) time by trial division — works even for 64-bit numbers.",
+      code:`public class LargestPrimeFactor {
+    public static long largestPrimeFactor(long n) {
+        long largest = -1;
+        while (n % 2 == 0) { largest = 2; n /= 2; }
+        for (long i = 3; i * i <= n; i += 2)
+            while (n % i == 0) { largest = i; n /= i; }
+        if (n > 1) largest = n;
+        return largest;
+    }
+    public static void main(String[] args) {
+        long[] tests = {12, 13195, 100, 1000000007L, 600851475143L};
+        for (long n : tests)
+            System.out.println("Largest prime factor of " + n + " = "
+                + largestPrimeFactor(n));
+    }
+}`,
+      sampleIn:"n = 12, 13195, 100, 600851475143",
+      output:`Largest prime factor of 12 = 3
+Largest prime factor of 13195 = 29
+Largest prime factor of 100 = 5
+Largest prime factor of 1000000007 = 1000000007
+Largest prime factor of 600851475143 = 6857`,
+      time:"O(√n)", space:"O(1)",
+      topics:["Same trial division as factorisation","Track the last prime found — it's the largest","After loop: if n>1 remains, it IS the largest prime factor"],
+      concept:"Same trial division as full factorisation, but only track the <b>last</b> prime found during division. After the loop, any remaining n &gt; 1 is a prime larger than √original — and it must be the largest. 600851475143 = 71 × 839 × 1471 × 6857 (Project Euler problem 3!). Using <code>long</code> supports numbers up to ~9.2×10¹⁸."
+    },
+    {
+      id:110, title:"Smallest Prime Factor Sieve (SPF)",
+      tags:["Sieve","Prime Factors","Precomputation"],
+      desc:"Precompute the <b>smallest prime factor (SPF)</b> for every number up to N — then factorize any number in O(log n) per query.",
+      code:`public class SmallestPrimeFactor {
+    static int[] spf;
+    public static void buildSPF(int n) {
+        spf = new int[n + 1];
+        for (int i = 0; i <= n; i++) spf[i] = i;
+        for (int i = 2; (long) i * i <= n; i++) {
+            if (spf[i] == i) {          // i is prime
+                for (int j = i * i; j <= n; j += i)
+                    if (spf[j] == j) spf[j] = i;
+            }
+        }
+    }
+    public static void factorize(int n) {
+        System.out.print(n + " = ");
+        StringBuilder sb = new StringBuilder();
+        while (n > 1) {
+            int p = spf[n], cnt = 0;
+            while (n % p == 0) { n /= p; cnt++; }
+            if (sb.length() > 0) sb.append(" x ");
+            sb.append(p).append(cnt > 1 ? "^" + cnt : "");
+        }
+        System.out.println(sb);
+    }
+    public static void main(String[] args) {
+        buildSPF(1000);
+        System.out.println("SPF[12]  = " + spf[12]);
+        System.out.println("SPF[35]  = " + spf[35]);
+        System.out.println("SPF[97]  = " + spf[97]);
+        System.out.println();
+        factorize(12); factorize(360); factorize(100);
+    }
+}`,
+      sampleIn:"buildSPF(1000) then query SPF[12], SPF[35], SPF[97]",
+      output:`SPF[12]  = 2
+SPF[35]  = 5
+SPF[97]  = 97
+
+12 = 2^2 x 3
+360 = 2^3 x 3^2 x 5
+100 = 2^2 x 5^2`,
+      time:"O(n log log n) build, O(log n) query", space:"O(n)",
+      topics:["Initialize spf[i]=i; if unchanged after sieve, i is prime","For each prime p: mark spf[multiples] = p if not yet set","Factorize: repeatedly divide by spf[n] until n=1"],
+      concept:"Precompute the smallest prime factor for every number ≤ N using a sieve: initialise spf[i]=i, then for each prime p mark spf[j]=p for multiples j starting at p². If spf[i] still equals i after the sieve, i is prime. Factorisation then takes O(log n) divisions by spf[n] — ideal when <b>many numbers</b> need to be factorised."
+    }
+  ];
+
+  const TESTCASES = {
+    91:  [{in:"base=2, exp=10",   out:"1024  (2¹⁰)"},{in:"base=3, exp=5",    out:"243   (3⁵)"}],
+    92:  [{in:"2^10 mod 1000",    out:"24    (1024 % 1000)"},{in:"3^5 mod 13",     out:"9     (243 % 13)"}],
+    93:  [{in:"n = 17",  out:"Prime     (no factor up to √17 ≈ 4.1)"},{in:"n = 18",  out:"Not Prime (divisible by 2)"}],
+    94:  [{in:"n = 30",  out:"2 3 5 7 11 13 17 19 23 29  (10 primes)"},{in:"n = 50",  out:"15 primes up to 50"}],
+    95:  [{in:"range [10, 30]",  out:"11 13 17 19 23 29"},{in:"range [50, 70]",  out:"53 59 61 67"}],
+    96:  [{in:"n = 12",  out:"φ(12) = 4  (coprime: 1, 5, 7, 11)"},{in:"n = 9",   out:"φ(9) = 6   (coprime: 1,2,4,5,7,8)"}],
+    97:  [{in:"a=3, mod=7",   out:"5  (3×5=15≡1 mod 7)"},{in:"a=5, mod=11",  out:"9  (5×9=45≡1 mod 11)"}],
+    98:  [{in:"x≡2(mod3), x≡3(mod5)",  out:"x=8   (8%3=2, 8%5=3 ✓)"},{in:"x≡3(mod4), x≡1(mod7)",  out:"x=15  (15%4=3, 15%7=1 ✓)"}],
+    99:  [{in:"n = 19",  out:"Happy     (19→82→68→100→1)"},{in:"n = 4",   out:"Not Happy (cycles: 4→16→37→...→4)"}],
+    100: [{in:"n = 493",  out:"7  (4+9+3=16 → 1+6=7)"},{in:"n = 942",  out:"6  (9+4+2=15 → 1+5=6)"}],
+    101: [{in:"n = 10",  out:"2  (10/5=2)"},{in:"n = 25",  out:"6  (25/5=5, 5/5=1, total=6)"}],
+    102: [{in:"n = 5",   out:"3 digits  (5! = 120)"},{in:"n = 10",  out:"7 digits  (10! = 3628800)"}],
+    103: [{in:"n = 20",  out:"2432902008176640000  (19 digits)"},{in:"n = 50",  out:"65 digits"}],
+    104: [{in:"n = 10",  out:"12  (seq: 1,2,3,4,5,6,8,9,10,12)"},{in:"n = 15",  out:"24"}],
+    105: [{in:"primes=[2,7,13,19], n=12",  out:"32  (seq: 1,2,4,7,8,13,14,16,19,26,28,32)"},{in:"primes=[2,3,5], n=10",      out:"12  (same as regular ugly)"}],
+    106: [{in:"n = 12",  out:"6  (divisors: 1,2,3,4,6,12)"},{in:"n = 36",  out:"9  (divisors: 1,2,3,4,6,9,12,18,36)"}],
+    107: [{in:"n = 6",   out:"12  (1+2+3+6=12, perfect number!)"},{in:"n = 12",  out:"28  (1+2+3+4+6+12=28)"}],
+    108: [{in:"n = 12",   out:"2^2 x 3"},{in:"n = 360",  out:"2^3 x 3^2 x 5"}],
+    109: [{in:"n = 13195",       out:"29  (13195 = 5×7×13×29)"},{in:"n = 100",         out:"5   (100 = 2²×5²)"}],
+    110: [{in:"SPF[12]",   out:"2  (smallest prime factor of 12)"},{in:"SPF[35]",   out:"5  (smallest prime factor of 35=5×7)"}]
+  };
+
+  let openId = null, pendingId = null;
+  const completed = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render() {
+    document.getElementById('problems-list').innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id)?'done':''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id)?'checked':''}" onclick="markDone(event,${p.id})" title="${completed.has(p.id)?'Mark incomplete':'Mark as done'}">${completed.has(p.id)?'✓':'○'}</button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp"><div class="io-box-label">▶ TEST INPUTS</div><div class="io-val">${escHtml(p.sampleIn)}</div></div>
+                <div class="io-box io-out"><div class="io-box-label">◀ OUTPUT</div><div class="io-val">${escHtml(p.output)}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box"><div class="cx-label">TIME</div><div class="cx-val cx-time">${p.time}</div></div>
+                <div class="cx-box"><div class="cx-label">SPACE</div><div class="cx-val cx-space">${p.space}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t=>`<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t=>`<span class="modal-hint-tag">${t}</span>`).join('');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    completed.has(id) ? completed.delete(id) : completed.add(id);
+    saveProgress();
+    render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('reset-modal').style.display = 'flex';
+  }
+  function confirmReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    completed.clear();
+    saveProgress();
+    openId = null;
+    render();
+  }
+  function cancelReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed]));
+  }
+
+  function updateProgressUI() {
+    const done = completed.size;
+    document.getElementById('prog-done').textContent = done;
+    const pct = PROBLEMS.length ? Math.round(done / PROBLEMS.length * 100) : 0;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  render();
+  </script>
+</body>
+</html>

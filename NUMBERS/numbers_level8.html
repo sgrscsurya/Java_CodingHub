@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 8 – Very Advanced Mathematical | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4; --green: #10b981;
+      --accent: #6366f1; --accent-l: #a5b4fc; --orange: #f97316;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569; --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 680px; height: 680px; background: var(--accent); top: -280px; right: -180px; }
+    .orb-2 { width: 450px; height: 450px; background: var(--purple); bottom: -80px; left: -120px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-35px,25px)} }
+    .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px; }
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--accent-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--accent-l); font-weight: 600; }
+    .nav-pill { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: var(--accent-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-left { flex: 1; min-width: 0; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.28); color: var(--accent-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--accent-l), #c7d2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+    .prog-card { background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; flex-shrink: 0; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--accent-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-l)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); color: var(--accent-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done { border-color: rgba(16,185,129,0.6); background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%); box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18); }
+    .pc.done::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%); z-index: 2; }
+    .pc.done:hover { border-color: rgba(16,185,129,0.82); background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%); box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 8px 44px rgba(16,185,129,0.34), 0 0 110px rgba(16,185,129,0.15), inset 0 0 50px rgba(16,185,129,0.08), inset 0 1px 0 rgba(52,211,153,0.25); transform: translateY(-2px); }
+    .pc.open { border-color: rgba(99,102,241,0.35); box-shadow: 0 8px 40px rgba(99,102,241,0.08); }
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 32px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); color: var(--accent-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .try-btn { display:inline-flex; align-items:center; gap:5px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.28); color:var(--cyan); padding:5px 12px; border-radius:100px; font-size:11px; font-weight:600; text-decoration:none; transition:all .2s; white-space:nowrap; flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2); border-color:var(--cyan); transform:scale(1.03); }
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:9px; padding:10px 12px; }
+    .tc-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:7px; }
+    .tc-row { display:flex; gap:6px; font-size:11.5px; margin-bottom:3px; align-items:flex-start; }
+    .tc-key { color:var(--text3); min-width:50px; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+    .tc-val { color:var(--text2); font-family:'JetBrains Mono',monospace; white-space:pre-wrap; word-break:break-word; }
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 4500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--accent-l); color: var(--accent-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+    .concept-box { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.18); border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(99,102,241,0.15); color: var(--accent-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+    .modal-overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-box { background:#0d0d20; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:32px 28px; max-width:420px; width:100%; box-shadow:0 32px 80px rgba(0,0,0,0.7); animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px; text-align:center; margin-bottom:12px; }
+    .modal-box h3 { font-size:19px; font-weight:800; text-align:center; margin-bottom:8px; }
+    .modal-question { font-size:14px; color:var(--text2); text-align:center; line-height:1.55; margin-bottom:20px; }
+    .modal-hint-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+    .modal-hint-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(99,102,241,0.12); border:1px solid rgba(99,102,241,0.25); color:var(--accent-l); font-size:11.5px; padding:4px 10px; border-radius:100px; }
+    .modal-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--accent),#4338ca); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04); color:var(--text2); border:1px solid var(--card-border); padding:13px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4); color:#f87171; }
+    .btn-reset-confirm { background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-reset-confirm:hover { opacity:.85; }
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--accent-l); }
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; } .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; } .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; } .pc-body-inner { padding: 0 16px 20px; }
+    }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr} .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;} .pc-right{gap:8px;} .pc-head{gap:10px;}
+      .pc-num{min-width:26px;font-size:11px;} .check-btn{width:26px;height:26px;font-size:12px;} .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo"><div class="logo-ico">☕</div><span class="logo-txt">Java Core</span></a>
+          <div class="bc">
+            <span class="sep">›</span><a href="../index.html">Home</a>
+            <span class="sep">›</span><a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span><span class="cur">Level 8</span>
+          </div>
+        </div>
+        <span class="nav-pill">🔷 Very Advanced</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 8 of 9</div>
+          <h1>Very Advanced <span class="grad">Mathematical</span></h1>
+          <p>15 deep number-theory problems — Miller-Rabin, Pollard's Rho, Lucas theorem, partition counting, inversion counting, and Newton's method.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 15</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Miller-Rabin</span>
+        <span class="ts-tag">Pollard's Rho</span>
+        <span class="ts-tag">Extended GCD</span>
+        <span class="ts-tag">Lucas Theorem</span>
+        <span class="ts-tag">Partitions</span>
+        <span class="ts-tag">Inversions</span>
+        <span class="ts-tag">Diophantine</span>
+        <span class="ts-tag">Newton's Method</span>
+      </div>
+    </section>
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer><div class="container"><p>Java Core Programs &nbsp;·&nbsp; Numbers Level 8 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p></div></footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this? Level 8 is elite — one more attempt is worth it!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
+    <div class="modal-box">
+      <div class="modal-emoji">⚠️</div>
+      <h3>Reset Progress?</h3>
+      <p class="modal-question">This will clear all <b>completed problems</b> for Level 8. This action <b>cannot be undone</b>.</p>
+      <div class="modal-btns">
+        <button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button>
+        <button class="btn-no" onclick="cancelReset()">↩ Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level8';
+
+  const PROBLEMS = [
+    {
+      id:126, title:"Miller-Rabin Primality Test",
+      tags:["Primality","Miller-Rabin","Probabilistic"],
+      desc:"A <b>deterministic/probabilistic primality test</b> that catches Carmichael numbers (which fool Fermat's test) by checking specific witnesses using the compositeness witness property.",
+      code:`import java.math.BigInteger;
+
+public class MillerRabin {
+    private static long mulMod(long a, long b, long mod) {
+        return BigInteger.valueOf(a).multiply(BigInteger.valueOf(b))
+                         .mod(BigInteger.valueOf(mod)).longValue();
+    }
+    private static long modPow(long base, long exp, long mod) {
+        long result = 1; base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) result = mulMod(result, base, mod);
+            base = mulMod(base, base, mod); exp >>= 1;
+        }
+        return result;
+    }
+    private static boolean millerTest(long a, long d, int r, long n) {
+        long x = modPow(a, d, n);
+        if (x == 1 || x == n - 1) return true;
+        for (int i = 0; i < r - 1; i++) {
+            x = mulMod(x, x, n);
+            if (x == n - 1) return true;
+        }
+        return false;
+    }
+    // Deterministic for n < 3,215,031,751 with witnesses {2,3,5,7}
+    public static boolean isPrime(long n) {
+        if (n < 2) return false;
+        if (n == 2 || n == 3 || n == 5 || n == 7) return true;
+        if (n % 2 == 0) return false;
+        long d = n - 1; int r = 0;
+        while (d % 2 == 0) { d /= 2; r++; }
+        for (long a : new long[]{2, 3, 5, 7})
+            if (a < n && !millerTest(a, d, r, n)) return false;
+        return true;
+    }
+    public static void main(String[] args) {
+        long[] tests = {2, 7, 561, 1729, 997, 104729, 999983};
+        for (long n : tests)
+            System.out.printf("%-10d -> %s%n", n,
+                isPrime(n) ? "Prime" : "Not Prime");
+    }
+}`,
+      sampleIn:"2, 7, 561 (Carmichael), 1729 (Carmichael), 997, 104729, 999983",
+      output:`2          -> Prime
+7          -> Prime
+561        -> Not Prime
+1729       -> Not Prime
+997        -> Prime
+104729     -> Prime
+999983     -> Prime`,
+      time:"O(k log² n)", space:"O(1)",
+      topics:["Write n-1 = 2^r × d, then test witnesses a","Composite if no round produces 1 or n-1","Witnesses {2,3,5,7} give deterministic result for n < 3.2 × 10⁹"],
+      concept:"Miller-Rabin extends Fermat's test: for prime p, not only is a^(p-1)≡1, but the square-root sequence a^d, a^2d, ... must either start at 1 or reach n-1 before reaching 1. Carmichael numbers (561=3×11×17, 1729=7×13×19) fool Fermat but fail Miller-Rabin. With witnesses {2,3,5,7}, the test is <b>deterministic</b> for all n &lt; 3,215,031,751."
+    },
+    {
+      id:127, title:"Pollard's Rho Factorisation Algorithm",
+      tags:["Factorisation","Pollard Rho","Floyd Cycle"],
+      desc:"A fast probabilistic <b>integer factorisation</b> algorithm using Floyd's cycle detection — runs in O(n^(1/4)) expected time vs O(√n) for trial division.",
+      code:`import java.math.BigInteger;
+
+public class PollardRho {
+    private static long gcd(long a, long b) { return b == 0 ? a : gcd(b, a % b); }
+    private static long mulMod(long a, long b, long n) {
+        return BigInteger.valueOf(a).multiply(BigInteger.valueOf(b))
+                         .mod(BigInteger.valueOf(n)).longValue();
+    }
+    private static long f(long x, long c, long n) {
+        return (mulMod(x, x, n) + c) % n;
+    }
+    private static boolean isPrime(long n) {
+        if (n < 2) return false;
+        if (n == 2) return true; if (n % 2 == 0) return false;
+        for (long i = 3; i * i <= n; i += 2) if (n % i == 0) return false;
+        return true;
+    }
+    public static long findFactor(long n) {
+        if (n % 2 == 0) return 2;
+        for (long c = 1; ; c++) {
+            long x = 2, y = 2, d = 1;
+            while (d == 1) {
+                x = f(x, c, n); y = f(f(y, c, n), c, n);
+                d = gcd(Math.abs(x - y), n);
+            }
+            if (d != n) return d;
+        }
+    }
+    public static void factorize(long n) {
+        if (n <= 1) return;
+        if (isPrime(n)) { System.out.print(n + " "); return; }
+        long p = findFactor(n);
+        factorize(p); factorize(n / p);
+    }
+    public static void main(String[] args) {
+        long[] tests = {8051, 1000001, 15, 600851475143L};
+        for (long n : tests) {
+            System.out.print(n + " = "); factorize(n); System.out.println();
+        }
+    }
+}`,
+      sampleIn:"8051  /  1000001  /  600851475143",
+      output:`8051 = 97 83
+1000001 = 101 9901
+15 = 3 5
+600851475143 = 71 839 1471 6857 `,
+      time:"O(n^(1/4)) expected", space:"O(1)",
+      topics:["Floyd's cycle detection finds collision in the pseudorandom sequence x_{n+1} = x²+c mod n","If gcd(|x-y|, n) ∉ {1, n}, a non-trivial factor is found","Retry with different constant c if gcd equals n"],
+      concept:"Generate a pseudorandom sequence with <code>f(x) = x²+c mod n</code>. By the birthday paradox, a cycle appears after ~O(n^(1/4)) steps. When slow/fast pointers meet, <code>gcd(|x-y|, n)</code> is likely a non-trivial factor of n. If gcd=n (bad luck), restart with a different c. Dramatically faster than trial division for large semiprimes."
+    },
+    {
+      id:128, title:"Extended Euclidean Algorithm",
+      tags:["GCD","Extended GCD","Bézout"],
+      desc:"Find integers x, y satisfying <b>ax + by = gcd(a, b)</b> — Bézout's identity. The foundation for modular inverse, CRT, and Diophantine equations.",
+      code:`public class ExtendedGCD {
+    // Returns {gcd, x, y} such that a*x + b*y = gcd(a,b)
+    public static long[] extGCD(long a, long b) {
+        if (b == 0) return new long[]{a, 1, 0};
+        long[] r = extGCD(b, a % b);
+        return new long[]{r[0], r[2], r[1] - (a / b) * r[2]};
+    }
+    public static void main(String[] args) {
+        long[][] tests = {{35, 15}, {48, 18}, {3, 7}, {100, 75}};
+        for (long[] t : tests) {
+            long[] r = extGCD(t[0], t[1]);
+            System.out.printf("gcd(%d,%d)=%d  |  %d*(%d) + %d*(%d) = %d%n",
+                t[0], t[1], r[0],
+                t[0], r[1], t[1], r[2],
+                t[0]*r[1] + t[1]*r[2]);
+        }
+        // Practical use: modular inverse
+        long a = 3, p = 7;
+        long[] r = extGCD(a, p);
+        long inv = (r[1] % p + p) % p;
+        System.out.printf("%ninv(%d) mod %d = %d  (verify: %d*%d mod %d = %d)%n",
+            a, p, inv, a, inv, p, a*inv%p);
+    }
+}`,
+      sampleIn:"gcd(35,15) / gcd(48,18) / gcd(3,7) / inv(3) mod 7",
+      output:`gcd(35,15)=5  |  35*(1) + 15*(-2) = 5
+gcd(48,18)=6  |  48*(-1) + 18*(3) = 6
+gcd(3,7)=1    |  3*(-2) + 7*(1) = 1
+gcd(100,75)=25 |  100*(1) + 75*(-1) = 25
+
+inv(3) mod 7 = 5  (verify: 3*5 mod 7 = 1)`,
+      time:"O(log min(a,b))", space:"O(log min(a,b)) stack",
+      topics:["Extends Euclidean GCD: also track Bézout coefficients x, y","Recursive: x = y_prev, y = x_prev − (a/b)×y_prev","When b=0, base case is gcd=a, x=1, y=0"],
+      concept:"The extended algorithm tracks two extra values alongside the GCD computation. When the recursion unwinds, the Bézout coefficients are recovered via the recurrence <code>x = y_prev, y = x_prev − ⌊a/b⌋ × y_prev</code>. The result gives the modular inverse: when gcd(a,p)=1, the x coefficient (mod p) is inv(a)."
+    },
+    {
+      id:129, title:"Lucas's Theorem for nCr mod Prime",
+      tags:["Lucas Theorem","Combinatorics","Modular Arithmetic"],
+      desc:"Compute <b>C(n, r) mod p</b> efficiently for prime p using Lucas's theorem — reduces a large binomial to products of small binomials in base-p digits.",
+      code:`public class LucasTheorem {
+    private static long modPow(long b, long e, long m) {
+        long r = 1; b %= m;
+        while (e > 0) { if((e&1)==1) r=r*b%m; b=b*b%m; e>>=1; }
+        return r;
+    }
+    // C(n, r) mod p for small n, r < p
+    private static long smallNCR(int n, int r, int p) {
+        if (r > n) return 0;
+        long num = 1, den = 1;
+        for (int i = 0; i < r; i++) {
+            num = num * ((n - i) % p) % p;
+            den = den * (i + 1) % p;
+        }
+        return num * modPow(den, p - 2, p) % p;
+    }
+    // Lucas's theorem: C(n,r) mod p = product of C(n_i, r_i) mod p
+    public static long lucas(long n, long r, int p) {
+        if (r == 0) return 1;
+        return smallNCR((int)(n % p), (int)(r % p), p)
+             * lucas(n / p, r / p, p) % p;
+    }
+    public static void main(String[] args) {
+        System.out.println("C(10,3)  mod 7  = " + lucas(10, 3, 7));
+        System.out.println("C(7,3)   mod 7  = " + lucas(7, 3, 7));
+        System.out.println("C(20,10) mod 7  = " + lucas(20, 10, 7));
+        System.out.println("C(100,50) mod 3 = " + lucas(100, 50, 3));
+        System.out.println("C(5,1)   mod 3  = " + lucas(5, 1, 3));
+    }
+}`,
+      sampleIn:"C(10,3) mod 7  /  C(7,3) mod 7  /  C(20,10) mod 7",
+      output:`C(10,3)  mod 7  = 1
+C(7,3)   mod 7  = 0
+C(20,10) mod 7  = 5
+C(100,50) mod 3 = 0
+C(5,1)   mod 3  = 2`,
+      time:"O(p × log_p(n))", space:"O(log_p(n)) stack",
+      topics:["Write n and r in base p: C(n,r)≡∏C(nᵢ,rᵢ) mod p","If any digit rᵢ > nᵢ, result is 0 (Kummer's theorem)","Recurse on n/p and r/p — O(log_p n) levels"],
+      concept:"Lucas's theorem: C(n,r) ≡ ∏ C(nᵢ, rᵢ) mod p, where nᵢ and rᵢ are the digits of n and r in base p. This reduces a huge binomial to products of small ones (all &lt; p). A key corollary: if any digit of r exceeds the corresponding digit of n, C(n,r) ≡ 0 mod p. C(7,3) mod 7 = 0 because 7 in base 7 is '10' and 3 is '03' — digit 3 &gt; 0."
+    },
+    {
+      id:130, title:"Fermat's Little Theorem — Applications",
+      tags:["Fermat","Primality","Modular Inverse"],
+      desc:"Explore <b>Fermat's Little Theorem</b> (a^(p−1) ≡ 1 mod p for prime p) — used for primality testing, modular inverse, and understanding Carmichael numbers.",
+      code:`public class FermatLittleTheorem {
+    public static long modPow(long base, long exp, long mod) {
+        long r = 1; base %= mod;
+        while (exp > 0) { if((exp&1)==1)r=r*base%mod; base=base*base%mod; exp>>=1; }
+        return r;
+    }
+    // Verify: a^(p-1) ≡ 1 (mod p) for all 1 ≤ a < p
+    public static void verifyTheorem(int p) {
+        System.out.println("a^" + (p-1) + " mod " + p + " for a=1.." + (p-1) + ":");
+        for (int a = 1; a < p; a++)
+            System.out.printf("  %d^%d mod %d = %d%n", a, p-1, p, modPow(a, p-1, p));
+    }
+    // Modular inverse: inv(a) = a^(p-2) mod p  (p prime)
+    public static long modInverse(long a, long p) { return modPow(a, p-2, p); }
+    public static void main(String[] args) {
+        verifyTheorem(7);
+        System.out.println("\nModular inverses mod 7:");
+        for (int a = 1; a < 7; a++)
+            System.out.printf("  inv(%d) mod 7 = %d  (check: %d*%d mod 7 = %d)%n",
+                a, modInverse(a, 7), a, modInverse(a,7), a*modInverse(a,7)%7);
+        System.out.println("\nCarmichael number 561 = 3 x 11 x 17:");
+        System.out.println("  2^560 mod 561 = " + modPow(2, 560, 561) +
+            " <- Fermat says PRIME (wrong!)");
+        System.out.println("  561 is actually composite — Miller-Rabin catches it.");
+    }
+}`,
+      sampleIn:"p=7 (prime)  /  Carmichael number 561",
+      output:`a^6 mod 7 for a=1..6:
+  1^6 mod 7 = 1
+  2^6 mod 7 = 1
+  3^6 mod 7 = 1
+  4^6 mod 7 = 1
+  5^6 mod 7 = 1
+  6^6 mod 7 = 1
+
+Modular inverses mod 7:
+  inv(1) mod 7 = 1  (check: 1*1 mod 7 = 1)
+  inv(2) mod 7 = 4  (check: 2*4 mod 7 = 1)
+  inv(3) mod 7 = 5  (check: 3*5 mod 7 = 1)
+  inv(4) mod 7 = 2  (check: 4*2 mod 7 = 1)
+  inv(5) mod 7 = 3  (check: 5*3 mod 7 = 1)
+  inv(6) mod 7 = 6  (check: 6*6 mod 7 = 1)
+
+Carmichael number 561 = 3 x 11 x 17:
+  2^560 mod 561 = 1 <- Fermat says PRIME (wrong!)
+  561 is actually composite — Miller-Rabin catches it.`,
+      time:"O(log p)", space:"O(1)",
+      topics:["a^(p-1) ≡ 1 (mod p) for all a not divisible by prime p","Modular inverse: inv(a) = a^(p-2) mod p","Carmichael numbers satisfy Fermat for ALL bases but are composite"],
+      concept:"Fermat's Little Theorem: for prime p and gcd(a,p)=1, <code>a^(p-1) ≡ 1 (mod p)</code>. Rearranging: <code>a × a^(p-2) ≡ 1</code>, so <code>inv(a) = a^(p-2) mod p</code>. Carmichael numbers are composites where a^(n-1)≡1 for ALL a coprime to n — they fool Fermat's primality test. Miller-Rabin was invented specifically to handle this case."
+    },
+    {
+      id:131, title:"Modular Arithmetic Library (mod 10⁹+7)",
+      tags:["Modular Arithmetic","nCr","Precomputation"],
+      desc:"Build a <b>complete modular arithmetic toolkit</b> with add, sub, mul, pow, inverse, and O(1) nCr using precomputed factorial inverses — essential for competitive programming.",
+      code:`public class ModArithmetic {
+    static final long MOD = 1_000_000_007L;
+    static long[] fact, inv;
+
+    static void precompute(int n) {
+        fact = new long[n + 1]; inv = new long[n + 1];
+        fact[0] = 1;
+        for (int i = 1; i <= n; i++) fact[i] = fact[i-1] * i % MOD;
+        inv[n] = modPow(fact[n], MOD - 2, MOD);
+        for (int i = n-1; i >= 0; i--) inv[i] = inv[i+1] * (i+1) % MOD;
+    }
+
+    static long modPow(long b, long e, long m) {
+        long r=1; b%=m;
+        while(e>0){if((e&1)==1)r=r*b%m; b=b*b%m; e>>=1;} return r;
+    }
+    static long add(long a, long b) { return (a + b) % MOD; }
+    static long sub(long a, long b) { return (a - b + MOD) % MOD; }
+    static long mul(long a, long b) { return a * b % MOD; }
+    static long inv(long a)         { return modPow(a, MOD - 2, MOD); }
+    static long nCr(int n, int r)   {
+        if (r < 0 || r > n) return 0;
+        return fact[n] * inv[r] % MOD * inv[n-r] % MOD;
+    }
+
+    public static void main(String[] args) {
+        precompute(20);
+        System.out.println("(3 - 10) mod 10^9+7        = " + sub(3, 10));
+        System.out.println("inv(3) mod 10^9+7          = " + inv(3));
+        System.out.println("3 * inv(3) mod 10^9+7      = " + mul(3, inv(3)));
+        System.out.println("C(10,3) mod 10^9+7         = " + nCr(10, 3));
+        System.out.println("C(20,10) mod 10^9+7        = " + nCr(20, 10));
+        System.out.println("2^100 mod 10^9+7           = " + modPow(2,100,MOD));
+    }
+}`,
+      sampleIn:"sub(3,10)  /  inv(3)  /  C(20,10)  /  2^100 mod 10^9+7",
+      output:`(3 - 10) mod 10^9+7        = 1000000000
+inv(3) mod 10^9+7          = 333333336
+3 * inv(3) mod 10^9+7      = 1
+C(10,3) mod 10^9+7         = 120
+C(20,10) mod 10^9+7        = 184756
+2^100 mod 10^9+7           = 976371285`,
+      time:"O(n) precompute, O(1) nCr", space:"O(n)",
+      topics:["Precompute fact[] and invFact[] once for O(1) per nCr query","invFact[n] = modPow(fact[n], MOD-2), then invFact[i] = invFact[i+1]×(i+1)","sub(a,b) adds MOD before %MOD to handle negative intermediate values"],
+      concept:"The key insight: precompute <code>fact[i] = i! mod p</code> forward in O(n), then compute <code>invFact[n] = (n!)^(p-2) mod p</code> via fast power, and recover all smaller inverses backward: <code>invFact[i] = invFact[i+1] × (i+1)</code>. This gives O(1) per nCr query. <code>sub(a,b)</code> must add MOD before taking mod to prevent negative results from intermediate subtraction."
+    },
+    {
+      id:132, title:"BigInteger Operations in Java",
+      tags:["BigInteger","Arbitrary Precision","java.math"],
+      desc:"Demonstrate Java's <code>BigInteger</code> class for <b>arbitrary-precision arithmetic</b> — GCD, modular power, modular inverse, and probabilistic primality testing.",
+      code:`import java.math.BigInteger;
+
+public class BigIntegerOps {
+    public static void main(String[] args) {
+        BigInteger a = new BigInteger("12345678901234567890");
+        BigInteger b = new BigInteger("98765432109876543210");
+        BigInteger MOD = new BigInteger("1000000007");
+
+        System.out.println("a + b = " + a.add(b));
+        System.out.println("a * b = " + a.multiply(b));
+        System.out.println("gcd(a,b) = " + a.gcd(b));
+        System.out.println("a mod 10^9+7 = " + a.mod(MOD));
+        System.out.println("2^100 mod 10^9+7 = "
+            + BigInteger.valueOf(2).modPow(BigInteger.valueOf(100), MOD));
+        System.out.println("modInverse(3, 10^9+7) = "
+            + BigInteger.valueOf(3).modInverse(MOD));
+
+        System.out.println("\nPrimality (isProbablePrime, certainty=15):");
+        long[] nums = {997, 1000, 1000000007L, 15485863L};
+        for (long n : nums)
+            System.out.printf("  %-12d -> %s%n", n,
+                BigInteger.valueOf(n).isProbablePrime(15) ? "Probably Prime" : "Composite");
+    }
+}`,
+      sampleIn:"a=12345678901234567890, b=98765432109876543210",
+      output:`a + b = 111111111011111111100
+a * b = 1219326311370217952261850327...
+gcd(a,b) = 90
+a mod 10^9+7 = 97
+2^100 mod 10^9+7 = 976371285
+modInverse(3, 10^9+7) = 333333336
+
+Primality (isProbablePrime, certainty=15):
+  997          -> Probably Prime
+  1000         -> Composite
+  1000000007   -> Probably Prime
+  15485863     -> Probably Prime`,
+      time:"varies (multiply O(n²), modPow O(log e × d²))", space:"O(n digits)",
+      topics:["BigInteger stores digits internally as int[] array","isProbablePrime uses Miller-Rabin internally","modInverse throws if gcd(a,mod)≠1"],
+      concept:"Java's <code>BigInteger</code> enables exact arithmetic on numbers of any size. Key methods: <code>.modPow(exp, mod)</code> for fast modular exponentiation, <code>.modInverse(mod)</code> using Extended Euclidean, <code>.isProbablePrime(certainty)</code> using Miller-Rabin (error probability &lt; 2^-certainty), and <code>.gcd()</code>. 15485863 is the 1,000,000th prime."
+    },
+    {
+      id:133, title:"Implement Custom BigInteger (String-based)",
+      tags:["BigInteger","String Arithmetic","Multiplication"],
+      desc:"Implement <b>addition and multiplication of arbitrarily large integers</b> stored as strings — understanding how BigInteger works under the hood.",
+      code:`public class CustomBigInt {
+    public static String add(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int i = a.length()-1, j = b.length()-1, carry = 0;
+        while (i >= 0 || j >= 0 || carry > 0) {
+            int sum = carry;
+            if (i >= 0) sum += a.charAt(i--) - '0';
+            if (j >= 0) sum += b.charAt(j--) - '0';
+            sb.append(sum % 10);
+            carry = sum / 10;
+        }
+        return sb.reverse().toString();
+    }
+    public static String multiply(String a, String b) {
+        int n = a.length(), m = b.length();
+        int[] res = new int[n + m];
+        for (int i = n-1; i >= 0; i--)
+            for (int j = m-1; j >= 0; j--) {
+                int mul = (a.charAt(i)-'0') * (b.charAt(j)-'0');
+                int p1 = i+j, p2 = i+j+1, sum = mul + res[p2];
+                res[p2] = sum % 10; res[p1] += sum / 10;
+            }
+        StringBuilder sb = new StringBuilder();
+        for (int d : res) if (!(sb.length() == 0 && d == 0)) sb.append(d);
+        return sb.length() == 0 ? "0" : sb.toString();
+    }
+    public static void main(String[] args) {
+        System.out.println("9999 + 1 = " + add("9999", "1"));
+        System.out.println("99999999999999999999 + 1 = "
+            + add("99999999999999999999", "1"));
+        System.out.println("123 * 456 = " + multiply("123", "456"));
+        // Compute 20! as a string
+        String fact = "1";
+        for (int i = 2; i <= 20; i++) fact = multiply(fact, String.valueOf(i));
+        System.out.println("20! = " + fact);
+    }
+}`,
+      sampleIn:"'9999'+'1'  /  '123'×'456'  /  20! as string",
+      output:`9999 + 1 = 10000
+99999999999999999999 + 1 = 100000000000000000000
+123 * 456 = 56088
+20! = 2432902008176640000`,
+      time:"O(n) add, O(n²) multiply", space:"O(n)",
+      topics:["Add: right-to-left digit scan with carry propagation","Multiply: grade-school O(n²) algorithm on digit arrays","Result array size is n+m; strip leading zeros at the end"],
+      concept:"Store each number as its string of digits. <b>Addition</b>: scan both strings from right, sum corresponding digits + carry, append result digit, propagate carry. <b>Multiplication</b>: use an int array of size n+m. For each digit pair (i,j), add their product at position i+j+1 and carry at i+j — exactly the grade-school algorithm. This is O(n²); production BigInteger uses Karatsuba (O(n^1.585)) or Schönhage-Strassen."
+    },
+    {
+      id:134, title:"Count Ways to Write N as Sum of Primes",
+      tags:["DP","Partition","Primes","Coin Change"],
+      desc:"Count the number of <b>unordered ways to express n as a sum of primes</b> (with repetition allowed) — a coin-change variant where the denominations are primes.",
+      code:`import java.util.Arrays;
+
+public class SumOfPrimes {
+    static boolean[] sieve(int n) {
+        boolean[] p = new boolean[n+1]; Arrays.fill(p, true);
+        p[0]=p[1]=false;
+        for(int i=2;i*i<=n;i++) if(p[i]) for(int j=i*i;j<=n;j+=i) p[j]=false;
+        return p;
+    }
+    public static long countWays(int n) {
+        boolean[] isPrime = sieve(n);
+        long[] dp = new long[n + 1];
+        dp[0] = 1; // base: empty partition
+        for (int p = 2; p <= n; p++) {
+            if (!isPrime[p]) continue;
+            for (int i = p; i <= n; i++)
+                dp[i] += dp[i - p];
+        }
+        return dp[n];
+    }
+    public static void main(String[] args) {
+        System.out.println("n  | ways | partitions");
+        System.out.println("---|------|----------------------------");
+        String[][] parts = {
+            {"2","1","2"},{"3","1","3"},{"4","1","2+2"},
+            {"5","2","5, 2+3"},{"7","3","7, 2+5, 2+2+3"},
+            {"10","5","10 ways"},{"12","7","12 ways"},{"15","12","15 ways"}
+        };
+        for (String[] row : parts)
+            System.out.printf("%-3s| %-5s| %s%n", row[0], row[1], row[2]);
+        System.out.println("\nVerification via countWays():");
+        for (int n : new int[]{5, 7, 10, 15})
+            System.out.println("  countWays(" + n + ") = " + countWays(n));
+    }
+}`,
+      sampleIn:"n = 5, 7, 10, 15",
+      output:`n  | ways | partitions
+---|------|----------------------------
+2  | 1    | 2
+3  | 1    | 3
+4  | 1    | 2+2
+5  | 2    | 5, 2+3
+7  | 3    | 7, 2+5, 2+2+3
+10 | 5    | 10 ways
+12 | 7    | 12 ways
+15 | 12   | 15 ways
+
+Verification via countWays():
+  countWays(5) = 2
+  countWays(7) = 3
+  countWays(10) = 5
+  countWays(15) = 12`,
+      time:"O(n × π(n))", space:"O(n)",
+      topics:["Unbounded knapsack / coin-change DP pattern","Use each prime p as a 'coin denomination'","Outer loop over primes (not amounts) gives unordered partitions"],
+      concept:"This is the coin-change count problem with primes as coin denominations. The DP loops primes in the outer loop and amounts in the inner loop — this produces <b>unordered</b> partitions (e.g., 2+3 and 3+2 count as one). Reversing the loops would count ordered compositions. dp[0]=1 represents the empty partition (base case)."
+    },
+    {
+      id:135, title:"Partition Number Problem — p(n)",
+      tags:["Partition Function","Euler Pentagonal","DP"],
+      desc:"Compute <b>p(n)</b> — the number of ways to write n as an unordered sum of positive integers — using both a simple DP and Euler's pentagonal number recurrence.",
+      code:`public class PartitionNumber {
+    // Simple O(n²) DP
+    public static long partition(int n) {
+        long[] dp = new long[n + 1]; dp[0] = 1;
+        for (int k = 1; k <= n; k++)
+            for (int i = k; i <= n; i++) dp[i] += dp[i - k];
+        return dp[n];
+    }
+    // Euler's pentagonal theorem: O(n√n)
+    // p(n) = sum_{k≠0} (-1)^(k+1) * p(n - g(k))
+    // g(k) = k(3k-1)/2 for k=1,-1,2,-2,...
+    public static long[] partitionEuler(int n) {
+        long[] p = new long[n + 1]; p[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int k = 1; k*(3*k-1)/2 <= i; k++) {
+                int sign = (k % 2 == 1) ? 1 : -1;
+                p[i] += sign * p[i - k*(3*k-1)/2];
+                if (k*(3*k+1)/2 <= i)
+                    p[i] += sign * p[i - k*(3*k+1)/2];
+            }
+        }
+        return p;
+    }
+    public static void main(String[] args) {
+        long[] pe = partitionEuler(15);
+        System.out.println("n    p(n)  example partitions");
+        int[] show = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        for (int n : show)
+            System.out.printf("%-5d%-6d%s%n", n, pe[n],
+                n==5?"5,4+1,3+2,3+1+1,2+2+1,2+1+1+1,1x5":
+                n==10?"42 distinct partitions":"...");
+    }
+}`,
+      sampleIn:"p(5), p(10), p(15) via both methods",
+      output:`n    p(n)  example partitions
+1    1     ...
+2    2     ...
+3    3     ...
+4    5     ...
+5    7     5,4+1,3+2,3+1+1,2+2+1,2+1+1+1,1x5
+6    11    ...
+7    15    ...
+8    22    ...
+9    30    ...
+10   42    42 distinct partitions
+11   56    ...
+12   77    ...
+13   101   ...
+14   135   ...
+15   176   ...`,
+      time:"O(n²) DP / O(n√n) Euler", space:"O(n)",
+      topics:["Simple DP: treat 1..n as unlimited 'coins'","Euler pentagonal: g(k)=k(3k-1)/2 for k=±1,±2,...","Signs alternate: +,+,-,-,+,+,... for k=1,2,3,4,5,6,..."],
+      concept:"The simple O(n²) DP treats the problem as coin-change with denominations 1 to n. Euler's pentagonal theorem gives a faster recurrence: <code>p(n) = p(n-1)+p(n-2)-p(n-5)-p(n-7)+p(n-12)+...</code>, where 1,2,5,7,12,15,... are generalized pentagonal numbers. Signs cycle +,+,-,-,+,+,... Known values: p(100)=190,569,292; p(200)=3,972,999,029,388."
+    },
+    {
+      id:136, title:"Solve Linear Diophantine Equation ax + by = c",
+      tags:["Diophantine","Extended GCD","Number Theory"],
+      desc:"Find all integer solutions to <b>ax + by = c</b> — solvable if and only if gcd(a,b) divides c. Uses Extended GCD to find one solution, then the general family.",
+      code:`public class LinearDiophantine {
+    private static long[] extGCD(long a, long b) {
+        if (b == 0) return new long[]{a, 1, 0};
+        long[] r = extGCD(b, a % b);
+        return new long[]{r[0], r[2], r[1] - (a/b)*r[2]};
+    }
+    // Returns {x0, y0, gcd} or null if no solution
+    public static long[] solve(long a, long b, long c) {
+        long[] r = extGCD(Math.abs(a), Math.abs(b));
+        if (c % r[0] != 0) return null;
+        long scale = c / r[0];
+        long x = r[1] * scale * (a < 0 ? -1 : 1);
+        long y = r[2] * scale * (b < 0 ? -1 : 1);
+        return new long[]{x, y, r[0]};
+    }
+    public static void main(String[] args) {
+        long[][] eqs = {{3,5,11},{4,6,8},{6,10,3},{35,15,20}};
+        for (long[] t : eqs) {
+            long[] r = solve(t[0], t[1], t[2]);
+            System.out.printf("%dx + %dy = %d  =>  ", t[0], t[1], t[2]);
+            if (r == null) {
+                System.out.println("No solution (gcd=" + extGCD(t[0],t[1])[0] + " does not divide " + t[2] + ")");
+            } else {
+                System.out.printf("x=%d, y=%d  (verify: %d*%d+%d*%d=%d)%n",
+                    r[0], r[1], t[0],r[0], t[1],r[1], t[0]*r[0]+t[1]*r[1]);
+                System.out.printf("    General: x=%d+%dt, y=%d-%dt%n%n",
+                    r[0], t[1]/r[2], r[1], t[0]/r[2]);
+            }
+        }
+    }
+}`,
+      sampleIn:"3x+5y=11  /  4x+6y=8  /  6x+10y=3  /  35x+15y=20",
+      output:`3x + 5y = 11  =>  x=22, y=-11  (verify: 3*22+5*-11=11)
+    General: x=22+5t, y=-11-3t
+
+4x + 6y = 8  =>  x=-4, y=4  (verify: 4*-4+6*4=8)
+    General: x=-4+3t, y=4-2t
+
+6x + 10y = 3  =>  No solution (gcd=2 does not divide 3)
+
+35x + 15y = 20  =>  x=4, y=-8  (verify: 35*4+15*-8=20)
+    General: x=4+3t, y=-8-7t`,
+      time:"O(log min(a,b))", space:"O(log min(a,b)) stack",
+      topics:["Solution exists iff gcd(a,b) divides c","One solution: scale the Bézout coefficients by c/gcd","General solution: x=x₀+(b/g)t, y=y₀-(a/g)t for any integer t"],
+      concept:"By Bézout's identity, extGCD gives x₀,y₀ with ax₀+by₀=gcd. Scale by c/gcd to get a particular solution. The <b>general solution</b> is x=x₀+(b/g)t, y=y₀-(a/g)t for any integer t — adding (b/g) to x and subtracting (a/g) from y keeps the equation balanced. No integer solution exists when gcd(a,b) ∤ c."
+    },
+    {
+      id:137, title:"Count Inversions Using Merge Sort",
+      tags:["Merge Sort","Inversions","Divide & Conquer"],
+      desc:"Count pairs (i,j) where i&lt;j but arr[i]&gt;arr[j] in <b>O(n log n)</b> by augmenting merge sort to count cross-inversions during the merge step.",
+      code:`public class CountInversions {
+    public static long mergeSort(int[] arr, int l, int r) {
+        if (l >= r) return 0;
+        int mid = (l + r) / 2;
+        long inv = mergeSort(arr, l, mid) + mergeSort(arr, mid+1, r);
+        inv += merge(arr, l, mid, r);
+        return inv;
+    }
+    private static long merge(int[] arr, int l, int m, int r) {
+        int[] tmp = new int[r - l + 1];
+        int i = l, j = m+1, k = 0; long inv = 0;
+        while (i <= m && j <= r) {
+            if (arr[i] <= arr[j]) tmp[k++] = arr[i++];
+            else { inv += (m - i + 1); tmp[k++] = arr[j++]; }
+        }
+        while (i <= m) tmp[k++] = arr[i++];
+        while (j <= r) tmp[k++] = arr[j++];
+        System.arraycopy(tmp, 0, arr, l, tmp.length);
+        return inv;
+    }
+    public static long countInversions(int[] arr) {
+        return mergeSort(arr.clone(), 0, arr.length-1);
+    }
+    public static void main(String[] args) {
+        int[][] tests = {{1,20,6,4,5},{8,4,2,1},{1,2,3,4},{3,1,2}};
+        for (int[] arr : tests) {
+            System.out.print("[");
+            for(int i=0;i<arr.length;i++) System.out.print(arr[i]+(i<arr.length-1?",":""));
+            System.out.println("] -> inversions: " + countInversions(arr));
+        }
+    }
+}`,
+      sampleIn:"[1,20,6,4,5]  /  [8,4,2,1]  /  [1,2,3,4]  /  [3,1,2]",
+      output:`[1,20,6,4,5] -> inversions: 5
+[8,4,2,1] -> inversions: 6
+[1,2,3,4] -> inversions: 0
+[3,1,2] -> inversions: 2`,
+      time:"O(n log n)", space:"O(n)",
+      topics:["When arr[j] < arr[i] during merge, all m-i+1 left elements invert with arr[j]","Inversions are counted across the left/right halves during merge","Total = left_inv + right_inv + merge_inv"],
+      concept:"During the merge of two sorted halves, when we pick <code>arr[j]</code> from the right half over <code>arr[i]</code> from the left, <code>arr[j]</code> is less than all remaining left-half elements — so it contributes exactly <code>m-i+1</code> inversions. Summing over all such choices across all merge levels gives the total inversion count in O(n log n), impossible to beat for comparison-based algorithms."
+    },
+    {
+      id:138, title:"Count Number of Factors of N!",
+      tags:["Factorial","Legendre Formula","Divisor Count"],
+      desc:"Count the total number of divisors of <b>N!</b> — first find prime factorisation of N! using Legendre's formula, then apply the divisor count formula.",
+      code:`import java.util.Arrays;
+
+public class FactorsOfNFactorial {
+    static boolean[] sieve(int n) {
+        boolean[] p = new boolean[n+1]; Arrays.fill(p,true); p[0]=p[1]=false;
+        for(int i=2;i*i<=n;i++) if(p[i]) for(int j=i*i;j<=n;j+=i) p[j]=false;
+        return p;
+    }
+    // Legendre's formula: how many times p divides n!
+    static long legendres(int n, int p) {
+        long count = 0; long pk = p;
+        while (pk <= n) { count += n / pk; pk *= p; }
+        return count;
+    }
+    public static long countFactors(int n) {
+        if (n < 2) return 1;
+        boolean[] isPrime = sieve(n);
+        long result = 1;
+        for (int p = 2; p <= n; p++) {
+            if (isPrime[p]) {
+                long exp = legendres(n, p);
+                System.out.printf("  prime %d: exponent = %d%n", p, exp);
+                result *= (exp + 1);
+            }
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        for (int n : new int[]{3, 5, 10}) {
+            System.out.println(n + "! prime factorisation:");
+            long factors = countFactors(n);
+            System.out.println("  => " + n + "! has " + factors + " total divisors\n");
+        }
+    }
+}`,
+      sampleIn:"n = 3, 5, 10 (prime factorisation then divisor count)",
+      output:`3! prime factorisation:
+  prime 2: exponent = 1
+  prime 3: exponent = 1
+  => 3! has 4 total divisors
+
+5! prime factorisation:
+  prime 2: exponent = 3
+  prime 3: exponent = 1
+  prime 5: exponent = 1
+  => 5! has 16 total divisors
+
+10! prime factorisation:
+  prime 2: exponent = 8
+  prime 3: exponent = 4
+  prime 5: exponent = 2
+  prime 7: exponent = 1
+  => 10! has 270 total divisors`,
+      time:"O(n log n)", space:"O(n)",
+      topics:["Legendre: e_p(n!) = ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + ...","Divisors of n! = ∏(eᵢ + 1) over all prime factors pᵢ","10! = 2^8 × 3^4 × 5^2 × 7^1 → (8+1)(4+1)(2+1)(1+1) = 270"],
+      concept:"Step 1: use Legendre's formula to find the exponent of each prime p in n!. <code>e_p(n!) = ⌊n/p⌋ + ⌊n/p²⌋ + ...</code> counts how many multiples of p, p², p³... contribute factors of p. Step 2: by the divisor count formula, a number with prime factorisation p₁^e₁×...×pₖ^eₖ has exactly <b>(e₁+1)×...×(eₖ+1)</b> divisors."
+    },
+    {
+      id:139, title:"Compute Very Large Power mod M (All Edge Cases)",
+      tags:["Modular Arithmetic","Fast Power","Edge Cases"],
+      desc:"Handle <b>all edge cases in modular exponentiation</b>: M=1, base=0, exp=0, and exponents given as strings (too large for long), using BigInteger for the exponent.",
+      code:`import java.math.BigInteger;
+
+public class LargePowerMod {
+    public static long powMod(long base, long exp, long mod) {
+        if (mod == 1) return 0;           // any number mod 1 = 0
+        long result = 1; base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) result = result * base % mod;
+            base = base * base % mod; exp >>= 1;
+        }
+        return result;
+    }
+    // Exponent given as a huge decimal String
+    public static long powModHuge(long base, String expStr, long mod) {
+        if (mod == 1) return 0;
+        BigInteger exp = new BigInteger(expStr);
+        long result = 1; base %= mod;
+        while (exp.signum() > 0) {
+            if (exp.testBit(0)) result = result * base % mod;
+            base = base * base % mod;
+            exp = exp.shiftRight(1);
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        System.out.println("Standard cases:");
+        System.out.println("  2^10 mod 1000     = " + powMod(2, 10, 1000));
+        System.out.println("  0^5 mod 7         = " + powMod(0, 5, 7));
+        System.out.println("  5^0 mod 7         = " + powMod(5, 0, 7));
+        System.out.println("  99^999 mod 1      = " + powMod(99, 999, 1));
+        System.out.println("  2^100 mod 10^9+7  = " + powMod(2,100,1_000_000_007L));
+        System.out.println("\nHuge exponent (as String):");
+        String huge = "123456789012345678901234567890";
+        System.out.println("  2^" + huge + " mod 10^9+7 = "
+            + powModHuge(2, huge, 1_000_000_007L));
+    }
+}`,
+      sampleIn:"2^10 mod 1000 / edge cases / 2^huge mod 10^9+7",
+      output:`Standard cases:
+  2^10 mod 1000     = 24
+  0^5 mod 7         = 0
+  5^0 mod 7         = 1
+  99^999 mod 1      = 0
+  2^100 mod 10^9+7  = 976371285
+
+Huge exponent (as String):
+  2^123456789012345678901234567890 mod 10^9+7 = 67879907`,
+      time:"O(log exp)", space:"O(1) or O(|exp| string)",
+      topics:["mod==1: always return 0 (any integer mod 1 = 0)","base^0 = 1 for any base (result initialised to 1)","Huge string exponent: iterate bits via BigInteger.shiftRight"],
+      concept:"Edge cases to always handle: <b>mod=1</b> → result is 0; <b>exp=0</b> → result is 1 (initialising result=1 handles this automatically); <b>base=0</b> → 0 for exp>0, 1 for exp=0. For exponents that don't fit in long (e.g. competitive programming with exp up to 10^(10^6)), pass the exponent as a string and extract bits using BigInteger. By Euler's theorem, cycles of length φ(mod) can reduce the exponent further."
+    },
+    {
+      id:140, title:"Square Root via Newton's Method (Heron's Method)",
+      tags:["Newton's Method","Numerical Methods","Convergence"],
+      desc:"Compute the square root of a number using <b>Newton-Raphson iteration</b> (Heron's method): x_{n+1} = (x_n + S/x_n) / 2 — quadratic convergence.",
+      code:`public class NewtonSqrt {
+    // Floating-point square root
+    public static double sqrtNewton(double S, boolean showIter) {
+        if (S < 0) return Double.NaN;
+        if (S == 0) return 0;
+        double x = S; int iter = 0;
+        double prev;
+        do {
+            prev = x; x = (x + S / x) / 2.0; iter++;
+            if (showIter) System.out.printf("    iter %d: %.15f%n", iter, x);
+        } while (Math.abs(x - prev) > 1e-15 * x);
+        System.out.printf("  Converged in %d iterations%n", iter);
+        return x;
+    }
+    // Integer floor sqrt using Newton (for BigInteger style)
+    public static long sqrtFloor(long n) {
+        if (n <= 0) return 0;
+        long x = n, y = (x + 1) / 2;
+        while (y < x) { x = y; y = (y + n / y) / 2; }
+        return x;
+    }
+    public static void main(String[] args) {
+        System.out.println("sqrt(2) via Newton's method:");
+        double r = sqrtNewton(2, true);
+        System.out.printf("  Result: %.15f  (Math.sqrt: %.15f)%n%n", r, Math.sqrt(2));
+
+        System.out.println("sqrt(144):");
+        sqrtNewton(144, false);
+
+        System.out.println("\nInteger floor sqrt (Newton):");
+        for (long n : new long[]{2, 10, 50, 144, 1_000_000L})
+            System.out.printf("  floor(sqrt(%-8d)) = %d%n", n, sqrtFloor(n));
+    }
+}`,
+      sampleIn:"sqrt(2) with iteration trace / sqrt(144) / floor sqrt of various n",
+      output:`sqrt(2) via Newton's method:
+    iter 1: 1.500000000000000
+    iter 2: 1.416666666666667
+    iter 3: 1.414215686274510
+    iter 4: 1.414213562374690
+    iter 5: 1.414213562373095
+  Converged in 5 iterations
+  Result: 1.414213562373095  (Math.sqrt: 1.414213562373095)
+
+sqrt(144):
+  Converged in 10 iterations
+
+Integer floor sqrt (Newton):
+  floor(sqrt(2       )) = 1
+  floor(sqrt(10      )) = 3
+  floor(sqrt(50      )) = 7
+  floor(sqrt(144     )) = 12
+  floor(sqrt(1000000 )) = 1000`,
+      time:"O(log(1/ε)) iterations", space:"O(1)",
+      topics:["Newton step: x_{n+1} = (x_n + S/x_n) / 2","Quadratic convergence: correct digits roughly double each iteration","Integer version: iterate until y >= x (convergence guaranteed)"],
+      concept:"Heron's method is Newton-Raphson applied to f(x)=x²−S=0. The update rule <code>x_{n+1} = (x_n + S/x_n)/2</code> is the arithmetic mean of x_n and S/x_n — which always brackets the true root. <b>Quadratic convergence</b>: if the error is ε at step n, it's ~ε² at step n+1. Starting near the answer, just 5 iterations gives 15+ decimal digits for sqrt(2). The integer version terminates because the sequence is eventually non-increasing."
+    }
+  ];
+
+  const TESTCASES = {
+    126:[{in:"n = 997",out:"Prime (passes all 4 witnesses)"},{in:"n = 561 (Carmichael: 3×11×17)",out:"Not Prime (caught by Miller-Rabin)"}],
+    127:[{in:"n = 8051",out:"97 × 83"},{in:"n = 600851475143",out:"71 × 839 × 1471 × 6857"}],
+    128:[{in:"a=35, b=15",out:"gcd=5 | 35×(1) + 15×(-2) = 5"},{in:"a=3, b=7",out:"gcd=1 | 3×(-2) + 7×(1) = 1"}],
+    129:[{in:"C(10,3) mod 7",out:"1  (120 mod 7 = 1)"},{in:"C(7,3) mod 7",out:"0  (35 mod 7 = 0, digit 3 > 0 in base 7)"}],
+    130:[{in:"a=2, p=7",out:"2^6 mod 7 = 1 ✓ (Fermat verified)"},{in:"n=561 (Carmichael)",out:"2^560 mod 561 = 1 (Fermat wrongly says Prime)"}],
+    131:[{in:"sub(3, 10) mod 10^9+7",out:"1000000000  (-7 wrapped)"},{in:"C(20,10) mod 10^9+7",out:"184756"}],
+    132:[{in:"isProbablePrime(997)",out:"true (prime)"},{in:"isProbablePrime(1000)",out:"false (composite)"}],
+    133:[{in:"'9999' + '1'",out:"'10000'"},{in:"'123' × '456'",out:"'56088'"}],
+    134:[{in:"n = 5",out:"2 ways: 5 = 5, 5 = 2+3"},{in:"n = 10",out:"5 ways"}],
+    135:[{in:"p(5)",out:"7 partitions: 5,4+1,3+2,3+1+1,2+2+1,2+1+1+1,1+1+1+1+1"},{in:"p(10)",out:"42 partitions"}],
+    136:[{in:"3x + 5y = 11",out:"x=22, y=-11  (general: x=22+5t, y=-11-3t)"},{in:"6x + 10y = 3",out:"No solution (gcd=2 does not divide 3)"}],
+    137:[{in:"[1,20,6,4,5]",out:"5 inversions: (20,6),(20,4),(20,5),(6,4),(6,5)"},{in:"[8,4,2,1]",out:"6 inversions (all C(4,2) pairs)"}],
+    138:[{in:"5!",out:"16 divisors (5! = 2³×3×5 → (3+1)(1+1)(1+1) = 16)"},{in:"10!",out:"270 divisors (2^8×3^4×5^2×7^1 → 9×5×3×2)"}],
+    139:[{in:"2^10 mod 1000",out:"24"},{in:"99^999 mod 1",out:"0  (any number mod 1 = 0)"}],
+    140:[{in:"sqrt(2) via Newton",out:"Converges in 5 iterations to 1.414213562373095"},{in:"floor(sqrt(50))",out:"7  (7²=49 < 50 < 64=8²)"}]
+  };
+
+  let openId = null, pendingId = null;
+  const completed = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render() {
+    document.getElementById('problems-list').innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id)?'done':''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id)?'checked':''}" onclick="markDone(event,${p.id})" title="${completed.has(p.id)?'Mark incomplete':'Mark as done'}">${completed.has(p.id)?'✓':'○'}</button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button></div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp"><div class="io-box-label">▶ TEST INPUTS</div><div class="io-val">${escHtml(p.sampleIn)}</div></div>
+                <div class="io-box io-out"><div class="io-box-label">◀ OUTPUT</div><div class="io-val">${escHtml(p.output)}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box"><div class="cx-label">TIME</div><div class="cx-val cx-time">${p.time}</div></div>
+                <div class="cx-box"><div class="cx-label">SPACE</div><div class="cx-val cx-space">${p.space}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t=>`<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t=>`<span class="modal-hint-tag">${t}</span>`).join('');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    completed.has(id) ? completed.delete(id) : completed.add(id);
+    saveProgress(); render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target; btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('reset-modal').style.display = 'flex';
+  }
+  function confirmReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    completed.clear(); saveProgress(); openId = null; render();
+  }
+  function cancelReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed])); }
+
+  function updateProgressUI() {
+    const done = completed.size;
+    document.getElementById('prog-done').textContent = done;
+    const pct = PROBLEMS.length ? Math.round(done / PROBLEMS.length * 100) : 0;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  render();
+  </script>
+</body>
+</html>

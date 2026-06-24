@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 5 – Bit Manipulation | Numbers | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4; --green: #10b981;
+      --accent: #8b5cf6; --accent-l: #a78bfa; --orange: #f97316;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569; --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 680px; height: 680px; background: var(--accent); top: -280px; right: -180px; }
+    .orb-2 { width: 450px; height: 450px; background: var(--purple); bottom: -80px; left: -120px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-35px,25px)} }
+
+    .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px; }
+
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--accent-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--accent-l); font-weight: 600; }
+    .nav-pill { background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3); color: var(--accent-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.28); color: var(--accent-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--accent-l), #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+
+    .prog-card { background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--accent-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #c084fc); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); color: var(--accent-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done {
+      border-color: rgba(16,185,129,0.6);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18);
+    }
+    .pc.done::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(52,211,153,0.4) 15%, #10b981 40%, #34d399 50%, #10b981 60%, rgba(52,211,153,0.4) 85%, transparent 100%);
+      z-index: 2;
+    }
+    .pc.done:hover {
+      border-color: rgba(16,185,129,0.82);
+      background: linear-gradient(135deg, rgba(16,185,129,0.14) 0%, rgba(6,6,15,0.45) 60%, rgba(16,185,129,0.06) 100%);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 8px 44px rgba(16,185,129,0.34), 0 0 110px rgba(16,185,129,0.15), inset 0 0 50px rgba(16,185,129,0.08), inset 0 1px 0 rgba(52,211,153,0.25);
+      transform: translateY(-2px);
+    }
+    .pc.open { border-color: rgba(139,92,246,0.35); box-shadow: 0 8px 40px rgba(139,92,246,0.08); }
+
+    .pc-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text3); min-width: 28px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex: 1; min-width: 0; }
+    .pc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; word-break: break-word; overflow-wrap: break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pc-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); color: var(--accent-l); }
+    .pc.done .pc-tag { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399; }
+    .pc-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .try-btn { display:inline-flex; align-items:center; gap:5px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.28); color:var(--cyan); padding:5px 12px; border-radius:100px; font-size:11px; font-weight:600; text-decoration:none; transition:all .2s; white-space:nowrap; flex-shrink:0; }
+    .try-btn:hover { background:rgba(6,182,212,0.2); border-color:var(--cyan); transform:scale(1.03); }
+    .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--card-border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; color: var(--text3); flex-shrink: 0; }
+    .check-btn:hover { border-color: var(--green); color: var(--green); }
+    .check-btn.checked { background: rgba(16,185,129,0.15); border-color: var(--green); color: var(--green); }
+    .exp-ico { color: var(--text3); font-size: 14px; transition: transform .3s; }
+    .pc.open .exp-ico { transform: rotate(180deg); }
+
+    .pc-testcases { padding:10px 22px 14px; }
+    .tc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tc-box { background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:9px; padding:10px 12px; }
+    .tc-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:7px; }
+    .tc-row { display:flex; gap:6px; font-size:11.5px; margin-bottom:3px; align-items:flex-start; }
+    .tc-key { color:var(--text3); min-width:50px; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+    .tc-val { color:var(--text2); font-family:'JetBrains Mono',monospace; white-space:pre-wrap; word-break:break-word; }
+
+    .pc-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height: 4500px; }
+    .pc-body-inner { padding: 0 22px 24px; border-top: 1px solid var(--card-border); }
+
+    .body-section { margin-top: 22px; }
+    .body-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .body-label::after { content: ''; flex: 1; height: 1px; background: var(--card-border); }
+    .desc-text { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .desc-text b { color: var(--text); }
+
+    .code-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display: flex; align-items: center; justify-content: space-between; background: #161b22; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size: 12px; font-weight: 600; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .copy-btn:hover { border-color: var(--accent-l); color: var(--accent-l); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre { background: var(--code-bg) !important; margin: 0 !important; border-radius: 0 !important; }
+    pre code.hljs { padding: 18px 20px !important; font-size: 13px !important; font-family: 'JetBrains Mono', monospace !important; line-height: 1.65 !important; }
+    code.hljs { background: var(--code-bg) !important; }
+
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io-box { background: var(--code-bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .io-box-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .io-inp .io-box-label { color: var(--cyan); }
+    .io-out .io-box-label { color: var(--green); }
+    .io-val { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text2); white-space: pre-wrap; line-height: 1.6; }
+
+    .cx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .cx-box { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: center; }
+    .cx-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .cx-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; }
+    .cx-time { color: var(--orange); }
+    .cx-space { color: var(--cyan); }
+
+    .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .t-pill { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--cyan); font-size: 12px; padding: 5px 12px; border-radius: 100px; }
+
+    .concept-box { background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.18); border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; }
+    .concept-box p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .concept-box code { background: rgba(139,92,246,0.15); color: var(--accent-l); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .concept-box b { color: var(--text); }
+
+    .modal-overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-box { background:#0d0d20; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:32px 28px; max-width:420px; width:100%; box-shadow:0 32px 80px rgba(0,0,0,0.7); animation:mboxin 0.25s ease-out; }
+    @keyframes mboxin { from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    .modal-emoji { font-size:40px; text-align:center; margin-bottom:12px; }
+    .modal-box h3 { font-size:19px; font-weight:800; text-align:center; margin-bottom:8px; }
+    .modal-question { font-size:14px; color:var(--text2); text-align:center; line-height:1.55; margin-bottom:20px; }
+    .modal-hint-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+    .modal-hint-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:24px; }
+    .modal-hint-tag { background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.25); color:var(--accent-l); font-size:11.5px; padding:4px 10px; border-radius:100px; }
+    .modal-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btn-yes { background:linear-gradient(135deg,var(--accent),#7c3aed); color:#fff; border:none; padding:13px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+    .btn-yes:hover { opacity:.85; }
+    .btn-no { background:rgba(255,255,255,0.04); color:var(--text2); border:1px solid var(--card-border); padding:13px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .btn-no:hover { border-color:rgba(239,68,68,.4); color:#f87171; }
+    .btn-reset-confirm { background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit; }
+    .btn-reset-confirm:hover { opacity:.85; }
+
+    footer { border-top: 1px solid var(--card-border); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--accent-l); }
+
+    @media (max-width: 600px) {
+      .level-hero-top { flex-direction: column; }
+      .prog-card { width: 100%; min-width: unset; }
+      .io-grid { grid-template-columns: 1fr; }
+      .bc { display: none; }
+      .pc-head { padding: 14px 16px; gap: 12px; }
+      .pc-body-inner { padding: 0 16px 20px; }
+    }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr} .modal-btns{grid-template-columns:1fr}
+      .try-btn{font-size:10px;padding:4px 8px;gap:3px;}
+      .pc-right{gap:8px;} .pc-head{gap:10px;}
+      .pc-num{min-width:22px;font-size:12px;}
+      .check-btn{width:26px;height:26px;font-size:12px;} .exp-ico{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo">
+            <div class="logo-ico">☕</div>
+            <span class="logo-txt">Java Core</span>
+          </a>
+          <div class="bc">
+            <span class="sep">›</span><a href="../index.html">Home</a>
+            <span class="sep">›</span><a href="numbers_hub.html">Numbers</a>
+            <span class="sep">›</span><span class="cur">Level 5</span>
+          </div>
+        </div>
+        <span class="nav-pill">🟣 Bit Magic</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 5 of 9</div>
+          <h1>Bit <span class="grad">Manipulation</span></h1>
+          <p>15 problems on bitwise AND, OR, XOR and shifts — from power-of-2 checks and bit-twiddling hacks to XOR tricks, Gray codes and cycle detection.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 15</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">XOR Tricks</span>
+        <span class="ts-tag">AND / OR</span>
+        <span class="ts-tag">Bit Shifts</span>
+        <span class="ts-tag">Toggle / Set / Clear</span>
+        <span class="ts-tag">Two's Complement</span>
+        <span class="ts-tag">Gray Code</span>
+        <span class="ts-tag">Floyd Cycle</span>
+      </div>
+    </section>
+
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Core Programs &nbsp;·&nbsp; Numbers Level 5 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+    </div>
+  </footer>
+
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji">🤔</div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this? Bit tricks are subtle — one more attempt builds real intuition!</p>
+      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
+    <div class="modal-box">
+      <div class="modal-emoji">⚠️</div>
+      <h3>Reset Progress?</h3>
+      <p class="modal-question">This will clear all <b>completed problems</b> for Level 5. This action <b>cannot be undone</b>.</p>
+      <div class="modal-btns">
+        <button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button>
+        <button class="btn-no" onclick="cancelReset()">↩ Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-numbers-level5';
+
+  const PROBLEMS = [
+    {
+      id:76, title:"Check if a Number is Power of 2",
+      tags:["Bit Manipulation","Math","Power of 2"],
+      desc:"Determine whether a given integer is a <b>power of 2</b> using a single bitwise operation — no loops or logarithm needed.",
+      code:`public class PowerOfTwo {
+    public static boolean isPowerOfTwo(int n) {
+        if (n <= 0) return false;
+        return (n & (n - 1)) == 0;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 2, 4, 16, 18, 0, -4};
+        for (int n : tests)
+            System.out.println(n + " -> isPowerOfTwo: " + isPowerOfTwo(n));
+    }
+}`,
+      sampleIn:"1, 2, 4, 16, 18, 0, -4",
+      output:`1 -> isPowerOfTwo: true
+2 -> isPowerOfTwo: true
+4 -> isPowerOfTwo: true
+16 -> isPowerOfTwo: true
+18 -> isPowerOfTwo: false
+0 -> isPowerOfTwo: false
+-4 -> isPowerOfTwo: false`,
+      time:"O(1)", space:"O(1)",
+      topics:["n&(n-1) clears the rightmost set bit","Guard: n<=0 always returns false","Powers of 2 have exactly one bit set in binary"],
+      concept:"A power of 2 in binary has exactly one bit set (e.g. 16 = 10000). <code>n&(n-1)</code> clears the lowest set bit — if the result is 0, only one bit existed, confirming it's a power of 2. We separately guard against zero and negatives since those can't be powers of 2."
+    },
+    {
+      id:77, title:"Check if a Number is Power of 4",
+      tags:["Bit Manipulation","Math","Power of 4"],
+      desc:"Check if n is a <b>power of 4</b> by combining the power-of-2 check with a bitmask that tests whether the single set bit sits at an <b>even bit position</b>.",
+      code:`public class PowerOfFour {
+    public static boolean isPowerOfFour(int n) {
+        if (n <= 0) return false;
+        if ((n & (n - 1)) != 0) return false; // must be power of 2 first
+        // 0x55555555 = 0101...0101 — bits at even positions (0, 2, 4, ...)
+        return (n & 0x55555555) != 0;
+    }
+    public static void main(String[] args) {
+        int[] tests = {1, 4, 16, 64, 8, 2, 32};
+        for (int n : tests)
+            System.out.println(n + " -> isPowerOfFour: " + isPowerOfFour(n));
+    }
+}`,
+      sampleIn:"1, 4, 16, 64, 8, 2, 32",
+      output:`1 -> isPowerOfFour: true
+4 -> isPowerOfFour: true
+16 -> isPowerOfFour: true
+64 -> isPowerOfFour: true
+8 -> isPowerOfFour: false
+2 -> isPowerOfFour: false
+32 -> isPowerOfFour: false`,
+      time:"O(1)", space:"O(1)",
+      topics:["Must satisfy power-of-2 test first","0x55555555 has 1s only at even bit positions","Powers of 4: set bit at position 0, 2, 4, 6..."],
+      concept:"Powers of 4 (1, 4, 16, 64...) are powers of 2 with their single set bit at an <b>even</b> position (bit 0, 2, 4...). Step 1: confirm it's a power of 2 using <code>n&(n-1)==0</code>. Step 2: the mask <code>0x55555555</code> has 1s only at even positions — ANDing confirms the bit placement is correct."
+    },
+    {
+      id:78, title:"Count Set Bits — Brian Kernighan's Algorithm",
+      tags:["Bit Manipulation","Bit Count","Kernighan"],
+      desc:"Count the number of <b>1-bits</b> (popcount) in n using Brian Kernighan's trick — loops only as many times as there are set bits.",
+      code:`public class CountSetBits {
+    public static int countSetBits(int n) {
+        int count = 0;
+        while (n != 0) {
+            n = n & (n - 1); // clears the rightmost set bit
+            count++;
+        }
+        return count;
+    }
+    public static void main(String[] args) {
+        int[] tests = {0, 1, 7, 13, 255};
+        for (int n : tests)
+            System.out.printf("%4d  (binary: %-10s)  ->  %d set bits%n",
+                n, Integer.toBinaryString(n), countSetBits(n));
+    }
+}`,
+      sampleIn:"0, 1, 7 (111), 13 (1101), 255 (11111111)",
+      output:`   0  (binary: 0         )  ->  0 set bits
+   1  (binary: 1         )  ->  1 set bits
+   7  (binary: 111       )  ->  3 set bits
+  13  (binary: 1101      )  ->  3 set bits
+ 255  (binary: 11111111  )  ->  8 set bits`,
+      time:"O(k)  k = set bits", space:"O(1)",
+      topics:["n&(n-1) always clears the rightmost 1-bit","Loop count = number of set bits exactly","Faster than checking all 32 positions when bits are sparse"],
+      concept:"<code>n&(n-1)</code> always clears the rightmost set bit — e.g. 1100&1011 = 1000. We loop until n becomes 0, counting iterations. Runtime is <b>O(k)</b> where k is the popcount, not O(32). For sparse numbers (few bits set) this is significantly faster than a naive 32-iteration loop."
+    },
+    {
+      id:79, title:"Check Even or Odd Using Bitwise AND",
+      tags:["Bit Manipulation","Even/Odd","AND"],
+      desc:"Determine if a number is <b>even or odd</b> using a single bitwise AND — faster than the modulo operator and works for negative integers too.",
+      code:`public class EvenOddBitwise {
+    public static String checkEvenOdd(int n) {
+        return (n & 1) == 0 ? "Even" : "Odd";
+    }
+    public static void main(String[] args) {
+        int[] tests = {0, 1, 4, 7, 100, 99, -3, -6};
+        for (int n : tests)
+            System.out.println(n + " -> " + checkEvenOdd(n));
+    }
+}`,
+      sampleIn:"0, 1, 4, 7, 100, 99, -3, -6",
+      output:`0 -> Even
+1 -> Odd
+4 -> Even
+7 -> Odd
+100 -> Even
+99 -> Odd
+-3 -> Odd
+-6 -> Even`,
+      time:"O(1)", space:"O(1)",
+      topics:["Bit 0 (LSB) is the parity bit for all integers","(n&1)==0 → Even; (n&1)==1 → Odd","Works correctly for negatives in two's complement"],
+      concept:"The least significant bit (bit 0) determines parity for <b>all</b> integers, including negatives in two's complement. Even numbers always have 0 at bit 0; odd numbers always have 1. <code>(n&1)</code> extracts just that bit — it is a single CPU instruction, faster than the division required by <code>n%2</code>."
+    },
+    {
+      id:80, title:"Toggle the Kth Bit",
+      tags:["Bit Manipulation","XOR","Toggle"],
+      desc:"Flip <b>exactly one bit</b> at position k of a number without disturbing any other bit, using XOR.",
+      code:`public class ToggleKthBit {
+    // k is 0-indexed from the right
+    public static int toggleKthBit(int n, int k) {
+        return n ^ (1 << k);
+    }
+    public static void main(String[] args) {
+        // n = 10 -> binary: 1010
+        System.out.println("n=10, k=1 -> " + toggleKthBit(10, 1)); // 1000 = 8
+        System.out.println("n=10, k=2 -> " + toggleKthBit(10, 2)); // 1110 = 14
+        System.out.println("n=10, k=3 -> " + toggleKthBit(10, 3)); // 0010 = 2
+        System.out.println("n=5,  k=1 -> " + toggleKthBit(5,  1)); // 0111 = 7
+    }
+}`,
+      sampleIn:"n=10 k=1 / n=10 k=2 / n=10 k=3 / n=5 k=1",
+      output:`n=10, k=1 -> 8
+n=10, k=2 -> 14
+n=10, k=3 -> 2
+n=5,  k=1 -> 7`,
+      time:"O(1)", space:"O(1)",
+      topics:["XOR with 1 flips a bit: 1^1=0, 0^1=1","1<<k creates a mask with only bit k set","XOR is its own inverse: n^m^m = n"],
+      concept:"XOR with 1 always flips a single bit. Shifting 1 left by k creates a mask with <b>only bit k set</b>. XORing n with this mask toggles exactly bit k while leaving all other bits unchanged — elegant because XOR is its own inverse, so toggling twice returns the original."
+    },
+    {
+      id:81, title:"Set the Kth Bit",
+      tags:["Bit Manipulation","OR","Set Bit"],
+      desc:"<b>Force bit k to 1</b> without touching any other bit, using the bitwise OR operation.",
+      code:`public class SetKthBit {
+    // k is 0-indexed from the right
+    public static int setKthBit(int n, int k) {
+        return n | (1 << k);
+    }
+    public static void main(String[] args) {
+        System.out.println("n=10, k=0 -> " + setKthBit(10, 0)); // 1010|0001 = 1011 = 11
+        System.out.println("n=8,  k=1 -> " + setKthBit(8,  1)); // 1000|0010 = 1010 = 10
+        System.out.println("n=5,  k=3 -> " + setKthBit(5,  3)); // 0101|1000 = 1101 = 13
+        System.out.println("n=7,  k=2 -> " + setKthBit(7,  2)); // 0111|0100 = 0111 = 7 (no change)
+    }
+}`,
+      sampleIn:"n=10 k=0 / n=8 k=1 / n=5 k=3 / n=7 k=2",
+      output:`n=10, k=0 -> 11
+n=8,  k=1 -> 10
+n=5,  k=3 -> 13
+n=7,  k=2 -> 7`,
+      time:"O(1)", space:"O(1)",
+      topics:["OR with 1 always sets to 1: 0|1=1, 1|1=1","1<<k creates mask with only bit k set","If bit already set, OR leaves it unchanged"],
+      concept:"OR with 1 always forces a bit to 1 regardless of its current value: <code>0|1=1</code>, <code>1|1=1</code>. Shift 1 left by k to create a mask with only bit k set. OR n with the mask sets bit k while leaving all other bits unchanged. If the bit was already 1, the result is identical to the input."
+    },
+    {
+      id:82, title:"Clear the Kth Bit",
+      tags:["Bit Manipulation","AND","Clear Bit"],
+      desc:"<b>Force bit k to 0</b> while preserving all other bits exactly, using AND with an inverted mask.",
+      code:`public class ClearKthBit {
+    // k is 0-indexed from the right
+    public static int clearKthBit(int n, int k) {
+        return n & ~(1 << k);
+    }
+    public static void main(String[] args) {
+        System.out.println("n=15, k=1 -> " + clearKthBit(15, 1)); // 1111&1101 = 13
+        System.out.println("n=7,  k=2 -> " + clearKthBit(7,  2)); // 0111&1011 = 3
+        System.out.println("n=13, k=3 -> " + clearKthBit(13, 3)); // 1101&0111 = 5
+        System.out.println("n=5,  k=1 -> " + clearKthBit(5,  1)); // already 0, no change
+    }
+}`,
+      sampleIn:"n=15 k=1 / n=7 k=2 / n=13 k=3 / n=5 k=1",
+      output:`n=15, k=1 -> 13
+n=7,  k=2 -> 3
+n=13, k=3 -> 5
+n=5,  k=1 -> 5`,
+      time:"O(1)", space:"O(1)",
+      topics:["AND with 0 always clears: x&0=0, x&1=x","~(1<<k) has all 1s except a 0 at position k","Bitwise NOT (~) flips all 32 bits"],
+      concept:"To clear bit k, create a mask with all 1s except at position k using <code>~(1&lt;&lt;k)</code>. ANDing n with this mask: other bits <code>b&1=b</code> (preserved), bit k forces <code>x&0=0</code> (cleared). Bitwise NOT (<code>~</code>) flips all 32 bits of the intermediate mask."
+    },
+    {
+      id:83, title:"Swap Two Numbers Using XOR",
+      tags:["Bit Manipulation","XOR","Swap"],
+      desc:"Swap two integers <b>without a temporary variable</b> by exploiting the self-inverse property of XOR.",
+      code:`public class XORSwap {
+    public static void main(String[] args) {
+        int a = 5, b = 3;
+        System.out.println("Before: a=" + a + ", b=" + b);
+        a = a ^ b;
+        b = a ^ b; // = (a^b)^b = a
+        a = a ^ b; // = (a^b)^a = b
+        System.out.println("After:  a=" + a + ", b=" + b);
+
+        System.out.println();
+        int x = 10, y = 20;
+        System.out.println("Before: x=" + x + ", y=" + y);
+        x ^= y; y ^= x; x ^= y;
+        System.out.println("After:  x=" + x + ", y=" + y);
+    }
+}`,
+      sampleIn:"a=5, b=3  /  x=10, y=20",
+      output:`Before: a=5, b=3
+After:  a=3, b=5
+
+Before: x=10, y=20
+After:  x=20, y=10`,
+      time:"O(1)", space:"O(1)",
+      topics:["XOR is commutative and associative","a^b^b = a (XOR is its own inverse)","Fails when a and b are the same memory location (a^a=0)"],
+      concept:"XOR is its own inverse: <code>a^b^b = a</code>. Step 1: <code>a = a^b</code>. Step 2: <code>b = (a^b)^b = a</code> (original a). Step 3: <code>a = (a^b)^a = b</code> (original b). No temp variable needed! <b>Caveat:</b> if a and b point to the same memory location, all three steps produce 0 — use a guard if needed."
+    },
+    {
+      id:84, title:"Find the Unique Number in an Array (XOR)",
+      tags:["Bit Manipulation","XOR","Array"],
+      desc:"In an array where every element appears <b>twice except one</b>, find the unique element using XOR — O(n) time, O(1) space, no HashMap.",
+      code:`public class FindUnique {
+    public static int findUnique(int[] arr) {
+        int xor = 0;
+        for (int num : arr)
+            xor ^= num; // paired elements cancel: a^a=0
+        return xor;     // only unique survives: 0^x=x
+    }
+    public static void main(String[] args) {
+        int[] arr1 = {4, 1, 2, 1, 2};
+        System.out.println("Unique in [4,1,2,1,2]: " + findUnique(arr1));
+        int[] arr2 = {1, 3, 1};
+        System.out.println("Unique in [1,3,1]: " + findUnique(arr2));
+        int[] arr3 = {7, 5, 6, 5, 6};
+        System.out.println("Unique in [7,5,6,5,6]: " + findUnique(arr3));
+    }
+}`,
+      sampleIn:"[4,1,2,1,2]  /  [1,3,1]  /  [7,5,6,5,6]",
+      output:`Unique in [4,1,2,1,2]: 4
+Unique in [1,3,1]: 3
+Unique in [7,5,6,5,6]: 7`,
+      time:"O(n)", space:"O(1)",
+      topics:["a^a=0 — duplicate pairs cancel out","a^0=a — identity leaves unique intact","XOR is commutative so order doesn't matter"],
+      concept:"XOR is commutative and associative. Any number XORed with itself is 0 (<code>a^a=0</code>), and XOR with 0 is identity (<code>a^0=a</code>). When all elements are XORed together, duplicates cancel in pairs, leaving only the unique element. Beats sorting (O(n log n)) and HashMap (O(n) space)."
+    },
+    {
+      id:85, title:"Find Two Unique Numbers in an Array (XOR + Partition)",
+      tags:["Bit Manipulation","XOR","Array","Partition"],
+      desc:"Find the <b>two elements that appear exactly once</b> in an array where all others appear twice — extend the single-unique XOR trick with a partitioning step.",
+      code:`public class FindTwoUnique {
+    public static void findTwoUnique(int[] arr) {
+        int xorAll = 0;
+        for (int num : arr) xorAll ^= num; // = x ^ y
+
+        // Rightmost bit where x and y differ
+        int diffBit = xorAll & (-xorAll);
+
+        int x = 0, y = 0;
+        for (int num : arr) {
+            if ((num & diffBit) != 0) x ^= num;
+            else                      y ^= num;
+        }
+        System.out.println("Two uniques: " + x + " and " + y);
+    }
+    public static void main(String[] args) {
+        findTwoUnique(new int[]{1, 2, 3, 2, 3, 4});
+        findTwoUnique(new int[]{5, 3, 3, 7});
+        findTwoUnique(new int[]{10, 9, 8, 9});
+    }
+}`,
+      sampleIn:"[1,2,3,2,3,4]  /  [5,3,3,7]  /  [10,9,8,9]",
+      output:`Two uniques: 1 and 4
+Two uniques: 5 and 7
+Two uniques: 10 and 8`,
+      time:"O(n)", space:"O(1)",
+      topics:["XOR all elements gives x^y","n&(-n) isolates the rightmost differing bit","Partition into two groups; pairs cancel within each group"],
+      concept:"XOR all elements to get <code>x^y</code>. Since x≠y, at least one bit differs — <code>n&(-n)</code> isolates the rightmost differing bit. Use that bit to split the array into two groups: x lands in one, y in the other. Pairs still cancel within each group via XOR, leaving x and y isolated."
+    },
+    {
+      id:86, title:"Reverse the Bits of a 32-bit Integer",
+      tags:["Bit Manipulation","Reverse Bits","Shift"],
+      desc:"Reverse all <b>32 bits</b> of a signed integer so that the most significant bit becomes the least significant and vice versa.",
+      code:`public class ReverseBits {
+    public static int reverseBits(int n) {
+        int result = 0;
+        for (int i = 0; i < 32; i++) {
+            result = (result << 1) | (n & 1); // append LSB of n
+            n >>>= 1;                          // unsigned right shift
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        int n1 = 43261596;
+        System.out.println("Input:    " + n1);
+        System.out.println("Binary:   "
+            + String.format("%32s", Integer.toBinaryString(n1)).replace(' ','0'));
+        System.out.println("Reversed: " + Integer.toUnsignedLong(reverseBits(n1)));
+        System.out.println();
+        System.out.println("Input: 8  =>  Reversed: "
+            + Integer.toUnsignedLong(reverseBits(8)));
+    }
+}`,
+      sampleIn:"n = 43261596  /  n = 8",
+      output:`Input:    43261596
+Binary:   00000010100101000001111010011100
+Reversed: 964176192
+
+Input: 8  =>  Reversed: 268435456`,
+      time:"O(32) = O(1)", space:"O(1)",
+      topics:["Left-shift result to make room, OR in LSB of n",">>> (unsigned right shift) prevents sign extension","32 iterations cover all bit positions"],
+      concept:"Each iteration: left-shift result to make room, extract LSB of n using <code>n&1</code>, OR it into result, then unsigned-right-shift n by 1. Using <code>&gt;&gt;&gt;</code> (unsigned shift) ensures no sign extension for negative inputs. After exactly 32 iterations, result holds n with all bits reversed."
+    },
+    {
+      id:87, title:"Find the Rightmost Set Bit",
+      tags:["Bit Manipulation","Two's Complement","Rightmost Bit"],
+      desc:"Isolate and locate the <b>rightmost (lowest) set bit</b> of an integer using two's complement arithmetic — a single O(1) expression.",
+      code:`public class RightmostSetBit {
+    public static int rightmostSetBitValue(int n) {
+        return n & (-n);
+    }
+    public static int rightmostSetBitPos(int n) {
+        if (n == 0) return -1;
+        int pos = 0;
+        while ((n & 1) == 0) { n >>= 1; pos++; }
+        return pos;
+    }
+    public static void main(String[] args) {
+        int[] tests = {12, 7, 20, 1, 24};
+        for (int n : tests)
+            System.out.printf("n=%-3d  binary=%-8s  value=%d  pos=%d%n",
+                n, Integer.toBinaryString(n),
+                rightmostSetBitValue(n), rightmostSetBitPos(n));
+    }
+}`,
+      sampleIn:"n = 12, 7, 20, 1, 24",
+      output:`n=12   binary=1100      value=4  pos=2
+n=7    binary=111       value=1  pos=0
+n=20   binary=10100     value=4  pos=2
+n=1    binary=1         value=1  pos=0
+n=24   binary=11000     value=8  pos=3`,
+      time:"O(1)", space:"O(1)",
+      topics:["-n in two's complement flips all bits then adds 1","n&(-n) isolates only the rightmost 1-bit","For position: right-shift until bit 0 is 1"],
+      concept:"In two's complement, <code>-n</code> flips all bits then adds 1. Lower zero bits flip to 1 but the carry propagates until the first 1 — which flips back, and the carry stops. So <code>n&(-n)</code> isolates only the rightmost set bit. For the position, count right-shifts until bit 0 becomes 1."
+    },
+    {
+      id:88, title:"Check if the Kth Bit is Set",
+      tags:["Bit Manipulation","AND","Bit Check"],
+      desc:"Test whether <b>bit k is 1 or 0</b> in an integer using either a shift-and-AND or mask-and-AND approach.",
+      code:`public class CheckKthBit {
+    // k is 0-indexed from the right
+    public static boolean isKthBitSet(int n, int k) {
+        return (n & (1 << k)) != 0;
+        // Alternative: return ((n >> k) & 1) == 1;
+    }
+    public static void main(String[] args) {
+        int n = 13; // binary: 1101
+        System.out.println("n = 13  (binary: 1101)");
+        for (int k = 0; k < 4; k++)
+            System.out.printf("  Bit %d is %s%n", k,
+                isKthBitSet(n, k) ? "SET   (1)" : "CLEAR (0)");
+        System.out.println();
+        System.out.println("n=22 (10110), k=4: " + isKthBitSet(22, 4));
+        System.out.println("n=22 (10110), k=3: " + isKthBitSet(22, 3));
+    }
+}`,
+      sampleIn:"n=13 (1101): k=0,1,2,3  /  n=22 (10110): k=4, k=3",
+      output:`n = 13  (binary: 1101)
+  Bit 0 is SET   (1)
+  Bit 1 is CLEAR (0)
+  Bit 2 is SET   (1)
+  Bit 3 is SET   (1)
+
+n=22 (10110), k=4: true
+n=22 (10110), k=3: false`,
+      time:"O(1)", space:"O(1)",
+      topics:["Method 1: (n & (1<<k)) != 0","Method 2: ((n>>k) & 1) == 1","Both are O(1) single-instruction operations"],
+      concept:"Shift 1 left by k to create a mask with only bit k set. AND with n — if the result is non-zero, bit k was 1. The alternative <code>(n&gt;&gt;k)&1</code> right-shifts n to bring bit k down to position 0, then masks. Both approaches are O(1) and produce identical results; the shift alternative avoids potential overflow for large k."
+    },
+    {
+      id:89, title:"Count Total Set Bits from 1 to N",
+      tags:["Bit Manipulation","Counting Bits","Pattern"],
+      desc:"Count the <b>total number of 1-bits</b> across all integers from 1 to N without iterating over every number — use a mathematical cycle pattern.",
+      code:`public class CountBits1ToN {
+    public static long countBitsUpTo(long n) {
+        long total = 0;
+        for (long i = 1; i <= n; i <<= 1) {
+            long cycle   = i * 2;
+            long full    = (n + 1) / cycle;
+            long partial = Math.max(0, (n + 1) % cycle - i);
+            total += full * i + partial;
+        }
+        return total;
+    }
+    public static void main(String[] args) {
+        long[] tests = {1, 3, 5, 10, 100};
+        for (long n : tests)
+            System.out.println("Set bits in [1.." + n + "] = " + countBitsUpTo(n));
+    }
+}`,
+      sampleIn:"N = 1, 3, 5, 10, 100",
+      output:`Set bits in [1..1] = 1
+Set bits in [1..3] = 4
+Set bits in [1..5] = 7
+Set bits in [1..10] = 17
+Set bits in [1..100] = 519`,
+      time:"O(log N)", space:"O(1)",
+      topics:["For bit position i, bits cycle: i zeros then i ones, repeat","Full cycles each contribute i set bits","Partial last cycle may add extra — sum across all positions"],
+      concept:"For each bit position i (1, 2, 4, 8...), that bit alternates in blocks of i zeros then i ones. Full complete cycles contribute <code>i</code> set bits each. A partial final cycle may add more. Summing across all bit positions gives the exact total in <b>O(log N)</b> — no need to visit every integer from 1 to N."
+    },
+    {
+      id:90, title:"Generate Gray Code Sequence",
+      tags:["Bit Manipulation","Gray Code","XOR","Sequence"],
+      desc:"Generate the <b>n-bit Gray code sequence</b> — a binary ordering where consecutive values differ by exactly one bit.",
+      code:`public class GrayCode {
+    public static int toGray(int n) {
+        return n ^ (n >> 1);
+    }
+    private static String toBin(int n, int bits) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = bits - 1; i >= 0; i--)
+            sb.append((n >> i) & 1);
+        return sb.toString();
+    }
+    public static void printGrayCode(int bits) {
+        int total = 1 << bits;
+        System.out.println("Gray codes for " + bits + " bit(s):");
+        for (int i = 0; i < total; i++) {
+            int gray = toGray(i);
+            System.out.printf("  %2d  ->  %s  (decimal %d)%n",
+                i, toBin(gray, bits), gray);
+        }
+    }
+    public static void main(String[] args) {
+        printGrayCode(2);
+        System.out.println();
+        printGrayCode(3);
+    }
+}`,
+      sampleIn:"bits = 2  /  bits = 3",
+      output:`Gray codes for 2 bit(s):
+   0  ->  00  (decimal 0)
+   1  ->  01  (decimal 1)
+   2  ->  11  (decimal 3)
+   3  ->  10  (decimal 2)
+
+Gray codes for 3 bit(s):
+   0  ->  000  (decimal 0)
+   1  ->  001  (decimal 1)
+   2  ->  011  (decimal 3)
+   3  ->  010  (decimal 2)
+   4  ->  110  (decimal 6)
+   5  ->  111  (decimal 7)
+   6  ->  101  (decimal 5)
+   7  ->  100  (decimal 4)`,
+      time:"O(2^n)", space:"O(2^n) for output",
+      topics:["G(n) = n XOR (n >> 1) — simple closed form","Consecutive codes differ by exactly 1 bit","Used in hardware encoders to avoid spurious transitions"],
+      concept:"Gray code: consecutive values differ by exactly one bit — hardware transitions can't skip intermediate states. Formula <code>G(n) = n XOR (n&gt;&gt;1)</code>: the MSB stays the same; each subsequent bit is the XOR of two adjacent bits of n. For 2 bits: <b>00→01→11→10</b> — each step flips only one bit."
+    }
+  ];
+
+  const TESTCASES = {
+    76: [{in:"n = 16", out:"true  (10000 & 01111 = 0)"},{in:"n = 18", out:"false (10010 & 10001 ≠ 0)"}],
+    77: [{in:"n = 16", out:"true  (bit at even position 4)"},{in:"n = 8",  out:"false (bit at odd position 3)"}],
+    78: [{in:"n = 7   (binary: 111)",  out:"3 set bits"},{in:"n = 13  (binary: 1101)", out:"3 set bits"}],
+    79: [{in:"n = 4", out:"Even  (100 & 001 = 0)"},{in:"n = 7", out:"Odd   (111 & 001 = 1)"}],
+    80: [{in:"n=10 (1010), k=1", out:"8   (1010 XOR 0010 = 1000)"},{in:"n=10 (1010), k=2", out:"14  (1010 XOR 0100 = 1110)"}],
+    81: [{in:"n=10 (1010), k=0", out:"11  (1010 OR 0001 = 1011)"},{in:"n=8  (1000), k=1", out:"10  (1000 OR 0010 = 1010)"}],
+    82: [{in:"n=15 (1111), k=1", out:"13  (1111 AND ~0010 = 1101)"},{in:"n=7  (0111), k=2", out:"3   (0111 AND ~0100 = 0011)"}],
+    83: [{in:"a=5, b=3",   out:"a=3, b=5  (no temp variable)"},{in:"x=10, y=20", out:"x=20, y=10"}],
+    84: [{in:"[4, 1, 2, 1, 2]", out:"4  (pairs 1,1 and 2,2 cancel)"},{in:"[1, 3, 1]", out:"3  (pair 1,1 cancels)"}],
+    85: [{in:"[1, 2, 3, 2, 3, 4]", out:"1 and 4"},{in:"[5, 3, 3, 7]", out:"5 and 7"}],
+    86: [{in:"n = 43261596", out:"964176192  (bits reversed)"},{in:"n = 8  (00...01000)", out:"268435456  (...000100...0)"}],
+    87: [{in:"n = 12  (binary: 1100)", out:"value=4, position=2"},{in:"n = 7   (binary: 0111)", out:"value=1, position=0"}],
+    88: [{in:"n=13 (1101), k=2", out:"true  (bit 2 is 1)"},{in:"n=13 (1101), k=1", out:"false (bit 1 is 0)"}],
+    89: [{in:"N = 5", out:"7  (1+1+2+1+2 for nums 1–5)"},{in:"N = 10", out:"17 total set bits for 1–10"}],
+    90: [{in:"bits = 2", out:"00→01→11→10  (4 codes)"},{in:"bits = 3", out:"000→001→011→010→110→111→101→100"}]
+  };
+
+  let openId = null, pendingId = null;
+  const completed = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render() {
+    document.getElementById('problems-list').innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id)?'done':''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${p.id}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id)?'checked':''}" onclick="markDone(event,${p.id})" title="${completed.has(p.id)?'Mark incomplete':'Mark as done'}">${completed.has(p.id)?'✓':'○'}</button>
+            <span class="exp-ico">▾</span>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp"><div class="io-box-label">▶ TEST INPUTS</div><div class="io-val">${escHtml(p.sampleIn)}</div></div>
+                <div class="io-box io-out"><div class="io-box-label">◀ OUTPUT</div><div class="io-val">${escHtml(p.output)}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box"><div class="cx-label">TIME</div><div class="cx-val cx-time">${p.time}</div></div>
+                <div class="cx-box"><div class="cx-label">SPACE</div><div class="cx-val cx-space">${p.space}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t=>`<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    updateProgressUI();
+  }
+
+  function toggle(id) {
+    const card = document.getElementById('pc-' + id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) document.getElementById('pc-' + openId).classList.remove('open');
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-' + id);
+    if (card.classList.contains('open')) { toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t=>`<span class="modal-hint-tag">${t}</span>`).join('');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('confirm-modal').style.display = 'flex';
+  }
+
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    if (pendingId !== null) { toggle(pendingId); pendingId = null; }
+  }
+
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    pendingId = null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    completed.has(id) ? completed.delete(id) : completed.add(id);
+    saveProgress();
+    render();
+    if (openId) document.getElementById('pc-' + openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    navigator.clipboard.writeText(p.code).then(() => {
+      const btn = e.target;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function resetProgress() {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('reset-modal').style.display = 'flex';
+  }
+  function confirmReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    completed.clear();
+    saveProgress();
+    openId = null;
+    render();
+  }
+  function cancelReset() {
+    document.getElementById('reset-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed]));
+  }
+
+  function updateProgressUI() {
+    const done = completed.size;
+    document.getElementById('prog-done').textContent = done;
+    const pct = PROBLEMS.length ? Math.round(done / PROBLEMS.length * 100) : 0;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+
+  render();
+  </script>
+</body>
+</html>
