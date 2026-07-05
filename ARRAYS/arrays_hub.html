@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Numbers | Java Core Programs</title>
+  <title>Arrays | Java Core Programs</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #06060f; --bg2: #0a0a1a;
       --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
-      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4;
+      --blue: #3b82f6; --blue-l: #93c5fd; --cyan: #06b6d4;
       --green: #10b981; --orange: #f97316; --pink: #ec4899;
       --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
     }
@@ -19,7 +19,7 @@
 
     .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
     .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.11; animation: float 22s ease-in-out infinite; }
-    .orb-1 { width: 600px; height: 600px; background: var(--purple); top: -200px; left: -200px; }
+    .orb-1 { width: 600px; height: 600px; background: var(--blue); top: -200px; left: -200px; }
     .orb-2 { width: 400px; height: 400px; background: var(--cyan); bottom: -100px; right: -100px; animation-delay: -11s; }
     @keyframes float { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-20px) scale(1.04)} }
 
@@ -38,32 +38,31 @@
     }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
-    .logo-text { font-size: 16px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--blue), var(--cyan)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .logo-text { font-size: 16px; font-weight: 700; background: linear-gradient(135deg, var(--blue-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text3); margin-left: 20px; }
     .breadcrumb a { color: var(--text2); text-decoration: none; transition: color 0.2s; }
-    .breadcrumb a:hover { color: var(--purple-l); }
+    .breadcrumb a:hover { color: var(--blue-l); }
     .breadcrumb .sep { color: var(--text3); }
-    .breadcrumb .cur { color: var(--purple-l); font-weight: 600; }
+    .breadcrumb .cur { color: var(--blue-l); font-weight: 600; }
     .nav-right { display: flex; align-items: center; gap: 12px; }
     .overall-progress-badge {
-      background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.28);
-      color: var(--purple-l); padding: 6px 14px; border-radius: 100px;
+      background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.28);
+      color: var(--blue-l); padding: 6px 14px; border-radius: 100px;
       font-size: 12px; font-weight: 600;
       display: flex; align-items: center; gap: 6px;
     }
 
-    /* Topic Hero */
     .topic-hero { padding: 64px 0 48px; text-align: center; }
     .topic-pill {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.22);
-      color: var(--purple-l); border-radius: 100px;
+      background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.22);
+      color: var(--blue-l); border-radius: 100px;
       padding: 7px 18px; font-size: 13px; margin-bottom: 24px;
       animation: fadeUp 0.5s ease-out both;
     }
     .topic-hero h1 { font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -2px; margin-bottom: 16px; animation: fadeUp 0.5s ease-out 0.1s both; }
-    .grad { background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .grad { background: linear-gradient(135deg, var(--blue-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .topic-hero p { font-size: 16px; color: var(--text2); max-width: 520px; margin: 0 auto 36px; line-height: 1.6; animation: fadeUp 0.5s ease-out 0.2s both; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 
@@ -75,14 +74,12 @@
     .meta-icon { font-size: 16px; }
     .meta-val { font-weight: 700; color: var(--text); }
 
-    /* Overall progress bar */
     .overall-prog { max-width: 500px; margin: 0 auto 64px; animation: fadeUp 0.5s ease-out 0.4s both; }
     .prog-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; color: var(--text2); }
     .prog-top strong { color: var(--text); }
     .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
-    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--cyan)); border-radius: 100px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); border-radius: 100px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
 
-    /* Levels Grid */
     .levels-section h2 { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--text3); margin-bottom: 32px; }
     .levels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 80px; }
 
@@ -93,15 +90,15 @@
       position: relative; overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     }
-    .level-card.active { border-color: rgba(var(--lv-rgb,124,58,237), 0.25); }
+    .level-card.active { border-color: rgba(var(--lv-rgb,59,130,246), 0.25); }
     .level-card.active:hover {
-      border-color: rgba(var(--lv-rgb,124,58,237), 0.55);
+      border-color: rgba(var(--lv-rgb,59,130,246), 0.55);
       transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(var(--lv-rgb,124,58,237), 0.18);
-      background: rgba(var(--lv-rgb,124,58,237), 0.05);
+      box-shadow: 0 20px 50px rgba(var(--lv-rgb,59,130,246), 0.18);
+      background: rgba(var(--lv-rgb,59,130,246), 0.05);
     }
     .level-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.3s; }
-    .level-card.active::before { background: linear-gradient(90deg, var(--lv-color, var(--purple)), var(--cyan)); }
+    .level-card.active::before { background: linear-gradient(90deg, var(--lv-color, var(--blue)), var(--cyan)); }
     .level-card.active:hover::before { opacity: 1; }
     .level-card.locked { opacity: 0.42; cursor: not-allowed; pointer-events: none; }
 
@@ -111,11 +108,9 @@
       font-size: 42px; font-weight: 700; line-height: 1;
       color: rgba(255,255,255,0.08);
     }
-    .level-card.active .level-num { color: rgba(var(--lv-rgb,124,58,237), 0.3); }
+    .level-card.active .level-num { color: rgba(var(--lv-rgb,59,130,246), 0.3); }
     .level-badge-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-    .l-badge {
-      font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px;
-    }
+    .l-badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px; }
     .l-active { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
     .l-soon   { background: rgba(71,85,105,0.2); color: var(--text3); border: 1px solid var(--card-border); }
     .l-count  { font-size: 11px; color: var(--text3); }
@@ -125,44 +120,74 @@
 
     .level-topics { display: flex; flex-wrap: wrap; gap: 6px; }
     .topic-tag {
-      background: rgba(var(--lv-rgb,124,58,237), 0.1); border: 1px solid rgba(var(--lv-rgb,124,58,237), 0.22);
-      color: var(--lv-color, var(--purple-l)); font-size: 11px; padding: 3px 9px; border-radius: 100px;
+      background: rgba(var(--lv-rgb,59,130,246), 0.1); border: 1px solid rgba(var(--lv-rgb,59,130,246), 0.22);
+      color: var(--lv-color, var(--blue-l)); font-size: 11px; padding: 3px 9px; border-radius: 100px;
     }
     .level-card.locked .topic-tag { background: rgba(71,85,105,0.15); border-color: var(--card-border); color: var(--text3); }
 
     .level-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
     .l-prog-mini { flex: 1; margin-right: 16px; }
     .l-prog-mini-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; margin-top: 4px; }
-    .l-prog-mini-fill { height: 100%; background: var(--lv-color, var(--purple)); border-radius: 100px; transition: width 0.8s; }
+    .l-prog-mini-fill { height: 100%; background: var(--lv-color, var(--blue)); border-radius: 100px; transition: width 0.8s; }
     .l-prog-label { font-size: 11px; color: var(--text3); }
     .level-arrow { font-size: 20px; color: var(--text3); transition: all 0.3s; }
-    .level-card.active:hover .level-arrow { color: var(--lv-color, var(--purple-l)); transform: translate(4px,-2px); }
+    .level-card.active:hover .level-arrow { color: var(--lv-color, var(--blue-l)); transform: translate(4px,-2px); }
 
-    /* Footer */
+    /* ── LEVEL COMPLETE ── */
+    .level-card.level-complete {
+      border-color: rgba(var(--lv-rgb,59,130,246), 0.55) !important;
+      background: rgba(var(--lv-rgb,59,130,246), 0.07) !important;
+      box-shadow: 0 0 0 1px rgba(var(--lv-rgb,59,130,246),0.15), 0 8px 32px rgba(var(--lv-rgb,59,130,246), 0.2);
+      animation: lvCompleteGrow 0.72s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes lvCompleteGrow {
+      0%   { transform: scale(0.95); opacity: 0.65; }
+      60%  { transform: scale(1.045); }
+      100% { transform: scale(1); }
+    }
+    .level-card.level-complete::before { opacity: 1 !important; }
+    .level-card.level-complete:hover { transform: translateY(-5px) scale(1.01) !important; }
+    .lv-complete-ribbon {
+      position: absolute; top: 16px; right: -28px;
+      background: linear-gradient(135deg, var(--lv-color, var(--blue)), rgba(var(--lv-rgb,59,130,246),0.7));
+      color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; padding: 5px 36px;
+      transform: rotate(35deg); box-shadow: 0 4px 14px rgba(var(--lv-rgb,59,130,246),0.45);
+      pointer-events: none;
+    }
+    .l-complete-badge {
+      background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(16,185,129,0.08));
+      color: #34d399; border: 1px solid rgba(16,185,129,0.4);
+      font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .l-complete-badge::before { content: '✓'; font-size: 10px; }
+    .l-prog-mini-fill.full { background: linear-gradient(90deg, var(--lv-color, var(--blue)), #34d399); box-shadow: 0 0 6px rgba(52,211,153,0.5); }
+
     footer { border-top: 1px solid var(--card-border); padding: 32px 0; text-align: center; }
     footer p { color: var(--text3); font-size: 13px; }
-    footer strong { color: var(--purple-l); }
+    footer strong { color: var(--blue-l); }
 
     /* ── MASTERY SECTION ── */
     .mastery-wrap { padding: 0 0 80px; }
     .mastery-card {
       position: relative; overflow: hidden; border-radius: 24px;
       padding: 52px 48px; text-align: center;
-      background: linear-gradient(135deg, rgba(124,58,237,0.07) 0%, rgba(6,182,212,0.04) 50%, rgba(16,185,129,0.07) 100%);
-      border: 1px solid rgba(124,58,237,0.2);
+      background: linear-gradient(135deg, rgba(59,130,246,0.07) 0%, rgba(6,182,212,0.04) 50%, rgba(16,185,129,0.07) 100%);
+      border: 1px solid rgba(59,130,246,0.2);
       transition: border-color .4s, box-shadow .4s;
     }
-    .mastery-card:hover { border-color: rgba(124,58,237,0.38); box-shadow: 0 0 60px rgba(124,58,237,0.1); }
-    .mastery-top-bar { position: absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg,#f97316,#ef4444,#f59e0b,#10b981,#3b82f6); }
+    .mastery-card:hover { border-color: rgba(59,130,246,0.38); box-shadow: 0 0 60px rgba(59,130,246,0.1); }
+    .mastery-top-bar { position: absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg,#3b82f6,#06b6d4,#10b981,#8b5cf6,#f59e0b); }
     .mastery-fire { font-size: 52px; display: block; margin-bottom: 16px; animation: fireFloat 3s ease-in-out infinite; }
     @keyframes fireFloat { 0%,100%{transform:scale(1) rotate(-3deg)} 50%{transform:scale(1.1) rotate(3deg)} }
     .mastery-title {
       font-size: clamp(22px,3vw,34px); font-weight: 900; letter-spacing: -.5px; margin-bottom: 10px;
-      background: linear-gradient(135deg,#f97316,#ef4444,#f59e0b);
+      background: linear-gradient(135deg,#3b82f6,#06b6d4,#10b981);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .mastery-sub { font-size: 16px; color: var(--text2); font-weight: 500; margin-bottom: 28px; }
-    .mastery-list { list-style: none; display: flex; flex-direction: column; gap: 10px; max-width: 520px; margin: 0 auto 36px; text-align: left; }
+    .mastery-list { list-style: none; display: flex; flex-direction: column; gap: 10px; max-width: 540px; margin: 0 auto 36px; text-align: left; }
     .mastery-list li {
       display: flex; align-items: center; gap: 14px;
       font-size: 15px; color: var(--text); font-weight: 500;
@@ -172,12 +197,13 @@
     }
     .mastery-list li:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.1); }
     .mastery-list li .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .mastery-list li:nth-child(1) .dot { background: #10b981; box-shadow: 0 0 8px #10b981; }
-    .mastery-list li:nth-child(2) .dot { background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
-    .mastery-list li:nth-child(3) .dot { background: #8b5cf6; box-shadow: 0 0 8px #8b5cf6; }
-    .mastery-list li:nth-child(4) .dot { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
-    .mastery-list li:nth-child(5) .dot { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
+    .mastery-list li:nth-child(1) .dot { background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
+    .mastery-list li:nth-child(2) .dot { background: #10b981; box-shadow: 0 0 8px #10b981; }
+    .mastery-list li:nth-child(3) .dot { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .mastery-list li:nth-child(4) .dot { background: #8b5cf6; box-shadow: 0 0 8px #8b5cf6; }
+    .mastery-list li:nth-child(5) .dot { background: #ec4899; box-shadow: 0 0 8px #ec4899; }
     .mastery-list li:nth-child(6) .dot { background: #06b6d4; box-shadow: 0 0 8px #06b6d4; }
+    .mastery-list li:nth-child(7) .dot { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
     .mastery-footer { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 13px; color: var(--text3); }
     .mastery-footer strong { color: var(--text2); }
 
@@ -189,7 +215,7 @@
     @keyframes popIn { from{transform:scale(0.2);opacity:0} to{transform:scale(1);opacity:1} }
     .party-title {
       font-size: clamp(26px,5vw,52px); font-weight:900; letter-spacing:-1px; margin-bottom:14px;
-      background: linear-gradient(135deg,#fbbf24,#f59e0b,#10b981,#3b82f6,#8b5cf6);
+      background: linear-gradient(135deg,#93c5fd,#06b6d4,#10b981,#f59e0b,#8b5cf6);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
       animation: fadeUp .6s ease-out .3s both;
     }
@@ -198,48 +224,8 @@
     .party-stat { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:16px 28px; }
     .party-stat-num { font-size:36px; font-weight:900; font-family:'JetBrains Mono',monospace; }
     .party-stat-label { font-size:11px; color:var(--text3); margin-top:4px; letter-spacing:.5px; text-transform:uppercase; }
-    .party-close { background:linear-gradient(135deg,var(--purple),#4c1d95); color:#fff; border:none; padding:14px 40px; border-radius:100px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:opacity .2s,transform .2s; animation:fadeUp .6s ease-out .7s both; }
+    .party-close { background:linear-gradient(135deg,var(--blue),#1d4ed8); color:#fff; border:none; padding:14px 40px; border-radius:100px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:opacity .2s,transform .2s; animation:fadeUp .6s ease-out .7s both; }
     .party-close:hover { opacity:.85; transform:scale(1.04); }
-
-    /* ── LEVEL COMPLETE STATE ── */
-    .level-card.level-complete {
-      border-color: rgba(var(--lv-rgb,124,58,237), 0.55) !important;
-      background: rgba(var(--lv-rgb,124,58,237), 0.07) !important;
-      box-shadow: 0 0 0 1px rgba(var(--lv-rgb,124,58,237),0.15), 0 8px 32px rgba(var(--lv-rgb,124,58,237), 0.2);
-      animation: lvCompleteGrow 0.72s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    @keyframes lvCompleteGrow {
-      0%   { transform: scale(0.95); opacity: 0.65; box-shadow: none; }
-      60%  { transform: scale(1.045); }
-      100% { transform: scale(1); }
-    }
-    .level-card.level-complete::before { opacity: 1 !important; }
-    .level-card.level-complete:hover {
-      transform: translateY(-5px) scale(1.01) !important;
-      box-shadow: 0 24px 60px rgba(var(--lv-rgb,124,58,237), 0.3), 0 0 80px rgba(var(--lv-rgb,124,58,237), 0.12) !important;
-    }
-
-    .lv-complete-ribbon {
-      position: absolute; top: 16px; right: -28px;
-      background: linear-gradient(135deg, var(--lv-color, var(--purple)), rgba(var(--lv-rgb,124,58,237),0.7));
-      color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
-      text-transform: uppercase; padding: 5px 36px;
-      transform: rotate(35deg); box-shadow: 0 4px 14px rgba(var(--lv-rgb,124,58,237),0.45);
-      pointer-events: none;
-    }
-
-    .l-complete-badge {
-      background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(16,185,129,0.08));
-      color: #34d399; border: 1px solid rgba(16,185,129,0.4);
-      font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px;
-      display: flex; align-items: center; gap: 4px;
-    }
-    .l-complete-badge::before { content: '✓'; font-size: 10px; }
-
-    .l-prog-mini-fill.full {
-      background: linear-gradient(90deg, var(--lv-color, var(--purple)), #34d399);
-      box-shadow: 0 0 6px rgba(52,211,153,0.5);
-    }
 
     @media (max-width: 640px) {
       .levels-grid { grid-template-columns: 1fr; }
@@ -249,6 +235,10 @@
       .party-stats { gap: 12px; }
       .party-stat { padding: 12px 20px; }
     }
+    ::-webkit-scrollbar{width:6px;height:6px;}
+    ::-webkit-scrollbar-track{background:rgba(255,255,255,0.04);border-radius:100px;}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:100px;}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.32);}
   </style>
 </head>
 <body>
@@ -267,7 +257,7 @@
             <span class="sep">›</span>
             <a href="../index.html">Home</a>
             <span class="sep">›</span>
-            <span class="cur">Numbers</span>
+            <span class="cur">Arrays</span>
           </div>
         </div>
         <div class="overall-progress-badge">
@@ -280,13 +270,13 @@
 
   <div class="container">
     <section class="topic-hero">
-      <div class="topic-pill">🔢 Numbers Topic</div>
-      <h1>Number <span class="grad">Problems</span></h1>
-      <p>From printing a number to advanced number theory — 9 progressively harder levels to master integer programming in Java.</p>
+      <div class="topic-pill">📦 Arrays Topic</div>
+      <h1>Array <span class="grad">Problems</span></h1>
+      <p>From declaring your first array to DP, matrices, and interview-hard challenges — 12 progressively harder levels to master arrays in Java.</p>
 
       <div class="topic-meta-strip">
-        <div class="meta-item"><span class="meta-icon">📚</span><span>9 Levels</span></div>
-        <div class="meta-item"><span class="meta-icon">🧩</span><span><span class="meta-val">150+</span> Problems</span></div>
+        <div class="meta-item"><span class="meta-icon">📚</span><span>12 Levels</span></div>
+        <div class="meta-item"><span class="meta-icon">🧩</span><span><span class="meta-val">195</span> Problems</span></div>
         <div class="meta-item"><span class="meta-icon">⏱️</span><span>O(n) Analysis</span></div>
         <div class="meta-item"><span class="meta-icon">✅</span><span>Progress Saved</span></div>
       </div>
@@ -294,7 +284,7 @@
       <div class="overall-prog">
         <div class="prog-top">
           <span>Overall Progress (Active Levels)</span>
-          <strong><span id="prog-text">0 / 40</span> &nbsp;(<span id="prog-pct">0%</span>)</strong>
+          <strong><span id="prog-text">0 / 20</span> &nbsp;(<span id="prog-pct">0%</span>)</strong>
         </div>
         <div class="prog-track">
           <div class="prog-fill" id="prog-fill" style="width:0%"></div>
@@ -304,13 +294,11 @@
 
     <div class="levels-section">
       <h2>Select a Level</h2>
-      <div class="levels-grid" id="levels-grid">
-        <!-- Rendered by JS -->
-      </div>
+      <div class="levels-grid" id="levels-grid"></div>
     </div>
   </div>
 
-  <!-- ── MASTERY SECTION ── -->
+  <!-- MASTERY SECTION -->
   <div class="container">
     <div class="mastery-wrap">
       <div class="mastery-card">
@@ -319,16 +307,17 @@
         <h2 class="mastery-title">If You Complete All These:</h2>
         <p class="mastery-sub">You will:</p>
         <ul class="mastery-list">
-          <li><span class="dot"></span>Master loops</li>
-          <li><span class="dot"></span>Master recursion</li>
-          <li><span class="dot"></span>Master mathematical thinking</li>
-          <li><span class="dot"></span>Be strong in bit manipulation</li>
-          <li><span class="dot"></span>Be comfortable with competitive programming math</li>
-          <li><span class="dot"></span>Be strong for service + product interviews.</li>
+          <li><span class="dot"></span>Master arrays — the backbone of all DSA</li>
+          <li><span class="dot"></span>Solve sorting and searching with confidence</li>
+          <li><span class="dot"></span>Handle sliding window and two-pointer patterns</li>
+          <li><span class="dot"></span>Use HashMap-based tricks for frequency problems</li>
+          <li><span class="dot"></span>Tackle 2D arrays and matrix manipulations</li>
+          <li><span class="dot"></span>Apply DP on arrays for optimal substructure problems</li>
+          <li><span class="dot"></span>Be strong for product + service company interviews</li>
         </ul>
         <div class="mastery-footer">
           <span>🎯</span>
-          <span>Your current progress: <strong><span id="mastery-done">0</span> / 155 problems</strong></span>
+          <span>Your current progress: <strong><span id="mastery-done">0</span> / 195 problems</strong></span>
         </div>
       </div>
     </div>
@@ -336,24 +325,24 @@
 
   <footer>
     <div class="container">
-      <p>Java Core Programs &nbsp;·&nbsp; Numbers Topic &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+      <p>Java Core Programs &nbsp;·&nbsp; Arrays Topic &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
     </div>
   </footer>
 
-  <!-- ── PARTY OVERLAY ── -->
+  <!-- PARTY OVERLAY -->
   <div class="party-overlay" id="party-overlay">
     <canvas id="party-canvas"></canvas>
     <div class="party-content">
       <span class="party-emoji">🎉🏆🎊</span>
-      <h2 class="party-title">You Have Mastered This!</h2>
-      <p class="party-subtitle">All 155 problems completed. You've proven yourself across every level — from basics to interview-level excellence. Keep practicing that way!</p>
+      <h2 class="party-title">Arrays Mastered!</h2>
+      <p class="party-subtitle">All 195 problems completed. You've conquered every array challenge — from basics to interview-hard. You're DSA-ready!</p>
       <div class="party-stats">
         <div class="party-stat">
-          <div class="party-stat-num" style="color:#10b981;">155</div>
+          <div class="party-stat-num" style="color:#10b981;">195</div>
           <div class="party-stat-label">Problems Solved</div>
         </div>
         <div class="party-stat">
-          <div class="party-stat-num" style="color:#f59e0b;">9</div>
+          <div class="party-stat-num" style="color:#3b82f6;">12</div>
           <div class="party-stat-label">Levels Cleared</div>
         </div>
         <div class="party-stat">
@@ -367,69 +356,18 @@
 
   <script>
     const LEVELS = [
-      {
-        num: 1, name: "Absolute Basics", problems: 20, active: true,
-        color: "#10b981", rgb: "16,185,129",
-        desc: "Print numbers, take input, check conditions, and write your first loops.",
-        tags: ["Variables", "I/O", "if-else", "for-loop"],
-        link: "numbers_level1.html", storageKey: "java-numbers-level1"
-      },
-      {
-        num: 2, name: "Basic Mathematical Logic", problems: 20, active: true,
-        color: "#f59e0b", rgb: "245,158,11",
-        desc: "Summation formulas, factorial, powers, digit extraction, and classic special-number checks.",
-        tags: ["Summation", "Factorial", "Digits", "Special Numbers"],
-        link: "numbers_level2.html", storageKey: "java-numbers-level2"
-      },
-      {
-        num: 3, name: "Pattern-Based Number Logic", problems: 20, active: true,
-        color: "#f97316", rgb: "249,115,22",
-        desc: "Armstrong, palindromes, primes, GCD/LCM, perfect numbers, and special-property checks.",
-        tags: ["Armstrong", "Prime", "GCD/LCM", "Special Numbers"],
-        link: "numbers_level3.html", storageKey: "java-numbers-level3"
-      },
-      {
-        num: 4, name: "Series & Sequence Problems", problems: 15, active: true,
-        color: "#3b82f6", rgb: "59,130,246",
-        desc: "Fibonacci, Tribonacci, AP/GP, Pascal's triangle, Catalan numbers, nCr and nPr.",
-        tags: ["Fibonacci", "Pascal", "nCr/nPr", "Catalan"],
-        link: "numbers_level4.html", storageKey: "java-numbers-level4"
-      },
-      {
-        num: 5, name: "Bit Manipulation", problems: 15, active: true,
-        color: "#8b5cf6", rgb: "139,92,246",
-        desc: "AND, OR, XOR, shifts — power-of-2/4 checks, set/clear/toggle bits, XOR tricks, Gray codes.",
-        tags: ["XOR", "AND/OR", "Shifts", "Gray Code"],
-        link: "numbers_level5.html", storageKey: "java-numbers-level5"
-      },
-      {
-        num: 6, name: "Advanced Number Logic", problems: 20, active: true,
-        color: "#14b8a6", rgb: "20,184,166",
-        desc: "Sieves, modular arithmetic, fast exponentiation, factorisation, divisors, ugly numbers.",
-        tags: ["Sieve", "Mod Arithmetic", "Factorization", "Divisors"],
-        link: "numbers_level6.html", storageKey: "java-numbers-level6"
-      },
-      {
-        num: 7, name: "Competitive Programming", problems: 15, active: true,
-        color: "#f43f5e", rgb: "244,63,94",
-        desc: "Circular primes, Kadane's, Boyer-Moore, binary search on answer, fast doubling Fibonacci, matrix exponentiation.",
-        tags: ["Kadane's", "Boyer-Moore", "Binary Search", "Matrix Expo"],
-        link: "numbers_level7.html", storageKey: "java-numbers-level7"
-      },
-      {
-        num: 8, name: "Very Advanced Mathematical", problems: 15, active: true,
-        color: "#6366f1", rgb: "99,102,241",
-        desc: "Miller-Rabin, Pollard's Rho, Extended GCD, Lucas theorem, partitions, inversions, Newton's method.",
-        tags: ["Miller-Rabin", "Pollard Rho", "Extended GCD", "Partitions"],
-        link: "numbers_level8.html", storageKey: "java-numbers-level8"
-      },
-      {
-        num: 9, name: "Interview & Trick Problems", problems: 15, active: true,
-        color: "#d97706", rgb: "217,119,6",
-        desc: "Operate without operators, base conversions, overflow guards, number-to-words, Roman numerals, palindromes, randomisation.",
-        tags: ["Bit Arithmetic", "Base Conversion", "Roman Numerals", "Number to Words"],
-        link: "numbers_level9.html", storageKey: "java-numbers-level9"
-      }
+      { num:1,  name:"Absolute Basics",         problems:20, active:true,  color:"#10b981", rgb:"16,185,129",   desc:"Declare arrays, take input, print, reverse, find min/max/sum/average, and perform searching.", tags:["Declaration","Linear Search","Binary Search","Min/Max"], link:"arrays_level1.html", storageKey:"java-arrays-level1" },
+      { num:2,  name:"Array Manipulation",       problems:20, active:false, color:"#3b82f6", rgb:"59,130,246",   desc:"Insert, delete, rotate, shift elements, merge two arrays, union/intersection, and remove duplicates.", tags:["Insert/Delete","Rotate","Merge","Duplicates"], link:"arrays_level2.html", storageKey:"java-arrays-level2" },
+      { num:3,  name:"Sorting Algorithms",       problems:20, active:false, color:"#f59e0b", rgb:"245,158,11",   desc:"Bubble, selection, insertion, merge, quick, counting, and radix sort — from scratch.", tags:["Bubble Sort","Merge Sort","Quick Sort","Counting Sort"], link:"arrays_level3.html", storageKey:"java-arrays-level3" },
+      { num:4,  name:"Searching & Two Pointers", problems:15, active:false, color:"#8b5cf6", rgb:"139,92,246",   desc:"Binary search variants, two-pointer pair sum, triplet sum, sorted squares, remove target.", tags:["Binary Search","Two Pointers","Pair Sum","Triplet"], link:"arrays_level4.html", storageKey:"java-arrays-level4" },
+      { num:5,  name:"Sliding Window",           problems:15, active:false, color:"#06b6d4", rgb:"6,182,212",    desc:"Fixed and variable window: max sum subarray of size k, smallest subarray sum, longest subarray.", tags:["Fixed Window","Variable Window","Max Sum","Smallest Subarray"], link:"arrays_level5.html", storageKey:"java-arrays-level5" },
+      { num:6,  name:"Prefix Sum & Difference",  problems:15, active:false, color:"#f97316", rgb:"249,115,22",   desc:"Range sum queries in O(1), equilibrium index, difference arrays, range-update in O(1).", tags:["Prefix Sum","Range Query","Difference Array","Equilibrium"], link:"arrays_level6.html", storageKey:"java-arrays-level6" },
+      { num:7,  name:"Hashing & Frequency",      problems:15, active:false, color:"#ec4899", rgb:"236,72,153",   desc:"Duplicates, majority element, two-sum with HashMap, anagram groups, zero-sum subarray.", tags:["HashMap","Frequency","Two Sum","Majority Element"], link:"arrays_level7.html", storageKey:"java-arrays-level7" },
+      { num:8,  name:"Subarray Problems",        problems:15, active:false, color:"#14b8a6", rgb:"20,184,166",   desc:"Kadane's algorithm, subarray sum = k, max product subarray, count subarrays with constraints.", tags:["Kadane's","Subarray Sum","Max Product","Count Subarrays"], link:"arrays_level8.html", storageKey:"java-arrays-level8" },
+      { num:9,  name:"2D Arrays & Matrices",     problems:15, active:false, color:"#f43f5e", rgb:"244,63,94",    desc:"Matrix transpose, rotate 90°, spiral order traversal, diagonal sum, row/column operations.", tags:["Transpose","Spiral Order","Rotate 90°","Diagonal Sum"], link:"arrays_level9.html", storageKey:"java-arrays-level9" },
+      { num:10, name:"Recursion on Arrays",      problems:15, active:false, color:"#a78bfa", rgb:"167,139,250",  desc:"Power set, permutations, recursive binary search, reverse array recursively, merge sort recursion.", tags:["Power Set","Permutations","Recursion","Backtracking"], link:"arrays_level10.html", storageKey:"java-arrays-level10" },
+      { num:11, name:"DP on Arrays",             problems:15, active:false, color:"#84cc16", rgb:"132,204,22",   desc:"LIS, 0/1 knapsack, coin change, max stock profit variants, house robber, rod cutting.", tags:["LIS","Knapsack","Coin Change","House Robber"], link:"arrays_level11.html", storageKey:"java-arrays-level11" },
+      { num:12, name:"Interview Hard",           problems:15, active:false, color:"#d97706", rgb:"217,119,6",    desc:"Jump game, next permutation, trapping rain water, merge intervals, meeting rooms, candy distribution.", tags:["Jump Game","Rain Water","Merge Intervals","Next Permutation"], link:"arrays_level12.html", storageKey:"java-arrays-level12" },
     ];
 
     function getLevelProgress(key) {
@@ -445,108 +383,87 @@
       const overlay = document.getElementById('party-overlay');
       overlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-
       const canvas = document.getElementById('party-canvas');
       const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const colors = ['#f59e0b','#10b981','#3b82f6','#8b5cf6','#f43f5e','#06b6d4','#fbbf24','#34d399','#fb7185'];
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      const colors = ['#3b82f6','#06b6d4','#10b981','#8b5cf6','#f59e0b','#ec4899','#f43f5e','#93c5fd','#34d399'];
       const shapes = ['rect','circle','triangle'];
-      const particles = Array.from({length: 220}, (_, i) => ({
-        x: Math.random() * canvas.width,
-        y: -20 - Math.random() * canvas.height * 0.5,
-        r: Math.random() * 7 + 3,
-        color: colors[i % colors.length],
-        vx: (Math.random() - 0.5) * 3.5,
-        vy: Math.random() * 3.5 + 1.5,
-        rot: Math.random() * 360,
-        rotV: (Math.random() - 0.5) * 10,
-        shape: shapes[Math.floor(Math.random() * 3)],
-        opacity: Math.random() * 0.4 + 0.6
+      const particles = Array.from({length:220},(_,i)=>({
+        x:Math.random()*canvas.width, y:-20-Math.random()*canvas.height*0.5,
+        r:Math.random()*7+3, color:colors[i%colors.length],
+        vx:(Math.random()-0.5)*3.5, vy:Math.random()*3.5+1.5,
+        rot:Math.random()*360, rotV:(Math.random()-0.5)*10,
+        shape:shapes[Math.floor(Math.random()*3)], opacity:Math.random()*0.4+0.6
       }));
-
       function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-          p.x += p.vx; p.y += p.vy; p.rot += p.rotV;
-          if (p.y > canvas.height + 20) { p.y = -20; p.x = Math.random() * canvas.width; }
-          ctx.save();
-          ctx.globalAlpha = p.opacity;
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot * Math.PI / 180);
-          ctx.fillStyle = p.color;
-          if (p.shape === 'circle') {
-            ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill();
-          } else if (p.shape === 'rect') {
-            ctx.fillRect(-p.r, -p.r * 0.5, p.r * 2, p.r);
-          } else {
-            ctx.beginPath(); ctx.moveTo(0, -p.r); ctx.lineTo(p.r, p.r); ctx.lineTo(-p.r, p.r); ctx.closePath(); ctx.fill();
-          }
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy; p.rot+=p.rotV;
+          if(p.y>canvas.height+20){p.y=-20;p.x=Math.random()*canvas.width;}
+          ctx.save(); ctx.globalAlpha=p.opacity; ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180); ctx.fillStyle=p.color;
+          if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}
+          else if(p.shape==='rect'){ctx.fillRect(-p.r,-p.r*0.5,p.r*2,p.r);}
+          else{ctx.beginPath();ctx.moveTo(0,-p.r);ctx.lineTo(p.r,p.r);ctx.lineTo(-p.r,p.r);ctx.closePath();ctx.fill();}
           ctx.restore();
         });
         _partyAnim = requestAnimationFrame(draw);
       }
-      if (_partyAnim) cancelAnimationFrame(_partyAnim);
+      if(_partyAnim) cancelAnimationFrame(_partyAnim);
       draw();
     }
 
     function closeParty() {
-      if (_partyAnim) { cancelAnimationFrame(_partyAnim); _partyAnim = null; }
-      document.getElementById('party-overlay').style.display = 'none';
-      document.body.style.overflow = '';
+      if(_partyAnim){cancelAnimationFrame(_partyAnim);_partyAnim=null;}
+      document.getElementById('party-overlay').style.display='none';
+      document.body.style.overflow='';
     }
 
     function render() {
       const activeLevels = LEVELS.filter(l => l.active);
-      const totalDone = activeLevels.reduce((sum, l) => sum + getLevelProgress(l.storageKey), 0);
-      const totalProblems = activeLevels.reduce((sum, l) => sum + l.problems, 0);
-      const overallPct = totalProblems > 0 ? Math.round((totalDone / totalProblems) * 100) : 0;
+      const totalDone = activeLevels.reduce((s,l) => s + getLevelProgress(l.storageKey), 0);
+      const totalProblems = activeLevels.reduce((s,l) => s + l.problems, 0);
+      const overallPct = totalProblems > 0 ? Math.round((totalDone/totalProblems)*100) : 0;
 
       document.getElementById('prog-text').textContent = `${totalDone} / ${totalProblems}`;
       document.getElementById('prog-pct').textContent = `${overallPct}%`;
       document.getElementById('prog-fill').style.width = `${overallPct}%`;
       document.getElementById('nav-progress').textContent = `${totalDone} / ${totalProblems} done`;
-      document.getElementById('mastery-done').textContent = totalDone;
 
-      if (totalDone >= totalProblems && totalProblems === 155) {
-        setTimeout(launchParty, 700);
-      }
+      const grandDone = LEVELS.reduce((s,l) => s + getLevelProgress(l.storageKey), 0);
+      document.getElementById('mastery-done').textContent = grandDone;
+
+      if (grandDone >= 195) setTimeout(launchParty, 700);
 
       const grid = document.getElementById('levels-grid');
       grid.innerHTML = LEVELS.map(l => {
         const isDone = l.active ? getLevelProgress(l.storageKey) : 0;
         const tot = l.problems;
-        const filledPct = l.active ? Math.round((isDone / tot) * 100) : 0;
-
+        const filledPct = l.active ? Math.round((isDone/tot)*100) : 0;
         const isComplete = l.active && isDone >= tot;
         const lvStyle = l.active && l.color ? `style="--lv-color:${l.color};--lv-rgb:${l.rgb}"` : '';
         return `
-          <${l.active ? `a href="${l.link}"` : 'div'} class="level-card ${l.active ? 'active' : 'locked'}${isComplete ? ' level-complete' : ''}" ${lvStyle}>
+          <${l.active ? `a href="${l.link}"` : 'div'} class="level-card ${l.active?'active':'locked'}${isComplete?' level-complete':''}" ${lvStyle}>
             ${isComplete ? '<span class="lv-complete-ribbon">Complete</span>' : ''}
             <div class="level-top">
               <div class="level-num">${String(l.num).padStart(2,'0')}</div>
               <div class="level-badge-wrap">
                 ${isComplete
                   ? '<span class="l-complete-badge">Level Done</span>'
-                  : `<span class="l-badge ${l.active ? 'l-active' : 'l-soon'}">${l.active ? 'Active' : 'Coming Soon'}</span>`
-                }
+                  : `<span class="l-badge ${l.active?'l-active':'l-soon'}">${l.active?'Active':'Coming Soon'}</span>`}
                 <span class="l-count">${l.problems} problems</span>
               </div>
             </div>
             <div class="level-name">${l.name}</div>
             <div class="level-desc">${l.desc}</div>
-            <div class="level-topics">${l.tags.map(t => `<span class="topic-tag">${t}</span>`).join('')}</div>
+            <div class="level-topics">${l.tags.map(t=>`<span class="topic-tag">${t}</span>`).join('')}</div>
             <div class="level-footer">
               <div class="l-prog-mini">
-                <div class="l-prog-label">${l.active ? `${isDone}/${tot} completed` : 'Locked'}</div>
-                <div class="l-prog-mini-bar">
-                  <div class="l-prog-mini-fill${isComplete ? ' full' : ''}" style="width:${filledPct}%"></div>
-                </div>
+                <div class="l-prog-label">${l.active?`${isDone}/${tot} completed`:'Locked'}</div>
+                <div class="l-prog-mini-bar"><div class="l-prog-mini-fill${isComplete?' full':''}" style="width:${filledPct}%"></div></div>
               </div>
-              ${l.active ? `<span class="level-arrow">${isComplete ? '🏆' : '→'}</span>` : '<span class="level-arrow">🔒</span>'}
+              ${l.active ? `<span class="level-arrow">${isComplete?'🏆':'→'}</span>` : '<span class="level-arrow">🔒</span>'}
             </div>
-          </${l.active ? 'a' : 'div'}>
+          </${l.active?'a':'div'}>
         `;
       }).join('');
     }
