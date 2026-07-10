@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Level 2 – Basic Transformations | Arrays | Java Core</title>
+  <title>Level 3 – Prefix/Suffix & Basic Patterns | Arrays | Java Core</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" id="hljs-theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <style>
@@ -11,7 +11,7 @@
     :root {
       --bg: #06060f; --bg2: #0a0a1a;
       --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
-      --blue: #3b82f6; --blue-l: #93c5fd; --cyan: #06b6d4;
+      --purple: #8b5cf6; --purple-l: #a78bfa; --cyan: #06b6d4;
       --green: #10b981; --orange: #f97316; --yellow: #eab308;
       --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
       --code-bg: #0d1117;
@@ -20,8 +20,8 @@
     body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
     .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
     .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
-    .orb-1 { width: 700px; height: 700px; background: #f59e0b; top: -300px; left: -200px; }
-    .orb-2 { width: 500px; height: 500px; background: var(--cyan); bottom: -100px; right: -150px; animation-delay: -12s; }
+    .orb-1 { width: 700px; height: 700px; background: #8b5cf6; top: -300px; left: -200px; }
+    .orb-2 { width: 500px; height: 500px; background: var(--orange); bottom: -100px; right: -150px; animation-delay: -12s; }
     @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-30px)} }
     .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px); background-size: 60px 60px; }
     .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
@@ -33,28 +33,28 @@
     .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, #fbbf24, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
     .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
-    .bc a:hover { color: #fbbf24; }
+    .bc a:hover { color: var(--purple-l); }
     .bc .sep { color: var(--text3); }
-    .bc .cur { color: #fbbf24; font-weight: 600; }
-    .nav-pill { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #fbbf24; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .bc .cur { color: var(--purple-l); font-weight: 600; }
+    .nav-pill { background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3); color: var(--purple-l); padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
     .level-hero { padding: 56px 0 44px; }
     .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
-    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.28); color: #fbbf24; border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
-    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #fbbf24; animation: pulse 2s infinite; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.28); color: var(--purple-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple-l); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
     .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
-    .grad { background: linear-gradient(135deg, #fbbf24, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .grad { background: linear-gradient(135deg, #a78bfa, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
-    .prog-card { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-card { background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
     .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
-    .prog-nums { font-size: 32px; font-weight: 800; color: #fbbf24; letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--purple-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
     .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
     .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
-    .prog-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, var(--cyan)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, var(--cyan)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
     .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
     .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
     .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
-    .ts-tag { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); color: #fbbf24; font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+    .ts-tag { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); color: var(--purple-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
     .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
     .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
     .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
@@ -64,27 +64,27 @@
     .pc:hover { border-color: rgba(255,255,255,0.12); }
     .pc.done { border-color: rgba(16,185,129,0.6); background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%); box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18); }
     .pc.done::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent 0%,rgba(52,211,153,0.4) 15%,#10b981 40%,#34d399 50%,#10b981 60%,rgba(52,211,153,0.4) 85%,transparent 100%); z-index:2; }
-    .pc.done:hover { border-color:rgba(16,185,129,0.82); background:linear-gradient(135deg,rgba(16,185,129,0.14) 0%,rgba(6,6,15,0.45) 60%,rgba(16,185,129,0.06) 100%); box-shadow:0 0 0 1px rgba(16,185,129,0.35),0 8px 44px rgba(16,185,129,0.34),0 0 110px rgba(16,185,129,0.15),inset 0 0 50px rgba(16,185,129,0.08),inset 0 1px 0 rgba(52,211,153,0.25); transform:translateY(-2px); }
-    .pc.open { border-color: rgba(245,158,11,0.3); box-shadow: 0 8px 40px rgba(245,158,11,0.08); }
+    .pc.done:hover { border-color:rgba(16,185,129,0.82); box-shadow:0 0 0 1px rgba(16,185,129,0.35),0 8px 44px rgba(16,185,129,0.34),0 0 110px rgba(16,185,129,0.15),inset 0 0 50px rgba(16,185,129,0.08),inset 0 1px 0 rgba(52,211,153,0.25); transform:translateY(-2px); }
+    .pc.open { border-color: rgba(139,92,246,0.3); box-shadow: 0 8px 40px rgba(139,92,246,0.08); }
     .pc-head { display:flex; align-items:center; gap:16px; padding:18px 22px; cursor:pointer; user-select:none; transition:background .2s; }
     .pc-head:hover { background: rgba(255,255,255,0.02); }
     .pc-num { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; color:var(--text3); min-width:28px; }
     .pc.done .pc-num { color: var(--green); }
     .pc-main { flex:1; min-width:0; }
-    .pc-title { font-size:15px; font-weight:700; margin-bottom:6px; line-height:1.35; word-break:break-word; overflow-wrap:break-word; }
+    .pc-title { font-size:15px; font-weight:700; margin-bottom:6px; line-height:1.35; word-break:break-word; }
     .pc.done .pc-title { color: var(--text2); }
     .pc-tags { display:flex; flex-wrap:wrap; gap:5px; }
-    .pc-tag { font-size:11px; padding:2px 8px; border-radius:100px; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.2); color:#fbbf24; }
+    .pc-tag { font-size:11px; padding:2px 8px; border-radius:100px; background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.2); color:var(--purple-l); }
     .pc.done .pc-tag { background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2); color:#34d399; }
     .pc-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
     .check-btn { width:30px; height:30px; border-radius:50%; border:2px solid var(--card-border); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; transition:all .2s; color:var(--text3); flex-shrink:0; }
     .check-btn:hover { border-color:var(--green); color:var(--green); }
     .check-btn.checked { background:rgba(16,185,129,0.15); border-color:var(--green); color:var(--green); }
-    .show-ans-btn{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);color:#fbbf24;padding:5px 13px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;letter-spacing:.3px;}
-    .show-ans-btn:hover{background:rgba(245,158,11,0.18);border-color:rgba(245,158,11,0.5);}
+    .show-ans-btn{background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.28);color:var(--purple-l);padding:5px 13px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;letter-spacing:.3px;}
+    .show-ans-btn:hover{background:rgba(139,92,246,0.18);border-color:rgba(139,92,246,0.5);}
     .pc.open .show-ans-btn{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.28);color:#f87171;}
     .pc.open .show-ans-btn:hover{background:rgba(239,68,68,0.16);border-color:rgba(239,68,68,0.5);}
-    body.light-mode .show-ans-btn{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);color:#d97706;}
+    body.light-mode .show-ans-btn{background:rgba(139,92,246,0.08);border-color:rgba(139,92,246,0.25);color:#7c3aed;}
     body.light-mode .pc.open .show-ans-btn{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.25);color:#dc2626;}
     .pc-body { max-height:0; overflow:hidden; transition:max-height 0.45s cubic-bezier(.4,0,.2,1); }
     .pc.open .pc-body { max-height:3000px; }
@@ -98,7 +98,7 @@
     .code-toolbar { display:flex; align-items:center; justify-content:space-between; background:#161b22; padding:10px 16px; border-bottom:1px solid rgba(255,255,255,0.07); }
     .code-lang { font-size:12px; font-weight:600; color:var(--orange); font-family:'JetBrains Mono',monospace; }
     .copy-btn { background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text2); padding:4px 12px; border-radius:6px; font-size:11px; cursor:pointer; transition:all .2s; font-family:inherit; }
-    .copy-btn:hover { border-color:#fbbf24; color:#fbbf24; }
+    .copy-btn:hover { border-color:var(--purple-l); color:var(--purple-l); }
     .copy-btn.copied { border-color:var(--green); color:var(--green); }
     pre { background:var(--code-bg) !important; margin:0 !important; border-radius:0 !important; font-feature-settings:'liga' 0,'calt' 0; font-variant-ligatures:none; }
     code { font-feature-settings:'liga' 0,'calt' 0; font-variant-ligatures:none; }
@@ -117,13 +117,13 @@
     .cx-space { color:var(--cyan); }
     .topics-wrap { display:flex; flex-wrap:wrap; gap:8px; }
     .t-pill { background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.2); color:var(--cyan); font-size:12px; padding:5px 12px; border-radius:100px; }
-    .concept-box { background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.18); border-left:3px solid #f59e0b; border-radius:10px; padding:14px 16px; }
+    .concept-box { background:rgba(139,92,246,0.06); border:1px solid rgba(139,92,246,0.18); border-left:3px solid #8b5cf6; border-radius:10px; padding:14px 16px; }
     .concept-box p { font-size:13.5px; color:var(--text2); line-height:1.65; }
-    .concept-box code { background:rgba(245,158,11,0.15); color:#fbbf24; padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:12px; }
+    .concept-box code { background:rgba(139,92,246,0.15); color:var(--purple-l); padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:12px; }
     .concept-box b { color:var(--text); }
     footer { border-top:1px solid var(--card-border); padding:28px 0; text-align:center; }
     footer p { color:var(--text3); font-size:13px; }
-    footer strong { color:#fbbf24; }
+    footer strong { color:var(--purple-l); }
     .try-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.28);color:var(--cyan);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0;}
     .try-btn:hover{background:rgba(6,182,212,0.2);border-color:var(--cyan);transform:scale(1.03);}
     .pc-testcases{padding:10px 22px 14px;}
@@ -141,9 +141,9 @@
     .modal-question{font-size:14px;color:var(--text2);text-align:center;line-height:1.55;margin-bottom:20px;}
     .modal-hint-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
     .modal-hint-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;}
-    .modal-hint-tag{background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.28);color:#fbbf24;font-size:11.5px;padding:4px 10px;border-radius:100px;}
+    .modal-hint-tag{background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.28);color:var(--purple-l);font-size:11.5px;padding:4px 10px;border-radius:100px;}
     .modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .btn-yes{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit;}
+    .btn-yes{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit;}
     .btn-yes:hover{opacity:.85;}
     .btn-no{background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--card-border);padding:13px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;}
     .btn-no:hover{border-color:rgba(239,68,68,.4);color:#f87171;}
@@ -225,23 +225,18 @@
     body.light-mode .io-box{border-color:rgba(0,0,0,0.08);}
     body.light-mode .rev-code-wrap{background:#f6f8fa;border-color:rgba(16,185,129,0.35);}
     body.light-mode .rev-io-box{background:rgba(239,68,68,0.05);border-color:rgba(239,68,68,0.2);}
-    body.light-mode .pc.done{background:linear-gradient(135deg,rgba(16,185,129,0.1) 0%,rgba(255,255,255,0.7) 60%,rgba(16,185,129,0.05) 100%);box-shadow:0 0 0 1px rgba(16,185,129,0.25),0 4px 32px rgba(16,185,129,0.15),0 0 80px rgba(16,185,129,0.08);}
+    body.light-mode .pc.done{background:linear-gradient(135deg,rgba(16,185,129,0.1) 0%,rgba(255,255,255,0.7) 60%,rgba(16,185,129,0.05) 100%);box-shadow:0 0 0 1px rgba(16,185,129,0.25),0 4px 32px rgba(16,185,129,0.15);}
     body.hide-sec-problem .body-section[data-sec="problem"]{display:none;}
     body.hide-sec-code .body-section[data-sec="code"]{display:none;}
     body.hide-sec-io .body-section[data-sec="io"]{display:none;}
     body.hide-sec-complexity .body-section[data-sec="complexity"]{display:none;}
     body.hide-sec-topics .body-section[data-sec="topics"]{display:none;}
     body.hide-sec-concept .body-section[data-sec="concept"]{display:none;}
-    ::-webkit-scrollbar{width:6px;height:6px;}
-    ::-webkit-scrollbar-track{background:rgba(255,255,255,0.04);border-radius:100px;}
-    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:100px;}
-    ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.32);}
-    body.light-mode ::-webkit-scrollbar-track{background:rgba(0,0,0,0.06);}
-    body.light-mode ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.2);}
-    body.light-mode ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.35);}
+    ::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:rgba(255,255,255,0.04);border-radius:100px;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:100px;}::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.32);}
+    body.light-mode ::-webkit-scrollbar-track{background:rgba(0,0,0,0.06);}body.light-mode ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.2);}body.light-mode ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.35);}
     @media(max-width:600px){.level-hero-top{flex-direction:column;}.prog-card{width:100%;min-width:unset;}.io-grid{grid-template-columns:1fr;}.bc{display:none;}.pc-head{padding:14px 16px;gap:12px;}.pc-body-inner{padding:0 16px 20px;}}
-    @media(max-width:700px){.nav-actions{gap:4px;}.nav-act-btn .btn-label{display:none;}.sp-panel{width:100%;border-left:none;border-top:1px solid var(--card-border);top:auto;max-height:88vh;border-radius:20px 20px 0 0;animation:spSlideUp .25s ease;}.sp-body{padding:16px;gap:16px;}.sp-head{padding:14px 16px;}.rev-grid{grid-template-columns:1fr;gap:10px;}.rev-header{padding:12px 16px;}.rev-body{padding:12px 16px;}.rev-subtitle{display:none;}.rev-title{font-size:14px;}.rev-code-wrap{max-height:140px;}}
-    @media(max-width:480px){.tc-grid{grid-template-columns:1fr;}.modal-btns{grid-template-columns:1fr;}.try-btn{font-size:0;padding:5px 7px;gap:0;border-radius:50%;}.try-btn::before{content:'⚡';font-size:13px;}.pc-right{gap:6px;flex-shrink:0;align-self:flex-start;margin-top:2px;}.pc-head{gap:8px;padding:12px 14px;}.pc-num{min-width:22px;font-size:12px;}.pc-main{min-width:0;overflow:hidden;}.pc-title{font-size:13px;word-break:break-word;}.check-btn{width:26px;height:26px;font-size:12px;flex-shrink:0;}.show-ans-btn{font-size:0!important;padding:6px 8px;min-width:30px;justify-content:center;}.show-ans-btn::after{font-size:12px;content:'▶';}.pc.open .show-ans-btn::after{content:'✕';}.sp-panel{max-height:92vh;}.nav-act-btn{padding:6px 8px;}.rev-cols{grid-template-columns:1fr;}.rev-code-wrap{max-height:220px;}}
+    @media(max-width:700px){.nav-actions{gap:4px;}.nav-act-btn .btn-label{display:none;}.sp-panel{width:100%;border-left:none;border-top:1px solid var(--card-border);top:auto;max-height:88vh;border-radius:20px 20px 0 0;animation:spSlideUp .25s ease;}.rev-grid{grid-template-columns:1fr;}.rev-header{padding:12px 16px;}.rev-body{padding:12px 16px;}}
+    @media(max-width:480px){.tc-grid{grid-template-columns:1fr;}.modal-btns{grid-template-columns:1fr;}.try-btn{font-size:0;padding:5px 7px;border-radius:50%;}.try-btn::before{content:'⚡';font-size:13px;}.pc-right{gap:6px;flex-shrink:0;align-self:flex-start;margin-top:2px;}.pc-head{gap:8px;padding:12px 14px;}.pc-num{min-width:22px;font-size:12px;}.pc-title{font-size:13px;}.check-btn{width:26px;height:26px;font-size:12px;}.show-ans-btn{font-size:0!important;padding:6px 8px;min-width:30px;justify-content:center;}.show-ans-btn::after{font-size:12px;content:'▶';}.pc.open .show-ans-btn::after{content:'✕';}}
   </style>
 </head>
 <body>
@@ -252,13 +247,13 @@
       <div class="nav-inner">
         <div class="nav-left">
           <a href="../index.html" class="nav-logo"><div class="logo-ico">☕</div><span class="logo-txt">Java Core</span></a>
-          <div class="bc"><span class="sep">›</span><a href="../index.html">Home</a><span class="sep">›</span><a href="arrays_hub.html">Arrays</a><span class="sep">›</span><span class="cur">Level 2</span></div>
+          <div class="bc"><span class="sep">›</span><a href="../index.html">Home</a><span class="sep">›</span><a href="arrays_hub.html">Arrays</a><span class="sep">›</span><span class="cur">Level 3</span></div>
         </div>
         <div class="nav-actions">
           <button class="nav-act-btn" onclick="openRevision()">📋 <span class="btn-label">Revision</span></button>
           <button class="nav-act-btn" onclick="openSettings()">⚙️ <span class="btn-label">Settings</span></button>
         </div>
-        <span class="nav-pill">🟡 Beginner+</span>
+        <span class="nav-pill">🔵 Intermediate</span>
       </div>
     </div>
   </nav>
@@ -266,9 +261,9 @@
     <section class="level-hero">
       <div class="level-hero-top">
         <div class="lh-left">
-          <div class="lh-badge"><div class="dot"></div>Level 2 of 12</div>
-          <h1>Basic <span class="grad">Transformations</span></h1>
-          <p>20 problems covering sorting algorithms, rotations, segregation, duplicate removal, and frequency analysis — the bread and butter of array manipulation.</p>
+          <div class="lh-badge"><div class="dot"></div>Level 3 of 12</div>
+          <h1>Prefix/Suffix &amp; <span class="grad">Basic Patterns</span></h1>
+          <p>20 problems covering prefix/suffix sums, equilibrium, leaders, majority element, missing/repeating numbers, set operations, and the monotonic stack pattern.</p>
         </div>
         <div class="prog-card">
           <div class="prog-label">YOUR PROGRESS</div>
@@ -279,14 +274,14 @@
       </div>
       <div class="tags-strip">
         <span class="ts-label">Topics:</span>
-        <span class="ts-tag">Bubble Sort</span>
-        <span class="ts-tag">Selection Sort</span>
-        <span class="ts-tag">Insertion Sort</span>
-        <span class="ts-tag">Arrays.sort()</span>
-        <span class="ts-tag">Rotation</span>
-        <span class="ts-tag">Segregation</span>
-        <span class="ts-tag">HashMap</span>
-        <span class="ts-tag">LinkedHashSet</span>
+        <span class="ts-tag">Prefix Sum</span>
+        <span class="ts-tag">Suffix Sum</span>
+        <span class="ts-tag">Boyer-Moore</span>
+        <span class="ts-tag">Equilibrium</span>
+        <span class="ts-tag">Leaders</span>
+        <span class="ts-tag">Missing Number</span>
+        <span class="ts-tag">HashSet</span>
+        <span class="ts-tag">Monotonic Stack</span>
       </div>
     </section>
     <div class="problems-header">
@@ -295,16 +290,16 @@
     </div>
     <div id="problems-list"></div>
   </div>
-  <footer><div class="container"><p>Java Core Programs &nbsp;·&nbsp; Arrays Level 2 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p></div></footer>
+  <footer><div class="container"><p>Java Core Programs &nbsp;·&nbsp; Arrays Level 3 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p></div></footer>
 
   <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
     <div class="modal-box"><div class="modal-emoji">🤔</div><h3>Before You Peek...</h3><p class="modal-question">Have you thought of <b>all possible ways</b> to solve this? Growth happens in the struggle!</p><div class="modal-hint-label">💡 Clue — Topic Tags:</div><div class="modal-hint-tags" id="modal-tags"></div><div class="modal-btns"><button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button><button class="btn-no" onclick="confirmNo()">↩ Let me try more</button></div></div>
   </div>
   <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
-    <div class="modal-box"><div class="modal-emoji">⚠️</div><h3>Reset Progress?</h3><p class="modal-question">This will clear all <b>completed problems</b> for Level 2. This action <b>cannot be undone</b>.</p><div class="modal-btns"><button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button><button class="btn-no" onclick="cancelReset()">↩ Cancel</button></div></div>
+    <div class="modal-box"><div class="modal-emoji">⚠️</div><h3>Reset Progress?</h3><p class="modal-question">This will clear all <b>completed problems</b> for Level 3. This action <b>cannot be undone</b>.</p><div class="modal-btns"><button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button><button class="btn-no" onclick="cancelReset()">↩ Cancel</button></div></div>
   </div>
   <div id="rev-overlay" class="rev-overlay" style="display:none">
-    <div class="rev-header"><div><div class="rev-title">📋 Revision Sheet — Arrays Level 2</div><div class="rev-subtitle">Key logic for every problem — great for interview prep</div></div><button class="rev-close" onclick="closeRevision()">✕</button></div>
+    <div class="rev-header"><div><div class="rev-title">📋 Revision Sheet — Arrays Level 3</div><div class="rev-subtitle">Key logic for every problem — great for interview prep</div></div><button class="rev-close" onclick="closeRevision()">✕</button></div>
     <div class="rev-body"><div id="rev-grid" class="rev-grid"></div></div>
   </div>
   <div id="sp-overlay" class="sp-overlay" style="display:none" onclick="closeSettings()"></div>
@@ -322,561 +317,390 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
   <script>
-  const STORAGE_KEY = 'java-arrays-level2';
-  const JC_KEY = 'jc-settings-arrays-L2';
+  const STORAGE_KEY = 'java-arrays-level3';
+  const JC_KEY = 'jc-settings-arrays-L3';
 
   const PROBLEMS = [
     {
-      id:1, title:"Sort Array – Bubble Sort",
-      tags:["Bubble Sort","O(n²)","Adjacent Swap","Stable Sort"],
-      desc:"Sort an array in ascending order using <b>Bubble Sort</b> — repeatedly compare adjacent elements and swap them if they are out of order, bubbling the largest to the end each pass.",
+      id:1, title:"Build Prefix Sum Array",
+      tags:["Prefix Sum","Cumulative","O(n)","Pre-computation"],
+      desc:"Build a <b>prefix sum array</b> where <code>prefix[i]</code> holds the sum of all elements from index 0 to i inclusive. This pre-computation enables O(1) range sum queries.",
       code:`import java.util.Scanner;
 
-public class BubbleSort {
+public class PrefixSum {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
 
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - 1 - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int temp = arr[j];
-                    arr[j]     = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
+        int[] prefix = new int[n];
+        prefix[0] = arr[0];
+        for (int i = 1; i < n; i++) prefix[i] = prefix[i - 1] + arr[i];
 
-        System.out.print("Sorted: ");
-        for (int x : arr) System.out.print(x + " ");
+        System.out.print("Prefix sum: ");
+        for (int x : prefix) System.out.print(x + " ");
         sc.close();
     }
 }`,
-      input:"5\n64 34 25 12 22", output:"Sorted: 12 22 25 34 64 ",
-      time:"O(n²)", space:"O(1)",
-      topics:["Nested loops","Adjacent comparison","In-place stable sort","Optimisation with early-exit flag"],
-      concept:"Each outer pass guarantees the <b>largest unsorted element bubbles to its final position</b>, so the inner loop shrinks by one each time (<code>j &lt; n-1-i</code>). Add a <code>boolean swapped</code> flag — if no swap occurs in a pass, the array is already sorted and you can break early, giving <b>O(n) best case</b> on nearly-sorted input."
-    },
-    {
-      id:2, title:"Sort Array – Selection Sort",
-      tags:["Selection Sort","O(n²)","Min Index","In-place"],
-      desc:"Sort using <b>Selection Sort</b> — find the minimum element in the unsorted portion and swap it to the front, expanding the sorted portion one element at a time.",
-      code:`import java.util.Scanner;
-
-public class SelectionSort {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        for (int i = 0; i < n - 1; i++) {
-            int minIdx = i;
-            for (int j = i + 1; j < n; j++) {
-                if (arr[j] < arr[minIdx]) minIdx = j;
-            }
-            int temp = arr[minIdx];
-            arr[minIdx] = arr[i];
-            arr[i]      = temp;
-        }
-
-        System.out.print("Sorted: ");
-        for (int x : arr) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"5\n64 25 12 22 11", output:"Sorted: 11 12 22 25 64 ",
-      time:"O(n²)", space:"O(1)",
-      topics:["Min-index scan","Single swap per pass","In-place unstable sort","O(n²) always"],
-      concept:"Selection sort makes exactly <b>n-1 swaps</b> — the fewest of the O(n²) algorithms — so it is useful when write operations are expensive. However it is <b>not stable</b> (equal elements may reorder) and has no best-case improvement: it always scans the full remaining array to confirm the minimum."
-    },
-    {
-      id:3, title:"Sort Array – Insertion Sort",
-      tags:["Insertion Sort","O(n²)","Shifting","Stable Sort"],
-      desc:"Sort using <b>Insertion Sort</b> — take each element and insert it into its correct position within the already-sorted left portion by shifting larger elements right.",
-      code:`import java.util.Scanner;
-
-public class InsertionSort {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        for (int i = 1; i < n; i++) {
-            int key = arr[i];
-            int j   = i - 1;
-            while (j >= 0 && arr[j] > key) {
-                arr[j + 1] = arr[j]; // shift right
-                j--;
-            }
-            arr[j + 1] = key;        // insert key in correct spot
-        }
-
-        System.out.print("Sorted: ");
-        for (int x : arr) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"5\n12 11 13 5 6", output:"Sorted: 5 6 11 12 13 ",
-      time:"O(n²)", space:"O(1)",
-      topics:["Key element","Rightward shifting","Stable in-place","O(n) best case on sorted input"],
-      concept:"Insertion sort works like sorting playing cards: pick up one card (<code>key</code>), shift everything larger to the right, and drop the card into place. <b>Best case O(n)</b> on already-sorted arrays (the inner while never executes). It is the <b>preferred sort for small arrays</b> and is used inside hybrid algorithms like Timsort."
-    },
-    {
-      id:4, title:"Sort Using Arrays.sort()",
-      tags:["Arrays.sort()","Dual-Pivot Quicksort","java.util.Arrays","O(n log n)"],
-      desc:"Sort an integer array using Java's built-in <b>Arrays.sort()</b>, which uses a highly optimised Dual-Pivot Quicksort internally.",
-      code:`import java.util.Arrays;
-import java.util.Scanner;
-
-public class ArraysSort {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        Arrays.sort(arr);   // O(n log n) — Dual-Pivot Quicksort for primitives
-
-        System.out.print("Sorted: ");
-        for (int x : arr) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"5\n5 2 8 1 9", output:"Sorted: 1 2 5 8 9 ",
-      time:"O(n log n)", space:"O(log n)",
-      topics:["Arrays.sort()","Dual-Pivot Quicksort (primitives)","Timsort (objects)","java.util.Arrays"],
-      concept:"<code>Arrays.sort(int[])</code> uses <b>Dual-Pivot Quicksort</b> for primitive arrays — faster in practice than classic Quicksort. For <code>Integer[]</code> (object arrays), it uses <b>Timsort</b> (merge + insertion). Always prefer <code>Arrays.sort()</code> in production; hand-written sorts exist only for learning or custom comparison logic."
-    },
-    {
-      id:5, title:"Check if Array is Sorted",
-      tags:["Sorted Check","Consecutive Comparison","Boolean Flag","O(n)"],
-      desc:"Determine whether an array is sorted in <b>non-decreasing order</b> without actually sorting it — stop as soon as any violation is found.",
-      code:`import java.util.Scanner;
-
-public class CheckSorted {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        boolean sorted = true;
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i] > arr[i + 1]) { sorted = false; break; }
-        }
-
-        System.out.println(sorted ? "Array is sorted" : "Array is NOT sorted");
-        sc.close();
-    }
-}`,
-      input:"5\n1 2 3 4 5", output:"Array is sorted",
-      time:"O(n)", space:"O(1)",
-      topics:["Consecutive pair check","Early exit with break","Boolean sentinel","Non-decreasing vs strictly increasing"],
-      concept:"Compare each adjacent pair — if <code>arr[i] &gt; arr[i+1]</code> anywhere, the array is not sorted. The <code>break</code> gives <b>O(1) best case</b> when the first pair is out of order. This checks <b>non-decreasing</b> (equal neighbours are OK); for strictly increasing, change <code>&gt;</code> to <code>&gt;=</code>."
-    },
-    {
-      id:6, title:"Merge Two Sorted Arrays",
-      tags:["Merge","Two Pointers","Sorted Input","O(n+m)"],
-      desc:"Given two <b>sorted</b> arrays, merge them into a single sorted array without using any sorting function — use the two-pointer merge technique.",
-      code:`import java.util.Scanner;
-
-public class MergeArrays {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
-
-        int m = sc.nextInt();
-        int[] b = new int[m];
-        for (int i = 0; i < m; i++) b[i] = sc.nextInt();
-
-        int[] merged = new int[n + m];
-        int i = 0, j = 0, k = 0;
-
-        while (i < n && j < m) {
-            if (a[i] <= b[j]) merged[k++] = a[i++];
-            else               merged[k++] = b[j++];
-        }
-        while (i < n) merged[k++] = a[i++];
-        while (j < m) merged[k++] = b[j++];
-
-        System.out.print("Merged: ");
-        for (int x : merged) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"3\n1 3 5\n4\n2 4 6 8", output:"Merged: 1 2 3 4 5 6 8 ",
-      time:"O(n+m)", space:"O(n+m)",
-      topics:["Two-pointer merge","Sorted prerequisite","Tail copy loops","Core of Merge Sort"],
-      concept:"This is the <b>merge step of Merge Sort</b>. Two pointers advance through each array, always picking the smaller current element. When one array is exhausted, the remaining elements of the other are appended. The two tail <code>while</code> loops handle the leftover elements."
-    },
-    {
-      id:7, title:"Concatenate Two Arrays",
-      tags:["Concatenation","Array Copy","System.arraycopy","O(n+m)"],
-      desc:"Join two arrays end-to-end into a single new array — append all elements of the second array after all elements of the first, preserving order.",
-      code:`import java.util.Scanner;
-
-public class ConcatenateArrays {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
-
-        int m = sc.nextInt();
-        int[] b = new int[m];
-        for (int i = 0; i < m; i++) b[i] = sc.nextInt();
-
-        int[] result = new int[n + m];
-        for (int i = 0; i < n; i++) result[i]     = a[i];
-        for (int i = 0; i < m; i++) result[n + i] = b[i];
-
-        // Alternatively: System.arraycopy(a,0,result,0,n);
-        //                System.arraycopy(b,0,result,n,m);
-
-        System.out.print("Concatenated: ");
-        for (int x : result) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"3\n1 2 3\n3\n4 5 6", output:"Concatenated: 1 2 3 4 5 6 ",
-      time:"O(n+m)", space:"O(n+m)",
-      topics:["Offset indexing (n+i)","System.arraycopy()","No sorting — order preserved","Array allocation"],
-      concept:"Concatenation is simpler than merging — no comparison needed. The key is <b>offset indexing</b>: <code>result[n + i]</code> places second-array elements starting right after the first. <code>System.arraycopy(src,srcPos,dst,dstPos,len)</code> does the same thing faster via native memory copy."
-    },
-    {
-      id:8, title:"Remove Duplicates – Sorted Array",
-      tags:["Deduplicate","Sorted","Two Pointers","In-place"],
-      desc:"Remove duplicate elements from a <b>sorted</b> array in-place. Return only the unique prefix and its length — no extra array needed.",
-      code:`import java.util.Scanner;
-
-public class RemoveDupsSorted {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        int k = 1; // write pointer — arr[0] is always unique
-        for (int i = 1; i < n; i++) {
-            if (arr[i] != arr[i - 1]) arr[k++] = arr[i];
-        }
-
-        System.out.print("Unique: ");
-        for (int i = 0; i < k; i++) System.out.print(arr[i] + " ");
-        System.out.println("\nLength: " + k);
-        sc.close();
-    }
-}`,
-      input:"7\n1 1 2 2 3 3 4", output:"Unique: 1 2 3 4 \nLength: 4",
-      time:"O(n)", space:"O(1)",
-      topics:["Write pointer k","Sorted = duplicates are adjacent","In-place O(1) space","Classic LeetCode #26"],
-      concept:"Because the array is sorted, <b>duplicates are always adjacent</b>. A write pointer <code>k</code> tracks where to place the next unique value. If the current element differs from its predecessor, it is unique — copy it to <code>arr[k]</code> and advance <code>k</code>. The first <code>k</code> elements of the array are the deduplicated result."
-    },
-    {
-      id:9, title:"Remove Duplicates – Unsorted Array (Set)",
-      tags:["LinkedHashSet","Unsorted","Deduplication","Insertion Order"],
-      desc:"Remove duplicate elements from an <b>unsorted</b> array while preserving the original insertion order, using a <b>LinkedHashSet</b>.",
-      code:`import java.util.LinkedHashSet;
-import java.util.Scanner;
-import java.util.Set;
-
-public class RemoveDupsUnsorted {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        Set<Integer> seen = new LinkedHashSet<>();
-        for (int x : arr) seen.add(x); // duplicates are silently ignored
-
-        System.out.print("Unique: ");
-        for (int x : seen) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"6\n4 3 2 3 1 4", output:"Unique: 4 3 2 1 ",
+      input:"5\n3 1 4 1 5", output:"Prefix sum: 3 4 8 9 14 ",
       time:"O(n)", space:"O(n)",
-      topics:["LinkedHashSet (insertion-order Set)","HashSet vs LinkedHashSet","add() returns false for duplicates","Autoboxing int → Integer"],
-      concept:"<code>LinkedHashSet</code> maintains <b>insertion order</b> unlike <code>HashSet</code> (random order) or <code>TreeSet</code> (sorted). Adding a duplicate to any Set is a no-op — it silently returns <code>false</code>. This solution is O(n) time and O(n) space, simpler but uses extra memory compared to the sorted in-place approach."
+      topics:["prefix[i] = prefix[i-1] + arr[i]","Base case: prefix[0] = arr[0]","Enables O(1) range queries","Foundation of many DP problems"],
+      concept:"<code>prefix[i] = prefix[i-1] + arr[i]</code> — each cell stores the <b>cumulative total from the left</b>. Once built, the sum of any subarray <code>arr[l..r]</code> is <code>prefix[r] - prefix[l-1]</code> in O(1) — no loop needed. This is one of the most reused pre-computation tricks in competitive programming."
     },
     {
-      id:10, title:"Rotate Array Left by 1",
-      tags:["Left Rotation","Shift","First Element","O(n)"],
-      desc:"Rotate the array <b>left by one position</b> in-place — the first element moves to the end, and every other element shifts one step to the left.",
+      id:2, title:"Build Suffix Sum Array",
+      tags:["Suffix Sum","Right to Left","O(n)","Pre-computation"],
+      desc:"Build a <b>suffix sum array</b> where <code>suffix[i]</code> holds the sum of all elements from index i to the end. Iterate <b>right to left</b>.",
       code:`import java.util.Scanner;
 
-public class RotateLeft1 {
+public class SuffixSum {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
 
-        int first = arr[0];
-        for (int i = 0; i < n - 1; i++) arr[i] = arr[i + 1]; // shift left
-        arr[n - 1] = first;                                    // wrap first to end
+        int[] suffix = new int[n];
+        suffix[n - 1] = arr[n - 1];
+        for (int i = n - 2; i >= 0; i--) suffix[i] = suffix[i + 1] + arr[i];
 
-        System.out.print("After left rotate: ");
-        for (int x : arr) System.out.print(x + " ");
+        System.out.print("Suffix sum: ");
+        for (int x : suffix) System.out.print(x + " ");
         sc.close();
     }
 }`,
-      input:"5\n1 2 3 4 5", output:"After left rotate: 2 3 4 5 1 ",
-      time:"O(n)", space:"O(1)",
-      topics:["Save first element","Shift loop left","Wrap-around placement","Building block for rotate-by-k"],
-      concept:"Save <code>arr[0]</code> before overwriting it, shift every element one position left, then place the saved value at <code>arr[n-1]</code>. Rotating left by 1 is the atomic operation behind rotating by k — just apply this k times, or use the <b>reversal trick</b> to do it in O(n) regardless of k."
+      input:"5\n3 1 4 1 5", output:"Suffix sum: 14 11 10 6 5 ",
+      time:"O(n)", space:"O(n)",
+      topics:["suffix[i] = suffix[i+1] + arr[i]","Base case: suffix[n-1] = arr[n-1]","Right-to-left iteration","Pair with prefix for equilibrium / leaders"],
+      concept:"Mirror of prefix sum — iterate <b>right to left</b> starting from the last element. <code>suffix[i]</code> = sum of everything from position i to the end. Together, prefix and suffix arrays let you query <b>left-sum and right-sum for any index in O(1)</b>, which powers equilibrium index, leaders, and many DP problems."
     },
     {
-      id:11, title:"Rotate Array Right by 1",
-      tags:["Right Rotation","Shift","Last Element","O(n)"],
-      desc:"Rotate the array <b>right by one position</b> — the last element moves to the front, and every other element shifts one step to the right.",
+      id:3, title:"Range Sum Queries",
+      tags:["Range Query","Prefix Sum","O(1) query","O(n) build"],
+      desc:"Given an array and multiple <b>[l, r] queries</b>, answer each in O(1) using a <b>prefix sum</b> — pre-compute once, answer many times instantly.",
       code:`import java.util.Scanner;
 
-public class RotateRight1 {
+public class RangeSumQuery {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
 
-        int last = arr[n - 1];
-        for (int i = n - 1; i > 0; i--) arr[i] = arr[i - 1]; // shift right
-        arr[0] = last;                                          // wrap last to front
+        // prefix[i+1] = sum of arr[0..i], keeps prefix[0]=0 as sentinel
+        int[] prefix = new int[n + 1];
+        for (int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + arr[i];
 
-        System.out.print("After right rotate: ");
-        for (int x : arr) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"5\n1 2 3 4 5", output:"After right rotate: 5 1 2 3 4 ",
-      time:"O(n)", space:"O(1)",
-      topics:["Save last element","Reverse-direction shift loop","Wrap-around at index 0","Relationship: right-k = left-(n-k)"],
-      concept:"Mirror of left rotation — save the last element and shift right by iterating <b>backwards</b> to avoid overwriting elements before they've been moved. Key insight: <b>right rotation by k = left rotation by (n-k)</b>. So all rotation variants collapse into one function with modular arithmetic."
-    },
-    {
-      id:12, title:"Rotate Array by K Positions",
-      tags:["Rotate by K","Reversal Trick","O(n)","Modulo"],
-      desc:"Rotate the array <b>left by k positions</b> in O(n) time and O(1) space using the <b>three-reversal trick</b> — no extra array needed.",
-      code:`import java.util.Scanner;
-
-public class RotateByK {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        int k = sc.nextInt() % n; // handle k >= n
-
-        // Three-reversal trick for left rotation by k:
-        reverse(arr, 0, k - 1);     // reverse first k elements
-        reverse(arr, k, n - 1);     // reverse remaining elements
-        reverse(arr, 0, n - 1);     // reverse entire array
-
-        System.out.print("After rotating left by " + k + ": ");
-        for (int x : arr) System.out.print(x + " ");
-        sc.close();
-    }
-
-    static void reverse(int[] arr, int lo, int hi) {
-        while (lo < hi) {
-            int t = arr[lo]; arr[lo++] = arr[hi]; arr[hi--] = t;
+        int q = sc.nextInt();
+        while (q-- > 0) {
+            int l = sc.nextInt(), r = sc.nextInt();
+            int sum = prefix[r + 1] - prefix[l]; // O(1)
+            System.out.println("Sum[" + l + ".." + r + "] = " + sum);
         }
-    }
-}`,
-      input:"5\n1 2 3 4 5\n2", output:"After rotating left by 2: 3 4 5 1 2 ",
-      time:"O(n)", space:"O(1)",
-      topics:["Three-reversal trick","k % n handles k ≥ n","Helper reverse(lo,hi)","In-place O(1) space"],
-      concept:"The <b>reversal trick</b>: to left-rotate by k, (1) reverse <code>[0..k-1]</code>, (2) reverse <code>[k..n-1]</code>, (3) reverse the whole array. Each step is O(n/2) swaps — total O(n). Always reduce k with <code>k % n</code> since rotating by n is a no-op. This is the O(1)-space gold standard for this problem."
-    },
-    {
-      id:13, title:"Reverse a Subarray",
-      tags:["Subarray","Two Pointers","In-place","Range Reversal"],
-      desc:"Given indices <b>l</b> and <b>r</b>, reverse only the subarray <code>arr[l..r]</code> in-place, leaving elements outside the range untouched.",
-      code:`import java.util.Scanner;
-
-public class ReverseSubarray {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        int l = sc.nextInt();
-        int r = sc.nextInt();
-
-        while (l < r) {
-            int t = arr[l]; arr[l++] = arr[r]; arr[r--] = t;
-        }
-
-        System.out.print("After reversing [l..r]: ");
-        for (int x : arr) System.out.print(x + " ");
         sc.close();
     }
 }`,
-      input:"5\n1 2 3 4 5\n1 3", output:"After reversing [l..r]: 1 4 3 2 5 ",
-      time:"O(r-l)", space:"O(1)",
-      topics:["Bounded two-pointer swap","Partial in-place reversal","Range [l, r] inclusive","Component of rotate-by-k"],
-      concept:"Two pointers move inward from <code>l</code> and <code>r</code>, swapping and converging until they meet. Only <code>(r-l+1)/2</code> swaps are needed. This is the exact subroutine used inside the <b>rotate-by-k reversal trick</b> and also appears in palindrome checking for subarrays."
+      input:"5\n1 2 3 4 5\n2\n1 3\n0 4", output:"Sum[1..3] = 9\nSum[0..4] = 15",
+      time:"O(n + q)", space:"O(n)",
+      topics:["Size-(n+1) prefix with sentinel at 0","sum(l,r) = prefix[r+1] - prefix[l]","O(n) build, O(1) per query","Brute force: O(n) per query → O(nq) total"],
+      concept:"Using a <b>size (n+1) prefix</b> with <code>prefix[0] = 0</code> as a sentinel removes the <code>l == 0</code> edge case: <code>sum(l, r) = prefix[r+1] - prefix[l]</code> works for all inputs. Without this trick, you'd need <code>if (l == 0) return prefix[r]</code>. The sentinel index is a common prefix sum pattern worth internalising."
     },
     {
-      id:14, title:"Move All Zeros to End",
-      tags:["Two Pointers","Write Pointer","In-place","Partition"],
-      desc:"Move all <b>zeros</b> in the array to the end while preserving the <b>relative order</b> of all non-zero elements — do it in one pass without extra array.",
+      id:4, title:"Running Sum of Array",
+      tags:["Running Sum","In-place Transform","Single Pass","O(n)"],
+      desc:"Transform the array so each element becomes the <b>running (cumulative) total</b> up to that position — equivalent to building the prefix sum in-place.",
       code:`import java.util.Scanner;
 
-public class MoveZerosEnd {
+public class RunningSum {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
 
-        int pos = 0; // write position for next non-zero
+        int sum = 0;
+        System.out.print("Running sum: ");
+        for (int x : arr) {
+            sum += x;
+            System.out.print(sum + " ");
+        }
+        sc.close();
+    }
+}`,
+      input:"5\n1 2 3 4 5", output:"Running sum: 1 3 6 10 15 ",
+      time:"O(n)", space:"O(1)",
+      topics:["Single accumulator variable","In-place / streaming","LeetCode #1480 Running Sum of 1d Array","No extra array needed"],
+      concept:"A running sum is just a prefix sum computed <b>on the fly</b> with a single accumulator — no extra array. It is <b>LeetCode #1480</b> verbatim. In-place version: <code>for (int i = 1; i &lt; n; i++) arr[i] += arr[i-1]</code> — each element absorbs the previous running total."
+    },
+    {
+      id:5, title:"Find Equilibrium Index",
+      tags:["Equilibrium","Prefix Sum","Left == Right","O(n)"],
+      desc:"Find an index where the <b>sum of elements to its left equals the sum of elements to its right</b>. Use total sum and a running left sum — no extra arrays needed.",
+      code:`import java.util.Scanner;
+
+public class EquilibriumIndex {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        int total = 0;
+        for (int x : arr) total += x;
+
+        int left = 0;
+        boolean found = false;
         for (int i = 0; i < n; i++) {
-            if (arr[i] != 0) arr[pos++] = arr[i];
+            int right = total - left - arr[i];
+            if (left == right) {
+                System.out.println("Equilibrium index: " + i);
+                found = true;
+            }
+            left += arr[i];
         }
-        while (pos < n) arr[pos++] = 0; // fill remaining with zeros
-
-        System.out.print("Result: ");
-        for (int x : arr) System.out.print(x + " ");
+        if (!found) System.out.println("No equilibrium index found");
         sc.close();
     }
 }`,
-      input:"7\n0 1 0 3 12 0 5", output:"Result: 1 3 12 5 0 0 0 ",
+      input:"7\n-7 1 5 2 -4 3 0", output:"Equilibrium index: 3",
       time:"O(n)", space:"O(1)",
-      topics:["Write-pointer pattern","Single-pass O(n)","Relative order preserved","Fill zeros at end"],
-      concept:"The write-pointer <code>pos</code> advances only when a non-zero is found, effectively compacting all non-zeros to the front. After the loop, positions <code>[pos..n-1]</code> are filled with zeros. This is O(n) single-pass with O(1) extra space — superior to the naive 'find zero, find non-zero, swap' approach."
+      topics:["right = total - left - arr[i]","Running left sum","Multiple equilibrium indices possible","Works with negative numbers"],
+      concept:"Key formula: <code>right = total - left - arr[i]</code>. No need to build suffix array — the right sum is derivable from total and left at every step. <code>left</code> is updated <b>after</b> the check. This runs in O(n) with O(1) space. The last element (index 6, value 0) in the example is also equilibrium — print all by removing <code>found = true</code> and the break."
     },
     {
-      id:15, title:"Move All Zeros to Beginning",
-      tags:["Reverse Write Pointer","Right-to-left","In-place","Partition"],
-      desc:"Move all <b>zeros</b> to the <b>beginning</b> while keeping non-zero elements in their original relative order at the end.",
-      code:`import java.util.Scanner;
-
-public class MoveZerosBegin {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        int pos = n - 1; // write position for next non-zero (from right)
-        for (int i = n - 1; i >= 0; i--) {
-            if (arr[i] != 0) arr[pos--] = arr[i];
-        }
-        while (pos >= 0) arr[pos--] = 0; // fill remaining front with zeros
-
-        System.out.print("Result: ");
-        for (int x : arr) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"7\n1 0 3 0 5 0 7", output:"Result: 0 0 0 1 3 5 7 ",
-      time:"O(n)", space:"O(1)",
-      topics:["Right-to-left write pointer","Mirror of move-zeros-to-end","Fill prefix with zeros","In-place O(1)"],
-      concept:"Mirror of Problem 14 — iterate <b>right to left</b>, writing non-zeros to <code>pos</code> which starts at <code>n-1</code> and decreases. After the loop, fill positions <code>[0..pos]</code> with zeros. The reversal of direction preserves relative order of non-zeros at the end of the array."
-    },
-    {
-      id:16, title:"Segregate Even and Odd Numbers",
-      tags:["Segregation","Two-pass","Even before Odd","Order Preserved"],
-      desc:"Rearrange the array so all <b>even numbers come first</b> followed by all <b>odd numbers</b>, while preserving the relative order within each group.",
-      code:`import java.util.Scanner;
-
-public class SegregateEvenOdd {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        int[] result = new int[n];
-        int k = 0;
-
-        for (int x : arr) if (x % 2 == 0) result[k++] = x; // evens first
-        for (int x : arr) if (x % 2 != 0) result[k++] = x; // then odds
-
-        System.out.print("Result (evens first): ");
-        for (int x : result) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"6\n1 2 3 4 5 6", output:"Result (evens first): 2 4 6 1 3 5 ",
-      time:"O(n)", space:"O(n)",
-      topics:["Two-pass segregation","Parity check (% 2)","Stable partitioning","O(n) extra space"],
-      concept:"Two passes over the original array: first collect all evens, then all odds. This is <b>stable</b> — relative order is preserved within each group. For <b>O(1) space</b>, use two pointers (Dutch national flag style), but that is unstable. The two-pass approach trades space for stability — choose based on requirements."
-    },
-    {
-      id:17, title:"Replace Each Element with Its Square",
-      tags:["In-place Transform","arr[i]*arr[i]","Math","O(n)"],
-      desc:"Transform the array <b>in-place</b> — replace every element with its square (<code>x²</code>). No new array needed.",
-      code:`import java.util.Scanner;
-
-public class ReplaceWithSquare {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-
-        for (int i = 0; i < n; i++) arr[i] = arr[i] * arr[i];
-
-        System.out.print("Squares: ");
-        for (int x : arr) System.out.print(x + " ");
-        sc.close();
-    }
-}`,
-      input:"5\n1 2 3 4 5", output:"Squares: 1 4 9 16 25 ",
-      time:"O(n)", space:"O(1)",
-      topics:["In-place transformation","arr[i] = f(arr[i])","Integer overflow risk","Math.pow() vs x*x"],
-      concept:"Simple in-place map: <code>arr[i] = arr[i] * arr[i]</code>. Watch for <b>integer overflow</b>: squaring values near <code>Integer.MAX_VALUE ≈ 2.1×10⁹</code> overflows <code>int</code> — use <code>long</code> if inputs can be large. <code>arr[i] * arr[i]</code> is faster than <code>Math.pow(arr[i], 2)</code> which returns <code>double</code>."
-    },
-    {
-      id:18, title:"Replace Each Element with Its Frequency",
-      tags:["HashMap","Frequency Map","In-place Replace","getOrDefault"],
-      desc:"Replace every element in the array with <b>how many times that element appears</b> in the array — using a frequency HashMap.",
-      code:`import java.util.HashMap;
-import java.util.Map;
+      id:6, title:"Leaders in Array",
+      tags:["Leaders","Suffix Maximum","Right to Left","O(n)"],
+      desc:"An element is a <b>leader</b> if it is greater than all elements to its right. Find all leaders in O(n) by scanning right to left and tracking the running maximum.",
+      code:`import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ReplaceWithFreq {
+public class Leaders {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
 
-        // Step 1: build frequency map
-        Map<Integer, Integer> freq = new HashMap<>();
-        for (int x : arr) freq.put(x, freq.getOrDefault(x, 0) + 1);
+        ArrayList<Integer> leaders = new ArrayList<>();
+        int maxRight = arr[n - 1]; // last element is always a leader
+        leaders.add(maxRight);
 
-        // Step 2: replace each element with its count
-        System.out.print("Replaced: ");
-        for (int x : arr) System.out.print(freq.get(x) + " ");
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] > maxRight) {
+                maxRight = arr[i];
+                leaders.add(0, arr[i]); // prepend to preserve left-to-right order
+            }
+        }
+
+        System.out.print("Leaders: ");
+        for (int x : leaders) System.out.print(x + " ");
         sc.close();
     }
 }`,
-      input:"6\n5 5 2 2 2 1", output:"Replaced: 2 2 3 3 3 1 ",
-      time:"O(n)", space:"O(k) — k distinct elements",
-      topics:["HashMap frequency map","getOrDefault(key, 0)","Two-pass pattern","Read-only second pass"],
-      concept:"<b>Two-pass pattern</b>: first pass builds the frequency map; second pass reads from it. <code>getOrDefault(x, 0)</code> avoids a null-check — if key doesn't exist, return 0. Space is O(k) where k is the number of distinct values. <code>HashMap</code> gives O(1) average lookup, so overall O(n)."
+      input:"6\n16 17 4 3 5 2", output:"Leaders: 17 5 2 ",
+      time:"O(n)", space:"O(k) — k leaders",
+      topics:["Last element always a leader","Right-to-left max tracking","ArrayList.add(0, val) to prepend","Brute force O(n²) avoided"],
+      concept:"The <b>last element is always a leader</b> (nothing to its right). Scanning right to left, track <code>maxRight</code> — any element exceeding it is a leader. Prepend leaders to the list to output them in original order. Brute force checks all elements to the right of each position — O(n²). Right-to-left scan collapses this to O(n)."
     },
     {
-      id:19, title:"Find Frequency of Each Element",
-      tags:["LinkedHashMap","Frequency Table","Insertion Order","Entry Set"],
-      desc:"Print a <b>frequency table</b> — for each distinct element, show how many times it appears in the array, in the order of first occurrence.",
+      id:7, title:"Majority Element – Brute Force",
+      tags:["Majority Element","Brute Force","O(n²)","Count > n/2"],
+      desc:"Find the element that appears <b>more than n/2 times</b> using a brute-force nested loop — count occurrences of each element and check if it exceeds the threshold.",
+      code:`import java.util.Scanner;
+
+public class MajorityBrute {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        boolean found = false;
+        for (int i = 0; i < n; i++) {
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (arr[j] == arr[i]) count++;
+            }
+            if (count > n / 2) {
+                System.out.println("Majority element: " + arr[i]);
+                found = true;
+                break;
+            }
+        }
+        if (!found) System.out.println("No majority element");
+        sc.close();
+    }
+}`,
+      input:"7\n1 1 2 1 3 5 1", output:"Majority element: 1",
+      time:"O(n²)", space:"O(1)",
+      topics:["Threshold: count > n/2","Nested loop counting","O(n²) — solve this in O(n) with Boyer-Moore","Base comparison problem"],
+      concept:"The majority element (if it exists) appears <b>strictly more than n/2 times</b> — so at most one such element can exist. The brute force counts how often each element appears; once any exceeds <code>n/2</code>, it must be the answer. Study this first, then solve it in O(n) with Boyer-Moore (next problem). The HashMap approach gives O(n) time, O(n) space — the voting algorithm gives O(n) time, O(1) space."
+    },
+    {
+      id:8, title:"Majority Element – Boyer-Moore Voting",
+      tags:["Boyer-Moore","Voting Algorithm","O(n)","O(1) space"],
+      desc:"Find the majority element (appears &gt; n/2 times) in <b>O(n) time and O(1) space</b> using the Boyer-Moore Voting Algorithm — a two-phase candidate + verify approach.",
+      code:`import java.util.Scanner;
+
+public class MajorityVoting {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        // Phase 1: find candidate
+        int candidate = arr[0], count = 1;
+        for (int i = 1; i < n; i++) {
+            if (count == 0) { candidate = arr[i]; count = 1; }
+            else if (arr[i] == candidate) count++;
+            else count--;
+        }
+
+        // Phase 2: verify candidate
+        count = 0;
+        for (int x : arr) if (x == candidate) count++;
+
+        if (count > n / 2) System.out.println("Majority element: " + candidate);
+        else System.out.println("No majority element");
+        sc.close();
+    }
+}`,
+      input:"9\n2 2 1 1 2 2 1 2 2", output:"Majority element: 2",
+      time:"O(n)", space:"O(1)",
+      topics:["Phase 1: candidate via vote cancellation","Phase 2: verify count > n/2","count==0 → reset candidate","LeetCode #169 — must-know algorithm"],
+      concept:"Think of it as <b>vote cancellation</b>: every non-candidate element cancels one vote for the candidate. If a true majority exists, it has enough votes to survive all cancellations. Phase 1 finds the <b>survivor</b> — but if no majority exists, a false candidate survives. Phase 2 confirms. This is <b>LeetCode #169</b> and a classic interview problem."
+    },
+    {
+      id:9, title:"Check if Array is a Palindrome",
+      tags:["Palindrome","Two Pointers","Mirror Check","O(n)"],
+      desc:"Determine if an array reads the same forwards and backwards — use two inward-moving pointers, stopping at the first mismatch.",
+      code:`import java.util.Scanner;
+
+public class PalindromeArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        int lo = 0, hi = n - 1;
+        boolean isPalin = true;
+        while (lo < hi) {
+            if (arr[lo++] != arr[hi--]) { isPalin = false; break; }
+        }
+
+        System.out.println(isPalin ? "Array is a palindrome" : "Array is NOT a palindrome");
+        sc.close();
+    }
+}`,
+      input:"5\n1 2 3 2 1", output:"Array is a palindrome",
+      time:"O(n)", space:"O(1)",
+      topics:["Two pointers lo and hi","Inward convergence","Early exit on mismatch","Same logic as string palindrome"],
+      concept:"Exactly the same logic as checking a string palindrome — two pointers move inward, comparing mirror positions. If they ever disagree, the array is not a palindrome. At most n/2 comparisons. Works for both even and odd lengths because the loop condition is <code>lo &lt; hi</code> (equal indices mean the centre element, no comparison needed)."
+    },
+    {
+      id:10, title:"Find Missing Number (1 to N)",
+      tags:["Missing Number","Sum Formula","O(n)","Math"],
+      desc:"Given n-1 distinct numbers from 1 to N with exactly <b>one missing</b>, find it using the arithmetic sum formula — no sorting or extra space required.",
+      code:`import java.util.Scanner;
+
+public class MissingNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // range is 1..n, so n-1 numbers given
+        int[] arr = new int[n - 1];
+        for (int i = 0; i < n - 1; i++) arr[i] = sc.nextInt();
+
+        long expected = (long) n * (n + 1) / 2; // Gauss formula
+        long actual = 0;
+        for (int x : arr) actual += x;
+
+        System.out.println("Missing number: " + (expected - actual));
+        sc.close();
+    }
+}`,
+      input:"5\n1 2 4 5", output:"Missing number: 3",
+      time:"O(n)", space:"O(1)",
+      topics:["Gauss formula n*(n+1)/2","expected - actual = missing","long to avoid int overflow","XOR alternative: x^1^2^...^n^arr[0]^...^arr[n-2]"],
+      concept:"Sum of 1..n = <b>n*(n+1)/2</b> (Gauss formula). The missing number = expected - actual array sum. Use <code>long</code> to prevent overflow for large n. <b>XOR alternative</b>: XOR all 1..n together with all array elements — paired values cancel, leaving the missing number. Both are O(n) / O(1)."
+    },
+    {
+      id:11, title:"Find the Repeating Element",
+      tags:["Repeating","Boolean Array","O(n)","Visited"],
+      desc:"Given an array of integers in range 1..n where <b>one element appears twice</b>, find it in O(n) using a boolean visited array as a presence flag.",
+      code:`import java.util.Scanner;
+
+public class FindRepeating {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        boolean[] seen = new boolean[n + 1];
+        int repeating = -1;
+        for (int x : arr) {
+            if (seen[x]) { repeating = x; break; }
+            seen[x] = true;
+        }
+
+        if (repeating != -1) System.out.println("Repeating element: " + repeating);
+        else System.out.println("No repeating element found");
+        sc.close();
+    }
+}`,
+      input:"5\n1 2 3 4 2", output:"Repeating element: 2",
+      time:"O(n)", space:"O(n)",
+      topics:["Boolean visited array size n+1","First element seen twice","Early exit with break","Math alternative: sum - n*(n+1)/2 + missing = repeat"],
+      concept:"A <code>boolean[n+1]</code> marks which values have been seen. The first element encountered whose slot is already <code>true</code> is the repeater. <b>O(1) space alternative</b>: for arrays 1..n with one repeat and one missing, use <code>sum - expected = repeat - missing</code> paired with XOR or the sign-flip trick (mark visited by negating <code>arr[abs(x)-1]</code>)."
+    },
+    {
+      id:12, title:"Find Missing and Repeating Element",
+      tags:["Missing + Repeating","Boolean Array","Two-pass","O(n)"],
+      desc:"Given 1..N with one number <b>repeated</b> and one <b>missing</b>, find both in two passes — one to detect the repeat, one to detect the missing.",
+      code:`import java.util.Scanner;
+
+public class MissingAndRepeating {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        boolean[] seen = new boolean[n + 1];
+        int repeating = -1;
+
+        for (int x : arr) {
+            if (seen[x]) repeating = x;
+            else seen[x] = true;
+        }
+
+        int missing = -1;
+        for (int i = 1; i <= n; i++) {
+            if (!seen[i]) { missing = i; break; }
+        }
+
+        System.out.println("Repeating: " + repeating);
+        System.out.println("Missing:   " + missing);
+        sc.close();
+    }
+}`,
+      input:"5\n4 3 4 2 1", output:"Repeating: 4\nMissing:   5",
+      time:"O(n)", space:"O(n)",
+      topics:["Pass 1: detect repeat via seen[]","Pass 2: find unseen index","Complements problem 10 and 11","Math-only O(1) space: two-equation system"],
+      concept:"Two-pass over <code>boolean[n+1]</code>: first pass marks seen values and records any duplicate; second pass finds the first unmarked index. <b>Math O(1) solution</b>: let S = array sum, S2 = sum of squares. Then <code>repeat - missing = S - n(n+1)/2</code> and <code>repeat² - missing² = S2 - n(n+1)(2n+1)/6</code>. Divide to get both values without extra space."
+    },
+    {
+      id:13, title:"Find First Non-Repeating Element",
+      tags:["First Unique","LinkedHashMap","Frequency","Insertion Order"],
+      desc:"Find the <b>first element in the array that appears exactly once</b>, preserving original order using a <code>LinkedHashMap</code> to track frequencies.",
       code:`import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class FindFrequency {
+public class FirstNonRepeating {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -886,25 +710,192 @@ public class FindFrequency {
         Map<Integer, Integer> freq = new LinkedHashMap<>();
         for (int x : arr) freq.put(x, freq.getOrDefault(x, 0) + 1);
 
-        System.out.println("Frequencies:");
         for (Map.Entry<Integer, Integer> e : freq.entrySet()) {
-            System.out.println(e.getKey() + " -> " + e.getValue());
+            if (e.getValue() == 1) {
+                System.out.println("First non-repeating: " + e.getKey());
+                return;
+            }
         }
+        System.out.println("No non-repeating element found");
         sc.close();
     }
 }`,
-      input:"6\n4 2 2 3 4 4", output:"Frequencies:\n4 -> 3\n2 -> 2\n3 -> 1",
-      time:"O(n)", space:"O(k)",
-      topics:["LinkedHashMap (insertion-order)","Map.Entry iteration","entrySet()","getKey() / getValue()"],
-      concept:"<code>LinkedHashMap</code> preserves insertion order — the first time a key is seen, it takes its final position in iteration. <code>entrySet()</code> returns a set of key-value pairs for clean iteration. Use <code>TreeMap</code> instead if you need output <b>sorted by key</b>."
+      input:"6\n9 4 9 6 7 4", output:"First non-repeating: 6",
+      time:"O(n)", space:"O(k) — k distinct values",
+      topics:["LinkedHashMap preserves insertion order","getOrDefault(k, 0) + 1","Iterate entrySet() to find first with count 1","HashMap gives O(n) but loses order"],
+      concept:"<code>LinkedHashMap</code> preserves the <b>order elements were first seen</b>. After building frequencies, the first key with count 1 in iteration order is the answer. If you used <code>HashMap</code>, you'd need a second pass over the original array to find the first unique in position order. <code>LinkedHashMap</code> avoids that second pass."
     },
     {
-      id:20, title:"Count Occurrences of a Given Element",
-      tags:["Linear Scan","Count","Target Search","O(n)"],
-      desc:"Count exactly how many times a <b>specific target value</b> appears anywhere in the array using a simple linear scan.",
+      id:14, title:"Find First Repeating Element",
+      tags:["First Repeating","HashSet","add() returns false","O(n)"],
+      desc:"Find the <b>first element (by position) that appears more than once</b>. Use a <code>HashSet</code> — <code>add()</code> returns <code>false</code> when a duplicate is encountered.",
+      code:`import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class FirstRepeating {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        Set<Integer> seen = new HashSet<>();
+        int result = -1;
+        for (int x : arr) {
+            if (!seen.add(x)) { result = x; break; } // add() returns false for duplicate
+        }
+
+        if (result != -1) System.out.println("First repeating: " + result);
+        else System.out.println("No repeating element found");
+        sc.close();
+    }
+}`,
+      input:"6\n1 5 3 4 3 5", output:"First repeating: 3",
+      time:"O(n)", space:"O(n)",
+      topics:["Set.add() returns boolean","false = already present = duplicate","Early exit = first occurrence","Different from 'most frequent' — this is first-seen-twice"],
+      concept:"<code>Set.add(x)</code> returns <code>true</code> if the element was newly inserted, <code>false</code> if it was already present. The first <code>false</code> response is the first repeating element <b>by position of its second occurrence</b>. This is distinct from first non-repeating — both are common interview questions asked together."
+    },
+    {
+      id:15, title:"Find Common Elements in Two Arrays",
+      tags:["Common Elements","HashSet lookup","O(n+m)","Deduplicated"],
+      desc:"Find all elements that appear in <b>both arrays</b> without duplicates in the result. Load the first array into a <code>HashSet</code>, then scan the second for matches.",
+      code:`import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class CommonElements {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Set<Integer> setA = new HashSet<>();
+        for (int i = 0; i < n; i++) setA.add(sc.nextInt());
+
+        int m = sc.nextInt();
+        Set<Integer> printed = new HashSet<>();
+        System.out.print("Common: ");
+        boolean any = false;
+        for (int i = 0; i < m; i++) {
+            int x = sc.nextInt();
+            if (setA.contains(x) && printed.add(x)) {
+                System.out.print(x + " ");
+                any = true;
+            }
+        }
+        if (!any) System.out.print("None");
+        sc.close();
+    }
+}`,
+      input:"5\n1 2 3 4 5\n5\n3 4 5 6 7", output:"Common: 3 4 5 ",
+      time:"O(n+m)", space:"O(n+m)",
+      topics:["HashSet for O(1) lookup","printed set prevents duplicates in output","Sorted alternative: two-pointer O(n+m) O(1) space","Precursor to intersection"],
+      concept:"Load array A into a <code>HashSet</code> for O(1) membership check. A second <code>printed</code> set ensures each common value is output only once (handles duplicates within array B). For <b>sorted arrays</b>, use two pointers: advance the smaller pointer, print on equal — O(n+m) time, O(1) extra space."
+    },
+    {
+      id:16, title:"Find Union of Two Arrays",
+      tags:["Union","LinkedHashSet","Deduplication","Insertion Order"],
+      desc:"Find all <b>distinct elements that appear in either array</b>, preserving the order of first occurrence, using a <code>LinkedHashSet</code>.",
+      code:`import java.util.LinkedHashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class UnionArrays {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Set<Integer> union = new LinkedHashSet<>();
+        for (int i = 0; i < n; i++) union.add(sc.nextInt());
+
+        int m = sc.nextInt();
+        for (int i = 0; i < m; i++) union.add(sc.nextInt());
+
+        System.out.print("Union: ");
+        for (int x : union) System.out.print(x + " ");
+        System.out.println("| Size: " + union.size());
+        sc.close();
+    }
+}`,
+      input:"4\n1 2 3 4\n4\n3 4 5 6", output:"Union: 1 2 3 4 5 6 | Size: 6",
+      time:"O(n+m)", space:"O(n+m)",
+      topics:["LinkedHashSet auto-deduplicates","Insertion order preserved","Add both arrays sequentially","Sorted alternative: merge + skip duplicates"],
+      concept:"A <code>LinkedHashSet</code> gives three things at once: O(1) insert, automatic deduplication, and insertion-order iteration. Both arrays are simply added — duplicates are silently ignored. For sorted input, the two-pointer merge approach outputs the union in sorted order with O(1) extra space: advance the smaller pointer, skip equal elements."
+    },
+    {
+      id:17, title:"Find Intersection of Two Arrays",
+      tags:["Intersection","HashSet","O(n+m)","Unique Elements"],
+      desc:"Find all <b>distinct elements present in both arrays</b>. Use a <code>HashSet</code> for the first array, then match elements from the second — track what's already printed to avoid duplicates.",
+      code:`import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class IntersectionArrays {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Set<Integer> setA = new HashSet<>();
+        for (int i = 0; i < n; i++) setA.add(sc.nextInt());
+
+        int m = sc.nextInt();
+        Set<Integer> added = new HashSet<>();
+        System.out.print("Intersection: ");
+        boolean any = false;
+        for (int i = 0; i < m; i++) {
+            int x = sc.nextInt();
+            if (setA.contains(x) && added.add(x)) {
+                System.out.print(x + " ");
+                any = true;
+            }
+        }
+        if (!any) System.out.print("None");
+        sc.close();
+    }
+}`,
+      input:"5\n1 2 3 4 5\n5\n3 4 5 6 7", output:"Intersection: 3 4 5 ",
+      time:"O(n+m)", space:"O(n+m)",
+      topics:["setA for O(1) membership","added set prevents duplicate output","Distinct result regardless of input duplicates","Sorted two-pointer: O(1) space O(n+m) time"],
+      concept:"Essentially the same as common elements (P15) — the distinction is terminology. <b>Intersection = elements in both, deduplicated</b>; <b>common elements = positions/values that match</b> (may allow duplicates if both arrays have them). The <code>added</code> set ensures each value appears at most once in the output regardless of how many times it appears in either input."
+    },
+    {
+      id:18, title:"Merge Sorted Arrays (In-Place from End)",
+      tags:["Merge from End","In-place","No extra array","O(n+m)"],
+      desc:"Given sorted array A (with n+m capacity, first n elements filled) and sorted array B (m elements), <b>merge B into A without a third array</b> by filling from the end backwards.",
       code:`import java.util.Scanner;
 
-public class CountOccurrences {
+public class MergeSortedInPlace {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), m = sc.nextInt();
+        int[] a = new int[n + m]; // has capacity for both
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int[] b = new int[m];
+        for (int i = 0; i < m; i++) b[i] = sc.nextInt();
+
+        // Fill from the back — largest goes to position n+m-1
+        int i = n - 1, j = m - 1, k = n + m - 1;
+        while (i >= 0 && j >= 0) {
+            if (a[i] >= b[j]) a[k--] = a[i--];
+            else               a[k--] = b[j--];
+        }
+        while (j >= 0) a[k--] = b[j--]; // remaining B elements
+        // remaining A elements are already in place
+
+        System.out.print("Merged: ");
+        for (int x : a) System.out.print(x + " ");
+        sc.close();
+    }
+}`,
+      input:"3 3\n1 3 5\n2 4 6", output:"Merged: 1 2 3 4 5 6 ",
+      time:"O(n+m)", space:"O(1)",
+      topics:["Fill from end to avoid overwriting","Three pointers: i (A end), j (B end), k (fill end)","Remaining A: already in place","Remaining B: must be copied","LeetCode #88 classic"],
+      concept:"Filling <b>from the end</b> is the key insight — since the largest values go to the back, we can overwrite A's tail without losing any data (those positions are guaranteed to be empty or already placed). Only leftover B elements need explicit copying; leftover A elements are already where they belong. This is <b>LeetCode #88</b>."
+    },
+    {
+      id:19, title:"Remove Element In-Place",
+      tags:["Remove Element","Write Pointer","In-place","O(n)"],
+      desc:"Remove all occurrences of a <b>target value</b> from the array in-place, returning the new length. Matching the write-pointer pattern: copy non-target elements to the front.",
+      code:`import java.util.Scanner;
+
+public class RemoveElement {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -912,41 +903,81 @@ public class CountOccurrences {
         for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
         int target = sc.nextInt();
 
-        int count = 0;
-        for (int x : arr) if (x == target) count++;
+        int k = 0; // write pointer
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != target) arr[k++] = arr[i];
+        }
 
-        System.out.println(target + " appears " + count + " time(s)");
+        System.out.print("After removal (length " + k + "): ");
+        for (int i = 0; i < k; i++) System.out.print(arr[i] + " ");
         sc.close();
     }
 }`,
-      input:"7\n1 2 3 2 4 2 5\n2", output:"2 appears 3 time(s)",
+      input:"6\n1 2 3 2 4 2\n2", output:"After removal (length 3): 1 3 4 ",
       time:"O(n)", space:"O(1)",
-      topics:["Linear scan counter","No early exit (all occurrences)","Sorted array optimisation: binary search bounds","Collections.frequency() for lists"],
-      concept:"Unlike linear search (first occurrence only), counting requires scanning the <b>entire</b> array — no early exit. For a <b>sorted</b> array, use binary search to find the leftmost and rightmost occurrence in O(log n), then subtract indices for the count. <code>Collections.frequency(list, target)</code> does this for an <code>ArrayList</code>."
+      topics:["Write pointer k","Copy non-target to front","Order preserved","LeetCode #27 — classic in-place removal"],
+      concept:"Same write-pointer pattern as 'move zeros to end' (Level 2) — but instead of compacting non-zeros, we compact non-target elements. The write pointer <code>k</code> advances only when a keeper is found. After the loop, <code>arr[0..k-1]</code> is the valid portion. This is <b>LeetCode #27</b> — the interviewer wants in-place O(1) space, not a new array."
+    },
+    {
+      id:20, title:"Replace with Next Greatest (Next Greater Element)",
+      tags:["Next Greater Element","Monotonic Stack","O(n)","Stack-based"],
+      desc:"For each element, find the <b>first element to its right that is strictly greater</b>. Replace with that value or -1 if none exists. Use a <b>monotonic decreasing stack</b> for O(n).",
+      code:`import java.util.Scanner;
+import java.util.Stack;
+
+public class NextGreaterElement {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        int[] result = new int[n];
+        Stack<Integer> stack = new Stack<>(); // stores indices waiting for their NGE
+
+        for (int i = 0; i < n; i++) {
+            // Current element is NGE for all stack elements smaller than it
+            while (!stack.isEmpty() && arr[i] > arr[stack.peek()]) {
+                result[stack.pop()] = arr[i];
+            }
+            stack.push(i);
+        }
+        // Remaining indices in stack have no greater element to the right
+        while (!stack.isEmpty()) result[stack.pop()] = -1;
+
+        System.out.print("Next greater: ");
+        for (int x : result) System.out.print(x + " ");
+        sc.close();
+    }
+}`,
+      input:"5\n4 5 2 25 0", output:"Next greater: 5 25 25 -1 -1 ",
+      time:"O(n)", space:"O(n)",
+      topics:["Monotonic decreasing stack of indices","Each element pushed and popped at most once → O(n)","result[stack.pop()] = arr[i] when arr[i] > top","Remaining stack → -1 (no NGE found)"],
+      concept:"The <b>monotonic stack</b> maintains indices in decreasing value order. When a new element arrives, it resolves all pending stack elements it is greater than — those elements have found their NGE. Each index is pushed and popped exactly once, giving <b>O(n)</b> total. The brute-force O(n²) checks every pair. NGE is the gateway pattern to Next Greater Element II (circular), Stock Span, and Largest Rectangle in Histogram."
     }
   ];
 
   const TESTCASES = {
-    1:  [{in:"5\n64 34 25 12 22",out:"Sorted: 12 22 25 34 64 "},{in:"4\n5 3 1 4",out:"Sorted: 1 3 4 5 "}],
-    2:  [{in:"5\n64 25 12 22 11",out:"Sorted: 11 12 22 25 64 "},{in:"4\n3 1 4 2",out:"Sorted: 1 2 3 4 "}],
-    3:  [{in:"5\n12 11 13 5 6",out:"Sorted: 5 6 11 12 13 "},{in:"4\n8 2 4 6",out:"Sorted: 2 4 6 8 "}],
-    4:  [{in:"5\n5 2 8 1 9",out:"Sorted: 1 2 5 8 9 "},{in:"3\n3 1 2",out:"Sorted: 1 2 3 "}],
-    5:  [{in:"5\n1 2 3 4 5",out:"Array is sorted"},{in:"4\n1 3 2 4",out:"Array is NOT sorted"}],
-    6:  [{in:"3\n1 3 5\n4\n2 4 6 8",out:"Merged: 1 2 3 4 5 6 8 "},{in:"2\n1 5\n2\n2 6",out:"Merged: 1 2 5 6 "}],
-    7:  [{in:"3\n1 2 3\n3\n4 5 6",out:"Concatenated: 1 2 3 4 5 6 "},{in:"2\n10 20\n2\n30 40",out:"Concatenated: 10 20 30 40 "}],
-    8:  [{in:"7\n1 1 2 2 3 3 4",out:"Unique: 1 2 3 4 \nLength: 4"},{in:"5\n2 2 2 3 3",out:"Unique: 2 3 \nLength: 2"}],
-    9:  [{in:"6\n4 3 2 3 1 4",out:"Unique: 4 3 2 1 "},{in:"5\n1 2 1 3 2",out:"Unique: 1 2 3 "}],
-    10: [{in:"5\n1 2 3 4 5",out:"After left rotate: 2 3 4 5 1 "},{in:"4\n10 20 30 40",out:"After left rotate: 20 30 40 10 "}],
-    11: [{in:"5\n1 2 3 4 5",out:"After right rotate: 5 1 2 3 4 "},{in:"4\n10 20 30 40",out:"After right rotate: 40 10 20 30 "}],
-    12: [{in:"5\n1 2 3 4 5\n2",out:"After rotating left by 2: 3 4 5 1 2 "},{in:"6\n1 2 3 4 5 6\n3",out:"After rotating left by 3: 4 5 6 1 2 3 "}],
-    13: [{in:"5\n1 2 3 4 5\n1 3",out:"After reversing [l..r]: 1 4 3 2 5 "},{in:"5\n1 2 3 4 5\n0 4",out:"After reversing [l..r]: 5 4 3 2 1 "}],
-    14: [{in:"7\n0 1 0 3 12 0 5",out:"Result: 1 3 12 5 0 0 0 "},{in:"5\n0 0 1 2 3",out:"Result: 1 2 3 0 0 "}],
-    15: [{in:"7\n1 0 3 0 5 0 7",out:"Result: 0 0 0 1 3 5 7 "},{in:"5\n1 2 0 3 0",out:"Result: 0 0 1 2 3 "}],
-    16: [{in:"6\n1 2 3 4 5 6",out:"Result (evens first): 2 4 6 1 3 5 "},{in:"5\n7 2 5 4 1",out:"Result (evens first): 2 4 7 5 1 "}],
-    17: [{in:"5\n1 2 3 4 5",out:"Squares: 1 4 9 16 25 "},{in:"4\n2 3 4 5",out:"Squares: 4 9 16 25 "}],
-    18: [{in:"6\n5 5 2 2 2 1",out:"Replaced: 2 2 3 3 3 1 "},{in:"4\n7 7 7 7",out:"Replaced: 4 4 4 4 "}],
-    19: [{in:"6\n4 2 2 3 4 4",out:"Frequencies:\n4 -> 3\n2 -> 2\n3 -> 1"},{in:"4\n1 1 2 2",out:"Frequencies:\n1 -> 2\n2 -> 2"}],
-    20: [{in:"7\n1 2 3 2 4 2 5\n2",out:"2 appears 3 time(s)"},{in:"5\n1 1 1 2 3\n1",out:"1 appears 3 time(s)"}],
+    1:  [{in:"5\n3 1 4 1 5",out:"Prefix sum: 3 4 8 9 14 "},{in:"4\n10 20 30 40",out:"Prefix sum: 10 30 60 100 "}],
+    2:  [{in:"5\n3 1 4 1 5",out:"Suffix sum: 14 11 10 6 5 "},{in:"4\n10 20 30 40",out:"Suffix sum: 100 90 70 40 "}],
+    3:  [{in:"5\n1 2 3 4 5\n2\n1 3\n0 4",out:"Sum[1..3] = 9\nSum[0..4] = 15"},{in:"4\n2 4 6 8\n1\n0 2",out:"Sum[0..2] = 12"}],
+    4:  [{in:"5\n1 2 3 4 5",out:"Running sum: 1 3 6 10 15 "},{in:"4\n5 10 15 20",out:"Running sum: 5 15 30 50 "}],
+    5:  [{in:"7\n-7 1 5 2 -4 3 0",out:"Equilibrium index: 3"},{in:"3\n1 2 3",out:"No equilibrium index found"}],
+    6:  [{in:"6\n16 17 4 3 5 2",out:"Leaders: 17 5 2 "},{in:"5\n1 2 3 4 5",out:"Leaders: 5 "}],
+    7:  [{in:"7\n1 1 2 1 3 5 1",out:"Majority element: 1"},{in:"5\n3 3 4 2 4",out:"No majority element"}],
+    8:  [{in:"9\n2 2 1 1 2 2 1 2 2",out:"Majority element: 2"},{in:"5\n1 2 3 1 1",out:"Majority element: 1"}],
+    9:  [{in:"5\n1 2 3 2 1",out:"Array is a palindrome"},{in:"4\n1 2 3 4",out:"Array is NOT a palindrome"}],
+    10: [{in:"5\n1 2 4 5",out:"Missing number: 3"},{in:"6\n1 2 3 4 6",out:"Missing number: 5"}],
+    11: [{in:"5\n1 2 3 4 2",out:"Repeating element: 2"},{in:"4\n1 3 3 2",out:"Repeating element: 3"}],
+    12: [{in:"5\n4 3 4 2 1",out:"Repeating: 4\nMissing:   5"},{in:"4\n2 2 1 3",out:"Repeating: 2\nMissing:   4"}],
+    13: [{in:"6\n9 4 9 6 7 4",out:"First non-repeating: 6"},{in:"5\n1 1 2 2 3",out:"First non-repeating: 3"}],
+    14: [{in:"6\n1 5 3 4 3 5",out:"First repeating: 3"},{in:"5\n7 8 9 7 10",out:"First repeating: 7"}],
+    15: [{in:"5\n1 2 3 4 5\n5\n3 4 5 6 7",out:"Common: 3 4 5 "},{in:"3\n1 2 3\n3\n4 5 6",out:"Common: None"}],
+    16: [{in:"4\n1 2 3 4\n4\n3 4 5 6",out:"Union: 1 2 3 4 5 6 | Size: 6"},{in:"3\n1 2 3\n2\n2 3",out:"Union: 1 2 3 | Size: 3"}],
+    17: [{in:"5\n1 2 3 4 5\n5\n3 4 5 6 7",out:"Intersection: 3 4 5 "},{in:"3\n1 2 3\n3\n4 5 6",out:"Intersection: None"}],
+    18: [{in:"3 3\n1 3 5\n2 4 6",out:"Merged: 1 2 3 4 5 6 "},{in:"2 2\n1 4\n2 3",out:"Merged: 1 2 3 4 "}],
+    19: [{in:"6\n1 2 3 2 4 2\n2",out:"After removal (length 3): 1 3 4 "},{in:"5\n5 5 5 1 5\n5",out:"After removal (length 1): 1 "}],
+    20: [{in:"5\n4 5 2 25 0",out:"Next greater: 5 25 25 -1 -1 "},{in:"4\n1 3 2 4",out:"Next greater: 3 4 4 -1 "}]
   };
 
   const completed = new Set();
@@ -962,7 +993,7 @@ public class CountOccurrences {
     list.innerHTML=PROBLEMS.map(p=>`
       <div class="pc ${completed.has(p.id)?'done':''}" id="pc-${p.id}">
         <div class="pc-head" onclick="requestToggle(event,${p.id})">
-          <span class="pc-num">${String(p.id + 20).padStart(2,'0')}</span>
+          <span class="pc-num">${String(p.id + 40).padStart(2,'0')}</span>
           <div class="pc-main"><div class="pc-title">${p.title}</div><div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div></div>
           <div class="pc-right">
             <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
