@@ -488,6 +488,214 @@
       .idx-fab { bottom: 14px; right: 12px; padding: 9px 14px; font-size: 12.5px; border-radius: 10px; }
       .idx-fab-icon { font-size: 14px; }
     }
+
+    /* ══════════════════════════════════════════
+       EXAM TIME
+    ══════════════════════════════════════════ */
+
+    /* Nav trigger button */
+    .exam-nav-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      color: #fff; border: none; border-radius: 8px;
+      padding: 7px 14px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.35);
+      transition: box-shadow 0.2s, transform 0.2s; letter-spacing: 0.2px;
+    }
+    .exam-nav-btn:hover { box-shadow: 0 6px 24px rgba(124,58,237,0.55); transform: translateY(-1px); }
+
+    /* Full-screen overlay */
+    .exam-overlay {
+      position: fixed; inset: 0; z-index: 600;
+      background: #0a0a0a; display: none; flex-direction: column; overflow: hidden;
+    }
+    .exam-overlay.open { display: flex; }
+
+    /* Header bar */
+    .exam-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 22px; gap: 12px; flex-shrink: 0;
+      background: rgba(8,8,8,0.96); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .exam-hdr-l, .exam-hdr-r { display: flex; align-items: center; gap: 10px; }
+    .exam-title-tag { font-size: 15px; font-weight: 800; color: #fff; }
+    .exam-prog {
+      font-size: 12px; color: var(--text2);
+      background: rgba(255,255,255,0.07); padding: 4px 12px; border-radius: 100px;
+    }
+    .exam-sc {
+      font-size: 13px; font-weight: 700; color: #10b981;
+      background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25);
+      padding: 5px 13px; border-radius: 100px;
+    }
+    .exam-exit {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text2); padding: 6px 14px; border-radius: 8px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all 0.15s;
+    }
+    .exam-exit:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+    /* Scrollable body */
+    .exam-body { flex: 1; overflow-y: auto; padding: 32px 20px 80px; }
+    .exam-body-inner { max-width: 700px; margin: 0 auto; }
+
+    /* Question card — white playing card */
+    .exam-q-card {
+      background: #fff; border: 3px solid #111; margin-bottom: 18px;
+      box-shadow: 8px 8px 0 0 rgba(124,58,237,1), 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .exam-q-label {
+      padding: 18px 24px 0;
+      font-size: 9px; font-weight: 800; letter-spacing: 2.5px;
+      text-transform: uppercase; color: #aaa;
+    }
+    .exam-q-text {
+      padding: 13px 24px 20px;
+      font-size: 18px; font-weight: 700; color: #111; line-height: 1.65;
+    }
+
+    /* Hint row */
+    .exam-hint-row { padding: 0 24px 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .exam-hint-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: transparent; border: 2px solid rgba(124,58,237,0.45);
+      color: var(--purple-l); border-radius: 0;
+      padding: 9px 18px; font-size: 12.5px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: all 0.18s; box-shadow: 3px 3px 0 rgba(124,58,237,0.18);
+    }
+    .exam-hint-btn:hover { background: rgba(124,58,237,0.08); border-color: var(--purple-l); }
+    .exam-hint-reveal {
+      display: none; align-items: center; gap: 6px;
+      background: rgba(124,58,237,0.1); border: 2px solid var(--purple);
+      color: var(--purple-l); padding: 9px 16px; font-size: 12.5px; font-weight: 700;
+    }
+    .exam-hint-reveal.show { display: inline-flex; }
+
+    /* Input area */
+    .exam-inp-area { padding: 10px 24px 22px; }
+    .exam-inp-label {
+      font-size: 10px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: #999; margin-bottom: 9px;
+    }
+    .exam-inp-row { display: flex; gap: 10px; }
+    .exam-inp {
+      flex: 1; min-width: 0; padding: 13px 16px;
+      background: #f7f7f7; border: 2.5px solid #ddd; border-radius: 0;
+      color: #111; font-size: 15px; font-family: 'JetBrains Mono', monospace;
+      font-weight: 600; outline: none; transition: border-color 0.2s, background 0.2s;
+    }
+    .exam-inp:focus   { border-color: #7c3aed; background: #fff; }
+    .exam-inp:disabled { opacity: 0.55; cursor: not-allowed; background: #eee; }
+    .exam-sub-btn {
+      background: #111; color: #fff; border: none; border-radius: 0;
+      padding: 13px 22px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      white-space: nowrap; transition: all 0.18s;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.45);
+    }
+    .exam-sub-btn:hover   { background: #2a2a2a; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); }
+    .exam-sub-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+    /* Result card */
+    .exam-result {
+      display: none; border: 3px solid #111; padding: 20px 22px; margin-bottom: 16px;
+    }
+    .exam-result.correct { background: #f0fdf4; border-color: #16a34a; }
+    .exam-result.wrong   { background: #fef2f2; border-color: #dc2626; }
+    .exam-res-inner { display: flex; align-items: flex-start; gap: 14px; }
+    .exam-res-icon {
+      width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900;
+    }
+    .exam-result.correct .exam-res-icon { background: #dcfce7; color: #16a34a; }
+    .exam-result.wrong   .exam-res-icon { background: #fee2e2; color: #dc2626; }
+    .exam-res-title { font-size: 16px; font-weight: 800; margin-bottom: 5px; }
+    .exam-result.correct .exam-res-title { color: #15803d; }
+    .exam-result.wrong   .exam-res-title { color: #b91c1c; }
+    .exam-res-body { font-size: 13.5px; color: #444; line-height: 1.65; }
+    .exam-res-tag {
+      display: inline-block; margin-top: 5px;
+      font-family: 'JetBrains Mono', monospace; font-weight: 700;
+      font-size: 13px; padding: 3px 10px;
+    }
+    .exam-result.correct .exam-res-tag { background: rgba(22,163,74,0.12); color: #15803d; }
+    .exam-result.wrong   .exam-res-tag { background: rgba(220,38,38,0.1);  color: #b91c1c; }
+
+    /* Action buttons row */
+    .exam-actions { display: none; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .exam-prac-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #111; color: #fff; border: none; border-radius: 0;
+      padding: 11px 20px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.4); transition: all 0.18s;
+    }
+    .exam-prac-btn:hover { background: #2a2a2a; }
+    .exam-next-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      color: #fff; border: none; border-radius: 0;
+      padding: 11px 24px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      box-shadow: 3px 3px 0 rgba(124,58,237,0.45); transition: all 0.18s;
+    }
+    .exam-next-btn:hover { box-shadow: 5px 5px 0 rgba(124,58,237,0.6); transform: translate(-1px,-1px); }
+
+    /* Practical / solution reveal */
+    .exam-prac-body { border: 3px solid #111; margin-bottom: 28px; display: none; }
+
+    /* Final score screen */
+    .exam-final { display: none; text-align: center; padding: 56px 20px; }
+    .exam-final-emoji { font-size: 64px; margin-bottom: 20px; line-height: 1; }
+    .exam-final-msg   { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+    .exam-final-score { font-size: 60px; font-weight: 900; margin: 16px 0 4px; line-height: 1; }
+    .exam-final-pct   { font-size: 14px; color: var(--text2); margin-bottom: 36px; }
+    .exam-final-btns  { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .exam-final-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: none; padding: 13px 28px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif; border-radius: 0;
+    }
+    .exam-final-btn.primary {
+      background: linear-gradient(135deg, var(--purple), #6d28d9); color: #fff;
+      box-shadow: 4px 4px 0 rgba(124,58,237,0.5);
+    }
+    .exam-final-btn.secondary { background: #1a1a1a; color: #fff; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); }
+
+    /* ── Exam responsive ── */
+    @media (max-width: 768px) {
+      .exam-q-text { font-size: 16px; }
+    }
+    @media (max-width: 580px) {
+      .exam-hdr { padding: 10px 14px; }
+      .exam-title-tag { font-size: 13px; }
+      .exam-prog  { font-size: 11px; padding: 3px 10px; }
+      .exam-sc    { font-size: 12px; padding: 4px 10px; }
+      .exam-exit  { padding: 6px 11px; font-size: 12px; }
+      .exam-body  { padding: 18px 12px 60px; }
+      .exam-q-card { box-shadow: 6px 6px 0 0 rgba(124,58,237,1), 0 12px 28px rgba(0,0,0,0.38); }
+      .exam-q-label { padding: 14px 16px 0; }
+      .exam-q-text  { padding: 12px 16px 18px; font-size: 15px; }
+      .exam-hint-row { padding: 0 16px 6px; }
+      .exam-inp-area { padding: 8px 16px 18px; }
+      .exam-inp-row  { flex-direction: column; }
+      .exam-inp      { font-size: 14px; }
+      .exam-sub-btn  { padding: 13px; font-size: 13px; text-align: center; }
+      .exam-result   { padding: 16px; }
+      .exam-actions  { flex-direction: column; }
+      .exam-prac-btn, .exam-next-btn { justify-content: center; width: 100%; }
+      .exam-nav-btn  { padding: 6px 11px; font-size: 12px; }
+    }
+    @media (max-width: 400px) {
+      .exam-sc { display: none; }
+      .exam-q-text { font-size: 14px; line-height: 1.6; }
+      .exam-nav-text { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -501,6 +709,7 @@
         </a>
         <div class="nav-right">
           <a href="index.html" class="nav-back">← Home</a>
+          <button class="exam-nav-btn" onclick="openExam()">🎯 <span class="exam-nav-text">Exam</span></button>
           <span class="nav-pill">👁 Viz Sheet</span>
         </div>
       </div>
@@ -509,7 +718,7 @@
 
   <div class="container">
     <section class="hero">
-      <div class="hero-badge"><div class="pulse-dot"></div> 100 Scenarios · 12 Categories · Basic → Advanced</div>
+      <div class="hero-badge"><div class="pulse-dot"></div> 109 Scenarios · 12 Categories · Basic → Advanced</div>
       <h1 class="hero-title">Java Master<br><span class="grad">Visualization</span> Sheet</h1>
       <p class="hero-sub">Read the scenario, identify with it — then reveal what Java tool to use, see it visualized, and expand the code.</p>
       <div class="search-wrap">
@@ -518,7 +727,7 @@
         <span class="search-icon" id="searchIcon">🔍</span>
         <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
       </div>
-      <div class="count-bar" id="countBar">Showing <strong>59</strong> of 59 scenarios</div>
+      <div class="count-bar" id="countBar">Showing <strong>109</strong> of 109 scenarios</div>
     </section>
 
     <div class="cards-wrap" id="cardsWrap"></div>
@@ -547,6 +756,71 @@
     <input class="idx-search" id="idxSearch" type="text" placeholder="Filter topics…">
     <div class="idx-body" id="idxBody"></div>
   </div>
+
+  <!-- ══════════════ EXAM TIME OVERLAY ══════════════ -->
+  <div class="exam-overlay" id="examOverlay">
+
+    <!-- Header -->
+    <div class="exam-hdr">
+      <div class="exam-hdr-l">
+        <span class="exam-title-tag">🎯 Exam Time!</span>
+        <span class="exam-prog" id="examProg">1 / 109</span>
+      </div>
+      <div class="exam-hdr-r">
+        <span class="exam-sc" id="examSc">✓ 0</span>
+        <button class="exam-exit" onclick="closeExam()">✕ Exit</button>
+      </div>
+    </div>
+
+    <!-- Scrollable content -->
+    <div class="exam-body">
+      <div class="exam-body-inner">
+
+        <!-- Question card -->
+        <div class="exam-q-card" id="examQCard">
+          <div class="exam-q-label" id="examQLabel">SCENARIO 1</div>
+          <div class="exam-q-text"  id="examQ"></div>
+          <div class="exam-hint-row">
+            <button class="exam-hint-btn" id="examHintBtn" onclick="examHint()">💡 Hint</button>
+            <div class="exam-hint-reveal" id="examHintReveal"></div>
+          </div>
+          <div class="exam-inp-area">
+            <div class="exam-inp-label">Your answer</div>
+            <div class="exam-inp-row">
+              <input class="exam-inp" id="examInput" type="text"
+                placeholder='Type the exact topic name…' autocomplete="off" spellcheck="false">
+              <button class="exam-sub-btn" id="examSubmit" onclick="examSubmit()">Submit →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div class="exam-result" id="examResult">
+          <div class="exam-res-inner">
+            <div class="exam-res-icon" id="examResIcon"></div>
+            <div>
+              <div class="exam-res-title" id="examResTitle"></div>
+              <div class="exam-res-body"  id="examResBody"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action buttons (appear after submit) -->
+        <div class="exam-actions" id="examActions">
+          <button class="exam-prac-btn" id="examPracBtn" onclick="examTogglePractical()">👁 Show Practical</button>
+          <button class="exam-next-btn" onclick="examNext()">Next Scenario →</button>
+        </div>
+
+        <!-- Practical / full solution -->
+        <div class="exam-prac-body" id="examPracBody"></div>
+
+        <!-- Final results screen -->
+        <div class="exam-final" id="examFinal"></div>
+
+      </div>
+    </div>
+  </div>
+  <!-- ══════════════════════════════════════════════ -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
@@ -608,6 +882,54 @@
       syntax:`Integer a = 42;         // boxing\nInteger b = null;        // allowed!\nList<Integer> nums = new ArrayList<>();`,
       code:`Integer n = 10;\nSystem.out.println(n.compareTo(20));       // -1\nSystem.out.println(Integer.parseInt("99")); // 99\nList<Integer> list = new ArrayList<>();\nlist.add(5);  // autoboxing`,
       methods:[["Integer.parseInt(s)","String → int"],["Integer.valueOf(n)","int → Integer object"],["n.compareTo(other)","compare (-1/0/1)"],["Integer.max(a,b)","maximum of two"]] },
+
+    { id:101, cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"byte",
+      keys:"byte small integer 1 byte memory efficient range 128 binary stream network primitive",
+      world:"Hospital storing ages of a million patients — byte uses 4× less memory than int.",
+      visual:`Range:  -128  to  127   (1 byte = 8 bits)\n\nType  │ Size    │ Max value\n──────┼─────────┼──────────────────\nbyte  │ 1 byte  │             127\nshort │ 2 bytes │          32,767\nint   │ 4 bytes │   2,147,483,647\n\n1,000,000 ages stored:\nint[]  → ~3.8 MB\nbyte[] → ~0.95 MB  ✓  (4× smaller)`,
+      syntax:`byte age = 25;\nbyte flags = 0b00001111;    // binary literal = 15\nbyte max = 127;\nbyte min = -128;\nbyte[] buffer = new byte[1024];  // I/O buffer`,
+      code:`byte age = 100;\nbyte b = 0b00001111;         // binary literal = 15\nSystem.out.println(age);     // 100\nSystem.out.println(b);       // 15\n\n// ⚠ Arithmetic always promotes to int!\nbyte a = 10, x = 20;\n// byte sum = a + x;         ❌ compile error\nbyte sum = (byte)(a + x);    // ✓ needs explicit cast\nSystem.out.println(sum);     // 30`,
+      methods:[["Byte.MAX_VALUE","127"],["Byte.MIN_VALUE","-128"],["Byte.parseByte(\"10\")","String → byte"],["Byte.toUnsignedInt(b)","treat byte as 0–255 unsigned"]] },
+
+    { id:102, cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"short",
+      keys:"short 2 bytes 32767 memory compact integer primitive audio legacy",
+      world:"School roll numbers up to 30,000 — fits in short, uses half the memory of int.",
+      visual:`Range:  -32,768  to  32,767   (2 bytes = 16 bits)\n\nType  │ Bytes │ Max value\n──────┼───────┼──────────────────\nbyte  │  1    │            127\nshort │  2    │         32,767  ← you are here\nint   │  4    │  2,147,483,647\nlong  │  8    │  9.2 quintillion`,
+      syntax:`short rollNo = 15432;\nshort year = 2024;\nshort temp = -40;\nshort[] pixels = new short[1920 * 1080];`,
+      code:`short students = 28_000;\nshort capacity = 32_000;\n\nif (students < capacity) {\n    System.out.println("Seats available"); // ✓\n}\n\n// ⚠ Like byte, arithmetic promotes to int\nshort x = 100, y = 200;\n// short sum = x + y;          ❌ compile error\nshort sum = (short)(x + y);   // ✓\nSystem.out.println(sum);      // 300`,
+      methods:[["Short.MAX_VALUE","32,767"],["Short.MIN_VALUE","-32,768"],["Short.parseShort(\"500\")","String → short"],["Short.toUnsignedInt(s)","short as 0–65,535 unsigned"]] },
+
+    { id:103, cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"float",
+      keys:"float 32 bit single precision decimal f suffix game graphics memory lightweight",
+      world:"2D game storing hundreds of sprite coordinates — float halves memory vs double.",
+      visual:`float  → 32-bit → ~6-7 significant digits  (needs f suffix)\ndouble → 64-bit → ~15 significant digits  (default decimal)\n\nPrecision side by side:\nfloat:   3.1415927          (~7 digits)\ndouble:  3.141592653589793  (~15 digits)\n\nUse double → when precision matters\nUse float  → when memory is tight (game arrays, GPU data)`,
+      syntax:`float price = 9.99f;       // f suffix is required!\nfloat temp  = 36.6f;\nfloat pi    = 3.14159f;\n// float bad = 3.14;       ❌  3.14 defaults to double`,
+      code:`float x = 150.75f;\nfloat y = 230.50f;\nSystem.out.printf("Pos: %.2f, %.2f%n", x, y);\n// Pos: 150.75, 230.50\n\nfloat[]  coords  = new float[1_000_000];  // ~4 MB\ndouble[] dCoords = new double[1_000_000]; // ~8 MB\n\nSystem.out.println(Float.MAX_VALUE); // 3.4028235E38\nSystem.out.println(Float.MIN_VALUE); // 1.4E-45`,
+      methods:[["Float.MAX_VALUE","~3.4 × 10³⁸"],["Float.MIN_VALUE","smallest positive float (~1.4E-45)"],["Float.parseFloat(\"3.14\")","String → float"],["Float.isNaN(f)","check for Not-a-Number"],["Float.compare(f1,f2)","safe comparison (avoids == trap)"]] },
+
+    { id:104, cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"Type Casting (implicit)",
+      keys:"implicit widening automatic promotion safe no data loss int long double float casting conversion",
+      world:"Pouring a small cup into a big jug — it fits perfectly with room to spare, zero spillage.",
+      visual:`Widening chain  (automatic — Java handles it silently)\n\nbyte → short → int → long → float → double\n\nEach arrow = safe, automatic, ZERO data lost.\n\nint    i = 42;\nlong   l = i;     // ✓ auto-widened → 42L\ndouble d = i;     // ✓ auto-widened → 42.0\nfloat  f = i;     // ✓ auto-widened → 42.0f\n\nNo cast syntax needed — Java does it for you.`,
+      syntax:`int i = 100;\nlong   l  = i;        // int  → long   (automatic)\ndouble d  = i;        // int  → double (automatic)\nfloat  f  = i;        // int  → float  (automatic)\ndouble d2 = 9.99f;    // float → double (automatic)`,
+      code:`int score = 95;\nlong   bigScore = score;    // auto-widened → 95L\ndouble average  = score;    // auto-widened → 95.0\n\nbyte  b = 10;\nshort s = b;                // byte → short ✓\nint   total = b + s;        // both promoted to int\n\nSystem.out.println(bigScore); // 95\nSystem.out.println(average);  // 95.0\nSystem.out.println(total);    // 20`,
+      methods:[["No (cast) needed","Java widens automatically — just assign"],["byte→short→int","integer widening steps"],["int→long→float→double","larger numeric promotions"],["byte/short ops → int","arithmetic always promotes at least to int"]] },
+
+    { id:105, cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"Type Casting (explicit)",
+      keys:"explicit narrowing manual cast (int) (byte) data loss truncation double int forced conversion",
+      world:"Pouring a full 2-litre jug into a 250 ml cup — it overflows. You accept the loss and force it.",
+      visual:`Narrowing  (YOU must write the cast — data can be lost)\n\ndouble → float → long → int → short → byte\n\ndouble d = 9.99;\nint    i = (int) d;       // → 9    (.99 chopped!)\n\nint  big = 300;\nbyte b   = (byte) big;    // → 44   (overflows, wraps!)\n      ↑\n  (type) — the explicit cast instruction`,
+      syntax:`double price = 9.99;\nint p = (int) price;            // 9  — decimal dropped\n\nlong big = 3_000_000_000L;\nint  n   = (int) big;           // ⚠ data lost (overflow)\n\nchar c = (char) 65;             // → 'A'`,
+      code:`double pi = 3.14159;\nint truncated = (int) pi;\nSystem.out.println(truncated);     // 3  (not 3.14!)\n\ndouble score = 87.9;\nint grade = (int) score;\nSystem.out.println(grade);         // 87  (not 88!)\n\n// To round properly — use Math.round first\nint rounded = (int) Math.round(score);\nSystem.out.println(rounded);       // 88  ✓\n\n// Overflow wraps around\nbyte b = (byte) 300;\nSystem.out.println(b);             // 44`,
+      methods:[["(int) d","truncates decimal, keeps integer part only"],["(byte) n","wraps around if outside -128..127"],["Math.round(d)","round first, then cast for nearest integer"],["(char) 65","int → character ('A')"]] },
+
+    { id:106, cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"var (local type inference)",
+      keys:"var type inference Java 10 auto type less verbose cleaner local variable compiler infer",
+      world:"Smart form that reads what you write and figures out the type — you skip the category label.",
+      visual:`Without var (verbose):              With var (clean):\nArrayList<String> list =            var list =\n  new ArrayList<String>();              new ArrayList<String>();\n\nString name  = "Alice";             var name  = "Alice";\nint    count = 42;                  var count = 42;\ndouble price = 9.99;                var price = 9.99;\n\nRules:\n✓  local variables only (inside methods)\n✓  must assign a value on the same line\n✗  no class fields, parameters, or return types`,
+      syntax:`var name  = "Alice";              // inferred: String\nvar count = 42;                   // inferred: int\nvar price = 9.99;                 // inferred: double\nvar items = new ArrayList<String>(); // inferred: ArrayList<String>`,
+      code:`var message = "Hello, Java!";\nvar number  = 100;\nvar names   = new ArrayList<String>();\nnames.add("Alice");\nnames.add("Bob");\n\nfor (var name : names) {\n    System.out.println(name);\n}\n// Alice\n// Bob\n\nSystem.out.println(message.length()); // 12\nSystem.out.println(message.getClass().getSimpleName()); // String`,
+      methods:[["var x = value","type inferred from the right-hand side value"],["Java 10+ only","not available in Java 8 or 9"],["Still strongly typed","type is fixed at compile time — not dynamic like JS"],["Local variables only","no fields, method parameters, or return types"],["Best with long types","e.g. var map = new HashMap<String,List<Integer>>()"]] },
 
     // ── 2: Conditionals ──
     { id:8,  cat:"Conditionals & Decisions", cc:"#f59e0b", cr:"245,158,11", use:"if / else if / else",
@@ -674,6 +996,30 @@
       syntax:`while (true) {\n    // do work\n    if (exitCondition) break;\n}`,
       code:`int attempts = 0;\nwhile (true) {\n    int guess = getGuess();\n    attempts++;\n    if (guess == secret) {\n        System.out.println("Got it in " + attempts);\n        break;\n    }\n    System.out.println("Try again!");\n}`,
       methods:[["break","the only exit"],["return","also exits if inside a method"],["continue","skip to next iteration"]] },
+
+    { id:107, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"break",
+      keys:"break exit stop terminate loop early escape switch found done quit",
+      world:"Searching 1,000 lockers for your phone — the moment you find it in locker 47, you stop completely.",
+      visual:`for (int i = 0; i < 1000; i++) {\n    if (found) ────────────────┐\n        break;                 │ exits entire loop immediately\n    // rest of body skipped    │\n}                              │\n// execution jumps here ←──────┘\n\nWorks in: for · while · do-while · switch`,
+      syntax:`for (...) {\n    if (condition) break;  // exit the whole loop now\n    // this line never runs once break fires\n}`,
+      code:`int[] prices = {15, 42, 7, 99, 33};\nint target = 99;\nint foundAt = -1;\n\nfor (int i = 0; i < prices.length; i++) {\n    if (prices[i] == target) {\n        foundAt = i;\n        break;           // stop — no need to check more\n    }\n}\nSystem.out.println("Found at index: " + foundAt); // 3\n\n// Also works in while\nint n = 1;\nwhile (true) {\n    if (n * n > 50) break;\n    n++;\n}\nSystem.out.println("Largest n where n²≤50: " + (n-1)); // 7`,
+      methods:[["break","exits the nearest enclosing loop or switch immediately"],["break label","exits a specific outer loop (see Labeled Loops)"],["Works in switch too","prevents fall-through between cases"]] },
+
+    { id:108, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"continue",
+      keys:"continue skip next iteration jump over current ignore filter loop",
+      world:"Quality checker on a factory belt — skips defective items but lets the belt keep moving for good ones.",
+      visual:`for (int i = 0; i < n; i++) {\n    if (skip condition) ─────────┐\n        continue;                │ skips REST of this iteration\n    // ← this code is skipped   │\n    doWork();                    │\n}  ←────────────────────────────┘\n   jumps to i++ and next check\n\nLoop does NOT stop — only this iteration is skipped.`,
+      syntax:`for (...) {\n    if (condition) continue;  // skip to next iteration\n    // code below only runs when condition is false\n}`,
+      code:`// Print only even numbers\nfor (int i = 1; i <= 10; i++) {\n    if (i % 2 != 0) continue;   // skip odd numbers\n    System.out.print(i + " ");  // 2 4 6 8 10\n}\n\n// Skip blank lines when processing input\nString[] lines = {"Alice", "", "Bob", "", "Carol"};\nfor (String line : lines) {\n    if (line.isEmpty()) continue;  // skip blanks\n    System.out.println("User: " + line);\n}\n// User: Alice\n// User: Bob\n// User: Carol`,
+      methods:[["continue","skips rest of current iteration, moves to next"],["continue label","skips to next iteration of a specific outer loop"],["i++ still happens","for-loop increment runs even after continue"]] },
+
+    { id:109, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"Labeled Loops",
+      keys:"label labeled break continue outer loop nested target specific name escape multi level",
+      world:"A supervisor shouting 'everyone stop!' across all nested teams at once — not just the one team in front of him.",
+      visual:`outer:                    ← label on outer loop\nfor (int r = 0; r < 5; r++) {\n    for (int c = 0; c < 5; c++) {\n        if (found)\n            break outer;  ← exits BOTH loops at once\n        if (skip)\n            continue outer; ← jumps to next r\n    }\n    // this line also skipped by break outer\n}\n// execution arrives here after break outer`,
+      syntax:`outerLabel:\nfor (...) {              // outer loop\n    for (...) {          // inner loop\n        break outerLabel;    // exits outer loop\n        continue outerLabel; // next outer iteration\n    }\n}`,
+      code:`// Find first pair that sums to 10\nint[] nums = {3, 7, 2, 8, 1, 9};\nint a = -1, b = -1;\n\nsearch:\nfor (int i = 0; i < nums.length; i++) {\n    for (int j = i + 1; j < nums.length; j++) {\n        if (nums[i] + nums[j] == 10) {\n            a = i; b = j;\n            break search;  // exits BOTH loops instantly\n        }\n    }\n}\nSystem.out.println("Pair: " + nums[a] + " + " + nums[b]);\n// Pair: 3 + 7\n\n// continue label — skip entire outer iteration\nouter:\nfor (int i = 0; i < 3; i++) {\n    for (int j = 0; j < 3; j++) {\n        if (j == 1) continue outer; // jump to next i\n        System.out.println(i + "," + j);\n    }\n}\n// 0,0  →  1,0  →  2,0  (j=1 and j=2 always skipped)`,
+      methods:[["labelName:","put the label on the line BEFORE the loop keyword"],["break labelName","exits that specific labeled loop entirely"],["continue labelName","skips to the next iteration of that labeled loop"],["Any loop can be labeled","for · while · do-while all support labels"]] },
 
     // ── 4: Methods & Recursion ──
     { id:16, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"void method",
@@ -1474,7 +1820,16 @@
     97: "Imagine you need to figure out the minimum speed a delivery truck must travel to finish all deliveries before midnight. You do not try every possible speed from 1 km/h to 200 km/h one at a time. Instead, you guess the middle speed — 100 km/h. Can all deliveries be done in time at 100 km/h? If YES, try slower. If NO, try faster. Each guess cuts your remaining options in half. What technique uses the binary search idea not on an array of items, but on the range of possible answer values, checking 'is this candidate answer good enough?' to narrow down the best answer?",
     98: "Imagine a row of empty glasses on a table numbered 1 to 10. Your teacher says 'Add 3 cups of water to glasses 2 through 6!' Instead of going to glasses 2, 3, 4, 5, 6 and pouring into each one separately, you just write two notes: '+3 starting at glass 2' and '-3 starting at glass 7'. At the very end, you do ONE walk through all your notes to figure out the final water level in each glass. What technique handles many 'update a whole range' commands by recording just two tiny marks per command, then applying everything correctly in one final sweep?",
     99: "Imagine you are a tiny ant lost in a maze drawn on graph paper. Some squares are open paths, some are walls. From any open square, you can step Up, Down, Left, or Right. You want to reach the cheese square in the FEWEST possible steps. You send out scouts in all 4 directions — those scouts send out their own scouts — spreading outward wave by wave, marking how many steps each square is from you. The first wave to reach the cheese tells you the shortest distance. What technique finds shortest paths in a 2D grid by spreading scouts outward level by level, like ripples in a pond?",
-    100:"Imagine a network of cities connected by flights, but some flights COST you loyalty points and some actually EARN you points (negative cost). You want to fly from City A to City Z spending the fewest points possible — even if some individual flights cost you points, the overall route might still be cheapest. What algorithm finds the shortest path in a network even when some connections have negative costs attached, and also catches the impossible situation where a loop of flights keeps giving you free points forever?"
+    100:"Imagine a network of cities connected by flights, but some flights COST you loyalty points and some actually EARN you points (negative cost). You want to fly from City A to City Z spending the fewest points possible — even if some individual flights cost you points, the overall route might still be cheapest. What algorithm finds the shortest path in a network even when some connections have negative costs attached, and also catches the impossible situation where a loop of flights keeps giving you free points forever?",
+    101:"Imagine you are a software engineer at a hospital and you need to store the age of every single patient in a database. Patient ages go from 0 for newborns to about 120 at the very oldest. You have one million patient records to store. If you use a regular whole-number variable that can hold values all the way up to 2 billion, you are wasting three-quarters of the memory space — it takes 4 bytes per record even though your values are tiny and will never go above 120. You want the absolute smallest whole-number type that still comfortably fits every possible age. What type of whole-number variable in Java uses only 1 byte of memory instead of 4, holds values from -128 to 127, and is the natural choice whenever you are working with raw binary data, file streams, or network packets where every single byte of memory genuinely counts?",
+    102:"Imagine you are writing software for a school that tracks the roll number of every student. The school has at most 30,000 students, so roll numbers go up to 30,000. A regular int variable can hold values up to 2 billion — massively more than you need — and it uses 4 bytes per record. A byte only goes up to 127, which is nowhere near enough. You want something right in the middle: bigger than a byte but much lighter than a full int. What type of whole-number variable in Java uses exactly 2 bytes of memory, holds values from -32,768 to 32,767, and is the right tool when your numbers are definitely too big for byte but too small and too numerous to justify using the full int?",
+    103:"Imagine you are building a 2D mobile game and you need to store the x and y positions of hundreds of moving characters on screen at every single frame. The positions have decimal values like 45.75 or 128.34. Java's default decimal type uses 8 bytes per number and gives you 15 digits of precision — far more accuracy than a game ever needs for screen coordinates. You are storing thousands of coordinates and you want to cut memory usage exactly in half, accepting a smaller precision of about 6 to 7 digits which is more than enough for game graphics. What type of decimal variable in Java uses only 4 bytes instead of 8, gives about 6 to 7 digits of precision, and always needs the letter f written at the end of its value — like 3.14f — to tell Java you want this smaller lighter-weight decimal type instead of the heavier default?",
+    104:"Imagine you have a small measuring cup that holds exactly 250 ml and a large 2-litre jug. You pour the water from the small cup into the big jug — it fits perfectly with room to spare, nothing spills, you lose nothing, and you did not have to do anything special to make it happen. The transfer just works naturally. Java does exactly the same thing with number types: when you copy a value from a smaller type into a larger type — like from an int into a long, or from an int into a double — Java transfers it automatically with no extra code, no risk, and no data lost at all. The smaller type always fits safely inside the bigger one with room to spare. What is this automatic zero-effort conversion called, where Java silently upgrades a smaller numeric type into a bigger one — following the safe chain of byte to short to int to long to float to double — without you writing any special syntax at all?",
+    105:"Imagine you have a full 2-litre jug of water and you are trying to pour it into a tiny 250 ml cup. It does not fit — the water overflows the sides and you lose some of it. The big container simply cannot be squeezed into the small one without losing something. Java makes the same check with number types: if you try to copy a large type into a smaller type — like a double into an int, or a long into a byte — Java completely refuses to do it automatically because data could be lost in the process. You must manually write a special instruction that tells Java you know the risk and you fully accept it — and only then does Java allow the conversion to happen. What is this forced manual conversion called in Java, where you write the target type in parentheses right before the value — like writing (int) in front of a double — to forcefully squeeze a bigger type into a smaller one, knowing that any decimal places are silently chopped off and any overflow silently wraps around?",
+    106:"Imagine you are filling out a form. For each field you currently have to write both the category AND the value — writing 'Name: Arjun Sharma', then 'Age: 21', then 'Score: 95.5'. Now imagine a smarter form: you just write the value — Arjun Sharma, 21, 95.5 — and the form is clever enough to look at what you wrote and figure out on its own that the first one is text, the second is a whole number, and the third is a decimal. You never had to label the type at all. Starting from Java 10, you can do exactly this with local variables: instead of writing out the full type name on the left side of your assignment, you write a single short keyword and the compiler automatically figures out the correct type from whatever value you assign on the right side. What keyword introduced in Java 10 lets you declare a local variable without explicitly writing its type — because the compiler reads the assigned value and infers the type itself — making your code shorter and cleaner especially when type names are long or completely obvious from context?",
+    107:"Imagine you are searching through a list of one thousand product reviews looking for the very first review that mentions the word 'defective'. The moment you find it, you have exactly what you came for — there is absolutely no point reading the remaining nine hundred and ninety-nine reviews. You want to stop the entire search dead in its tracks right at that moment and move on. What keyword in Java, placed inside a loop, immediately stops the entire loop the moment it is reached — skipping every remaining iteration — and jumps the program straight to whatever code comes after the closing brace of the loop?",
+    108:"Imagine you are working on a fruit packaging line, picking apples one by one off a conveyor belt to check them. Every time you pick up a bruised or unripe apple, you do not stop the whole conveyor belt — you simply toss that bad apple aside and immediately reach for the NEXT apple without doing anything else with the bad one. The belt keeps moving and you keep working; you just skip over the ones you do not want. What keyword in Java, placed inside a loop, immediately skips the rest of the current iteration and jumps straight to the next one — so the loop itself keeps running normally, but the remaining code for the current item is completely bypassed?",
+    109:"Imagine you are running a treasure hunt across a massive building with multiple floors, and on each floor there are multiple rooms to search. You are checking room by room and floor by floor. The moment you find the treasure hidden in one room, you want to stop ALL searching immediately — not just stop checking the other rooms on this floor, but also stop going to any more floors. With a normal stop command, you would only escape the inner room-search and the floor-search would still continue taking you to the next floor. Java lets you put a name tag on the outer floor-search loop, and then use that name tag with your stop command to escape directly out of the outer loop all at once. What Java feature lets you attach a name to a loop so that a break or continue statement can target that specific named loop directly — even when you are nested deep inside multiple inner loops — instead of only ever affecting the immediately surrounding innermost loop?"
   };
   CARDS.forEach(c => { if (SCENARIOS[c.id]) c.scenario = SCENARIOS[c.id]; });
 
@@ -1618,7 +1973,7 @@
     CARDS.forEach(c => { (cats[c.cat] = cats[c.cat] || []).push(c); });
 
     let num = 0;
-    let html = `<div class="idx-stats" id="idxStats">100 topics across 12 categories</div>`;
+    let html = `<div class="idx-stats" id="idxStats">109 topics across 12 categories</div>`;
     Object.entries(cats).forEach(([cat, cards]) => {
       const cc = cards[0].cc;
       const catId = 'idxcat-' + cat.replace(/\W+/g,'_');
@@ -1688,11 +2043,200 @@
       if (q) el.classList.add('open');
     });
     document.getElementById('idxStats').textContent =
-      q ? `${visible} match${visible !== 1 ? 'es' : ''}` : '100 topics across 12 categories';
+      q ? `${visible} match${visible !== 1 ? 'es' : ''}` : '109 topics across 12 categories';
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeIndex();
+    if (e.key === 'Escape') { closeIndex(); closeExam(); }
+  });
+
+  // ══════════════════════════════════════════════
+  //  EXAM TIME
+  // ══════════════════════════════════════════════
+  let examQueue = [], examIdx = 0, examAnswered = false, examCorrect = 0;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.random() * (i + 1) | 0;
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function openExam() {
+    examQueue   = shuffle(CARDS);
+    examIdx     = 0;
+    examCorrect = 0;
+    document.getElementById('examOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    loadExamCard();
+  }
+
+  function closeExam() {
+    document.getElementById('examOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function loadExamCard() {
+    if (examIdx >= examQueue.length) { showExamFinal(); return; }
+    const c = examQueue[examIdx];
+    examAnswered = false;
+
+    // Header counts
+    document.getElementById('examProg').textContent  = `${examIdx + 1} / ${examQueue.length}`;
+    document.getElementById('examSc').textContent    = `✓ ${examCorrect}`;
+    document.getElementById('examQLabel').textContent = `SCENARIO ${examIdx + 1}`;
+    document.getElementById('examQ').textContent     = c.scenario;
+
+    // Reset hint
+    document.getElementById('examHintBtn').style.display  = 'inline-flex';
+    const rev = document.getElementById('examHintReveal');
+    rev.className = 'exam-hint-reveal'; rev.innerHTML = '';
+
+    // Reset input
+    const inp = document.getElementById('examInput');
+    inp.value = ''; inp.disabled = false;
+    inp.placeholder = 'Type the exact topic name…';
+    document.getElementById('examSubmit').disabled = false;
+
+    // Reset result, actions, practical
+    const res = document.getElementById('examResult');
+    res.style.display = 'none'; res.className = 'exam-result';
+    document.getElementById('examActions').style.display  = 'none';
+    const pb = document.getElementById('examPracBody');
+    pb.style.display = 'none'; pb.innerHTML = ''; delete pb.dataset.loaded;
+    document.getElementById('examPracBtn').innerHTML = '👁 Show Practical';
+
+    // Show question card, hide final
+    document.getElementById('examQCard').style.display  = 'block';
+    document.getElementById('examFinal').style.display  = 'none';
+
+    // Scroll to top, focus input
+    document.querySelector('.exam-body').scrollTop = 0;
+    inp.focus();
+  }
+
+  function examHint() {
+    const c = examQueue[examIdx];
+    document.getElementById('examHintBtn').style.display = 'none';
+    const rev = document.getElementById('examHintReveal');
+    rev.innerHTML = `💡 Category: <strong style="margin-left:5px">${esc(c.cat)}</strong>`;
+    rev.className = 'exam-hint-reveal show';
+    document.getElementById('examInput').focus();
+  }
+
+  function examSubmit() {
+    if (examAnswered) return;
+    const c   = examQueue[examIdx];
+    const raw = document.getElementById('examInput').value.trim();
+    if (!raw) { document.getElementById('examInput').focus(); return; }
+
+    examAnswered = true;
+    const ok = raw.toLowerCase() === c.use.toLowerCase();
+    if (ok) examCorrect++;
+
+    document.getElementById('examInput').disabled  = true;
+    document.getElementById('examSubmit').disabled = true;
+    document.getElementById('examSc').textContent  = `✓ ${examCorrect}`;
+
+    // Show result card
+    const res = document.getElementById('examResult');
+    res.style.display = 'block';
+    res.className = 'exam-result ' + (ok ? 'correct' : 'wrong');
+
+    document.getElementById('examResIcon').textContent = ok ? '✓' : '✗';
+
+    if (ok) {
+      document.getElementById('examResTitle').textContent = 'Correct! 🎉';
+      document.getElementById('examResBody').innerHTML =
+        `The answer is <span class="exam-res-tag">${esc(c.use)}</span>`;
+    } else {
+      document.getElementById('examResTitle').textContent = 'Not quite! 😔';
+      document.getElementById('examResBody').innerHTML =
+        `Correct answer: <span class="exam-res-tag">${esc(c.use)}</span><br>` +
+        `You typed: <em style="color:#888">${esc(raw)}</em>`;
+    }
+
+    // Show action buttons
+    document.getElementById('examActions').style.display = 'flex';
+
+    // Scroll result into view smoothly
+    res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function examTogglePractical() {
+    const pb  = document.getElementById('examPracBody');
+    const btn = document.getElementById('examPracBtn');
+    const c   = examQueue[examIdx];
+
+    if (pb.style.display === 'block') {
+      pb.style.display = 'none';
+      btn.innerHTML = '👁 Show Practical';
+    } else {
+      pb.style.display = 'block';
+      btn.innerHTML = '▲ Hide Practical';
+      if (!pb.dataset.loaded) {
+        const mRows = c.methods.map(m =>
+          `<tr><td>${esc(m[0])}</td><td>${esc(m[1])}</td></tr>`).join('');
+        pb.innerHTML = `
+          <div class="vc-answer-body" style="--cat-rgb:${c.cr}">
+            <div class="vc-use-row">
+              <span class="vc-use-arrow">→</span>
+              <span class="vc-use-label">Use this:</span>
+              <span class="vc-use-tag" style="--cat-rgb:${c.cr}">${esc(c.use)}</span>
+            </div>
+            <div class="vc-world">
+              <div class="vc-world-label">🌍 Real-World Example</div>
+              <div class="vc-world-text">${c.world}</div>
+            </div>
+            <div class="vc-visual">${esc(c.visual)}</div>
+            ${c.syntax ? `<div class="vc-code-label">✍ Syntax</div>
+            <div class="vc-syntax-block">${esc(c.syntax)}</div>` : ''}
+            <div class="vc-code-label">💻 Code Example</div>
+            <pre><code class="language-java">${esc(c.code)}</code></pre>
+            <div class="vc-code-label">🔧 Built-In Methods</div>
+            <div class="vc-methods"><table>${mRows}</table></div>
+          </div>`;
+        pb.querySelectorAll('.language-java').forEach(el => hljs.highlightElement(el));
+        pb.dataset.loaded = '1';
+      }
+      pb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function examNext() { examIdx++; loadExamCard(); }
+
+  function showExamFinal() {
+    document.getElementById('examQCard').style.display   = 'none';
+    document.getElementById('examResult').style.display  = 'none';
+    document.getElementById('examActions').style.display = 'none';
+    document.getElementById('examPracBody').style.display = 'none';
+
+    const total = examQueue.length;
+    const pct   = Math.round(examCorrect / total * 100);
+    const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🎯' : pct >= 50 ? '📚' : '💪';
+    const color = pct >= 70 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
+    const msg   = pct >= 90 ? 'Outstanding!' : pct >= 70 ? 'Great work!' : pct >= 50 ? 'Keep practising!' : 'Keep going — you got this!';
+
+    const fin = document.getElementById('examFinal');
+    fin.style.display = 'block';
+    fin.innerHTML = `
+      <div class="exam-final-emoji">${emoji}</div>
+      <div class="exam-final-msg">${msg}</div>
+      <div class="exam-final-score" style="color:${color}">${examCorrect}
+        <span style="font-size:28px;color:var(--text2);font-weight:700"> / ${total}</span>
+      </div>
+      <div class="exam-final-pct">${pct}% correct · ${total} scenarios</div>
+      <div class="exam-final-btns">
+        <button class="exam-final-btn primary" onclick="openExam()">🔄 Restart Exam</button>
+        <button class="exam-final-btn secondary" onclick="closeExam()">✕ Exit</button>
+      </div>`;
+  }
+
+  // Enter key → submit
+  document.getElementById('examInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') examSubmit();
   });
 
   buildIndex();
