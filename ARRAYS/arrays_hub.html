@@ -173,21 +173,21 @@
     .mastery-card {
       position: relative; overflow: hidden; border-radius: 24px;
       padding: 52px 48px; text-align: center;
-      background: linear-gradient(135deg, rgba(59,130,246,0.07) 0%, rgba(6,182,212,0.04) 50%, rgba(16,185,129,0.07) 100%);
-      border: 1px solid rgba(59,130,246,0.2);
+      background: linear-gradient(135deg, rgba(249,115,22,0.06) 0%, rgba(6,182,212,0.03) 50%, rgba(16,185,129,0.06) 100%);
+      border: 1px solid rgba(249,115,22,0.18);
       transition: border-color .4s, box-shadow .4s;
     }
-    .mastery-card:hover { border-color: rgba(59,130,246,0.38); box-shadow: 0 0 60px rgba(59,130,246,0.1); }
-    .mastery-top-bar { position: absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg,#3b82f6,#06b6d4,#10b981,#8b5cf6,#f59e0b); }
+    .mastery-card:hover { border-color: rgba(249,115,22,0.36); box-shadow: 0 0 60px rgba(249,115,22,0.09); }
+    .mastery-top-bar { position: absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg,#f97316,#ef4444,#f59e0b,#10b981,#3b82f6,#8b5cf6); }
     .mastery-fire { font-size: 52px; display: block; margin-bottom: 16px; animation: fireFloat 3s ease-in-out infinite; }
     @keyframes fireFloat { 0%,100%{transform:scale(1) rotate(-3deg)} 50%{transform:scale(1.1) rotate(3deg)} }
     .mastery-title {
       font-size: clamp(22px,3vw,34px); font-weight: 900; letter-spacing: -.5px; margin-bottom: 10px;
-      background: linear-gradient(135deg,#3b82f6,#06b6d4,#10b981);
+      background: linear-gradient(135deg,#f97316,#ef4444,#f59e0b);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .mastery-sub { font-size: 16px; color: var(--text2); font-weight: 500; margin-bottom: 28px; }
-    .mastery-list { list-style: none; display: flex; flex-direction: column; gap: 10px; max-width: 540px; margin: 0 auto 36px; text-align: left; }
+    .mastery-list { list-style: none; display: flex; flex-direction: column; gap: 10px; max-width: 520px; margin: 0 auto 36px; text-align: left; }
     .mastery-list li {
       display: flex; align-items: center; gap: 14px;
       font-size: 15px; color: var(--text); font-weight: 500;
@@ -198,11 +198,11 @@
     .mastery-list li:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.1); }
     .mastery-list li .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     .mastery-list li:nth-child(1) .dot { background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
-    .mastery-list li:nth-child(2) .dot { background: #10b981; box-shadow: 0 0 8px #10b981; }
-    .mastery-list li:nth-child(3) .dot { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
-    .mastery-list li:nth-child(4) .dot { background: #8b5cf6; box-shadow: 0 0 8px #8b5cf6; }
-    .mastery-list li:nth-child(5) .dot { background: #ec4899; box-shadow: 0 0 8px #ec4899; }
-    .mastery-list li:nth-child(6) .dot { background: #06b6d4; box-shadow: 0 0 8px #06b6d4; }
+    .mastery-list li:nth-child(2) .dot { background: #06b6d4; box-shadow: 0 0 8px #06b6d4; }
+    .mastery-list li:nth-child(3) .dot { background: #10b981; box-shadow: 0 0 8px #10b981; }
+    .mastery-list li:nth-child(4) .dot { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .mastery-list li:nth-child(5) .dot { background: #8b5cf6; box-shadow: 0 0 8px #8b5cf6; }
+    .mastery-list li:nth-child(6) .dot { background: #ec4899; box-shadow: 0 0 8px #ec4899; }
     .mastery-list li:nth-child(7) .dot { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
     .mastery-footer { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 13px; color: var(--text3); }
     .mastery-footer strong { color: var(--text2); }
@@ -276,7 +276,7 @@
 
       <div class="topic-meta-strip">
         <div class="meta-item"><span class="meta-icon">📚</span><span>12 Levels</span></div>
-        <div class="meta-item"><span class="meta-icon">🧩</span><span><span class="meta-val">195</span> Problems</span></div>
+        <div class="meta-item"><span class="meta-icon">🧩</span><span><span class="meta-val">170</span> Problems</span></div>
         <div class="meta-item"><span class="meta-icon">⏱️</span><span>O(n) Analysis</span></div>
         <div class="meta-item"><span class="meta-icon">✅</span><span>Progress Saved</span></div>
       </div>
@@ -303,21 +303,21 @@
     <div class="mastery-wrap">
       <div class="mastery-card">
         <div class="mastery-top-bar"></div>
-        <span class="mastery-fire">🔥</span>
-        <h2 class="mastery-title">If You Complete All These:</h2>
-        <p class="mastery-sub">You will:</p>
+        <span class="mastery-fire">🚀</span>
+        <h2 class="mastery-title">If You Finish This List:</h2>
+        <p class="mastery-sub">You will master:</p>
         <ul class="mastery-list">
-          <li><span class="dot"></span>Master arrays — the backbone of all DSA</li>
-          <li><span class="dot"></span>Solve sorting and searching with confidence</li>
-          <li><span class="dot"></span>Handle sliding window and two-pointer patterns</li>
-          <li><span class="dot"></span>Use HashMap-based tricks for frequency problems</li>
-          <li><span class="dot"></span>Tackle 2D arrays and matrix manipulations</li>
-          <li><span class="dot"></span>Apply DP on arrays for optimal substructure problems</li>
-          <li><span class="dot"></span>Be strong for product + service company interviews</li>
+          <li><span class="dot"></span>Two pointers</li>
+          <li><span class="dot"></span>Sliding window</li>
+          <li><span class="dot"></span>Binary search</li>
+          <li><span class="dot"></span>Hashing</li>
+          <li><span class="dot"></span>Prefix sums</li>
+          <li><span class="dot"></span>Matrix manipulation</li>
+          <li><span class="dot"></span>Interview-level DSA</li>
         </ul>
         <div class="mastery-footer">
           <span>🎯</span>
-          <span>Your current progress: <strong><span id="mastery-done">0</span> / 195 problems</strong></span>
+          <span>Your current progress: <strong><span id="mastery-done">0</span> / 170 problems</strong></span>
         </div>
       </div>
     </div>
@@ -335,10 +335,10 @@
     <div class="party-content">
       <span class="party-emoji">🎉🏆🎊</span>
       <h2 class="party-title">Arrays Mastered!</h2>
-      <p class="party-subtitle">All 195 problems completed. You've conquered every array challenge — from basics to interview-hard. You're DSA-ready!</p>
+      <p class="party-subtitle">All 170 problems completed. You've conquered every array challenge — from basics to interview-hard. You're DSA-ready!</p>
       <div class="party-stats">
         <div class="party-stat">
-          <div class="party-stat-num" style="color:#10b981;">195</div>
+          <div class="party-stat-num" style="color:#10b981;">170</div>
           <div class="party-stat-label">Problems Solved</div>
         </div>
         <div class="party-stat">
@@ -432,7 +432,7 @@
       const grandDone = LEVELS.reduce((s,l) => s + getLevelProgress(l.storageKey), 0);
       document.getElementById('mastery-done').textContent = grandDone;
 
-      if (grandDone >= 195) setTimeout(launchParty, 700);
+      if (grandDone >= 170) setTimeout(launchParty, 700);
 
       const grid = document.getElementById('levels-grid');
       grid.innerHTML = LEVELS.map(l => {

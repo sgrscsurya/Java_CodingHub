@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Master Visualization Sheet | Java Core</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --purple: #7c3aed; --purple-l: #a78bfa; --cyan: #06b6d4;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: #0a0a0a; color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    .container { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Nav ── */
+    nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); background: rgba(8,8,8,0.92); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg,var(--purple),var(--cyan)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .logo-text { font-size: 16px; font-weight: 700; background: linear-gradient(135deg,var(--purple-l),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-pill { background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.28); color: var(--purple-l); padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; }
+    .nav-back { color: var(--text2); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero { text-align: center; padding: 70px 0 48px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.22); border-radius: 100px; padding: 7px 18px; font-size: 12px; color: var(--purple-l); margin-bottom: 28px; }
+    .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.6)} }
+    .hero-title { font-size: clamp(30px,5vw,58px); font-weight: 900; line-height: 1.08; letter-spacing: -2px; margin-bottom: 16px; }
+    .grad { background: linear-gradient(135deg,var(--purple-l),var(--cyan),#10b981); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-sub { font-size: 15px; color: var(--text2); max-width: 500px; margin: 0 auto 36px; line-height: 1.65; }
+
+    /* ── Search ── */
+    .search-wrap { max-width: 620px; margin: 0 auto 16px; position: relative; }
+    .search-input { width: 100%; padding: 15px 50px 15px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: var(--text); font-family: 'Inter',sans-serif; font-size: 15px; outline: none; transition: all 0.25s; }
+    .search-input::placeholder { color: var(--text3); }
+    .search-input:focus { border-color: rgba(124,58,237,0.5); background: rgba(124,58,237,0.05); box-shadow: 0 0 0 3px rgba(124,58,237,0.12); }
+    .search-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text3); pointer-events: none; }
+    .search-clear { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text3); cursor: pointer; font-size: 18px; display: none; padding: 0; }
+    .search-clear:hover { color: var(--text); }
+    .count-bar { text-align: center; font-size: 13px; color: var(--text3); margin-bottom: 60px; }
+    .count-bar strong { color: var(--purple-l); }
+
+    /* ── Category divider ── */
+    .cat-header { display: flex; align-items: center; gap: 14px; margin: 96px 0 48px; }
+    .cat-header:first-child { margin-top: 0; }
+    .cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .cat-name { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.35); white-space: nowrap; }
+    .cat-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+    .cat-count { font-size: 10px; color: rgba(255,255,255,0.18); white-space: nowrap; }
+
+    /* ── Cards wrap ── */
+    .cards-wrap { padding-bottom: 100px; }
+
+    /* ══════════════════════════════
+       THE PLAYING CARD
+    ══════════════════════════════ */
+    .vc-card {
+      background: #ffffff;
+      border-radius: 20px;
+      margin-bottom: 72px;
+      overflow: hidden;
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.08),
+        0 8px 24px rgba(0,0,0,0.25),
+        0 24px 64px rgba(0,0,0,0.45),
+        0 48px 100px rgba(0,0,0,0.3);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
+      animation: cardIn 0.45s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    .vc-card:hover {
+      transform: translateY(-6px) scale(1.002);
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.1),
+        0 16px 40px rgba(0,0,0,0.35),
+        0 40px 80px rgba(0,0,0,0.55),
+        0 64px 120px rgba(0,0,0,0.35);
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(32px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Top color stripe */
+    .vc-stripe { height: 6px; width: 100%; }
+
+    /* Category badge */
+    .vc-badge-row { padding: 22px 28px 0; }
+    .vc-badge {
+      display: inline-block;
+      font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 100px;
+      background: rgba(var(--cat-rgb),0.09);
+      color: rgba(var(--cat-rgb),1);
+      border: 1px solid rgba(var(--cat-rgb),0.18);
+    }
+
+    /* The big scenario question */
+    .vc-question {
+      padding: 20px 28px 24px;
+      font-size: 19px; font-weight: 700;
+      color: #111; line-height: 1.62;
+      letter-spacing: -0.3px;
+    }
+
+    /* Show Answer button */
+    .vc-show-btn {
+      margin: 0 28px 28px;
+      display: inline-flex; align-items: center; gap: 9px;
+      background: transparent;
+      border: 2px solid rgba(var(--cat-rgb),0.5);
+      color: rgba(var(--cat-rgb),1);
+      border-radius: 10px; padding: 11px 22px;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif; letter-spacing: 0.2px;
+    }
+    .vc-show-btn:hover { background: rgba(var(--cat-rgb),0.07); border-color: rgba(var(--cat-rgb),0.9); }
+    .vc-show-btn.open { background: rgba(var(--cat-rgb),0.08); border-color: rgba(var(--cat-rgb),0.9); }
+    .vc-btn-icon { font-size: 10px; transition: transform 0.25s; display: inline-block; }
+    .vc-show-btn.open .vc-btn-icon { transform: rotate(180deg); }
+
+    /* ── Answer section ── */
+    .vc-answer { display: none; }
+    .vc-answer.open { display: block; }
+
+    .vc-answer-body {
+      padding: 28px 28px 24px;
+      background: #f7f7f7;
+      border-top: 1px solid #ebebeb;
+    }
+
+    /* Use this row */
+    .vc-use-row { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .vc-use-arrow { font-size: 20px; color: #999; }
+    .vc-use-label { font-size: 11px; color: #999; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+    .vc-use-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700;
+      color: #fff;
+      background: rgba(var(--cat-rgb),1);
+      padding: 5px 16px; border-radius: 100px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Real-world */
+    .vc-world { margin-bottom: 20px; }
+    .vc-world-label { font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: #bbb; margin-bottom: 7px; }
+    .vc-world-text { font-size: 14px; color: #555; line-height: 1.65; }
+
+    /* Visualization */
+    .vc-visual {
+      background: #111827; color: #94a3b8;
+      border-radius: 12px; padding: 18px 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      line-height: 1.75; white-space: pre; overflow-x: auto;
+      margin-bottom: 22px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Nested Show Syntax & Code button */
+    .vc-syntax-btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: #111; color: #fff;
+      border: none; border-radius: 10px; padding: 11px 20px;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+      letter-spacing: 0.2px;
+    }
+    .vc-syntax-btn:hover { background: #222; }
+    .vc-syntax-btn.open { background: rgba(var(--cat-rgb),1); }
+    .vc-syn-icon { font-size: 10px; transition: transform 0.25s; display: inline-block; }
+    .vc-syntax-btn.open .vc-syn-icon { transform: rotate(180deg); }
+
+    /* Code section */
+    .vc-code-section { display: none; padding-top: 22px; }
+    .vc-code-section.open { display: block; }
+
+    .vc-code-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #bbb; margin-bottom: 8px; margin-top: 20px;
+    }
+    .vc-code-label:first-child { margin-top: 0; }
+
+    .vc-syntax-block {
+      background: #0f172a; border-radius: 10px; padding: 14px 16px;
+      font-family: 'JetBrains Mono',monospace; font-size: 12.5px;
+      color: #a5b4fc; line-height: 1.7; white-space: pre; overflow-x: auto;
+    }
+    .hljs { border-radius: 10px; font-size: 12.5px; font-family: 'JetBrains Mono',monospace; line-height: 1.7; padding: 14px 16px !important; }
+
+    .vc-methods { margin-top: 6px; }
+    .vc-methods table { width: 100%; border-collapse: collapse; }
+    .vc-methods td { padding: 8px 10px; font-size: 12.5px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+    .vc-methods td:first-child { font-family: 'JetBrains Mono',monospace; color: rgba(var(--cat-rgb),1); white-space: nowrap; width: 44%; font-weight: 600; }
+    .vc-methods td:last-child { color: #555; }
+    .vc-methods tr:last-child td { border-bottom: none; }
+
+    /* ── Empty state ── */
+    .empty-state { text-align: center; padding: 80px 20px; }
+    .empty-state .emoji { font-size: 48px; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .empty-state p { color: var(--text2); font-size: 14px; }
+
+    /* ── Footer ── */
+    footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 0; text-align: center; }
+    footer p { color: var(--text3); font-size: 13px; }
+    footer strong { color: var(--purple-l); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">☕</div>
+          <span class="logo-text">Java Core Programs</span>
+        </a>
+        <div class="nav-right">
+          <a href="index.html" class="nav-back">← Home</a>
+          <span class="nav-pill">👁 Viz Sheet</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="hero">
+      <div class="hero-badge"><div class="pulse-dot"></div> 100 Scenarios · 12 Categories · Basic → Advanced</div>
+      <h1 class="hero-title">Java Master<br><span class="grad">Visualization</span> Sheet</h1>
+      <p class="hero-sub">Read the scenario, identify with it — then reveal what Java tool to use, see it visualized, and expand the code.</p>
+      <div class="search-wrap">
+        <input class="search-input" id="searchInput" type="text"
+          placeholder='Search... e.g. "repeat", "hashmap", "BFS", "sort", "recursion"'>
+        <span class="search-icon" id="searchIcon">🔍</span>
+        <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+      </div>
+      <div class="count-bar" id="countBar">Showing <strong>59</strong> of 59 scenarios</div>
+    </section>
+
+    <div class="cards-wrap" id="cardsWrap"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Java Master Visualization Sheet · <strong>Java Core Programs</strong></p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const CARDS = [
+    // ── 1: Variables & Data Types ──
+    { id:1,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"int",
+      keys:"int integer number count age score whole primitive",
+      scenario:"What if you need to store a simple number — like someone's age, a score, or a count of items — and it will never have any decimal part?",
+      world:"A scoreboard showing 7 goals — always a whole number, never 7.5.",
+      visual:`[   42   ]  ← one box, one whole value\nRange: -2,147,483,648  to  2,147,483,647\nDefault (class field): 0`,
+      syntax:`int x = 10;\nint count = 0;\nfinal int MAX = 100;  // constant`,
+      code:`int age = 25;\nint sum = 0;\nfor (int i = 1; i <= 5; i++) sum += i;\nSystem.out.println(age);   // 25\nSystem.out.println(sum);   // 15`,
+      methods:[["Integer.MAX_VALUE","2,147,483,647"],["Integer.MIN_VALUE","-2,147,483,648"],["Integer.parseInt(\"5\")","String → int"],["Integer.toString(n)","int → String"],["Integer.toBinaryString(n)","int → binary string"]] },
+
+    { id:2,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"double",
+      keys:"double float decimal price percentage pi fractional",
+      scenario:"What if your number needs decimal places — like a price of ₹99.50, a temperature of 36.7°C, or a percentage like 87.5%?",
+      world:"Fuel price of ₹96.75 — you can't represent that with int.",
+      visual:`[  96.75  ]  ← decimal stored in 64 bits\nfloat  → 32-bit (~7 digit precision)  suffix: f\ndouble → 64-bit (~15 digit precision) ← prefer this`,
+      syntax:`double price = 9.99;\nfloat temp = 36.6f;    // f suffix required\ndouble pi = Math.PI;   // 3.14159...`,
+      code:`double price = 19.99;\ndouble tax = price * 0.18;\nSystem.out.printf("Total: %.2f%n", price + tax);\n// Total: 23.59`,
+      methods:[["Double.parseDouble(\"3.14\")","String → double"],["Math.round(d)","round to nearest long"],["Math.floor(d)","round down"],["Math.ceil(d)","round up"],["Double.isNaN(d)","check for Not-a-Number"]] },
+
+    { id:3,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"boolean",
+      keys:"boolean bool true false flag condition toggle on off",
+      scenario:"What if you only need a yes-or-no answer inside your code — like: is the user logged in? Is this number even? Did we find the target?",
+      world:"A light switch: ON or OFF — never half-on.",
+      visual:`[ true  ]  or  [ false ]\nOnly two possible values.\n1 bit of information.`,
+      syntax:`boolean isActive = true;\nboolean found = false;\nboolean isEven = (n % 2 == 0);`,
+      code:`boolean isEven = (10 % 2 == 0);\nboolean hasAccess = isLoggedIn && isAdmin;\nif (isEven) System.out.println("Even");\nSystem.out.println(isEven);  // true`,
+      methods:[["Boolean.parseBoolean(\"true\")","String → boolean"],["!b","NOT — flip the value"],["b1 && b2","AND — both must be true"],["b1 || b2","OR — at least one true"]] },
+
+    { id:4,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"char",
+      keys:"char character letter digit symbol grade direction unicode single",
+      scenario:"What if you only need to store a single letter, digit, or symbol — like a grade 'A', a gender 'M', or a compass direction 'N'?",
+      world:"A playing card face: 'K' for King — just one character.",
+      visual:`[ 'A' ]  ← stored as Unicode number 65\nRange: 0 to 65535 (Unicode)\nMust use single quotes: 'A'  not  "A"`,
+      syntax:`char grade = 'A';\nchar digit = '7';\nchar symbol = '@';`,
+      code:`char c = 'A';\nSystem.out.println(c);              // A\nSystem.out.println((int) c);        // 65\nSystem.out.println((char)(c + 1));  // B\nchar lower = Character.toLowerCase(c); // a`,
+      methods:[["Character.isLetter(c)","is it a letter?"],["Character.isDigit(c)","is it 0-9?"],["Character.toLowerCase(c)","to lowercase"],["Character.toUpperCase(c)","to uppercase"],["(int) c","char → ASCII number"]] },
+
+    { id:5,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"long",
+      keys:"long large big number billion population timestamp id overflow",
+      scenario:"What if your number is too large for a normal int — like a world population of 8,000,000,000, a file size in bytes, or a timestamp in milliseconds?",
+      world:"World population: 8,000,000,000 — doesn't fit in int.",
+      visual:`int  max:  2,147,483,647         (~2 billion)\nlong max:  9,223,372,036,854,775,807  (~9.2 quintillion)\nMust add L suffix:  8_000_000_000L`,
+      syntax:`long population = 8_000_000_000L;\nlong timestamp = System.currentTimeMillis();\nlong id = 9876543210L;`,
+      code:`long big = 8_000_000_000L;\nlong ms = System.currentTimeMillis();\nSystem.out.println(big);   // 8000000000\nSystem.out.println(ms);    // e.g. 1720000000000`,
+      methods:[["Long.MAX_VALUE","9,223,372,036,854,775,807"],["Long.parseLong(\"123\")","String → long"],["System.currentTimeMillis()","current time in ms"]] },
+
+    { id:6,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"String",
+      keys:"string text word name message immutable characters sequence",
+      scenario:"What if you need to store text — a name, a message, a sentence, or any sequence of characters — and need to search, slice, or compare it?",
+      world:"A name tag: 'Arjun Sharma' — a sequence of characters.",
+      visual:`"Hello"\n H  e  l  l  o\n[0][1][2][3][4]  ← indices\nStrings are IMMUTABLE — methods return NEW strings.`,
+      syntax:`String name = "Alice";\nString msg = "Hello " + name;  // concatenation`,
+      code:`String s = "Java Core";\nSystem.out.println(s.length());          // 9\nSystem.out.println(s.toUpperCase());     // JAVA CORE\nSystem.out.println(s.contains("Core")); // true\nSystem.out.println(s.substring(5));     // Core`,
+      methods:[["s.length()","number of characters"],["s.charAt(i)","char at index"],["s.substring(i,j)","slice (j exclusive)"],["s.trim()","remove whitespace ends"],["s.split(\",\")","split into String[]"],["s.equals(other)","compare content (not ==)"],["s.indexOf(sub)","find position (-1 if missing)"],["String.valueOf(n)","any type → String"]] },
+
+    { id:7,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"Wrapper Classes",
+      keys:"wrapper integer double boolean character autoboxing collections null generic",
+      scenario:"What if you need to put a number or boolean inside an ArrayList or HashMap — collections that only accept objects, not raw primitives — or you need the value to sometimes be null?",
+      world:"A box that can be empty (null) or contain a number — a plain int can never be null.",
+      visual:`Primitive → Wrapper\nint      → Integer\ndouble   → Double\nboolean  → Boolean\nchar     → Character\nAutoboxing: int x=5; Integer obj=x;  // auto`,
+      syntax:`Integer a = 42;         // boxing\nInteger b = null;        // allowed!\nList<Integer> nums = new ArrayList<>();`,
+      code:`Integer n = 10;\nSystem.out.println(n.compareTo(20));       // -1\nSystem.out.println(Integer.parseInt("99")); // 99\nList<Integer> list = new ArrayList<>();\nlist.add(5);  // autoboxing`,
+      methods:[["Integer.parseInt(s)","String → int"],["Integer.valueOf(n)","int → Integer object"],["n.compareTo(other)","compare (-1/0/1)"],["Integer.max(a,b)","maximum of two"]] },
+
+    // ── 2: Conditionals ──
+    { id:8,  cat:"Conditionals & Decisions", cc:"#f59e0b", cr:"245,158,11", use:"if / else if / else",
+      keys:"if else condition check branch decision boolean compare",
+      scenario:"What if your code needs to take different paths based on a condition — do one thing when it is true, and something completely different when it is false?",
+      world:"Traffic light: RED → stop, YELLOW → slow, GREEN → go.",
+      visual:`condition?\n  ├─ TRUE  → run if-block\n  └─ FALSE → run else-block\nChain: score≥90→A, score≥80→B, else→C`,
+      syntax:`if (condition) {\n    // runs when true\n} else if (other) {\n    // alternative\n} else {\n    // default\n}`,
+      code:`int score = 85;\nif (score >= 90) {\n    System.out.println("A");\n} else if (score >= 80) {\n    System.out.println("B");   // ← runs this\n} else {\n    System.out.println("C or below");\n}`,
+      methods:[["==","equals (use .equals() for objects)"],["!=","not equal"],["&& / ||","AND / OR"],["!","NOT — flip boolean"]] },
+
+    { id:9,  cat:"Conditionals & Decisions", cc:"#f59e0b", cr:"245,158,11", use:"Ternary Operator ?:",
+      keys:"ternary inline condition short one-line expression",
+      scenario:"What if you need to choose between exactly two values based on a condition, and you want to write the whole thing in a single compact line instead of a full if-else block?",
+      world:"Express lane: items > 10 ? 'Regular Lane' : 'Express Lane'",
+      visual:`condition ? valueIfTrue : valueIfFalse\n    ↑                ↑               ↑\n check         if true          if false`,
+      syntax:`type result = condition ? trueValue : falseValue;`,
+      code:`int age = 20;\nString label = (age >= 18) ? "Adult" : "Minor";\nSystem.out.println(label);   // Adult\n\nint max = (a > b) ? a : b;   // pick larger`,
+      methods:[["? :","concise if/else — for simple value selection only"],["Avoid nesting","nested ternaries are unreadable"]] },
+
+    { id:10, cat:"Conditionals & Decisions", cc:"#f59e0b", cr:"245,158,11", use:"switch",
+      keys:"switch case default multiple choice menu option day month fixed",
+      scenario:"What if you have one variable — like a day number or a menu choice — and you need completely different code to run for each possible value it could be?",
+      world:"A vending machine: A1→water, A2→juice, A3→snack.",
+      visual:`switch(value)\n  case 1: → code  break\n  case 2: → code  break\n  default: → code  (fallback)\n⚠ Without break: falls through to next case!`,
+      syntax:`switch (day) {\n    case 1: System.out.println("Mon"); break;\n    case 2: System.out.println("Tue"); break;\n    default: System.out.println("Other");\n}`,
+      code:`int day = 3;\nswitch (day) {\n    case 1: System.out.println("Monday");    break;\n    case 2: System.out.println("Tuesday");   break;\n    case 3: System.out.println("Wednesday"); break;\n    default: System.out.println("Weekend");\n}`,
+      methods:[["break","exit after matching case"],["default","runs if no case matches"],["switch(String)","Java 7+ supports String"]] },
+
+    // ── 3: Loops ──
+    { id:11, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"for loop",
+      keys:"for loop repeat n times count iteration index range increment",
+      scenario:"What if you need to run the same block of code a fixed number of times — like printing numbers 1 to 100, or going through each element of an array from the first index to the last?",
+      world:"A factory stamping 100 bottles — stamp exactly 100 times.",
+      visual:`i=0 → body → i++\ni=1 → body → i++\n...\ni=N → STOP (condition false)\n init   condition   update`,
+      syntax:`for (int i = 0; i < n; i++) {\n    // body — runs n times\n}`,
+      code:`for (int i = 1; i <= 5; i++) {\n    System.out.print(i + " ");\n}\n// 1 2 3 4 5\n\n// reverse:\nfor (int i = 5; i >= 1; i--) {\n    System.out.print(i + " ");\n}\n// 5 4 3 2 1`,
+      methods:[["i++","increment after use"],["i+=2","step by 2"],["i--","count down"],["break","exit early"],["continue","skip current iteration"]] },
+
+    { id:12, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"while loop",
+      keys:"while condition unknown iterations read input repeat",
+      scenario:"What if you need to keep repeating something but you don't know in advance how many times — you just want to keep going as long as a condition stays true?",
+      world:"Keep refilling a glass while it's not full — unknown number of pours.",
+      visual:`┌─ check condition ─┐\n│   FALSE → STOP    │\n│   TRUE            │\n│     ↓ run body    │\n└───────────────────┘\nChecks BEFORE running body.`,
+      syntax:`while (condition) {\n    // body\n    // must eventually make condition false!\n}`,
+      code:`int n = 1;\nwhile (n <= 50) {\n    if (n % 7 == 0) System.out.print(n + " ");\n    n++;\n}\n// 7 14 21 28 35 42 49`,
+      methods:[["Risk: infinite loop","always update something in the condition"],["break","exit early when found"],["while(true)","intentional infinite — use with break"]] },
+
+    { id:13, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"do-while",
+      keys:"do while at least once first run menu prompt retry input",
+      scenario:"What if the loop body must run at least once before you even check whether to continue — like showing a menu to the user first, then asking if they want to go again?",
+      world:"Eating dinner: take at least one bite before deciding if you want more.",
+      visual:`run body  ← ALWAYS runs first\n    ↓\ncheck condition\n  TRUE  → back to body\n  FALSE → stop`,
+      syntax:`do {\n    // body (runs at least once)\n} while (condition); // ← semicolon required`,
+      code:`Scanner sc = new Scanner(System.in);\nint choice;\ndo {\n    System.out.println("1. Play  2. Quit");\n    choice = sc.nextInt();\n} while (choice != 2);\nSystem.out.println("Goodbye!");`,
+      methods:[["Runs minimum 1 time","key difference from while"],["Semicolon after while(cond)","don't forget it"]] },
+
+    { id:14, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"for-each",
+      keys:"foreach enhanced for iterate array list collection elements read",
+      scenario:"What if you just want to go through every element in an array or list, one by one, without needing to track or even know the current index?",
+      world:"Checking every item on a grocery list — pick it up, move to next.",
+      visual:`[A][B][C][D][E]\n ↓  ↓  ↓  ↓  ↓\n A  B  C  D  E   ← visit in order\nNo index needed.`,
+      syntax:`for (Type item : collectionOrArray) {\n    // use item\n}`,
+      code:`int[] nums = {3, 1, 4, 1, 5, 9};\nint sum = 0;\nfor (int n : nums) sum += n;\nSystem.out.println(sum);   // 23\n\nList<String> names = List.of("Alice","Bob");\nfor (String name : names) System.out.println("Hi " + name);`,
+      methods:[["No index access","use regular for if you need i"],["Can't remove elements","use Iterator if removing while looping"]] },
+
+    { id:15, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"while(true)",
+      keys:"infinite loop forever server game loop break exit sentinel",
+      scenario:"What if you need a loop that just keeps running forever — like a server always waiting for the next request — and the only way it stops is when something specific inside it decides to break out?",
+      world:"A 24/7 restaurant — stays open until the owner decides to shut it.",
+      visual:`→ body runs\n→ check: should I stop?\n     YES → break → EXIT\n     NO  → body runs again\n→ body runs ... until break`,
+      syntax:`while (true) {\n    // do work\n    if (exitCondition) break;\n}`,
+      code:`int attempts = 0;\nwhile (true) {\n    int guess = getGuess();\n    attempts++;\n    if (guess == secret) {\n        System.out.println("Got it in " + attempts);\n        break;\n    }\n    System.out.println("Try again!");\n}`,
+      methods:[["break","the only exit"],["return","also exits if inside a method"],["continue","skip to next iteration"]] },
+
+    // ── 4: Methods & Recursion ──
+    { id:16, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"void method",
+      keys:"method function void reuse block define call parameter argument",
+      scenario:"What if you have the same block of code that needs to run in multiple places — how do you write it once, give it a name, and call it anywhere without copy-pasting?",
+      world:"A pizza recipe: write the steps once, call 'makePizza()' whenever needed.",
+      visual:`define once:\n  greet(String name) { ... }\n\ncall anywhere:\n  main() ─calls─→ greet("Alice")\n                       ↓ runs body\n                ←────── returns (void)`,
+      syntax:`static void methodName(Type param) {\n    // body\n}`,
+      code:`static void greet(String name) {\n    System.out.println("Hello, " + name + "!");\n}\n\npublic static void main(String[] args) {\n    greet("Alice");   // Hello, Alice!\n    greet("Bob");     // Hello, Bob!\n}`,
+      methods:[["static","call without creating an object"],["void","returns nothing"],["Parameters","inputs in the signature"],["Arguments","actual values passed when calling"]] },
+
+    { id:17, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"return-type method",
+      keys:"return method int string boolean compute calculate result value output",
+      scenario:"What if you need a method that does some calculation and hands the result back to whoever called it — like a function that takes two numbers and gives you their sum?",
+      world:"A calculator's 'add' button — give it two numbers, get back the result.",
+      visual:`caller:  result = add(3, 4)\n                     ↓\nmethod:  add(3, 4) → computes 7\n                     ↑\ncaller receives: result = 7`,
+      syntax:`static ReturnType methodName(params) {\n    // compute\n    return value;  // must match ReturnType\n}`,
+      code:`static int add(int a, int b) {\n    return a + b;\n}\nstatic boolean isEven(int n) {\n    return n % 2 == 0;\n}\n\nSystem.out.println(add(3, 4));    // 7\nSystem.out.println(isEven(10));   // true`,
+      methods:[["return","exits method and sends value back"],["Early return","exit early on condition met"]] },
+
+    { id:18, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"Method Overloading",
+      keys:"overloading same name different parameters signature multiple types",
+      scenario:"What if you want one method name to work with different types of input — like add(int,int) and add(double,double) — and you want Java to automatically pick the right version?",
+      world:"A 'save' button that saves a file or a screenshot depending on what you pass in.",
+      visual:`print(int x)    ← called with int\nprint(double x) ← called with double\nprint(String s) ← called with String\nResolved at compile time — zero runtime cost.`,
+      syntax:`static void print(int x) { ... }\nstatic void print(double x) { ... }\nstatic void print(String s) { ... }`,
+      code:`static int add(int a, int b)         { return a+b; }\nstatic double add(double a, double b) { return a+b; }\nstatic int add(int a, int b, int c)  { return a+b+c; }\n\nSystem.out.println(add(1, 2));       // 3\nSystem.out.println(add(1.5, 2.5));   // 4.0\nSystem.out.println(add(1, 2, 3));    // 6`,
+      methods:[["Same name, different signatures","different type or count of params"],["Return type alone doesn't count","same params + different return → compile error"]] },
+
+    { id:19, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"Recursion",
+      keys:"recursion recursive self call stack factorial fibonacci base case depth",
+      scenario:"What if your problem breaks into a smaller version of exactly the same problem — like factorial of 5 using factorial of 4, which uses factorial of 3 — can the method call itself?",
+      world:"Russian dolls — to open a doll, open the outer shell, then open a smaller doll.",
+      visual:`factorial(4)\n  └→ 4 × factorial(3)\n         └→ 3 × factorial(2)\n                └→ 2 × factorial(1)\n                       └→ 1  ← BASE CASE\n                ← 2×1=2\n         ← 3×2=6\n  ← 4×6 = 24`,
+      syntax:`static int method(int n) {\n    if (n == base) return baseValue; // STOP\n    return ... method(smaller n) ...;\n}`,
+      code:`static int factorial(int n) {\n    if (n <= 1) return 1;           // base case\n    return n * factorial(n - 1);\n}\nstatic int fib(int n) {\n    if (n <= 1) return n;\n    return fib(n-1) + fib(n-2);\n}\nSystem.out.println(factorial(5));  // 120\nSystem.out.println(fib(7));        // 13`,
+      methods:[["Base case REQUIRED","without it → StackOverflowError"],["Call stack","each call pushed; return pops it"],["Memoize overlapping calls","cache to avoid O(2ⁿ) repeated work"]] },
+
+    // ── 5: Arrays & Strings ──
+    { id:20, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"Array (1D)",
+      keys:"array fixed size same type index access position fast lookup",
+      scenario:"What if you need to store multiple values of the same type and you already know the count in advance — like 5 test scores, 7 temperatures, or 10 names?",
+      world:"Cinema seats — each seat has a fixed number, holds one person, jump straight to seat #5.",
+      visual:`index: [0]  [1]  [2]  [3]  [4]\nvalue: [10] [20] [30] [40] [50]\n         ↑\n   arr[2] = 30  → O(1) direct access`,
+      syntax:`int[] arr = new int[5];              // size 5, all zeros\nint[] arr = {10, 20, 30, 40, 50};    // initialized`,
+      code:`int[] scores = {85, 92, 78, 96, 65};\nSystem.out.println(scores[2]);           // 78\nSystem.out.println(scores.length);       // 5\nArrays.sort(scores);\nSystem.out.println(Arrays.toString(scores));\n// [65, 78, 85, 92, 96]`,
+      methods:[["arr.length","element count (field, not method)"],["Arrays.sort(arr)","sort in place O(n log n)"],["Arrays.fill(arr,v)","fill all with value v"],["Arrays.copyOf(arr,n)","copy first n elements"],["Arrays.toString(arr)","print-friendly string"]] },
+
+    { id:21, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"2D Array",
+      keys:"2d array grid matrix row column table board game",
+      scenario:"What if your data naturally fits in a grid with rows and columns — like a chessboard, a classroom seating chart, or a table of marks for students across subjects?",
+      world:"A spreadsheet: row 2, col 3 holds sales for Feb, Product C.",
+      visual:`      col0 col1 col2\nrow0: [ 1]  [ 2]  [ 3]\nrow1: [ 4]  [ 5]  [ 6]\nrow2: [ 7]  [ 8]  [ 9]\n\narr[1][2] = 6  (row 1, col 2)`,
+      syntax:`int[][] grid = new int[rows][cols];\nint[][] g = {{1,2,3},{4,5,6},{7,8,9}};`,
+      code:`int[][] mat = {{1,2,3},{4,5,6},{7,8,9}};\nfor (int i = 0; i < mat.length; i++) {\n    for (int j = 0; j < mat[i].length; j++) {\n        System.out.print(mat[i][j] + " ");\n    }\n    System.out.println();\n}\n// 1 2 3\n// 4 5 6\n// 7 8 9`,
+      methods:[["arr.length","number of rows"],["arr[i].length","columns in row i"],["arr[i][j]","element at row i, col j"]] },
+
+    { id:22, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"String",
+      keys:"string text immutable word name sentence characters methods search slice",
+      scenario:"What if you need to work with text — searching inside it, cutting a piece out, replacing a word, splitting by a separator, or checking how long it is?",
+      world:"A printed name tag — you can't change it; you print a new one if the name changes.",
+      visual:`"Hello"\n H  e  l  l  o\n[0][1][2][3][4]\ns.toUpperCase() doesn't change s — creates "HELLO"`,
+      syntax:`String s = "Hello";\nString s2 = s + " World";  // creates new String`,
+      code:`String s = "  Hello, Java!  ";\nSystem.out.println(s.trim());                // "Hello, Java!"\nSystem.out.println(s.replace("Java","World"));\nString[] parts = "a,b,c".split(",");\nSystem.out.println(String.join("-", parts)); // a-b-c`,
+      methods:[["s.length()","length"],["s.charAt(i)","char at index"],["s.substring(i,j)","slice (j exclusive)"],["s.startsWith(p)","prefix check"],["s.isEmpty()","empty check"],["s.equals(other)","compare (NOT ==)"],["s.toCharArray()","String → char[]"]] },
+
+    { id:23, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"StringBuilder",
+      keys:"stringbuilder mutable string append build efficient concatenation loop",
+      scenario:"What if you are joining many strings together inside a loop — and using + each time creates a brand-new object every iteration, making it unnecessarily slow?",
+      world:"Stamping one sentence at a time onto the same paper — not rewriting from scratch each time.",
+      visual:`sb = []\nsb.append("Hi")     → [H][i]\nsb.append(" Java")  → [H][i][ ][J][a][v][a]\nsb.reverse()        → [a][v][a][J][ ][i][H]\nsb.toString()       → "avaJ iH"`,
+      syntax:`StringBuilder sb = new StringBuilder();\nsb.append("text");\nString result = sb.toString();`,
+      code:`StringBuilder sb = new StringBuilder();\nfor (int i = 1; i <= 5; i++) {\n    sb.append(i);\n    if (i < 5) sb.append(",");\n}\nSystem.out.println(sb);            // 1,2,3,4,5\nsb.reverse();\nSystem.out.println(sb.toString()); // 5,4,3,2,1`,
+      methods:[["sb.append(x)","add to end — any type"],["sb.insert(i,x)","insert at index"],["sb.delete(i,j)","remove i to j (exclusive)"],["sb.reverse()","reverse in place"],["sb.length()","current length"],["sb.toString()","convert to String"]] },
+
+    // ── 6: Collections ──
+    { id:24, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"ArrayList",
+      keys:"arraylist list dynamic ordered duplicates add remove get index size",
+      scenario:"What if you need a list of items but the size is not fixed — you add and remove as you go — and you still want to access items quickly by their position?",
+      world:"A shopping cart — add items, remove items, size changes dynamically.",
+      visual:`[Alice][Bob][Carol]\n  0      1     2\nadd("Dave")  → [Alice][Bob][Carol][Dave]\nremove(1)    → [Alice][Carol][Dave]`,
+      syntax:`List<String> list = new ArrayList<>();\nlist.add("Alice");\nlist.get(0);\nlist.remove(0);`,
+      code:`List<Integer> nums = new ArrayList<>();\nnums.add(10); nums.add(20); nums.add(30);\nnums.add(1, 15);             // insert at index 1\nSystem.out.println(nums);    // [10, 15, 20, 30]\nnums.remove(Integer.valueOf(20));\nSystem.out.println(nums.size()); // 3`,
+      methods:[["list.add(e)","add to end"],["list.add(i,e)","insert at index"],["list.get(i)","get by index"],["list.set(i,e)","replace at index"],["list.remove(i)","remove by index"],["list.contains(e)","O(n) membership check"],["list.size()","current count"],["Collections.sort(list)","sort ascending"]] },
+
+    { id:25, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"ArrayDeque",
+      keys:"arraydeque deque front back insert remove fast O(1) double ended queue",
+      scenario:"What if you need to add or remove items from both the front AND the back of a list, and both operations must be instant — O(1) — not slow like ArrayList?",
+      world:"A queue where VIP customers can join from the front.",
+      visual:`front → [A] [B] [C] ← back\naddFirst("Z") → [Z][A][B][C]\naddLast("D")  → [Z][A][B][C][D]\npollFirst()   → "Z"  removed from front`,
+      syntax:`Deque<String> dq = new ArrayDeque<>();\ndq.addFirst("x");  // O(1) front\ndq.addLast("y");   // O(1) back`,
+      code:`Deque<Integer> dq = new ArrayDeque<>();\ndq.addLast(1); dq.addLast(2); dq.addLast(3);\ndq.addFirst(0);\nSystem.out.println(dq);             // [0, 1, 2, 3]\nSystem.out.println(dq.peekFirst()); // 0\nSystem.out.println(dq.pollLast());  // 3`,
+      methods:[["addFirst(e) / addLast(e)","O(1) — insert at front or back"],["pollFirst() / pollLast()","remove+return (null if empty)"],["peekFirst() / peekLast()","view without removing"]] },
+
+    { id:26, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"Stack (use Deque)",
+      keys:"stack LIFO push pop peek undo bracket parenthesis last in first out",
+      scenario:"What if you need to process things in reverse order of how they arrived — like an undo feature that undoes the most recent action first, or checking if brackets match?",
+      world:"A stack of plates — always add and take from the TOP.",
+      visual:`push(1) push(2) push(3)\n  ┌─────┐\n  │  3  │ ← TOP (peek/pop here)\n  │  2  │\n  │  1  │\n  └─────┘\npop() → 3, then 2, then 1`,
+      syntax:`Deque<Integer> stack = new ArrayDeque<>();\nstack.push(x);   // add to top\nstack.pop();     // remove from top\nstack.peek();    // view top`,
+      code:`Deque<Character> stack = new ArrayDeque<>();\nfor (char c : "({[]})".toCharArray()) {\n    if ("({[".indexOf(c) >= 0) stack.push(c);\n    else if (!stack.isEmpty()) stack.pop();\n}\nSystem.out.println(stack.isEmpty() ? "Valid" : "Invalid");\n// Valid`,
+      methods:[["stack.push(e)","add to top"],["stack.pop()","remove+return top"],["stack.peek()","view top without removing"],["stack.isEmpty()","check before pop/peek"],["Prefer Deque","Stack class is legacy"]] },
+
+    { id:27, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"Queue (use ArrayDeque)",
+      keys:"queue FIFO BFS first in first out offer poll peek level order",
+      scenario:"What if you need to process items in the exact order they arrived — first in, first out — like a customer service line or BFS level-by-level traversal?",
+      world:"A cinema ticket line — the person who arrived first gets served first.",
+      visual:`enqueue → [A][B][C] → dequeue\n              add rear ↑   ↑ remove front\npoll() → A, then B, then C`,
+      syntax:`Queue<Integer> q = new LinkedList<>();\nq.offer(x);  // add to back\nq.poll();    // remove from front\nq.peek();    // view front`,
+      code:`Queue<String> q = new LinkedList<>();\nq.offer("Alice"); q.offer("Bob"); q.offer("Carol");\nSystem.out.println(q.peek());   // Alice\nSystem.out.println(q.poll());   // Alice\nSystem.out.println(q);          // [Bob, Carol]`,
+      methods:[["q.offer(e)","add to back"],["q.poll()","remove+return front, null if empty"],["q.peek()","view front, null if empty"],["Use ArrayDeque for speed","faster than LinkedList"]] },
+
+    { id:28, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"PriorityQueue",
+      keys:"priorityqueue heap min max smallest largest top k greedy dijkstra",
+      scenario:"What if you always need to grab the smallest or most urgent item next — even as new items keep arriving in random order — like an ER treating the most critical patient first?",
+      world:"Hospital triage — most critical patient first, not who arrived first.",
+      visual:`add 5,1,3,2,4 →\nMin-Heap (default):\n       [1]          ← peek/poll always returns this\n      /    \\\n   [2]    [3]\npoll() → 1, then 2, then 3...`,
+      syntax:`PriorityQueue<Integer> minPQ = new PriorityQueue<>();\nPriorityQueue<Integer> maxPQ =\n    new PriorityQueue<>(Collections.reverseOrder());`,
+      code:`PriorityQueue<Integer> pq = new PriorityQueue<>();\npq.offer(5); pq.offer(1); pq.offer(3);\nSystem.out.println(pq.peek());   // 1 (min)\nSystem.out.println(pq.poll());   // 1\nSystem.out.println(pq.poll());   // 3`,
+      methods:[["pq.offer(e)","insert O(log n)"],["pq.poll()","remove+return min O(log n)"],["pq.peek()","view min O(1)"],["reverseOrder()","turn into max-heap"],["Custom: (a,b)->b-a","max-heap lambda"]] },
+
+    { id:29, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"HashMap",
+      keys:"hashmap key value map lookup dictionary frequency count O(1) pair",
+      scenario:"What if you need to look up a value by a unique key in constant time — like finding a student's grade by their name, or counting how many times each word appears?",
+      world:"Phone book: look up a name, get the phone number instantly.",
+      visual:`"name" ──hash──→ bucket → "Alice"\n"age"  ──hash──→ bucket → 25\n"city" ──hash──→ bucket → "Delhi"\nget("name") → "Alice"  in O(1) average`,
+      syntax:`Map<String,Integer> map = new HashMap<>();\nmap.put("a", 1);\nmap.get("a");\nmap.getOrDefault("b", 0); // 0`,
+      code:`Map<String,Integer> freq = new HashMap<>();\nString[] words = {"a","b","a","c","b","a"};\nfor (String w : words) {\n    freq.put(w, freq.getOrDefault(w, 0) + 1);\n}\nSystem.out.println(freq);  // {a=3, b=2, c=1}`,
+      methods:[["map.put(k,v)","insert or overwrite"],["map.get(k)","get value, null if missing"],["map.getOrDefault(k,def)","safe get with fallback"],["map.containsKey(k)","check existence"],["map.remove(k)","delete entry"],["map.entrySet()","Set of key-value pairs"],["map.size()","number of entries"]] },
+
+    { id:30, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"HashSet",
+      keys:"hashset unique no duplicates contains O(1) distinct visited",
+      scenario:"What if you need a collection where every value must be unique — no duplicates — and you need to check in O(1) whether a value is already there?",
+      world:"A guest list — each name appears once. Adding the same name again is silently ignored.",
+      visual:`add 1,2,1,3,2,4:\nResult: {1, 2, 3, 4}  ← duplicates removed\nOrder NOT guaranteed.\ncontains(3) → true  in O(1)`,
+      syntax:`Set<Integer> set = new HashSet<>();\nset.add(1);\nset.contains(1);  // true\nset.remove(1);`,
+      code:`int[] arr = {1, 2, 3, 2, 1, 4};\nSet<Integer> seen = new HashSet<>();\nfor (int n : arr) {\n    if (!seen.add(n)) {\n        System.out.println("Duplicate: " + n);\n    }\n}\n// Duplicate: 2\n// Duplicate: 1`,
+      methods:[["set.add(e)","add — returns false if already present"],["set.contains(e)","O(1) membership check"],["set.remove(e)","remove element"],["set.size()","count of unique elements"]] },
+
+    { id:31, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"TreeMap",
+      keys:"treemap sorted keys navigable floor ceiling ordered map BST range",
+      scenario:"What if you need key-value lookup like a HashMap, but the keys must always be in sorted order — so you can also find the smallest key, the largest, or all keys within a range?",
+      world:"A sorted index at the back of a book — keys in alphabetical order.",
+      visual:`put("banana",2)  put("apple",1)  put("cherry",3)\nStored sorted by key:\n"apple"  → 1\n"banana" → 2\n"cherry" → 3`,
+      syntax:`TreeMap<String,Integer> tm = new TreeMap<>();\ntm.put("b", 2); tm.put("a", 1);\ntm.firstKey();      // "a"\ntm.floorKey("c");   // "b"`,
+      code:`TreeMap<Integer,String> tm = new TreeMap<>();\ntm.put(3,"C"); tm.put(1,"A"); tm.put(2,"B");\nSystem.out.println(tm);             // {1=A, 2=B, 3=C}\nSystem.out.println(tm.firstKey());  // 1\nSystem.out.println(tm.floorKey(2)); // 2`,
+      methods:[["tm.firstKey() / lastKey()","min / max key"],["tm.floorKey(k)","largest key ≤ k"],["tm.ceilingKey(k)","smallest key ≥ k"],["tm.headMap(k)","keys < k"],["tm.tailMap(k)","keys ≥ k"]] },
+
+    { id:32, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"TreeSet",
+      keys:"treeset sorted unique ordered BST floor ceiling range first last",
+      scenario:"What if you need a collection of unique values that is always kept sorted — so you can instantly find the minimum, the maximum, or the nearest value to any given number?",
+      world:"A ranked leaderboard — unique scores, always in order.",
+      visual:`add 5,1,3,2 → stored as:\n{1, 2, 3, 5}  ← sorted, no duplicates\nfirst()→1  last()→5\nfloor(4)→3  ceiling(4)→5`,
+      syntax:`TreeSet<Integer> ts = new TreeSet<>();\nts.add(3); ts.add(1);\nts.first(); ts.floor(4);`,
+      code:`TreeSet<Integer> ts = new TreeSet<>();\nts.add(5); ts.add(1); ts.add(3); ts.add(2);\nSystem.out.println(ts);              // [1, 2, 3, 5]\nSystem.out.println(ts.first());      // 1\nSystem.out.println(ts.floor(4));     // 3\nSystem.out.println(ts.ceiling(4));   // 5`,
+      methods:[["ts.first() / last()","min / max"],["ts.floor(e)","largest ≤ e"],["ts.ceiling(e)","smallest ≥ e"],["ts.headSet(e)","elements < e"],["ts.pollFirst() / pollLast()","remove+return min/max"]] },
+
+    // ── 7: Search & Sort ──
+    { id:33, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Linear Search O(n)",
+      keys:"linear search brute force unsorted find O(n) iterate scan sequential",
+      scenario:"What if you need to find a specific value in a list that is in no particular order — you have no choice but to check each element one by one until you find it?",
+      world:"Looking for your keys in a messy room — check every spot until found.",
+      visual:`target = 30\n[10][20][30][40][50]\n  ↓   ↓   ↓\ncheck check FOUND! index=2\nBest O(1) · Worst O(n)`,
+      syntax:`for (int i = 0; i < arr.length; i++) {\n    if (arr[i] == target) return i;\n}\nreturn -1; // not found`,
+      code:`static int linearSearch(int[] arr, int target) {\n    for (int i = 0; i < arr.length; i++) {\n        if (arr[i] == target) return i;\n    }\n    return -1;\n}\nSystem.out.println(linearSearch(new int[]{10,20,30}, 30)); // 2`,
+      methods:[["O(n) time","check every element in worst case"],["O(1) space","no extra space needed"],["Works unsorted","only advantage over binary search"]] },
+
+    { id:34, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Binary Search O(log n)",
+      keys:"binary search sorted O(log n) mid half divide conquer faster",
+      scenario:"What if your array is already sorted and you need to find a value fast — can you jump to the middle each time and eliminate half of the remaining options with every single step?",
+      world:"Searching a word in a dictionary — open to the middle, go left or right.",
+      visual:`sorted: [1][3][5][7][9][11][13]  target=9\nlo=0 hi=6 mid=3 → arr[3]=7 < 9 → RIGHT\nlo=4 hi=6 mid=5 → arr[5]=11>9 → LEFT\nlo=4 hi=4 mid=4 → arr[4]=9 ✓ FOUND!`,
+      syntax:`int lo=0, hi=arr.length-1;\nwhile (lo <= hi) {\n    int mid = lo + (hi-lo)/2;\n    if (arr[mid]==target) return mid;\n    else if (arr[mid]<target) lo=mid+1;\n    else hi=mid-1;\n}\nreturn -1;`,
+      code:`static int binarySearch(int[] arr, int t) {\n    int lo=0, hi=arr.length-1;\n    while (lo <= hi) {\n        int mid = lo + (hi-lo)/2; // avoids overflow\n        if (arr[mid]==t) return mid;\n        else if (arr[mid]<t) lo=mid+1;\n        else hi=mid-1;\n    }\n    return -1;\n}\n// or: Arrays.binarySearch(arr, target);`,
+      methods:[["O(log n) time","halves search space each step"],["Array MUST be sorted","sort first"],["lo+(hi-lo)/2","avoids integer overflow"],["Arrays.binarySearch(arr,x)","built-in"]] },
+
+    { id:35, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Arrays.sort / Collections.sort",
+      keys:"sort arrays collections builtin O(n log n) ascending order",
+      scenario:"What if you just need your array or list sorted in standard ascending order — and you don't want to write a sorting algorithm yourself?",
+      world:"Arranging test papers by score before handing them back.",
+      visual:`Before: [5][2][8][1][9][3]\n          ↓ sort\nAfter:  [1][2][3][5][8][9]\nArrays.sort    → primitive arrays\nCollections.sort → List<T>`,
+      syntax:`Arrays.sort(arr);                  // primitive array\nCollections.sort(list);            // List<T>\nArrays.sort(arr, fromIdx, toIdx);  // partial sort`,
+      code:`int[] nums = {5, 2, 8, 1, 9, 3};\nArrays.sort(nums);\nSystem.out.println(Arrays.toString(nums)); // [1,2,3,5,8,9]\n\nList<String> names = new ArrayList<>(List.of("Bob","Alice"));\nCollections.sort(names);\nSystem.out.println(names);  // [Alice, Bob]`,
+      methods:[["Arrays.sort(arr)","Dual-Pivot Quicksort O(n log n)"],["Collections.sort(list)","TimSort (stable) O(n log n)"],["Collections.reverseOrder()","reverse natural order"]] },
+
+    { id:36, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Comparator",
+      keys:"comparator comparable custom sort order lambda objects rule descending",
+      scenario:"What if the default sort order isn't what you need — you want to sort by string length, by age descending, or by a second field as a tiebreaker?",
+      world:"Sorting students by GPA (descending), then by name (ascending) as tiebreaker.",
+      visual:`(a, b) -> a - b   ← ascending numeric\n(a, b) -> b - a   ← descending numeric\n(a, b) -> a.length() - b.length()  ← by length`,
+      syntax:`list.sort((a, b) -> a.length() - b.length());\nlist.sort(Comparator.comparing(String::length));`,
+      code:`List<String> words = new ArrayList<>(List.of("banana","hi","apple","zoo"));\nwords.sort((a,b) -> a.length()-b.length());\nSystem.out.println(words); // [hi, zoo, apple, banana]\n\nInteger[] arr = {5,2,8,1};\nArrays.sort(arr, (a,b)->b-a);\nSystem.out.println(Arrays.toString(arr)); // [8,5,2,1]`,
+      methods:[["(a,b)->a-b","ascending"],["(a,b)->b-a","descending"],["Comparator.comparing(fn)","sort by field"],[".thenComparing(fn)","secondary sort key"],[".reversed()","flip any comparator"]] },
+
+    // ── 8: Patterns & Techniques ──
+    { id:37, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Two Pointers",
+      keys:"two pointers left right converge pair sum palindrome sorted meet",
+      scenario:"What if you have a sorted array and need to find a pair of elements that meets a condition — like two numbers adding up to a target — and you want O(n) instead of O(n²) nested loops?",
+      world:"Two people searching for each other in a corridor — one from each end.",
+      visual:`[1][2][3][4][5][6][7][8][9]\n ↑                             ↑\nleft                          right\nMove left→ or ←right based on condition.`,
+      syntax:`int l=0, r=arr.length-1;\nwhile (l < r) {\n    // check / adjust\n    l++;  // or r--\n}`,
+      code:`int[] a={1,2,4,5,7,9}; int target=9;\nint l=0, r=a.length-1;\nwhile (l < r) {\n    int s = a[l]+a[r];\n    if (s==target) { System.out.println(l+","+r); break; }\n    else if (s < target) l++;\n    else r--;\n}\n// Output: 1,4  (a[1]=2, a[4]=7)`,
+      methods:[["l++","move left pointer right"],["r--","move right pointer left"],["while(l<r)","standard termination"]] },
+
+    { id:38, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Sliding Window (Fixed)",
+      keys:"sliding window fixed size k sum maximum minimum subarray window",
+      scenario:"What if you need to check every consecutive group of exactly k elements in an array — like finding the maximum sum of any 3 consecutive numbers — without recalculating from scratch each time?",
+      world:"A train with k carriages — at each station, one leaves one side and one joins the other.",
+      visual:`arr=[1,2,3,4,5,6]  k=3\n[1 2 3]           sum=6\n  [2 3 4]         sum=9  ← add 4, remove 1\n    [3 4 5]       sum=12\n      [4 5 6]     sum=15`,
+      syntax:`int ws=0;\nfor(int i=0;i<k;i++) ws+=arr[i];\nint max=ws;\nfor(int r=k;r<arr.length;r++){\n    ws+=arr[r]-arr[r-k];\n    max=Math.max(max,ws);\n}`,
+      code:`static int maxSumK(int[] arr, int k) {\n    int sum=0;\n    for(int i=0;i<k;i++) sum+=arr[i];\n    int max=sum;\n    for(int r=k;r<arr.length;r++){\n        sum+=arr[r]-arr[r-k];\n        max=Math.max(max,sum);\n    }\n    return max;\n}\nSystem.out.println(maxSumK(new int[]{2,1,5,1,3,2},3)); // 9`,
+      methods:[["O(n) time","vs O(n×k) brute force"],["Add right element","include incoming"],["Remove left element","exclude outgoing"]] },
+
+    { id:39, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Sliding Window (Variable)",
+      keys:"sliding window variable size expand shrink longest shortest subarray condition",
+      scenario:"What if you need to find the longest or shortest stretch of consecutive elements that satisfies a condition — and the window size needs to grow and shrink dynamically as you scan through?",
+      world:"A rubber band around stamps — stretch until it holds too many, then shrink from the left.",
+      visual:`[1][2][3][4][5]\nexpand right → sum grows\nsum > target? → shrink: left++\nTrack max window size`,
+      syntax:`int left=0;\nfor(int right=0;right<n;right++){\n    // add arr[right]\n    while(condition violated){\n        // remove arr[left]; left++;\n    }\n    // update answer [left..right]\n}`,
+      code:`static int longestSubarray(int[] arr, int target) {\n    int l=0, sum=0, maxLen=0;\n    for(int r=0;r<arr.length;r++){\n        sum+=arr[r];\n        while(sum>target) sum-=arr[l++];\n        maxLen=Math.max(maxLen, r-l+1);\n    }\n    return maxLen;\n}`,
+      methods:[["right-left+1","current window length"],["while to shrink","shrink until valid again"],["HashMap inside window","for 'at most k distinct' problems"]] },
+
+    { id:40, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Prefix Sum",
+      keys:"prefix sum range query cumulative sum precompute subarray O(1)",
+      scenario:"What if the same array will be asked 'what is the sum from index i to j?' many times — can you do a one-time setup so that each query is answered in O(1) instead of recalculating every time?",
+      world:"Running bank balance — find the total change between any two dates instantly.",
+      visual:`arr:    [3][1][4][1][5][9]\nprefix: [0][3][4][8][9][14][23]\n         ↑\n       extra 0 at the start\n\nsum(l,r) = prefix[r+1] - prefix[l]\nsum(1,3) = 9-3 = 6`,
+      syntax:`int[] pre=new int[n+1];\nfor(int i=0;i<n;i++) pre[i+1]=pre[i]+arr[i];\n// query(l,r): pre[r+1] - pre[l]`,
+      code:`int[] arr={3,1,4,1,5,9};\nint n=arr.length;\nint[] pre=new int[n+1];\nfor(int i=0;i<n;i++) pre[i+1]=pre[i]+arr[i];\nSystem.out.println(pre[4]-pre[1]); // 6 (sum 1→3)\nSystem.out.println(pre[6]-pre[0]); // 23 (total)`,
+      methods:[["pre[r+1]-pre[l]","range sum l to r inclusive"],["Size n+1","extra slot handles l=0 cleanly"]] },
+
+    { id:41, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"HashMap Frequency",
+      keys:"frequency count hashmap track occurrence most common anagram histogram",
+      scenario:"What if you need to count how many times each element appears in an array or string — in a single pass through the data?",
+      world:"An election tally — each vote goes into a bin for that candidate.",
+      visual:`input: "aabbc"\nfreq:  {a:2, b:2, c:1}\ngetOrDefault("a",0) → 2  O(1)`,
+      syntax:`Map<T,Integer> freq=new HashMap<>();\nfor(T e:items)\n    freq.put(e,freq.getOrDefault(e,0)+1);`,
+      code:`String s="hello world";\nMap<Character,Integer> freq=new HashMap<>();\nfor(char c:s.toCharArray())\n    freq.put(c,freq.getOrDefault(c,0)+1);\nSystem.out.println(freq);`,
+      methods:[["getOrDefault(k,0)","safe — won't throw for missing key"],["entrySet()","iterate key-value pairs"],["int[] freq=new int[26]","for a-z: faster than HashMap"]] },
+
+    { id:42, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"HashSet Visited",
+      keys:"visited seen hashset mark track duplicate cycle graph detect boolean",
+      scenario:"What if you need to remember which elements you have already processed — so you can skip duplicates, avoid revisiting a node in a graph, or detect a cycle?",
+      world:"A tour guide marking spots as visited — never go to the same place twice.",
+      visual:`visited = {}\nvisit node 1 → add 1 → {1}\nvisit node 2 → add 2 → {1,2}\nnode 1 again → contains(1)=true → SKIP\nO(1) per check`,
+      syntax:`Set<T> visited=new HashSet<>();\nif(visited.contains(x)) continue;\nvisited.add(x);`,
+      code:`int[] arr={1,3,5,3,7};\nSet<Integer> seen=new HashSet<>();\nfor(int n:arr){\n    if(!seen.add(n)){\n        System.out.println("First dup: "+n); // 3\n        break;\n    }\n}`,
+      methods:[["seen.add(e)","returns false if already present"],["seen.contains(e)","O(1) check"],["boolean[]","use for index keys 0..n-1 — faster"]] },
+
+    { id:43, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Memoization (HashMap cache)",
+      keys:"memoization cache memo dynamic programming top-down overlap fibonacci",
+      scenario:"What if your recursive solution is correct but crawls to a halt because the same smaller sub-problems get solved hundreds of times — can you cache each answer and reuse it instantly next time?",
+      world:"An exam student writing answers on scratch paper — never re-solve what you already worked out.",
+      visual:`fib(5) without memo → exponential calls\nWith memo: each n computed ONCE\nfib(5)→fib(4)→fib(3)→fib(2)→stored✓\n              →fib(3)→CACHED instantly✓`,
+      syntax:`Map<Integer,Long> memo=new HashMap<>();\nlong solve(int n){\n    if(memo.containsKey(n)) return memo.get(n);\n    long r=...solve(n-1)...;\n    memo.put(n,r); return r;\n}`,
+      code:`static long fib(int n,Map<Integer,Long> m){\n    if(n<=1) return n;\n    if(m.containsKey(n)) return m.get(n);\n    long r=fib(n-1,m)+fib(n-2,m);\n    m.put(n,r); return r;\n}\nSystem.out.println(fib(50,new HashMap<>())); // fast!`,
+      methods:[["containsKey before compute","the core memoization pattern"],["Long for large values","fib(50) overflows int"],["int[] dp","prefer array when keys are 0..n"]] },
+
+    // ── 9: DSA Structures ──
+    { id:44, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Linked List",
+      keys:"linked list node next pointer chain insert delete O(1) head traverse",
+      scenario:"What if you need a list where inserting or deleting at the front or middle should be fast — and you don't really need to jump to an element by its index?",
+      world:"A treasure hunt — each clue tells you where the next one is hidden.",
+      visual:`HEAD → [1|→] → [2|→] → [3|null]\ninsert at head: newNode.next=head; head=newNode\ndelete: prev.next = curr.next  (skip curr)\nAccess by index: O(n)   Insert at head: O(1)`,
+      syntax:`class Node {\n    int data; Node next;\n    Node(int d) { data=d; }\n}\nNode head=new Node(1);\nhead.next=new Node(2);`,
+      code:`Node head=new Node(1);\nhead.next=new Node(2);\nhead.next.next=new Node(3);\nNode curr=head;\nwhile(curr!=null){\n    System.out.print(curr.data+" ");\n    curr=curr.next;\n}\n// 1 2 3`,
+      methods:[["O(1) insert at head","new.next=head; head=new"],["O(n) index access","must traverse from head"],["O(1) delete with prev ref","prev.next=curr.next"]] },
+
+    { id:45, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Binary Tree",
+      keys:"binary tree node left right child parent root traverse preorder inorder postorder",
+      scenario:"What if your data is naturally hierarchical — like a folder structure, a company org chart, or a tournament bracket — where each item has at most two children?",
+      world:"Company org chart — CEO has two VPs, each VP has managers.",
+      visual:`        [10]         ← root\n       /    \\\n     [5]    [15]\n    /   \\      \\\n  [3]  [7]    [20]\nheight=3   nodes=6`,
+      syntax:`class TreeNode {\n    int val; TreeNode left,right;\n    TreeNode(int v){val=v;}\n}`,
+      code:`static void inorder(TreeNode n){\n    if(n==null) return;\n    inorder(n.left);\n    System.out.print(n.val+" ");\n    inorder(n.right);\n}\n// inorder of BST gives sorted output`,
+      methods:[["Inorder (L→Root→R)","BST gives sorted output"],["Preorder (Root→L→R)","serialize/clone tree"],["Postorder (L→R→Root)","delete tree, evaluate expression"],["Level order","BFS with Queue"]] },
+
+    { id:46, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"BST",
+      keys:"BST binary search tree search insert delete left smaller right larger O(log n)",
+      scenario:"What if you need a data structure that always keeps values in sorted order automatically, and lets you search, insert, or delete any value in O(log n) time?",
+      world:"A dictionary as a tree — every word to the left comes before the current word.",
+      visual:`        [10]\n       /    \\\n     [5]    [15]\n    /   \\      \\\n  [3]  [7]    [20]\n\nsearch(7): 10→left→5→right→7 ✓`,
+      syntax:`TreeNode insert(TreeNode r,int v){\n    if(r==null) return new TreeNode(v);\n    if(v<r.val) r.left=insert(r.left,v);\n    else r.right=insert(r.right,v);\n    return r;\n}`,
+      code:`static boolean search(TreeNode r,int v){\n    if(r==null) return false;\n    if(r.val==v) return true;\n    return v<r.val?search(r.left,v):search(r.right,v);\n}`,
+      methods:[["O(log n) avg, O(n) worst","worst: sorted insertion = skewed tree"],["Inorder = sorted","ascending order"],["Successor","smallest in right subtree"]] },
+
+    { id:47, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Heap / PriorityQueue",
+      keys:"heap min-heap max-heap priority queue complete binary tree O(log n) kth",
+      scenario:"What if you keep needing to grab the minimum or maximum value over and over — even as new values keep arriving — and each retrieval must be O(log n) fast?",
+      world:"Hospital triage — the most critical patient is always next, even as new arrivals come in.",
+      visual:`Min-Heap — parent ≤ both children:\n         [1]         ← peek/poll = always this\n        /    \\\n     [3]    [2]\n    /   \\\n  [5]  [4]\npoll() removes root and re-heapifies → O(log n)`,
+      syntax:`PriorityQueue<Integer> minH=new PriorityQueue<>();\nPriorityQueue<Integer> maxH=\n    new PriorityQueue<>(Collections.reverseOrder());`,
+      code:`// Top K largest:\nint[] arr={3,1,4,1,5,9,2,6}; int k=3;\nPriorityQueue<Integer> minH=new PriorityQueue<>();\nfor(int n:arr){\n    minH.offer(n);\n    if(minH.size()>k) minH.poll();\n}\nSystem.out.println(minH); // [5, 6, 9]`,
+      methods:[["offer(e)","insert O(log n)"],["poll()","remove+return root O(log n)"],["peek()","view root O(1)"],["Default: min-heap","natural order"],["Max-heap","Collections.reverseOrder()"]] },
+
+    { id:48, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Graph — Adjacency List",
+      keys:"graph adjacency list nodes edges BFS DFS neighbors sparse directed undirected",
+      scenario:"What if you need to represent connections between many things — like cities and roads, or users and friendships — where most pairs are NOT connected to each other?",
+      world:"A social network — each person has a list of friends, not everyone knows everyone.",
+      visual:`0 → [1, 2]\n1 → [0, 3]\n2 → [0, 3]\n3 → [1, 2, 4]\n4 → [3]\nSpace: O(V+E)   Neighbor query: O(degree)`,
+      syntax:`List<List<Integer>> adj=new ArrayList<>();\nfor(int i=0;i<n;i++) adj.add(new ArrayList<>());\nadj.get(u).add(v); // add edge u→v`,
+      code:`int n=5;\nList<List<Integer>> adj=new ArrayList<>();\nfor(int i=0;i<n;i++) adj.add(new ArrayList<>());\nint[][] edges={{0,1},{0,2},{1,3},{2,3},{3,4}};\nfor(int[] e:edges){\n    adj.get(e[0]).add(e[1]);\n    adj.get(e[1]).add(e[0]);\n}\nSystem.out.println(adj.get(0)); // [1, 2]`,
+      methods:[["adj.get(v)","all neighbors of v"],["O(V+E) space","efficient for sparse graphs"]] },
+
+    { id:49, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Graph — Adjacency Matrix",
+      keys:"graph adjacency matrix dense connected O(1) edge check grid 2d array",
+      scenario:"What if you need to instantly check in O(1): 'is there a direct connection between node A and node B?' — and the graph is small or dense enough to afford the memory?",
+      world:"A flight route board — rows=departure, columns=arrival, 1=direct flight exists.",
+      visual:`   0  1  2  3\n0 [0][1][1][0]  ← 0 connects to 1 and 2\n1 [1][0][0][1]\n2 [1][0][0][1]\n3 [0][1][1][0]\nSpace: O(V²)   Edge check: O(1)`,
+      syntax:`int[][] mat=new int[n][n];\nmat[u][v]=1;       // directed\nmat[v][u]=1;       // undirected: add reverse`,
+      code:`int n=4; int[][] mat=new int[n][n];\nmat[0][1]=mat[1][0]=1;\nmat[0][2]=mat[2][0]=1;\nSystem.out.println(mat[0][2]); // 1 (connected)\nSystem.out.println(mat[0][3]); // 0 (not connected)`,
+      methods:[["mat[u][v]==1","O(1) edge check"],["O(V²) space","wasteful for sparse graphs"],["Weighted graph","store weight instead of 0/1"]] },
+
+    { id:50, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Trie (Prefix Tree)",
+      keys:"trie prefix tree autocomplete search word dictionary O(length)",
+      scenario:"What if you need to store thousands of words and quickly answer: does any stored word start with this prefix? — like an autocomplete feature or a spell checker?",
+      world:"Google search suggestions — type 'ca', get 'cat', 'car', 'career'.",
+      visual:`Insert "cat","car","cart":\nroot\n  └─ c\n      └─ a\n          ├─ t (END)\n          └─ r (END)\n              └─ t (END)\nsearch("car") → O(3) = O(length)`,
+      syntax:`class TrieNode{TrieNode[] c=new TrieNode[26]; boolean end;}\nclass Trie{\n    TrieNode root=new TrieNode();\n    void insert(String w){...}\n    boolean startsWith(String p){...}\n}`,
+      code:`void insert(String w){\n    TrieNode n=root;\n    for(char c:w.toCharArray()){\n        int i=c-'a';\n        if(n.c[i]==null) n.c[i]=new TrieNode();\n        n=n.c[i];\n    }\n    n.end=true;\n}\nboolean startsWith(String p){\n    TrieNode n=root;\n    for(char c:p.toCharArray()){\n        if(n.c[c-'a']==null) return false;\n        n=n.c[c-'a'];\n    }\n    return true;\n}`,
+      methods:[["O(L) insert/search","L=length of word"],["O(26×N) space","N nodes, 26 children each"],["node.end","marks complete word vs prefix"]] },
+
+    // ── 10: Algorithms ──
+    { id:51, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"BFS",
+      keys:"BFS breadth first search level order queue shortest path connected component",
+      scenario:"What if you need to explore a graph or tree level by level — visiting all nearest nodes before going further — or find the shortest path in a graph where all edges have equal weight?",
+      world:"Wildfire spreading in a forest — nearby trees catch first, then farther ones.",
+      visual:`     [1]\n    /   \\\n  [2]  [3]\n  /       \\\n[4]       [5]\n\nQueue → Visit: 1 → 2 → 3 → 4 → 5\n(level by level)`,
+      syntax:`Queue<Integer> q=new LinkedList<>();\nq.offer(start); vis[start]=true;\nwhile(!q.isEmpty()){\n    int u=q.poll();\n    for(int v:adj.get(u))\n        if(!vis[v]){vis[v]=true;q.offer(v);}\n}`,
+      code:`static void bfs(List<List<Integer>> adj,int start){\n    boolean[] vis=new boolean[adj.size()];\n    Queue<Integer> q=new LinkedList<>();\n    q.offer(start); vis[start]=true;\n    while(!q.isEmpty()){\n        int u=q.poll();\n        System.out.print(u+" ");\n        for(int v:adj.get(u))\n            if(!vis[v]){vis[v]=true;q.offer(v);}\n    }\n}`,
+      methods:[["Queue ensures level order","FIFO = visit by distance"],["Shortest path","BFS = shortest in unweighted graphs"],["O(V+E)","each vertex and edge visited once"]] },
+
+    { id:52, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"DFS",
+      keys:"DFS depth first search recursion stack visited backtrack cycle detect",
+      scenario:"What if you need to explore a graph by going as deep as possible along one path before backing up — or find all connected components, detect a cycle, or do a topological sort?",
+      world:"Solving a maze — walk one corridor to its end, then backtrack and try another.",
+      visual:`     [1]\n    /   \\\n  [2]  [3]\n  /       \\\n[4]       [5]\n\nStack → Visit: 1 → 2 → 4 → 3 → 5\n(go deep, then backtrack)`,
+      syntax:`static void dfs(List<List<Integer>> adj,int u,boolean[] vis){\n    vis[u]=true;\n    for(int v:adj.get(u))\n        if(!vis[v]) dfs(adj,v,vis);\n}`,
+      code:`static void dfs(List<List<Integer>> adj,int u,boolean[] vis){\n    vis[u]=true; System.out.print(u+" ");\n    for(int v:adj.get(u))\n        if(!vis[v]) dfs(adj,v,vis);\n}\n// Count connected components:\nint components=0;\nfor(int i=0;i<n;i++)\n    if(!vis[i]){dfs(adj,i,vis);components++;}`,
+      methods:[["O(V+E)","same as BFS"],["visited array","prevents infinite loops"],["Recursive or stack-based","recursion is simpler"]] },
+
+    { id:53, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Dijkstra's Algorithm",
+      keys:"dijkstra shortest path weighted graph priority queue greedy distance",
+      scenario:"What if you have a map where each road has a different travel time, and you need to find the fastest route from one city to all other cities?",
+      world:"Google Maps finding the fastest route — roads have different travel times.",
+      visual:`Greedy: always pick unvisited node with smallest dist\ndist[src]=0, all others=∞\nPick min-dist node → relax neighbors\nRepeat until all visited`,
+      syntax:`PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->a[0]-b[0]);\npq.offer(new int[]{0,src});\nint[] dist=new int[n]; Arrays.fill(dist,Integer.MAX_VALUE);\ndist[src]=0;`,
+      code:`while(!pq.isEmpty()){\n    int[] c=pq.poll(); int d=c[0],u=c[1];\n    if(d>dist[u]) continue; // stale entry\n    for(int[] e:adj[u]){\n        int v=e[0],w=e[1];\n        if(dist[u]+w<dist[v]){\n            dist[v]=dist[u]+w;\n            pq.offer(new int[]{dist[v],v});\n        }\n    }\n}`,
+      methods:[["O((V+E)logV)","with priority queue"],["Non-negative weights only","use Bellman-Ford for negatives"],["Skip stale entries","if d>dist[u] → continue"]] },
+
+    { id:54, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Greedy",
+      keys:"greedy local optimum coin change activity selection interval scheduling",
+      scenario:"What if at every step you just pick the best available option right now — like always using the largest coin when making change — and this local greedy choice always leads to the best overall result?",
+      world:"Making change — always use the largest coin that fits. Fewest coins result.",
+      visual:`Target: 36¢  Coins: [25¢, 10¢, 5¢, 1¢]\nStep 1: 25¢ fits → take it  (remaining=11)\nStep 2: 10¢ fits → take it  (remaining=1)\nStep 3: 1¢  fits → take it  (remaining=0)\nResult: 3 coins {25,10,1} ✓`,
+      syntax:`Arrays.sort(arr);\nfor(int e:arr){\n    if(canTake(e)) take(e);\n}`,
+      code:`// Max non-overlapping intervals (sort by end time):\nint[][] iv={{1,3},{2,4},{3,5},{0,6},{5,7},{8,9}};\nArrays.sort(iv,(a,b)->a[1]-b[1]);\nint count=1,lastEnd=iv[0][1];\nfor(int i=1;i<iv.length;i++){\n    if(iv[i][0]>=lastEnd){count++;lastEnd=iv[i][1];}\n}\nSystem.out.println(count); // 4`,
+      methods:[["Sort first","greedy almost always requires sorting"],["Verify correctness","local optimal must lead to global"]] },
+
+    { id:55, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Backtracking",
+      keys:"backtracking permutation combination subset recursion prune undo N-queens sudoku",
+      scenario:"What if you need to try every possible arrangement or combination — like all permutations, all subsets, or filling a Sudoku — but want to skip dead-end paths early before they are fully explored?",
+      world:"Solving a maze — try every path, back up when you hit a dead end.",
+      visual:`Subsets of [1,2,3]:\n[]\n├─[1]→[1,2]→[1,2,3]✓→back→[1,2]✓\n│     →[1,3]✓→[1]✓\n├─[2]→[2,3]✓→[2]✓\n└─[3]✓`,
+      syntax:`void backtrack(state){\n    if(isSolution(state)){save();return;}\n    for(each choice){\n        makeChoice();\n        backtrack(state);\n        undoChoice(); // ← critical\n    }\n}`,
+      code:`static void permute(int[] arr,int start,List<int[]> res){\n    if(start==arr.length){res.add(arr.clone());return;}\n    for(int i=start;i<arr.length;i++){\n        int t=arr[start];arr[start]=arr[i];arr[i]=t;\n        permute(arr,start+1,res);\n        t=arr[start];arr[start]=arr[i];arr[i]=t;\n    }\n}`,
+      methods:[["Make + undo","always undo the choice after recursion returns"],["Pruning","skip invalid branches early"],["O(n!) or O(2ⁿ)","exponential — prune aggressively"]] },
+
+    { id:56, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"DP — Memoization (Top-Down)",
+      keys:"dynamic programming memoization top down cache fibonacci overlap subproblem",
+      scenario:"What if your recursive solution is correct but crawls to a halt because the same smaller sub-problems get solved hundreds of times — can you cache each answer and reuse it instantly next time?",
+      world:"A chef writing down every recipe — next time someone asks, just read the notes.",
+      visual:`fib(5) without memo → exponential calls\nWith memo: each n computed ONCE\nfib(5)→fib(4)→fib(3)→computed✓\n              →fib(3)→CACHED instantly✓`,
+      syntax:`Map<Integer,Long> dp=new HashMap<>();\nlong solve(int n){\n    if(n<=1) return n;\n    if(dp.containsKey(n)) return dp.get(n);\n    long r=solve(n-1)+solve(n-2);\n    dp.put(n,r); return r;\n}`,
+      code:`static long climb(int n,Map<Integer,Integer> m){\n    if(n<=2) return n;\n    if(m.containsKey(n)) return m.get(n);\n    int r=(int)(climb(n-1,m)+climb(n-2,m));\n    m.put(n,r); return r;\n}\nSystem.out.println(climb(10,new HashMap<>())); // 89`,
+      methods:[["Top-down","start from big problem, recurse down"],["containsKey before compute","the core pattern"],["int[] dp","prefer array when keys are 0..n"]] },
+
+    { id:57, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"DP — Tabulation (Bottom-Up)",
+      keys:"dynamic programming tabulation bottom up array iterative fibonacci knapsack LCS",
+      scenario:"What if bigger answers always build on smaller answers in a predictable pattern — can you fill a table starting from the smallest base case upward, without any recursion at all?",
+      world:"Building a house floor by floor — foundation first, each floor rests on the one below.",
+      visual:`Fibonacci bottom-up:\ndp[0]=0  dp[1]=1\ndp[2]=dp[1]+dp[0]=1\ndp[3]=dp[2]+dp[1]=2\ndp[4]=dp[3]+dp[2]=3\nFill left to right. No recursion.`,
+      syntax:`int[] dp=new int[n+1];\ndp[0]=base0; dp[1]=base1;\nfor(int i=2;i<=n;i++)\n    dp[i]=dp[i-1]+dp[i-2];`,
+      code:`// Longest Common Subsequence:\nstatic int lcs(String a,String b){\n    int m=a.length(),n=b.length();\n    int[][] dp=new int[m+1][n+1];\n    for(int i=1;i<=m;i++)\n        for(int j=1;j<=n;j++)\n            if(a.charAt(i-1)==b.charAt(j-1)) dp[i][j]=dp[i-1][j-1]+1;\n            else dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);\n    return dp[m][n];\n}\nSystem.out.println(lcs("ABCBDAB","BDCAB")); // 4`,
+      methods:[["Fill base cases first","dp[0],dp[1] before the loop"],["Recurrence relation","dp[i]=f(dp[i-1],dp[i-2])"],["Space optimization","often keep only last 2 values"]] },
+
+    { id:58, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Merge Sort",
+      keys:"merge sort divide conquer O(n log n) stable sort recursion linked list",
+      scenario:"What if you need a sort that is always O(n log n) even in the worst case — and equal elements must preserve their original relative order (stable sort)?",
+      world:"Sorting papers by splitting in half, sorting each half, then merging the two sorted halves.",
+      visual:`[5,3,8,1,9,2,6,4]  divide:\n[5,3,8,1]   [9,2,6,4]  merge back:\n[3,5][1,8]  [2,9][4,6]\n[1,3,5,8]   [2,4,6,9]   final merge:\n[1,2,3,4,5,6,8,9]`,
+      syntax:`void mergeSort(int[] a,int l,int r){\n    if(l>=r) return;\n    int m=(l+r)/2;\n    mergeSort(a,l,m); mergeSort(a,m+1,r);\n    merge(a,l,m,r);\n}`,
+      code:`static void merge(int[] a,int l,int m,int r){\n    int[] t=Arrays.copyOfRange(a,l,r+1);\n    int i=0,j=m-l+1,k=l,len=r-l+1;\n    while(i<=m-l&&j<len)\n        a[k++]=(t[i]<=t[j])?t[i++]:t[j++];\n    while(i<=m-l) a[k++]=t[i++];\n    while(j<len) a[k++]=t[j++];\n}`,
+      methods:[["O(n log n) all cases","unlike quicksort worst O(n²)"],["O(n) extra space","needs temp array"],["Stable sort","equal elements keep order"]] },
+
+    { id:59, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Quick Sort",
+      keys:"quicksort pivot partition O(n log n) average in-place sort fastest",
+      scenario:"What if you need the fastest average-case sort that works in-place — using no extra memory — and you are okay with a rare worst-case on already-sorted data?",
+      world:"Sorting students by height using a reference student — shorter go left, taller go right.",
+      visual:`[3,6,8,1,5,2,4]  pivot=4\nafter partition: [3,1,2][4][6,8,5]\nrecurse on each side\nresult: [1,2,3,4,5,6,8]`,
+      syntax:`void quickSort(int[] a,int lo,int hi){\n    if(lo<hi){\n        int p=partition(a,lo,hi);\n        quickSort(a,lo,p-1);\n        quickSort(a,p+1,hi);\n    }\n}`,
+      code:`static int partition(int[] a,int lo,int hi){\n    int p=a[hi],i=lo-1;\n    for(int j=lo;j<hi;j++)\n        if(a[j]<=p){i++;int t=a[i];a[i]=a[j];a[j]=t;}\n    int t=a[i+1];a[i+1]=a[hi];a[hi]=t;\n    return i+1;\n}`,
+      methods:[["O(n log n) average","O(n²) worst — sorted + bad pivot"],["O(log n) space","recursion stack"],["In-place","no extra array needed"],["Randomize pivot","avoid worst case"]] },
+
+    // ── 11: Object-Oriented Programming ──
+    { id:60, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"class / new",
+      keys:"class object blueprint instance new create fields methods OOP model real world",
+      scenario:"What if you want to model a real-world thing — like a Car or a Student — by bundling its data and the actions it can perform together, so you can stamp out as many separate copies as you need?",
+      world:"A cookie cutter is the class. Every cookie you stamp out is a separate object with its own shape.",
+      visual:`class Dog {          ← blueprint (class)\n  String name;        ← field (data)\n  void bark() { }     ← method (action)\n}\n\nDog d1 = new Dog();  ← object 1\nDog d2 = new Dog();  ← object 2 (separate copy)`,
+      syntax:`class MyClass {\n    Type field;\n    ReturnType method() { ... }\n}\nMyClass obj = new MyClass();`,
+      code:`class Dog {\n    String name;\n    int age;\n    void bark() { System.out.println(name + " says Woof!"); }\n}\n\nDog d = new Dog();\nd.name = "Rex";  d.age = 3;\nd.bark();   // Rex says Woof!`,
+      methods:[["new ClassName()","creates object and calls constructor"],["obj.field","access a field"],["obj.method()","call a method"],["this","refers to the current object"]] },
+
+    { id:61, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"Constructor",
+      keys:"constructor initialize new object setup default parameterized this init",
+      scenario:"What if you want to automatically set up the initial state of an object the moment it is created — like giving a new Student a name and roll number right when you call new Student()?",
+      world:"A registration form filled in at the exact moment you sign up — not some time later.",
+      visual:`new Student("Alice", 101)\n        ↓\n  constructor runs:\n    this.name = "Alice"\n    this.roll = 101\n        ↓\n  object is ready to use`,
+      syntax:`class ClassName {\n    ClassName(Type param) {   // same name as class, no return type\n        this.field = param;\n    }\n}`,
+      code:`class Student {\n    String name;  int roll;\n    Student(String name, int roll) {\n        this.name = name;\n        this.roll = roll;\n    }\n    void print() { System.out.println(roll + ": " + name); }\n}\nStudent s = new Student("Alice", 101);\ns.print();   // 101: Alice`,
+      methods:[["No return type","not even void — just the class name"],["this.field = param","distinguish field from same-named parameter"],["Default constructor","auto-provided if you write none"],["Overload constructors","write multiple with different params"]] },
+
+    { id:62, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"extends (Inheritance)",
+      keys:"extends inheritance parent child subclass superclass reuse hierarchy IS-A base derived",
+      scenario:"What if two classes are related — like Animal and Dog — where Dog has everything Animal has, plus its own extras? Can the child class borrow all the parent's code without rewriting it?",
+      world:"A smartphone inherits everything a basic phone does, then adds a touchscreen and apps on top.",
+      visual:`class Animal { void eat(){} void sleep(){} }\n          ↑ extends\nclass Dog extends Animal {\n    void bark(){}\n}\n\nDog d = new Dog();\nd.eat();    // ✓ inherited from Animal\nd.sleep();  // ✓ inherited from Animal\nd.bark();   // ✓ Dog's own method`,
+      syntax:`class Child extends Parent {\n    // inherits all non-private fields and methods\n    // can add new ones or override existing ones\n}`,
+      code:`class Animal {\n    String name;\n    void eat() { System.out.println(name + " eats."); }\n}\nclass Dog extends Animal {\n    void bark() { System.out.println(name + " barks!"); }\n}\nDog d = new Dog();\nd.name = "Rex";\nd.eat();   // Rex eats.\nd.bark();  // Rex barks!`,
+      methods:[["extends","only one parent class (single inheritance)"],["super.method()","call parent's version of a method"],["super(args)","call parent's constructor"],["IS-A test","Dog IS-A Animal → good use for extends"]] },
+
+    { id:63, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"@Override",
+      keys:"override method overriding polymorphism parent child replace redefine annotation runtime",
+      scenario:"What if a child class wants to keep the same method name as the parent but change what it actually does — like a Dog.speak() should say 'Woof' while Cat.speak() says 'Meow'?",
+      world:"A regional franchise keeps the same brand name but rewrites the local menu to suit the region.",
+      visual:`Animal:\n  speak() → prints "..."\n     ↑ child overrides\nDog:\n  speak() → prints "Woof!"\nCat:\n  speak() → prints "Meow!"\n\nAnimal a = new Dog();\na.speak();  // "Woof!" ← Dog's version called`,
+      syntax:`@Override\npublic ReturnType methodName(params) {\n    // completely new implementation\n}`,
+      code:`class Animal { void speak(){ System.out.println("..."); } }\nclass Dog extends Animal {\n    @Override void speak(){ System.out.println("Woof!"); }\n}\nclass Cat extends Animal {\n    @Override void speak(){ System.out.println("Meow!"); }\n}\nAnimal a = new Dog();\na.speak();   // Woof!  ← JVM picks Dog's version at runtime`,
+      methods:[["@Override","annotation: compiler verifies you really override"],["super.speak()","call parent's version inside override"],["Runtime dispatch","actual object type decides which version runs"]] },
+
+    { id:64, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"abstract class",
+      keys:"abstract class template partial implementation cannot instantiate subclass extend shape vehicle",
+      scenario:"What if you want a common template that multiple related classes must follow — some methods fully written and shared, others left blank for each subclass to fill in itself?",
+      world:"A job offer letter template: some clauses are fixed, while 'Salary' and 'Role' are left blank for each hire.",
+      visual:`abstract class Shape {\n    abstract double area();   ← no body — must override\n    void describe() { ... }  ← shared, fully written\n}\n// Shape s = new Shape(); ← ERROR — cannot instantiate!\nclass Circle extends Shape {\n    double area() { return Math.PI * r * r; } // required`,
+      syntax:`abstract class Name {\n    abstract ReturnType method();    // no body\n    void concreteMethod() { ... }   // has body\n}`,
+      code:`abstract class Shape {\n    String color;\n    abstract double area();\n    void describe(){\n        System.out.printf("%s shape, area=%.2f%n", color, area());\n    }\n}\nclass Circle extends Shape {\n    double r;\n    Circle(double r){ this.r=r; color="red"; }\n    double area(){ return Math.PI*r*r; }\n}\nnew Circle(5).describe();  // red shape, area=78.54`,
+      methods:[["abstract method","declares signature; subclass provides body"],["Cannot instantiate","new AbstractClass() → compile error"],["Can have fields + concrete methods","unlike interface"],["Must override all abstract methods","or subclass must also be abstract"]] },
+
+    { id:65, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"interface",
+      keys:"interface contract implements multiple Comparable Runnable Flyable default method type",
+      scenario:"What if you want to guarantee that completely unrelated classes all support a specific set of behaviors — like a contract they must sign, regardless of what else they do or inherit?",
+      world:"A USB standard: any device that meets the spec can plug in, no matter who made it.",
+      visual:`interface Flyable { void fly(); }\n\nclass Bird  implements Flyable { void fly(){...} }\nclass Plane implements Flyable { void fly(){...} }\nclass Drone implements Flyable { void fly(){...} }\n\n// One class can implement MANY interfaces:\nclass X implements A, B, C { ... }`,
+      syntax:`interface InterfaceName {\n    void method();              // abstract by default\n    default void helper(){...}  // optional default impl\n}\nclass Cls implements InterfaceName { ... }`,
+      code:`interface Printable { void print(); }\ninterface Saveable  { void save();  }\nclass Report implements Printable, Saveable {\n    public void print(){ System.out.println("Printing..."); }\n    public void save() { System.out.println("Saving...");  }\n}\nnew Report().print();  // Printing...\nnew Report().save();   // Saving...`,
+      methods:[["implements","class adopts the interface contract"],["Multiple interfaces","class can implement many (unlike extends)"],["All methods public abstract","unless default or static"],["default method","provides fallback; class can still override"]] },
+
+    { id:66, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"Encapsulation",
+      keys:"encapsulation private getter setter access control hidden field validated public method",
+      scenario:"What if you want to hide a class's internal data from outside code — so nothing can accidentally set someone's age to -5 — while still allowing controlled, validated access through specific methods?",
+      world:"An ATM: you interact through buttons and a screen; the cash mechanism and vault are completely hidden.",
+      visual:`class Person {\n    private int age;          // hidden from outside\n    public int getAge()       { return age; }\n    public void setAge(int a) {\n        if (a >= 0) age = a;  // validated write\n    }\n}\nPerson p = new Person();\np.age = -5;     // COMPILE ERROR — private!\np.setAge(-5);   // allowed call, but rejected inside`,
+      syntax:`class Cls {\n    private Type field;\n    public Type getField() { return field; }\n    public void setField(Type v) { /* validate */ field=v; }\n}`,
+      code:`class BankAccount {\n    private double balance = 0;\n    public void deposit(double amt){\n        if (amt > 0) balance += amt;\n    }\n    public double getBalance(){ return balance; }\n}\nBankAccount acc = new BankAccount();\nacc.deposit(500);\nSystem.out.println(acc.getBalance());  // 500.0`,
+      methods:[["private","only this class can access"],["public","anyone can access"],["protected","this class + subclasses + same package"],["Getter","read-only path to private field"],["Setter","validated write path to private field"]] },
+
+    { id:67, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"Polymorphism",
+      keys:"polymorphism runtime dispatch parent reference child object dynamic binding list shape",
+      scenario:"What if you have a list of different objects — Dog, Cat, Bird — all stored as Animal references, and you want to call speak() on each one, letting each object automatically use its own version?",
+      world:"A remote's play button — it plays music on a speaker, video on a TV, or a game on a console, depending on what's connected.",
+      visual:`Animal[] arr = { new Dog(), new Cat(), new Bird() };\nfor (Animal a : arr) {\n    a.speak();  // each calls ITS OWN version\n}\n// Woof!\n// Meow!\n// Tweet!`,
+      syntax:`ParentType ref = new ChildObject();  // upcasting\nref.method();  // child's overridden version runs at runtime`,
+      code:`class Shape { double area(){return 0;} }\nclass Circle extends Shape {\n    double r; Circle(double r){this.r=r;}\n    double area(){return Math.PI*r*r;}\n}\nclass Rect extends Shape {\n    double w,h; Rect(double w,double h){this.w=w;this.h=h;}\n    double area(){return w*h;}\n}\nShape[] shapes = {new Circle(5), new Rect(4,6), new Circle(3)};\nfor(Shape s : shapes) System.out.printf("%.2f%n", s.area());\n// 78.54  /  24.00  /  28.27`,
+      methods:[["Upcasting","store child in parent-type variable"],["Runtime dispatch","JVM picks actual override at runtime"],["instanceof","check actual type before downcasting"]] },
+
+    { id:68, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"enum",
+      keys:"enum enumeration named constants fixed set days seasons direction card suit status type safe",
+      scenario:"What if you have a small, fixed set of named choices — like the four seasons, card suits, or weekdays — and you want the compiler to guarantee nothing outside that set is ever used?",
+      world:"A traffic light can only ever be RED, YELLOW, or GREEN — never 'purple' or the number 5.",
+      visual:`enum Day { MON, TUE, WED, THU, FRI, SAT, SUN }\n\nDay d = Day.SAT;\nif (d == Day.SAT || d == Day.SUN)\n    System.out.println("Weekend!");\n\nEach constant is an object.\nValues are fixed at compile time.`,
+      syntax:`enum EnumName { VALUE1, VALUE2, VALUE3 }\nEnumName e = EnumName.VALUE1;`,
+      code:`enum Season { SPRING, SUMMER, AUTUMN, WINTER }\n\nSeason s = Season.SUMMER;\nswitch (s) {\n    case SUMMER: System.out.println("Hot!");   break;\n    case WINTER: System.out.println("Cold!");  break;\n    default:     System.out.println("Mild");\n}\n// Hot!\nfor (Season x : Season.values()) System.out.print(x+" ");\n// SPRING SUMMER AUTUMN WINTER`,
+      methods:[["e.name()","constant name as String"],["e.ordinal()","zero-based index"],["EnumName.values()","array of all constants"],["EnumName.valueOf(s)","String → enum constant"]] },
+
+    // ── 12: Java Essentials ──
+    { id:69, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"try / catch / finally",
+      keys:"exception handling try catch finally error runtime crash graceful recover IOException NumberFormat",
+      scenario:"What if a part of your code might fail at runtime — like reading a file that doesn't exist, or dividing by zero — and you want to catch that failure gracefully instead of crashing the whole program?",
+      world:"A parachute backup — if the main chute fails, the backup deploys automatically.",
+      visual:`try {\n    // risky code runs here\n} catch (ExceptionType e) {\n    // handle the failure\n} finally {\n    // ALWAYS runs — cleanup code\n}\n\nPath A: try runs fine  → skip catch → finally\nPath B: try throws     → catch runs → finally`,
+      syntax:`try {\n    int x = Integer.parseInt(input);\n} catch (NumberFormatException e) {\n    System.out.println("Not a number: " + e.getMessage());\n} finally {\n    System.out.println("Always runs.");\n}`,
+      code:`static int safeDivide(int a, int b) {\n    try {\n        return a / b;\n    } catch (ArithmeticException e) {\n        System.out.println("Cannot divide by zero!");\n        return 0;\n    } finally {\n        System.out.println("Attempted.");\n    }\n}\nSystem.out.println(safeDivide(10, 0));\n// Cannot divide by zero!\n// Attempted.\n// 0`,
+      methods:[["try","wraps risky code"],["catch(Type e)","handles specific exception"],["finally","runs regardless — use for cleanup"],["e.getMessage()","human-readable error description"],["catch(A | B e)","handle multiple types in one block"]] },
+
+    { id:70, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"throw / throws",
+      keys:"throw throws exception custom create signal error checked unchecked declare propagate",
+      scenario:"What if you want to manually signal that something went wrong inside your method — like rejecting a negative age — or warn the caller that your method might throw an error they must handle?",
+      world:"A bouncer throwing you out for breaking a rule, and the venue advertising upfront that rule violations get you removed.",
+      visual:`void setAge(int a) {\n    if (a < 0) throw new IllegalArgumentException("Age negative!");\n    //            ↑ fire it             ↑ message\n    this.age = a;\n}\nvoid riskyMethod() throws IOException {\n    //                   ↑ warn callers`,
+      syntax:`throw new ExceptionType("message");      // fire an exception\nvoid method() throws ExceptionType { }  // warn callers`,
+      code:`static double divide(int a, int b) {\n    if (b == 0) throw new ArithmeticException("b cannot be 0");\n    return (double) a / b;\n}\ntry {\n    System.out.println(divide(10, 0));\n} catch (ArithmeticException e) {\n    System.out.println("Caught: " + e.getMessage());\n}\n// Caught: b cannot be 0`,
+      methods:[["throw","stops execution, fires exception object"],["throws","method signature warning — must catch or re-declare"],["RuntimeException","unchecked — no need to declare"],["Exception","checked — must declare with throws or catch"]] },
+
+    { id:71, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Lambda (->)",
+      keys:"lambda arrow function functional interface anonymous shorthand Comparator Runnable Consumer Predicate",
+      scenario:"What if you need to pass a tiny piece of logic — like 'sort by name length' — as an argument to a method, without writing an entire separate named method or verbose anonymous class?",
+      world:"A sticky note instruction: 'double each number' — short, inline, used once.",
+      visual:`// Before (anonymous class):\nComparator<String> c = new Comparator<String>() {\n    public int compare(String a, String b) { return a.length()-b.length(); }\n};\n// Lambda:\nComparator<String> c = (a, b) -> a.length() - b.length();`,
+      syntax:`// single expression:\n(param) -> expression\n// multi-line:\n(a, b) -> { int r = a + b; return r; }`,
+      code:`List<String> words = new ArrayList<>(List.of("banana","kiwi","apple"));\nwords.sort((a, b) -> a.length() - b.length());\nwords.forEach(w -> System.out.println(w));\n// kiwi\n// apple\n// banana\n\nRunnable r = () -> System.out.println("Running!");\nr.run();   // Running!`,
+      methods:[["(params) -> expr","concise single-expression lambda"],["() -> expr","no-parameter lambda"],["Requires @FunctionalInterface","interface with exactly one abstract method"],["Method ref: Class::method","even shorter than lambda for simple calls"]] },
+
+    { id:72, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Stream API",
+      keys:"stream filter map reduce collect toList forEach sorted distinct pipeline functional data",
+      scenario:"What if you want to filter, transform, and collect a list in clean readable one-liners — like 'give me all names starting with A, in uppercase, sorted'?",
+      world:"A factory conveyor belt: filter defective parts, reshape good ones, pack them into a box.",
+      visual:`source → filter → map → sorted → collect\n["Alice","Bob","Anna","Carol","Adam"]\n .filter(s->s.startsWith("A")) → [Alice,Anna,Adam]\n .map(String::toUpperCase)     → [ALICE,ANNA,ADAM]\n .sorted()                     → [ADAM,ALICE,ANNA]\n .collect(toList())            → List`,
+      syntax:`list.stream()\n    .filter(e -> condition)\n    .map(e -> transform)\n    .collect(Collectors.toList());`,
+      code:`List<String> names = List.of("Alice","Bob","Anna","Carol","Adam");\nList<String> result = names.stream()\n    .filter(s -> s.startsWith("A"))\n    .map(String::toUpperCase)\n    .sorted()\n    .collect(Collectors.toList());\nSystem.out.println(result);  // [ADAM, ALICE, ANNA]\n\nint sum = IntStream.rangeClosed(1, 100).sum();\nSystem.out.println(sum);     // 5050`,
+      methods:[["filter(pred)","keep elements matching condition"],["map(fn)","transform each element"],["sorted()","natural order sort"],["collect(Collectors.toList())","gather into List"],["forEach(action)","terminal: run action on each"],["reduce(id,fn)","fold into single value"],["count()","how many pass the pipeline"]] },
+
+    { id:73, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Optional<T>",
+      keys:"optional null safety NullPointerException absent present orElse ifPresent empty maybe nullable",
+      scenario:"What if a method might or might not return a value — can you wrap the result so that callers are forced to think about the 'empty' case instead of accidentally crashing on a null?",
+      world:"A vending machine slot that might be empty — you look inside before reaching in.",
+      visual:`Optional<String> opt = Optional.of("Java");\nopt.isPresent()  → true\nopt.get()        → "Java"\n\nOptional<String> empty = Optional.empty();\nempty.orElse("default") → "default"\nempty.get()             → THROWS NoSuchElementException!`,
+      syntax:`Optional<T> opt = Optional.ofNullable(value);\nopt.ifPresent(v -> ...);\nT val = opt.orElse(defaultValue);`,
+      code:`static Optional<String> findUser(int id) {\n    if (id == 1) return Optional.of("Alice");\n    return Optional.empty();\n}\nfindUser(1).ifPresent(n -> System.out.println("Hi " + n));\n// Hi Alice\nString name = findUser(99).orElse("Guest");\nSystem.out.println(name);  // Guest`,
+      methods:[["Optional.of(v)","wrap non-null (throws if null)"],["Optional.ofNullable(v)","null-safe wrap"],["Optional.empty()","no value"],["opt.isPresent()","true if value exists"],["opt.get()","value — throws if empty"],["opt.orElse(v)","value or default"],["opt.ifPresent(fn)","run only if present"]] },
+
+    { id:74, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Scanner (Input)",
+      keys:"scanner input read keyboard console nextInt nextLine user prompt stdin terminal",
+      scenario:"What if your program needs to read numbers or text that the user types in the terminal while the program is running — how do you listen for keyboard input?",
+      world:"A cashier asking 'How many items?' and waiting for the customer to type a number.",
+      visual:`Scanner reads from System.in (keyboard)\nnextInt()    → next integer token\nnextDouble() → next double token\nnextLine()   → full line including spaces\nnext()       → next word (stops at whitespace)\n\n⚠ nextInt() leaves newline in buffer!\n  call nextLine() after to consume it.`,
+      syntax:`Scanner sc = new Scanner(System.in);\nint n    = sc.nextInt();\nString s = sc.nextLine();\nsc.close();`,
+      code:`Scanner sc = new Scanner(System.in);\nSystem.out.print("Enter your name: ");\nString name = sc.nextLine();\nSystem.out.print("Enter age: ");\nint age = sc.nextInt();\nSystem.out.println("Hello " + name + ", you are " + age);\nsc.close();`,
+      methods:[["sc.nextInt()","read next int"],["sc.nextDouble()","read next double"],["sc.nextLine()","read full line"],["sc.next()","read next whitespace-delimited word"],["sc.hasNextInt()","peek — is next token an int?"],["sc.close()","release the input resource"]] },
+
+    { id:75, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Math class",
+      keys:"math abs max min sqrt pow floor ceil round random pi log trig static",
+      scenario:"What if you need common mathematical operations — square root, power, absolute value, rounding — without implementing them yourself?",
+      world:"A scientific calculator: press sqrt, pow, abs — each button is a ready-made method.",
+      visual:`Math.abs(-7)      → 7\nMath.max(5, 9)    → 9\nMath.sqrt(16)     → 4.0\nMath.pow(2, 10)   → 1024.0\nMath.floor(3.9)   → 3.0\nMath.ceil(3.1)    → 4.0\nMath.random()     → 0.0 to 0.999...\nMath.PI           → 3.14159265358979...`,
+      syntax:`Math.methodName(args)   // all static — no new Math() needed`,
+      code:`System.out.println(Math.abs(-42));          // 42\nSystem.out.println(Math.max(17, 29));       // 29\nSystem.out.println(Math.sqrt(144));         // 12.0\nSystem.out.println(Math.pow(2, 8));         // 256.0\nint rand = (int)(Math.random() * 100);     // 0..99\nSystem.out.println(Math.round(3.67));       // 4`,
+      methods:[["Math.abs(n)","absolute value"],["Math.max(a,b) / min(a,b)","larger / smaller"],["Math.sqrt(n)","square root"],["Math.pow(b,e)","b^e as double"],["Math.floor/ceil/round","rounding variants"],["Math.random()","random double in [0.0, 1.0)"],["Math.PI / Math.E","constants"]] },
+
+    { id:76, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"String.format / printf",
+      keys:"format printf string formatting decimal places padding align table output template specifier",
+      scenario:"What if you need to build a neatly formatted string — like a price with exactly 2 decimal places, a table with aligned columns, or a message with a variable plugged in?",
+      world:"A receipt printer — every price aligned to 2 decimals, every item label padded to the same width.",
+      visual:`"%d"    → integer:          42 → "42"\n"%.2f"  → 2 decimal places: 3.14159 → "3.14"\n"%s"    → string:          "hi" → "hi"\n"%10s"  → right-align 10:  "hi" → "        hi"\n"%-10s" → left-align 10:   "hi" → "hi        "`,
+      syntax:`String s = String.format("format", args);\nSystem.out.printf("format%n", args);  // print directly`,
+      code:`String name = "Alice";  double price = 19.9;\nString s = String.format("Customer: %s, Total: $%.2f", name, price);\nSystem.out.println(s);  // Customer: Alice, Total: $19.90\n\nSystem.out.printf("%-10s %5d%n", "Java",   2024);\nSystem.out.printf("%-10s %5d%n", "Python", 1991);\n// Java        2024\n// Python      1991`,
+      methods:[["%d","integer"],["%f  /  %.2f","float / 2 decimal places"],["%s","string"],["%n","platform-safe newline (vs \\n)"],["%10s / %-10s","right / left pad to width 10"]] },
+
+    // ── Patterns & Techniques additions ──
+    { id:77, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Monotonic Stack",
+      keys:"monotonic stack next greater smaller element span stock temperature histogram O(n)",
+      scenario:"What if for each element you need to find the very next element that is larger (or smaller) than it — without using an O(n²) nested loop for every element?",
+      world:"A queue at a concert where each person only sees the next taller person standing ahead of them.",
+      visual:`arr = [2, 1, 5, 3, 6]  → Next Greater Element:\n2 → 5\n1 → 5\n5 → 6\n3 → 6\n6 → -1 (no next greater)\n\nStack stays in decreasing order.`,
+      syntax:`Deque<Integer> stack = new ArrayDeque<>();\nfor (int i = 0; i < n; i++) {\n    while (!stack.isEmpty() && arr[stack.peek()] < arr[i])\n        result[stack.pop()] = arr[i];\n    stack.push(i);\n}`,
+      code:`int[] arr = {2, 1, 5, 3, 6};\nint[] nge = new int[arr.length];\nArrays.fill(nge, -1);\nDeque<Integer> st = new ArrayDeque<>();\nfor (int i = 0; i < arr.length; i++) {\n    while (!st.isEmpty() && arr[st.peek()] < arr[i])\n        nge[st.pop()] = arr[i];\n    st.push(i);\n}\nSystem.out.println(Arrays.toString(nge));\n// [5, 5, 6, 6, -1]`,
+      methods:[["O(n) amortized","each element pushed and popped at most once"],["Decreasing stack","for next greater element"],["Increasing stack","for next smaller element"]] },
+
+    { id:78, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Kadane's Algorithm",
+      keys:"kadane max subarray sum largest contiguous negative array O(n) dynamic programming",
+      scenario:"What if your array has both positive and negative numbers, and you need to find the contiguous subarray — any consecutive slice — that produces the largest possible sum?",
+      world:"Finding the stretch of days in a month where a stock's daily gains and losses gave you the best total profit.",
+      visual:`arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]\nbest subarray: [4, -1, 2, 1]  sum = 6\n\ncurMax: -2  1  -2  4  3  5  6  1  5\ngloMax: -2  1   1  4  4  5  6  6  6`,
+      syntax:`int cur = arr[0], max = arr[0];\nfor (int i = 1; i < arr.length; i++) {\n    cur = Math.max(arr[i], cur + arr[i]);\n    max = Math.max(max, cur);\n}`,
+      code:`static int maxSubArray(int[] arr) {\n    int cur = arr[0], max = arr[0];\n    for (int i = 1; i < arr.length; i++) {\n        cur = Math.max(arr[i], cur + arr[i]);\n        max = Math.max(max, cur);\n    }\n    return max;\n}\nint[] a = {-2, 1, -3, 4, -1, 2, 1, -5, 4};\nSystem.out.println(maxSubArray(a));  // 6`,
+      methods:[["O(n) time","single pass"],["O(1) space","only two variables"],["Restart rule","cur = max(arr[i], cur+arr[i]) — restart if prev sum hurts"]] },
+
+    { id:79, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Fast Power (Binary Exponentiation)",
+      keys:"fast power binary exponentiation modular pow O(log n) large exponent competitive",
+      scenario:"What if you need to compute a very large power — like 2^50, or (base^exp) mod M — and doing it by multiplying n times in a loop is too slow?",
+      world:"Folding a paper in half: each fold doubles the thickness, so you reach a million layers in just 20 folds.",
+      visual:`pow(2, 10) — binary of 10 = 1010\n2^10 = 2^8 x 2^2\nSquare each time: 2 → 4 → 16 → 256\nOnly 4 multiplications instead of 10.\nO(n) → O(log n)`,
+      syntax:`long r = 1;  b %= mod;\nwhile (e > 0) {\n    if ((e & 1) == 1) r = r * b % mod;\n    b = b * b % mod;  e >>= 1;\n}`,
+      code:`static long fastPow(long b, long e) {\n    long r = 1;\n    while (e > 0) {\n        if ((e & 1) == 1) r *= b;\n        b *= b;  e >>= 1;\n    }\n    return r;\n}\nSystem.out.println(fastPow(2, 10));  // 1024\nSystem.out.println(fastPow(3, 5));   // 243`,
+      methods:[["O(log n) multiplications","vs O(n) naive loop"],["e >>= 1","right shift = divide exponent by 2"],["e & 1","check if exponent is odd"],["% MOD after each step","prevents overflow in modular version"]] },
+
+    // ── DSA Structures additions ──
+    { id:80, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Union-Find (Disjoint Set)",
+      keys:"union find disjoint set connected components cycle detection kruskals network group merge path compression",
+      scenario:"What if you need to group elements into connected sets and instantly answer 'are these two elements in the same group?' — like finding whether two computers are on the same network?",
+      world:"Corporate mergers: find(A) and find(B) return the ultimate parent company. Same parent → same company.",
+      visual:`Initially: {0} {1} {2} {3} {4}\nunion(0,1) → {0,1} {2} {3} {4}\nunion(1,2) → {0,1,2} {3} {4}\n\nfind(0) == find(2)?  YES → same group\nfind(0) == find(3)?  NO  → different group\nPath compression flattens the tree each find.`,
+      syntax:`int[] p = new int[n];\nfor (int i=0;i<n;i++) p[i]=i;\nint find(int x){ return p[x]==x ? x : find(p[x]=p[p[x]]); }\nvoid union(int a,int b){ p[find(a)]=find(b); }`,
+      code:`static int[] p;\nstatic int find(int x){ return p[x]==x?x:find(p[x]=p[p[x]]); }\nstatic void union(int a,int b){ p[find(a)]=find(b); }\n\np = new int[]{0,1,2,3,4};\nunion(0,1);  union(1,2);\nSystem.out.println(find(0)==find(2));  // true  (same group)\nSystem.out.println(find(0)==find(3));  // false (different)`,
+      methods:[["Path compression","p[x]=p[p[x]] flattens the tree on each find"],["Union by rank","attach shorter tree under taller"],["O(α(n)) per operation","α = inverse Ackermann ≈ constant in practice"],["Cycle detection","if find(u)==find(v) before union → cycle exists"]] },
+
+    { id:81, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Floyd's Cycle Detection",
+      keys:"cycle detection linked list slow fast two pointer tortoise hare duplicate O(1) space loop",
+      scenario:"What if you suspect a linked list has a loop — one node points back to an earlier node, making traversal infinite — and you need to detect it without any extra space?",
+      world:"Two runners on a circular track — the faster one will eventually lap the slower one if the track loops.",
+      visual:`1 → 2 → 3 → 4 → 5\n                ↑         |\n slow: 1  fast: 1         |\n slow: 2  fast: 3         |\n slow: 3  fast: 5         |\n slow: 4  fast: 4  ← MEET → cycle confirmed!`,
+      syntax:`ListNode slow = head, fast = head;\nwhile (fast != null && fast.next != null) {\n    slow = slow.next;\n    fast = fast.next.next;\n    if (slow == fast) return true; // cycle!\n}\nreturn false;`,
+      code:`boolean hasCycle(ListNode head) {\n    ListNode slow = head, fast = head;\n    while (fast != null && fast.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n        if (slow == fast) return true;\n    }\n    return false;\n}`,
+      methods:[["O(n) time","fast catches slow within one full loop"],["O(1) space","no visited set needed"],["slow+1, fast+2","fast moves twice as fast"],["Find start of cycle","reset one to head, then advance both by 1 until they meet"]] },
+
+    { id:82, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Topological Sort (Kahn's)",
+      keys:"topological sort BFS Kahn indegree ordering directed acyclic graph DAG dependencies courses tasks",
+      scenario:"What if your tasks have prerequisites — course B requires course A first — and you need to find a valid order to complete all of them without violating any dependency?",
+      world:"Building a house: pour foundation first, then walls, then roof, then paint — each step has prerequisites.",
+      visual:`0→1→3\n0→2→3\nIndegree: {0:0, 1:1, 2:1, 3:2}\nStart queue: [0]  (indegree 0)\nProcess 0 → decrement 1,2 → queue [1,2]\nProcess 1 → decrement 3  → queue [2,3]\n... → order: 0 1 2 3`,
+      syntax:`int[] deg = new int[n];\n// build adj + fill deg\nQueue<Integer> q = new LinkedList<>();\nfor (int i=0;i<n;i++) if(deg[i]==0) q.offer(i);\nwhile (!q.isEmpty()) {\n    int u = q.poll();  order.add(u);\n    for (int v : adj.get(u)) if (--deg[v]==0) q.offer(v);\n}`,
+      code:`int n=4; int[] deg=new int[n];\nList<List<Integer>> adj=new ArrayList<>();\nfor(int i=0;i<n;i++) adj.add(new ArrayList<>());\nint[][] pre={{1,0},{2,0},{3,1},{3,2}};\nfor(int[] p:pre){adj.get(p[1]).add(p[0]);deg[p[0]]++;}\nQueue<Integer> q=new LinkedList<>();\nfor(int i=0;i<n;i++) if(deg[i]==0) q.offer(i);\nList<Integer> order=new ArrayList<>();\nwhile(!q.isEmpty()){int u=q.poll();order.add(u);for(int v:adj.get(u))if(--deg[v]==0)q.offer(v);}\nSystem.out.println(order);  // [0, 1, 2, 3]`,
+      methods:[["Start with indegree-0 nodes","no prerequisites — safe to take first"],["Kahn's = BFS-based","DFS post-order is the other approach"],["Detect cycle","if order.size() < n after BFS → cycle exists"],["O(V+E)","each node and edge processed once"]] },
+
+    // ── Algorithms additions ──
+    { id:83, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Bit Manipulation",
+      keys:"bit AND OR XOR NOT shift left right power of two toggle mask odd even unique duplicate",
+      scenario:"What if you need ultra-fast operations on individual bits of a number — like checking if it's even, finding the one unique number in an array of duplicates, or checking if it's a power of two?",
+      world:"A panel of light switches — each switch controls one bit (on/off); flip, check, and combine them instantly.",
+      visual:`n   = 0110 1100  (binary of 108)\n&   AND:  both bits 1 → 1\n|   OR:   any bit  1 → 1\n^   XOR:  bits differ → 1\n~   NOT:  flip all bits\n<<1 left shift  = multiply by 2\n>>1 right shift = divide by 2`,
+      syntax:`n & 1          // check odd (1) or even (0)\nn & (n-1)      // clear lowest set bit; 0 iff power of 2\na ^ b          // XOR — cancel duplicates\n1 << k         // 2 to the power k`,
+      code:`System.out.println(5 & 1);   // 1 → odd\nSystem.out.println(4 & 1);   // 0 → even\nSystem.out.println(4 & 3);   // 0 → 4 is a power of 2\n\n// Find the unique number (all others appear twice):\nint[] arr = {2, 3, 1, 3, 2};\nint unique = 0;\nfor (int n : arr) unique ^= n;\nSystem.out.println(unique);  // 1`,
+      methods:[["n & 1","odd (1) or even (0)"],["n & (n-1) == 0","true only if n is a power of 2"],["a ^ b","XOR: duplicate numbers cancel to 0"],["n << k","left shift = multiply by 2^k"],["n >> k","right shift = divide by 2^k"],["Integer.bitCount(n)","count of set (1) bits"]] },
+
+    { id:84, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"GCD (Euclidean Algorithm)",
+      keys:"GCD LCM greatest common divisor euclidean algorithm modulo recursion number theory fraction simplify",
+      scenario:"What if you need the greatest common divisor of two numbers — a key building block for simplifying fractions, computing LCM, or solving number-theory problems?",
+      world:"Splitting 48 apples and 36 oranges into the maximum number of identical bags — GCD(48,36) = 12 bags.",
+      visual:`gcd(48, 36)\n= gcd(36, 48 % 36) = gcd(36, 12)\n= gcd(12, 36 % 12) = gcd(12,  0)\n= 12\n\nLCM(a, b) = a * b / gcd(a, b)`,
+      syntax:`static int gcd(int a, int b) {\n    return b == 0 ? a : gcd(b, a % b);\n}\nstatic long lcm(long a, long b) {\n    return a / gcd((int)a, (int)b) * b;\n}`,
+      code:`static int gcd(int a, int b){\n    return b==0 ? a : gcd(b, a%b);\n}\nSystem.out.println(gcd(48, 36));    // 12\nSystem.out.println(gcd(100, 75));   // 25\nSystem.out.println(gcd(17, 13));    // 1 (coprime)\nlong lcm = (long)48 / gcd(48,36) * 36;\nSystem.out.println(lcm);            // 144`,
+      methods:[["Recursive: gcd(b, a%b)","base case: b==0 returns a"],["O(log(min(a,b)))","fast even for very large numbers"],["LCM = a/gcd(a,b)*b","divide before multiply to avoid overflow"]] },
+
+    { id:85, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Sieve of Eratosthenes",
+      keys:"sieve primes prime numbers O(n log log n) precompute bulk generate boolean array limit",
+      scenario:"What if you need to find ALL prime numbers up to a large limit like 1,000,000 — all at once — far faster than testing each number individually with a loop?",
+      world:"Cross off every multiple in a number grid — whatever's left uncrossed is prime.",
+      visual:`[T T T T T T T T T T]  (index 0..9)\nMark 0, 1 → not prime (false)\nMark multiples of 2 → 4,6,8 = false\nMark multiples of 3 → 9 = false\nResult: indices {2,3,5,7} are prime.`,
+      syntax:`boolean[] prime = new boolean[n+1];\nArrays.fill(prime, true);\nprime[0] = prime[1] = false;\nfor (int i=2; i*i<=n; i++)\n    if (prime[i])\n        for (int j=i*i; j<=n; j+=i) prime[j]=false;`,
+      code:`static boolean[] sieve(int n) {\n    boolean[] p = new boolean[n+1];\n    Arrays.fill(p, true);\n    p[0] = p[1] = false;\n    for (int i=2; i*i<=n; i++)\n        if (p[i]) for(int j=i*i; j<=n; j+=i) p[j]=false;\n    return p;\n}\nboolean[] p = sieve(20);\nfor (int i=2; i<=20; i++) if(p[i]) System.out.print(i+" ");\n// 2 3 5 7 11 13 17 19`,
+      methods:[["O(n log log n)","near-linear — best for bulk prime generation"],["Inner loop starts at i*i","smaller multiples already marked by earlier i"],["Space O(n)","one boolean per number"]] },
+
+    { id:86, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Counting Sort",
+      keys:"counting sort O(n+k) range non-comparison frequency histogram bucket small range grades",
+      scenario:"What if all values in your array fall within a small, known range — like grades 0-100 or ages 0-150 — and you want to sort them in O(n) without making any comparisons at all?",
+      world:"Sorting colored marbles into labeled buckets — count each color, then pour them out in order.",
+      visual:`arr = [4, 2, 2, 8, 3, 3, 1]\nCount: {1:1, 2:2, 3:2, 4:1, 8:1}\nOutput: 1, 2, 2, 3, 3, 4, 8\n\nO(n + k)  where k = max value`,
+      syntax:`int[] count = new int[max + 1];\nfor (int x : arr) count[x]++;\nint idx = 0;\nfor (int v=0; v<=max; v++)\n    while (count[v]-- > 0) arr[idx++] = v;`,
+      code:`static void countingSort(int[] arr, int max) {\n    int[] cnt = new int[max+1];\n    for (int x : arr) cnt[x]++;\n    int i = 0;\n    for (int v=0; v<=max; v++)\n        while (cnt[v]-- > 0) arr[i++] = v;\n}\nint[] a = {4, 2, 2, 8, 3, 3, 1};\ncountingSort(a, 8);\nSystem.out.println(Arrays.toString(a));\n// [1, 2, 2, 3, 3, 4, 8]`,
+      methods:[["O(n+k) time","k = range of values"],["O(k) extra space","the count array"],["Not comparison-based","beats O(n log n) comparison-sort lower bound"],["Best when k is small","inefficient if k >> n"]] },
+
+    { id:87, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Insertion Sort",
+      keys:"insertion sort O(n squared) nearly sorted small array in-place stable simple cards hand",
+      scenario:"What if your array is tiny, or already nearly sorted with most elements in place — making a simple O(n²) sort surprisingly fast for this specific case?",
+      world:"Sorting cards in your hand — pick up a new card and slide it left until it's in the right spot.",
+      visual:`[5, 3, 8, 1, 2]\n[3, 5, 8, 1, 2]  ← slide 3 left\n[3, 5, 8, 1, 2]  ← 8 already right\n[1, 3, 5, 8, 2]  ← slide 1 left\n[1, 2, 3, 5, 8]  ← slide 2 left`,
+      syntax:`for (int i=1; i<n; i++) {\n    int key = arr[i], j = i-1;\n    while (j>=0 && arr[j]>key) arr[j+1]=arr[j--];\n    arr[j+1] = key;\n}`,
+      code:`static void insertionSort(int[] arr) {\n    for (int i=1; i<arr.length; i++) {\n        int key = arr[i], j = i-1;\n        while (j>=0 && arr[j]>key) arr[j+1]=arr[j--];\n        arr[j+1] = key;\n    }\n}\nint[] a = {5, 3, 8, 1, 2};\ninsertionSort(a);\nSystem.out.println(Arrays.toString(a));\n// [1, 2, 3, 5, 8]`,
+      methods:[["O(n) best case","already sorted — only n comparisons"],["O(n²) worst case","reverse-sorted input"],["Stable sort","equal elements keep their original order"],["Used inside Timsort","Java's sort uses it for small sub-arrays"]] },
+
+    // ── Collections additions ──
+    { id:88, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"LinkedHashMap",
+      keys:"linkedhashmap insertion order access order LRU cache ordered iteration preserve sequence",
+      scenario:"What if you need a key-value map that also remembers the exact order in which you inserted entries — so when you iterate, they always come out in that same insertion order?",
+      world:"A notebook where you write entries as you go — flipping through always gives the pages in the order you wrote them.",
+      visual:`put("banana",2) → put("apple",1) → put("cherry",3)\n\nHashMap    iterate → any order: {cherry, banana, apple}\nLinkedHashMap  →  {banana, apple, cherry}  ← insertion order\n\nLinkedHashMap = HashMap + doubly-linked list`,
+      syntax:`Map<K,V> map = new LinkedHashMap<>();\n// Same put/get/containsKey API as HashMap`,
+      code:`Map<String,Integer> map = new LinkedHashMap<>();\nmap.put("banana", 2);\nmap.put("apple",  1);\nmap.put("cherry", 3);\nfor (Map.Entry<String,Integer> e : map.entrySet())\n    System.out.println(e.getKey() + " → " + e.getValue());\n// banana → 2\n// apple  → 1\n// cherry → 3   (insertion order kept)`,
+      methods:[["Same as HashMap","put/get/containsKey/remove all O(1)"],["Iteration = insertion order","guaranteed unlike HashMap"],["Access-order mode","new LinkedHashMap<>(16,0.75f,true) for LRU"],["LRU cache trick","extend + override removeEldestEntry()"]] },
+
+    { id:89, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"Collections utility class",
+      keys:"collections utility sort reverse shuffle min max frequency unmodifiable singleton fill nCopies",
+      scenario:"What if you need to find the max, reverse, shuffle, or make a list read-only — can you reach for a ready-made method instead of coding the logic yourself?",
+      world:"A Swiss Army knife of list operations — one class, many tools.",
+      visual:`List<Integer> list = [3, 1, 4, 1, 5, 9, 2, 6]\nCollections.sort(list)    → [1,1,2,3,4,5,6,9]\nCollections.reverse(list) → [9,6,5,4,3,2,1,1]\nCollections.max(list)     → 9\nCollections.shuffle(list) → random order`,
+      syntax:`Collections.sort(list);\nCollections.reverse(list);\nCollections.max(list);\nCollections.shuffle(list);\nCollections.unmodifiableList(list);`,
+      code:`List<Integer> list = new ArrayList<>(List.of(3,1,4,1,5,9,2,6));\nCollections.sort(list);\nSystem.out.println(list);                          // [1,1,2,3,4,5,6,9]\nSystem.out.println(Collections.max(list));         // 9\nSystem.out.println(Collections.min(list));         // 1\nSystem.out.println(Collections.frequency(list,1)); // 2\nCollections.reverse(list);\nSystem.out.println(list);                          // [9,6,5,4,3,2,1,1]`,
+      methods:[["Collections.sort(list)","ascending sort (stable)"],["Collections.reverse(list)","reverse in place"],["Collections.shuffle(list)","random reorder"],["Collections.max/min(list)","find extremes"],["Collections.frequency(list,x)","count occurrences of x"],["Collections.unmodifiableList(l)","read-only wrapper — throws on write"]] },
+
+    // ── Search & Sort additions ──
+    { id:90, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Bubble Sort",
+      keys:"bubble sort O(n squared) swap adjacent compare simple stable basic teaching",
+      scenario:"What if you want to understand how sorting works at the lowest level — by repeatedly walking through the array and swapping any two adjacent elements that are out of order, letting large values 'bubble up' to the end?",
+      world:"Bubbles rising in water — heavier (larger) ones always float to the top of the glass.",
+      visual:`Pass 1: [5,3,8,1] → compare & swap pairs\n[3,5,8,1] → [3,5,8,1] → [3,5,1,8]  ← 8 bubbled up\nPass 2: [3,5,1,8] → [3,1,5,8]\nPass 3: [1,3,5,8]  ← sorted!\nEach pass guarantees the largest unsorted moves to its final spot.`,
+      syntax:`for (int i=0; i<n-1; i++)\n    for (int j=0; j<n-i-1; j++)\n        if (arr[j] > arr[j+1]) { /* swap */ }`,
+      code:`static void bubbleSort(int[] arr) {\n    int n = arr.length;\n    for (int i=0; i<n-1; i++) {\n        boolean swapped = false;\n        for (int j=0; j<n-i-1; j++) {\n            if (arr[j] > arr[j+1]) {\n                int t=arr[j]; arr[j]=arr[j+1]; arr[j+1]=t;\n                swapped = true;\n            }\n        }\n        if (!swapped) break;  // already sorted — early exit\n    }\n}\nint[] a = {5,3,8,1,2};\nbubbleSort(a);\nSystem.out.println(Arrays.toString(a)); // [1,2,3,5,8]`,
+      methods:[["O(n²) worst","reverse-sorted input"],["O(n) best","already sorted + early-exit flag"],["Stable sort","equal elements keep original order"],["swapped flag","optimization: exit early if no swap in a full pass"]] },
+
+    { id:91, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Selection Sort",
+      keys:"selection sort O(n squared) minimum find place in-place unstable simple swap",
+      scenario:"What if you want to sort by always finding the smallest remaining element and placing it into its correct position at the front — one guaranteed placement per pass?",
+      world:"Picking the shortest student from the remaining group and placing them at the front of a height-ordered line.",
+      visual:`[5, 3, 8, 1, 2]\nPass 1: find min=1 at idx 3 → swap with idx 0 → [1, 3, 8, 5, 2]\nPass 2: find min=2 at idx 4 → swap with idx 1 → [1, 2, 8, 5, 3]\nPass 3: find min=3 at idx 4 → swap with idx 2 → [1, 2, 3, 5, 8]\n... done`,
+      syntax:`for (int i=0; i<n-1; i++) {\n    int minIdx = i;\n    for (int j=i+1; j<n; j++)\n        if (arr[j] < arr[minIdx]) minIdx = j;\n    // swap arr[i] with arr[minIdx]\n}`,
+      code:`static void selectionSort(int[] arr) {\n    int n = arr.length;\n    for (int i=0; i<n-1; i++) {\n        int minIdx = i;\n        for (int j=i+1; j<n; j++)\n            if (arr[j] < arr[minIdx]) minIdx = j;\n        int t=arr[i]; arr[i]=arr[minIdx]; arr[minIdx]=t;\n    }\n}\nint[] a = {5,3,8,1,2};\nselectionSort(a);\nSystem.out.println(Arrays.toString(a)); // [1,2,3,5,8]`,
+      methods:[["O(n²) always","same passes regardless of input order"],["O(n) swaps","minimum swaps — good when writes are expensive"],["Unstable","can change order of equal elements"],["In-place","O(1) extra space"]] },
+
+    // ── Java Essentials additions ──
+    { id:92, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Generics <T>",
+      keys:"generics type parameter T E K V compile safe reusable generic method class box container",
+      scenario:"What if you want to write one method or class that works with any data type — like a Box that holds an Integer, or a Pair that holds a String and a Date — without casting or duplicating code?",
+      world:"A shipping box that works for books, clothes, or electronics — the contents are typed when you pack it.",
+      visual:`// Without generics:\nObject box = 42;  int n = (int) box;  // unsafe cast\n\n// With generics:\nBox<Integer> b = new Box<>(42);\nint n = b.get();   // no cast needed\n\nBox<String>  → can only hold String\nBox<Integer> → can only hold Integer\nType checked at compile time.`,
+      syntax:`class Box<T> {\n    T value;\n    Box(T v) { this.value = v; }\n    T get()  { return value; }\n}\nBox<String> b = new Box<>("hello");`,
+      code:`class Pair<K, V> {\n    K key;  V value;\n    Pair(K k, V v){ key=k; value=v; }\n    public String toString(){ return key + "=" + value; }\n}\nPair<String,Integer> p = new Pair<>("age", 25);\nSystem.out.println(p);           // age=25\n\nstatic <T extends Comparable<T>> T max(T a, T b){\n    return a.compareTo(b) >= 0 ? a : b;\n}\nSystem.out.println(max(7, 3));   // 7\nSystem.out.println(max("b","a")); // b`,
+      methods:[["<T>","declare type parameter on class or method"],["<T extends X>","bounded: T must be X or a subtype"],["<?>","wildcard: unknown type"],["Erasure","generics are compile-time only; erased at runtime"]] },
+
+    { id:93, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Comparable interface",
+      keys:"comparable compareTo natural order custom objects sort TreeSet TreeMap PriorityQueue ordering",
+      scenario:"What if you have custom objects — like Student or Product — and you want Arrays.sort() or Collections.sort() to know how to order them without you always passing a Comparator?",
+      world:"Students already know their own roll numbers — they can naturally line up in order without being told how.",
+      visual:`class Student implements Comparable<Student> {\n    int roll;\n    public int compareTo(Student other) {\n        return this.roll - other.roll;  // ascending by roll\n    }\n}\n// Now Collections.sort(students) works automatically!`,
+      syntax:`class Cls implements Comparable<Cls> {\n    public int compareTo(Cls other) {\n        return this.field - other.field; // negative/0/positive\n    }\n}`,
+      code:`class Student implements Comparable<Student> {\n    String name;  int roll;\n    Student(String n, int r){ name=n; roll=r; }\n    public int compareTo(Student o){ return this.roll - o.roll; }\n    public String toString(){ return roll+":"+name; }\n}\nList<Student> list = new ArrayList<>();\nlist.add(new Student("Bob",3));\nlist.add(new Student("Alice",1));\nlist.add(new Student("Carol",2));\nCollections.sort(list);\nSystem.out.println(list);  // [1:Alice, 2:Carol, 3:Bob]`,
+      methods:[["compareTo returns <0","this comes BEFORE other"],["compareTo returns  0","this equals other in order"],["compareTo returns >0","this comes AFTER other"],["Works with sort/TreeSet/PQ","any structure using natural order"]] },
+
+    { id:94, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"static & final",
+      keys:"static final class level variable constant method shared instance keyword modifier",
+      scenario:"What if you need a variable or method that belongs to the class itself — not to any individual object — or a value that must never change after it is first set?",
+      world:"A school's motto is shared by all students (static). A student's birth certificate ID never changes (final).",
+      visual:`static → ONE copy shared by ALL objects\nfinal  → set once, cannot be reassigned\n\nstatic int count = 0;   // class-level, shared\nfinal  int ID;          // instance-level, immutable\nstatic final PI = 3.14; // constant: shared + immutable`,
+      syntax:`static Type varName = value;         // class variable\nstatic ReturnType method() { }       // class method\nfinal Type varName;                  // immutable field\nstatic final Type CONST = value;     // constant`,
+      code:`class Counter {\n    static int count = 0;   // shared across all instances\n    final int id;           // unique per object, set once\n    Counter() { count++; id = count; }\n    static final double TAX = 0.18;   // constant\n}\nnew Counter();  new Counter();  new Counter();\nSystem.out.println(Counter.count); // 3\nSystem.out.println(Counter.TAX);   // 0.18`,
+      methods:[["static field","one copy shared by all objects"],["static method","call via ClassName.method() — no object needed"],["final field","must be set in constructor; never reassigned"],["static final","constant — by convention use UPPER_CASE"]] },
+
+    // ── Patterns & Techniques additions ──
+    { id:95, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Dutch National Flag",
+      keys:"dutch national flag three way partition 0 1 2 sort colors three pointers low mid high",
+      scenario:"What if your array has only three distinct values — like 0s, 1s, and 2s — and you need to sort it in a single pass without counting or using extra space?",
+      world:"Sorting Dutch flag stripes: red, white, blue — group all reds left, whites middle, blues right.",
+      visual:`[2,0,1,2,0,1,0]\nlow=0  mid=0  high=6\narr[mid]=2 → swap(mid,high); high--\narr[mid]=0 → swap(mid,low); low++;mid++\n... single pass ...\n[0,0,0,1,1,2,2]`,
+      syntax:`int low=0, mid=0, high=arr.length-1;\nwhile (mid <= high) {\n    if      (arr[mid]==0) { swap(low++, mid++); }\n    else if (arr[mid]==1) { mid++; }\n    else                  { swap(mid, high--); }\n}`,
+      code:`static void sort012(int[] arr) {\n    int low=0, mid=0, high=arr.length-1;\n    while (mid <= high) {\n        if      (arr[mid]==0){int t=arr[low];arr[low]=arr[mid];arr[mid]=t;low++;mid++;}\n        else if (arr[mid]==1){mid++;}\n        else                 {int t=arr[mid];arr[mid]=arr[high];arr[high]=t;high--;}\n    }\n}\nint[] a = {2,0,1,2,0,1,0};\nsort012(a);\nSystem.out.println(Arrays.toString(a)); // [0,0,0,1,1,1,2,2]`,
+      methods:[["O(n) time","single pass through array"],["O(1) space","in-place, three pointer variables"],["Edsger Dijkstra","invented this — also called 3-way partition"]] },
+
+    { id:96, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Merge Intervals",
+      keys:"merge intervals overlapping ranges calendar events O(n log n) sort start end overlap",
+      scenario:"What if you have a list of time intervals — like meeting slots — and you need to merge all overlapping ones so that no two intervals in the result overlap at all?",
+      world:"Combining overlapping calendar blocks: if two meetings overlap, show them as one longer merged block.",
+      visual:`Input:  [[1,3],[2,6],[8,10],[15,18]]\n[1,3] and [2,6] overlap (3 >= 2) → merge → [1,6]\n[8,10] and [15,18] don't overlap  → keep separate\nOutput: [[1,6],[8,10],[15,18]]`,
+      syntax:`Arrays.sort(intervals, (a,b) -> a[0]-b[0]);  // sort by start\nfor (int[] cur : intervals) {\n    if (result is empty || last.end < cur.start)\n        result.add(cur);       // no overlap\n    else\n        last.end = Math.max(last.end, cur.end);  // merge\n}`,
+      code:`static int[][] merge(int[][] ivs) {\n    Arrays.sort(ivs, (a,b)->a[0]-b[0]);\n    List<int[]> res = new ArrayList<>();\n    for (int[] cur : ivs) {\n        if (res.isEmpty() || res.get(res.size()-1)[1] < cur[0])\n            res.add(new int[]{cur[0], cur[1]});\n        else\n            res.get(res.size()-1)[1] = Math.max(res.get(res.size()-1)[1], cur[1]);\n    }\n    return res.toArray(new int[0][]);\n}\nSystem.out.println(Arrays.deepToString(\n    merge(new int[][]{{1,3},{2,6},{8,10},{15,18}})));\n// [[1,6],[8,10],[15,18]]`,
+      methods:[["Sort by start time first","prerequisite for the merge logic"],["Overlap condition","prev.end >= cur.start"],["Merge: take max end","not just cur.end — one might fully contain the other"]] },
+
+    { id:97, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Binary Search on Answer",
+      keys:"binary search on answer parametric search minimize maximize feasible predicate guess check",
+      scenario:"What if the answer to a problem is a number in some range, and you can quickly check 'is X a valid answer?' — so instead of trying every value, you binary search over the answer space itself?",
+      world:"Guessing the minimum speed to finish a task on time: try a speed, check if it works, then narrow the range.",
+      visual:`Answer lies in range [lo, hi]\nwhile (lo < hi) {\n    mid = (lo+hi)/2\n    if feasible(mid): hi = mid    (can do better)\n    else:            lo = mid+1  (need more)\n}\nAnswer = lo\nOnly works when: feasible(x) true → feasible(x+1) also true`,
+      syntax:`int lo = minPossible, hi = maxPossible;\nwhile (lo < hi) {\n    int mid = lo + (hi-lo)/2;\n    if (feasible(mid)) hi = mid;\n    else lo = mid + 1;\n}\n// lo is the answer`,
+      code:`// Koko eating bananas: find min speed to eat all piles in h hours\nstatic boolean canFinish(int[] piles, int speed, int h) {\n    int hours = 0;\n    for (int p : piles) hours += (p + speed - 1) / speed; // ceil\n    return hours <= h;\n}\nstatic int minEatingSpeed(int[] piles, int h) {\n    int lo=1, hi=Arrays.stream(piles).max().getAsInt();\n    while(lo<hi){\n        int mid=lo+(hi-lo)/2;\n        if(canFinish(piles,mid,h)) hi=mid;\n        else lo=mid+1;\n    }\n    return lo;\n}`,
+      methods:[["feasible(mid)","the key: can we achieve this answer value?"],["Monotone property required","if X works, X+1 must also work (or vice versa)"],["lo+(hi-lo)/2","avoids integer overflow"]] },
+
+    { id:98, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Difference Array",
+      keys:"difference array range update O(1) increment decrement prefix sum restore lazy propagation",
+      scenario:"What if you need to add a value to every element in a range [l, r] of an array — and you have many such range-update operations — and you want each update to be O(1) instead of O(n)?",
+      world:"A waiter who marks '+1 coffee' at table 3 and '-1 coffee' after table 7, then tallies totals at the end — one pass instead of updating every table.",
+      visual:`arr = [0, 0, 0, 0, 0]\nAdd +3 to range [1,3]: diff[1]+=3, diff[4]-=3\nAdd +2 to range [2,4]: diff[2]+=2, diff[5]-=2\ndiff = [0, 3, 2, 0,-3,-2]\nprefix sum of diff → [0, 3, 5, 5, 2, 0] = final values`,
+      syntax:`int[] diff = new int[n+1];\ndiff[l]   += val;\ndiff[r+1] -= val;\n// after all updates, prefix sum diff[] to get final array`,
+      code:`int n=5;\nint[] diff=new int[n+1];\n// range update: add 3 to [1,3]\ndiff[1]+=3; diff[4]-=3;\n// range update: add 2 to [2,4]\ndiff[2]+=2; diff[5]-=2;\n// reconstruct\nint[] result=new int[n];\nresult[0]=diff[0];\nfor(int i=1;i<n;i++) result[i]=result[i-1]+diff[i];\nSystem.out.println(Arrays.toString(result));\n// [0, 3, 5, 5, 2]`,
+      methods:[["O(1) per update","just two writes to diff array"],["O(n) to restore","one prefix sum pass at the end"],["Size n+1","extra slot handles r+1 when r==n-1"]] },
+
+    // ── Algorithms additions ──
+    { id:99, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"2D Grid BFS",
+      keys:"2D grid BFS matrix traversal shortest path flood fill cells 4-directional 8-directional island",
+      scenario:"What if your problem is set on a 2D grid — like a maze or an island map — and you need to find the shortest path between two cells, or spread outward level by level from a starting cell?",
+      world:"Flooding a terrain map from a source cell — water spreads to all reachable cells level by level.",
+      visual:`grid (0=path, 1=wall):\n0 0 1 0\n0 0 0 0\n1 0 1 0\nBFS from (0,0): visit all 0-cells by distance\n4 directions: up, down, left, right\nUse visited[][] to avoid revisiting`,
+      syntax:`int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};\nQueue<int[]> q = new LinkedList<>();\nq.offer(new int[]{sr, sc}); vis[sr][sc]=true;\nwhile (!q.isEmpty()) {\n    int[] cell = q.poll();\n    for (int[] d : dirs) {\n        int nr=cell[0]+d[0], nc=cell[1]+d[1];\n        if (inBounds && !wall && !vis) { vis=true; q.offer(...); }\n    }\n}`,
+      code:`static int shortestPath(int[][] g, int sr,int sc,int er,int ec){\n    int R=g.length, C=g[0].length;\n    boolean[][] vis=new boolean[R][C];\n    int[][] dirs={{0,1},{0,-1},{1,0},{-1,0}};\n    Queue<int[]> q=new LinkedList<>();\n    q.offer(new int[]{sr,sc,0}); vis[sr][sc]=true;\n    while(!q.isEmpty()){\n        int[] cur=q.poll();\n        if(cur[0]==er&&cur[1]==ec) return cur[2];\n        for(int[] d:dirs){\n            int nr=cur[0]+d[0],nc=cur[1]+d[1];\n            if(nr>=0&&nr<R&&nc>=0&&nc<C&&g[nr][nc]==0&&!vis[nr][nc]){\n                vis[nr][nc]=true; q.offer(new int[]{nr,nc,cur[2]+1});\n            }\n        }\n    }\n    return -1;\n}`,
+      methods:[["4 directions","{{0,1},{0,-1},{1,0},{-1,0}}"],["8 directions","add diagonals: {1,1},{1,-1},{-1,1},{-1,-1}"],["visited[][]","prevent revisiting same cell"],["BFS = shortest path","in unweighted grids"]] },
+
+    { id:100, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Bellman-Ford",
+      keys:"bellman ford shortest path negative weights negative cycle detect single source V-1 edges relax",
+      scenario:"What if your graph has edges with negative weights — like currency exchange losses — and Dijkstra's breaks because it assumes all weights are positive?",
+      world:"A currency exchange network where some conversions lose money — Bellman-Ford finds the cheapest route even through losses.",
+      visual:`Relax ALL edges V-1 times:\nV-1 rounds guarantee shortest path (if no neg cycle)\n\nRound 1: improve direct paths\nRound 2: improve 2-hop paths\n...\nRound V-1: improve (V-1)-hop paths\n\nCheck round V: if still improving → negative cycle!`,
+      syntax:`int[] dist = new int[V]; Arrays.fill(dist, INF); dist[src]=0;\nfor (int i=1; i<V; i++)           // V-1 rounds\n    for (int[] e : edges)          // relax all edges\n        if (dist[e[0]]+e[2] < dist[e[1]])\n            dist[e[1]] = dist[e[0]]+e[2];`,
+      code:`static int[] bellmanFord(int V, int[][] edges, int src){\n    int[] dist=new int[V];\n    Arrays.fill(dist, Integer.MAX_VALUE/2);\n    dist[src]=0;\n    for(int i=1;i<V;i++)\n        for(int[] e:edges)  // {from, to, weight}\n            if(dist[e[0]]+e[2]<dist[e[1]])\n                dist[e[1]]=dist[e[0]]+e[2];\n    // detect negative cycle:\n    for(int[] e:edges)\n        if(dist[e[0]]+e[2]<dist[e[1]])\n            System.out.println("Negative cycle detected!");\n    return dist;\n}`,
+      methods:[["O(V×E) time","slower than Dijkstra's O((V+E)logV)"],["Handles negative edges","Dijkstra's does NOT"],["V-1 relaxation rounds","enough for any shortest path without a negative cycle"],["V-th round check","if improvement found → negative cycle"]] },
+  ];
+
+  const TOTAL = CARDS.length;
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderCards(query) {
+    const wrap = document.getElementById('cardsWrap');
+    const q = (query || '').trim().toLowerCase();
+    const filtered = q
+      ? CARDS.filter(c => (c.title||''+c.use+c.scenario+c.world+c.keys+c.cat).toLowerCase().includes(q))
+      : CARDS;
+
+    document.getElementById('countBar').innerHTML =
+      `Showing <strong>${filtered.length}</strong> of ${TOTAL} scenarios`;
+
+    if (filtered.length === 0) {
+      wrap.innerHTML = `<div class="empty-state"><div class="emoji">🔍</div>
+        <h3>No match for "${query}"</h3>
+        <p>Try: "hashmap", "for loop", "BFS", "recursion", "array", "two pointers"</p></div>`;
+      return;
+    }
+
+    let html = '';
+    let lastCat = null;
+
+    filtered.forEach((c, idx) => {
+      if (!q && c.cat !== lastCat) {
+        const catCount = CARDS.filter(x => x.cat === c.cat).length;
+        html += `<div class="cat-header">
+          <div class="cat-dot" style="background:${c.cc}"></div>
+          <span class="cat-name">${c.cat}</span>
+          <div class="cat-line"></div>
+          <span class="cat-count">${catCount} cards</span>
+        </div>`;
+        lastCat = c.cat;
+      }
+
+      const methodRows = c.methods.map(m =>
+        `<tr><td>${esc(m[0])}</td><td>${esc(m[1])}</td></tr>`).join('');
+
+      html += `
+      <div class="vc-card" id="card-${c.id}"
+        style="--cat-rgb:${c.cr};animation-delay:${(idx % 8) * 0.06}s">
+        <div class="vc-stripe" style="background:${c.cc}"></div>
+        <div class="vc-badge-row">
+          <span class="vc-badge" style="--cat-rgb:${c.cr}">${c.cat}</span>
+        </div>
+        <div class="vc-question">${c.scenario}</div>
+        <button class="vc-show-btn" id="abtn-${c.id}"
+          onclick="toggleAnswer(${c.id})" style="--cat-rgb:${c.cr}">
+          <span id="abtn-txt-${c.id}">Show Answer</span>
+          <span class="vc-btn-icon" id="abtn-ico-${c.id}">▾</span>
+        </button>
+
+        <div class="vc-answer" id="ans-${c.id}">
+          <div class="vc-answer-body" style="--cat-rgb:${c.cr}">
+            <div class="vc-use-row">
+              <span class="vc-use-arrow">→</span>
+              <span class="vc-use-label">Use this:</span>
+              <span class="vc-use-tag" style="--cat-rgb:${c.cr}">${esc(c.use)}</span>
+            </div>
+            <div class="vc-world">
+              <div class="vc-world-label">🌍 Real-World Example</div>
+              <div class="vc-world-text">${c.world}</div>
+            </div>
+            <div class="vc-visual">${esc(c.visual)}</div>
+
+            <button class="vc-syntax-btn" id="sbtn-${c.id}"
+              onclick="toggleSyntax(${c.id})" style="--cat-rgb:${c.cr}">
+              <span id="sbtn-txt-${c.id}">Show Syntax &amp; Code</span>
+              <span class="vc-syn-icon" id="sbtn-ico-${c.id}">▾</span>
+            </button>
+
+            <div class="vc-code-section" id="code-${c.id}">
+              <div class="vc-code-label">✍ Syntax</div>
+              <div class="vc-syntax-block">${esc(c.syntax)}</div>
+              <div class="vc-code-label">💻 Code Example</div>
+              <pre><code class="language-java">${esc(c.code)}</code></pre>
+              <div class="vc-code-label">🔧 Built-In Methods</div>
+              <div class="vc-methods"><table>${methodRows}</table></div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    wrap.innerHTML = html;
+  }
+
+  function toggleAnswer(id) {
+    const ans  = document.getElementById('ans-' + id);
+    const btn  = document.getElementById('abtn-' + id);
+    const txt  = document.getElementById('abtn-txt-' + id);
+    const ico  = document.getElementById('abtn-ico-' + id);
+    const open = ans.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    txt.textContent = open ? 'Hide Answer' : 'Show Answer';
+    ico.style.transform = open ? 'rotate(180deg)' : '';
+  }
+
+  function toggleSyntax(id) {
+    const sec  = document.getElementById('code-' + id);
+    const btn  = document.getElementById('sbtn-' + id);
+    const txt  = document.getElementById('sbtn-txt-' + id);
+    const ico  = document.getElementById('sbtn-ico-' + id);
+    const open = sec.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    txt.textContent = open ? 'Hide Syntax & Code' : 'Show Syntax & Code';
+    ico.style.transform = open ? 'rotate(180deg)' : '';
+    if (open) {
+      sec.querySelectorAll('code.language-java').forEach(el => {
+        if (!el.dataset.highlighted) hljs.highlightElement(el);
+      });
+    }
+  }
+
+  function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchClear').style.display = 'none';
+    document.getElementById('searchIcon').style.display = 'block';
+    renderCards('');
+  }
+
+  let debounceTimer;
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const val = this.value;
+    document.getElementById('searchClear').style.display = val ? 'block' : 'none';
+    document.getElementById('searchIcon').style.display = val ? 'none' : 'block';
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => renderCards(val), 180);
+  });
+
+  renderCards('');
+  </script>
+</body>
+</html>
