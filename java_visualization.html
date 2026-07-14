@@ -13,7 +13,7 @@
       --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
     }
     html { scroll-behavior: smooth; }
-    body { background: #0a0a0a; color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    body { background: #0a0a0a; color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
     .container { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 0 24px; }
 
@@ -64,42 +64,41 @@
     ══════════════════════════════ */
     .vc-card {
       background: #ffffff;
-      border-radius: 20px;
-      margin-bottom: 72px;
+      border-radius: 0;
+      border: 3px solid #111111;
+      margin-bottom: 96px;
       overflow: hidden;
       box-shadow:
-        0 2px 4px rgba(0,0,0,0.08),
-        0 8px 24px rgba(0,0,0,0.25),
-        0 24px 64px rgba(0,0,0,0.45),
-        0 48px 100px rgba(0,0,0,0.3);
-      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
+        12px 12px 0 0 rgba(var(--cat-rgb), 1),
+        0 28px 60px rgba(0,0,0,0.45),
+        0 50px 100px rgba(0,0,0,0.22);
+      transition: transform 0.22s cubic-bezier(0.4,0,0.2,1),
+                  box-shadow 0.22s cubic-bezier(0.4,0,0.2,1);
       animation: cardIn 0.45s cubic-bezier(0.4,0,0.2,1) both;
     }
     .vc-card:hover {
-      transform: translateY(-6px) scale(1.002);
+      transform: translate(-5px, -5px);
       box-shadow:
-        0 4px 8px rgba(0,0,0,0.1),
-        0 16px 40px rgba(0,0,0,0.35),
-        0 40px 80px rgba(0,0,0,0.55),
-        0 64px 120px rgba(0,0,0,0.35);
+        17px 17px 0 0 rgba(var(--cat-rgb), 1),
+        0 36px 72px rgba(0,0,0,0.55),
+        0 64px 120px rgba(0,0,0,0.28);
     }
     @keyframes cardIn {
-      from { opacity: 0; transform: translateY(32px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: translate(8px, 36px); }
+      to   { opacity: 1; transform: translate(0, 0); }
     }
 
     /* Top color stripe */
-    .vc-stripe { height: 6px; width: 100%; }
 
     /* Category badge */
     .vc-badge-row { padding: 22px 28px 0; }
     .vc-badge {
       display: inline-block;
       font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
-      padding: 4px 12px; border-radius: 100px;
+      padding: 4px 12px; border-radius: 0;
       background: rgba(var(--cat-rgb),0.09);
       color: rgba(var(--cat-rgb),1);
-      border: 1px solid rgba(var(--cat-rgb),0.18);
+      border: 2px solid rgba(var(--cat-rgb),0.35);
     }
 
     /* The big scenario question */
@@ -115,15 +114,16 @@
       margin: 0 28px 28px;
       display: inline-flex; align-items: center; gap: 9px;
       background: transparent;
-      border: 2px solid rgba(var(--cat-rgb),0.5);
+      border: 2.5px solid rgba(var(--cat-rgb),0.6);
       color: rgba(var(--cat-rgb),1);
-      border-radius: 10px; padding: 11px 22px;
+      border-radius: 0; padding: 11px 22px;
       font-size: 13px; font-weight: 700;
-      cursor: pointer; transition: all 0.2s;
+      cursor: pointer; transition: all 0.18s;
       font-family: 'Inter', sans-serif; letter-spacing: 0.2px;
+      box-shadow: 3px 3px 0 rgba(var(--cat-rgb),0.25);
     }
-    .vc-show-btn:hover { background: rgba(var(--cat-rgb),0.07); border-color: rgba(var(--cat-rgb),0.9); }
-    .vc-show-btn.open { background: rgba(var(--cat-rgb),0.08); border-color: rgba(var(--cat-rgb),0.9); }
+    .vc-show-btn:hover { background: rgba(var(--cat-rgb),0.07); border-color: rgba(var(--cat-rgb),0.9); box-shadow: 4px 4px 0 rgba(var(--cat-rgb),0.35); }
+    .vc-show-btn.open { background: rgba(var(--cat-rgb),0.08); border-color: rgba(var(--cat-rgb),0.9); box-shadow: 4px 4px 0 rgba(var(--cat-rgb),0.35); }
     .vc-btn-icon { font-size: 10px; transition: transform 0.25s; display: inline-block; }
     .vc-show-btn.open .vc-btn-icon { transform: rotate(180deg); }
 
@@ -133,8 +133,8 @@
 
     .vc-answer-body {
       padding: 28px 28px 24px;
-      background: #f7f7f7;
-      border-top: 1px solid #ebebeb;
+      background: #f6f6f6;
+      border-top: 3px solid #111111;
     }
 
     /* Use this row */
@@ -145,7 +145,7 @@
       font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700;
       color: #fff;
       background: rgba(var(--cat-rgb),1);
-      padding: 5px 16px; border-radius: 100px;
+      padding: 5px 16px; border-radius: 0;
       letter-spacing: 0.2px;
     }
 
@@ -157,24 +157,26 @@
     /* Visualization */
     .vc-visual {
       background: #111827; color: #94a3b8;
-      border-radius: 12px; padding: 18px 20px;
+      border-radius: 0; padding: 18px 20px;
       font-family: 'JetBrains Mono', monospace; font-size: 12px;
       line-height: 1.75; white-space: pre; overflow-x: auto;
       margin-bottom: 22px;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+      border-left: 4px solid rgba(var(--cat-rgb),1);
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3), 3px 3px 0 rgba(0,0,0,0.35);
     }
 
     /* Nested Show Syntax & Code button */
     .vc-syntax-btn {
       display: inline-flex; align-items: center; gap: 9px;
       background: #111; color: #fff;
-      border: none; border-radius: 10px; padding: 11px 20px;
+      border: 2.5px solid #111; border-radius: 0; padding: 11px 20px;
       font-size: 12px; font-weight: 700; cursor: pointer;
-      font-family: 'Inter', sans-serif; transition: all 0.2s;
+      font-family: 'Inter', sans-serif; transition: all 0.18s;
       letter-spacing: 0.2px;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
     }
-    .vc-syntax-btn:hover { background: #222; }
-    .vc-syntax-btn.open { background: rgba(var(--cat-rgb),1); }
+    .vc-syntax-btn:hover { background: #222; box-shadow: 4px 4px 0 rgba(0,0,0,0.45); }
+    .vc-syntax-btn.open { background: rgba(var(--cat-rgb),1); border-color: rgba(var(--cat-rgb),1); box-shadow: 3px 3px 0 rgba(var(--cat-rgb),0.4); }
     .vc-syn-icon { font-size: 10px; transition: transform 0.25s; display: inline-block; }
     .vc-syntax-btn.open .vc-syn-icon { transform: rotate(180deg); }
 
@@ -189,11 +191,13 @@
     .vc-code-label:first-child { margin-top: 0; }
 
     .vc-syntax-block {
-      background: #0f172a; border-radius: 10px; padding: 14px 16px;
+      background: #0f172a; border-radius: 0; padding: 14px 16px;
       font-family: 'JetBrains Mono',monospace; font-size: 12.5px;
       color: #a5b4fc; line-height: 1.7; white-space: pre; overflow-x: auto;
+      border-left: 4px solid rgba(var(--cat-rgb),0.7);
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
     }
-    .hljs { border-radius: 10px; font-size: 12.5px; font-family: 'JetBrains Mono',monospace; line-height: 1.7; padding: 14px 16px !important; }
+    .hljs { border-radius: 0 !important; font-size: 12.5px; font-family: 'JetBrains Mono',monospace; line-height: 1.7; padding: 14px 16px !important; border-left: 4px solid rgba(var(--cat-rgb),0.7) !important; box-shadow: 3px 3px 0 rgba(0,0,0,0.4) !important; }
 
     .vc-methods { margin-top: 6px; }
     .vc-methods table { width: 100%; border-collapse: collapse; }
@@ -212,6 +216,278 @@
     footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 28px 0; text-align: center; }
     footer p { color: var(--text3); font-size: 13px; }
     footer strong { color: var(--purple-l); }
+
+    /* ── Index FAB + Panel ── */
+    .idx-fab {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      color: #fff; border: none; border-radius: 14px;
+      padding: 12px 20px; font-size: 14px; font-weight: 700;
+      cursor: pointer; box-shadow: 0 8px 32px rgba(124,58,237,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Inter', sans-serif; letter-spacing: 0.2px;
+    }
+    .idx-fab:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(124,58,237,0.55); }
+    .idx-fab-icon { font-size: 17px; line-height: 1; }
+
+    .idx-overlay {
+      position: fixed; inset: 0; z-index: 400;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .idx-overlay.open { opacity: 1; pointer-events: all; }
+
+    .idx-panel {
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 401;
+      width: 310px; max-width: 92vw;
+      background: #111217;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      display: flex; flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 8px 0 48px rgba(0,0,0,0.6);
+    }
+    .idx-panel.open { transform: translateX(0); }
+
+    .idx-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .idx-head-title {
+      font-size: 14px; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--purple-l);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .idx-close {
+      background: rgba(255,255,255,0.06); border: none; color: var(--text2);
+      width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
+      font-size: 15px; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .idx-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    .idx-search {
+      padding: 12px 14px; margin: 12px 14px 4px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; color: #fff;
+      font-size: 12.5px; font-family: 'Inter',sans-serif; outline: none;
+      transition: border-color 0.2s;
+    }
+    .idx-search::placeholder { color: #555; }
+    .idx-search:focus { border-color: rgba(124,58,237,0.5); }
+
+    .idx-body {
+      flex: 1; overflow-y: auto; padding: 8px 0 24px;
+      scrollbar-width: thin; scrollbar-color: #333 transparent;
+    }
+    .idx-body::-webkit-scrollbar { width: 4px; }
+    .idx-body::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+    .idx-cat { margin-bottom: 4px; }
+    .idx-cat-label {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px 6px;
+      font-size: 9px; font-weight: 800; letter-spacing: 2.5px;
+      text-transform: uppercase; color: #555; cursor: pointer;
+      user-select: none;
+    }
+    .idx-cat-label:hover { color: #888; }
+    .idx-cat-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .idx-cat-name { flex: 1; }
+    .idx-cat-toggle { font-size: 8px; transition: transform 0.2s; }
+    .idx-cat-toggle.open { transform: rotate(90deg); }
+
+    .idx-items { display: none; }
+    .idx-items.open { display: block; }
+
+    .idx-item {
+      display: flex; align-items: baseline; gap: 10px;
+      padding: 6px 20px 6px 30px;
+      cursor: pointer; transition: background 0.15s;
+      text-decoration: none; border: none; background: none;
+      width: 100%; text-align: left; font-family: 'Inter',sans-serif;
+    }
+    .idx-item:hover { background: rgba(255,255,255,0.04); }
+    .idx-item-num {
+      font-size: 10px; font-weight: 700; color: #444; min-width: 18px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .idx-item-use {
+      font-size: 12.5px; color: #bbb; font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .idx-item:hover .idx-item-use { color: #fff; }
+    .idx-item.hidden { display: none; }
+
+    .idx-stats {
+      padding: 8px 20px 4px; font-size: 10px; color: #444;
+      letter-spacing: 0.5px;
+    }
+
+    /* card highlight pulse when navigated to */
+    @keyframes cardPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(124,58,237,0.7), 0 32px 80px rgba(0,0,0,0.45); }
+      50%  { box-shadow: 0 0 0 6px rgba(124,58,237,0.2), 0 32px 80px rgba(0,0,0,0.45); }
+      100% { box-shadow: 0 2px 4px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.25), 0 24px 64px rgba(0,0,0,0.45), 0 48px 100px rgba(0,0,0,0.3); }
+    }
+    .idx-card-flash { animation: cardPulse 1s ease-out forwards; }
+
+    /* ═══════════════════════════════════════
+       MOBILE RESPONSIVE
+    ═══════════════════════════════════════ */
+
+    /* ── ≤ 768px  (tablets / large phones) ── */
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+
+      /* Nav */
+      .nav-pill { display: none; }
+      .logo-text { font-size: 14px; }
+
+      /* Hero */
+      .hero { padding: 48px 0 32px; }
+      .hero-badge { font-size: 11px; padding: 6px 14px; margin-bottom: 20px; }
+      .hero-sub { font-size: 14px; margin-bottom: 24px; }
+      .count-bar { margin-bottom: 40px; }
+
+      /* Category divider */
+      .cat-header { margin: 64px 0 32px; }
+
+      /* Card */
+      .vc-card {
+        margin-bottom: 56px;
+        box-shadow:
+          8px 8px 0 0 rgba(var(--cat-rgb), 1),
+          0 18px 44px rgba(0,0,0,0.42);
+      }
+      .vc-card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow:
+          11px 11px 0 0 rgba(var(--cat-rgb), 1),
+          0 26px 56px rgba(0,0,0,0.52);
+      }
+      .vc-badge-row { padding: 20px 22px 0; }
+      .vc-question  { padding: 16px 22px 20px; font-size: 17px; }
+      .vc-show-btn  { margin: 0 22px 22px; }
+      .vc-answer-body { padding: 22px 22px 20px; }
+
+      /* Methods table */
+      .vc-methods td:first-child { width: 40%; white-space: normal; word-break: break-word; }
+    }
+
+    /* ── ≤ 580px  (phones) ── */
+    @media (max-width: 580px) {
+      .container { padding: 0 12px; }
+
+      /* Nav */
+      .nav-inner { padding: 11px 0; }
+      .logo-icon  { width: 30px; height: 30px; font-size: 14px; border-radius: 8px; }
+      .logo-text  { font-size: 13px; }
+      .nav-back   { font-size: 11px; }
+
+      /* Hero */
+      .hero { padding: 34px 0 24px; }
+      .hero-badge { font-size: 10.5px; padding: 5px 12px; flex-wrap: wrap; justify-content: center; }
+      .hero-title { letter-spacing: -1.5px; }
+      .hero-sub   { font-size: 13.5px; margin-bottom: 20px; }
+      .search-input { font-size: 14px; padding: 13px 44px 13px 16px; border-radius: 12px; }
+      .count-bar  { margin-bottom: 28px; font-size: 12px; }
+
+      /* Category divider */
+      .cat-header { margin: 48px 0 24px; gap: 10px; }
+      .cat-name   { font-size: 9px; letter-spacing: 2px; }
+
+      /* Card */
+      .vc-card {
+        margin-bottom: 44px;
+        box-shadow:
+          7px 7px 0 0 rgba(var(--cat-rgb), 1),
+          0 14px 34px rgba(0,0,0,0.4);
+      }
+      /* Disable translate-hover on touch screens */
+      .vc-card:hover {
+        transform: none;
+        box-shadow:
+          7px 7px 0 0 rgba(var(--cat-rgb), 1),
+          0 14px 34px rgba(0,0,0,0.4);
+      }
+      .vc-badge-row { padding: 16px 18px 0; }
+      .vc-question  { padding: 14px 18px 18px; font-size: 15.5px; line-height: 1.6; }
+      .vc-show-btn  { margin: 0 18px 18px; padding: 11px 18px; font-size: 12.5px; min-height: 44px; }
+      .vc-answer-body { padding: 18px 18px 16px; }
+
+      /* Use row */
+      .vc-use-row   { flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+      .vc-use-arrow { display: none; }
+      .vc-use-tag   { font-size: 12px; padding: 4px 12px; }
+
+      /* World */
+      .vc-world-text { font-size: 13.5px; }
+
+      /* Visual / code */
+      .vc-visual { font-size: 11px; padding: 14px 12px; }
+      .vc-syntax-btn  { padding: 10px 16px; font-size: 12px; min-height: 44px; }
+      .vc-syntax-block { font-size: 11.5px; padding: 12px 12px; }
+      .hljs { font-size: 11.5px !important; padding: 12px 12px !important; }
+
+      /* Methods */
+      .vc-methods td { padding: 7px 8px; font-size: 11.5px; }
+      .vc-methods td:first-child { width: 38%; white-space: normal; word-break: break-word; }
+
+      /* Index FAB */
+      .idx-fab { bottom: 18px; right: 14px; padding: 10px 16px; font-size: 13px; }
+    }
+
+    /* ── ≤ 400px  (very small phones) ── */
+    @media (max-width: 400px) {
+      .container { padding: 0 10px; }
+
+      /* Nav — hide logo text, keep icon + back */
+      .logo-text { display: none; }
+      .nav-back  { font-size: 12px; }
+
+      /* Hero */
+      .hero { padding: 24px 0 18px; }
+      .hero-sub { font-size: 13px; }
+
+      /* Category */
+      .cat-header { margin: 36px 0 18px; }
+
+      /* Card */
+      .vc-card {
+        margin-bottom: 36px;
+        border-width: 2px;
+        box-shadow:
+          5px 5px 0 0 rgba(var(--cat-rgb), 1),
+          0 10px 24px rgba(0,0,0,0.38);
+      }
+      .vc-badge-row { padding: 13px 14px 0; }
+      .vc-question  { padding: 12px 14px 16px; font-size: 14px; }
+      .vc-show-btn  { margin: 0 14px 15px; padding: 10px 14px; font-size: 12px; }
+      .vc-answer-body { padding: 15px 14px 14px; }
+
+      /* Visual */
+      .vc-visual { font-size: 10.5px; padding: 11px 10px; }
+
+      /* Syntax / code */
+      .vc-syntax-btn   { font-size: 11.5px; padding: 10px 12px; }
+      .vc-syntax-block { font-size: 10.5px; padding: 11px 10px; }
+      .hljs { font-size: 10.5px !important; padding: 11px 10px !important; }
+
+      /* Methods — stack columns vertically */
+      .vc-methods tr   { display: flex; flex-direction: column; border-bottom: 1px solid #e2e2e2; padding: 8px 0; }
+      .vc-methods tr:last-child { border-bottom: none; }
+      .vc-methods td   { border-bottom: none !important; padding: 2px 6px; font-size: 11px; width: auto !important; white-space: normal; }
+      .vc-methods td:first-child { color: rgba(var(--cat-rgb),1); margin-bottom: 2px; }
+
+      /* Index FAB */
+      .idx-fab { bottom: 14px; right: 12px; padding: 9px 14px; font-size: 12.5px; border-radius: 10px; }
+      .idx-fab-icon { font-size: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -254,6 +530,24 @@
     </div>
   </footer>
 
+  <!-- Index FAB -->
+  <button class="idx-fab" onclick="openIndex()">
+    <span class="idx-fab-icon">☰</span> Index
+  </button>
+
+  <!-- Overlay -->
+  <div class="idx-overlay" id="idxOverlay" onclick="closeIndex()"></div>
+
+  <!-- Index Panel -->
+  <div class="idx-panel" id="idxPanel">
+    <div class="idx-head">
+      <div class="idx-head-title">☰ &nbsp;Topic Index</div>
+      <button class="idx-close" onclick="closeIndex()">✕</button>
+    </div>
+    <input class="idx-search" id="idxSearch" type="text" placeholder="Filter topics…">
+    <div class="idx-body" id="idxBody"></div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
   <script>
@@ -261,7 +555,6 @@
     // ── 1: Variables & Data Types ──
     { id:1,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"int",
       keys:"int integer number count age score whole primitive",
-      scenario:"What if you need to store a simple number — like someone's age, a score, or a count of items — and it will never have any decimal part?",
       world:"A scoreboard showing 7 goals — always a whole number, never 7.5.",
       visual:`[   42   ]  ← one box, one whole value\nRange: -2,147,483,648  to  2,147,483,647\nDefault (class field): 0`,
       syntax:`int x = 10;\nint count = 0;\nfinal int MAX = 100;  // constant`,
@@ -270,7 +563,6 @@
 
     { id:2,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"double",
       keys:"double float decimal price percentage pi fractional",
-      scenario:"What if your number needs decimal places — like a price of ₹99.50, a temperature of 36.7°C, or a percentage like 87.5%?",
       world:"Fuel price of ₹96.75 — you can't represent that with int.",
       visual:`[  96.75  ]  ← decimal stored in 64 bits\nfloat  → 32-bit (~7 digit precision)  suffix: f\ndouble → 64-bit (~15 digit precision) ← prefer this`,
       syntax:`double price = 9.99;\nfloat temp = 36.6f;    // f suffix required\ndouble pi = Math.PI;   // 3.14159...`,
@@ -279,7 +571,6 @@
 
     { id:3,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"boolean",
       keys:"boolean bool true false flag condition toggle on off",
-      scenario:"What if you only need a yes-or-no answer inside your code — like: is the user logged in? Is this number even? Did we find the target?",
       world:"A light switch: ON or OFF — never half-on.",
       visual:`[ true  ]  or  [ false ]\nOnly two possible values.\n1 bit of information.`,
       syntax:`boolean isActive = true;\nboolean found = false;\nboolean isEven = (n % 2 == 0);`,
@@ -288,7 +579,6 @@
 
     { id:4,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"char",
       keys:"char character letter digit symbol grade direction unicode single",
-      scenario:"What if you only need to store a single letter, digit, or symbol — like a grade 'A', a gender 'M', or a compass direction 'N'?",
       world:"A playing card face: 'K' for King — just one character.",
       visual:`[ 'A' ]  ← stored as Unicode number 65\nRange: 0 to 65535 (Unicode)\nMust use single quotes: 'A'  not  "A"`,
       syntax:`char grade = 'A';\nchar digit = '7';\nchar symbol = '@';`,
@@ -297,7 +587,6 @@
 
     { id:5,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"long",
       keys:"long large big number billion population timestamp id overflow",
-      scenario:"What if your number is too large for a normal int — like a world population of 8,000,000,000, a file size in bytes, or a timestamp in milliseconds?",
       world:"World population: 8,000,000,000 — doesn't fit in int.",
       visual:`int  max:  2,147,483,647         (~2 billion)\nlong max:  9,223,372,036,854,775,807  (~9.2 quintillion)\nMust add L suffix:  8_000_000_000L`,
       syntax:`long population = 8_000_000_000L;\nlong timestamp = System.currentTimeMillis();\nlong id = 9876543210L;`,
@@ -306,7 +595,6 @@
 
     { id:6,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"String",
       keys:"string text word name message immutable characters sequence",
-      scenario:"What if you need to store text — a name, a message, a sentence, or any sequence of characters — and need to search, slice, or compare it?",
       world:"A name tag: 'Arjun Sharma' — a sequence of characters.",
       visual:`"Hello"\n H  e  l  l  o\n[0][1][2][3][4]  ← indices\nStrings are IMMUTABLE — methods return NEW strings.`,
       syntax:`String name = "Alice";\nString msg = "Hello " + name;  // concatenation`,
@@ -315,7 +603,6 @@
 
     { id:7,  cat:"Variables & Data Types", cc:"#10b981", cr:"16,185,129", use:"Wrapper Classes",
       keys:"wrapper integer double boolean character autoboxing collections null generic",
-      scenario:"What if you need to put a number or boolean inside an ArrayList or HashMap — collections that only accept objects, not raw primitives — or you need the value to sometimes be null?",
       world:"A box that can be empty (null) or contain a number — a plain int can never be null.",
       visual:`Primitive → Wrapper\nint      → Integer\ndouble   → Double\nboolean  → Boolean\nchar     → Character\nAutoboxing: int x=5; Integer obj=x;  // auto`,
       syntax:`Integer a = 42;         // boxing\nInteger b = null;        // allowed!\nList<Integer> nums = new ArrayList<>();`,
@@ -325,7 +612,6 @@
     // ── 2: Conditionals ──
     { id:8,  cat:"Conditionals & Decisions", cc:"#f59e0b", cr:"245,158,11", use:"if / else if / else",
       keys:"if else condition check branch decision boolean compare",
-      scenario:"What if your code needs to take different paths based on a condition — do one thing when it is true, and something completely different when it is false?",
       world:"Traffic light: RED → stop, YELLOW → slow, GREEN → go.",
       visual:`condition?\n  ├─ TRUE  → run if-block\n  └─ FALSE → run else-block\nChain: score≥90→A, score≥80→B, else→C`,
       syntax:`if (condition) {\n    // runs when true\n} else if (other) {\n    // alternative\n} else {\n    // default\n}`,
@@ -334,7 +620,6 @@
 
     { id:9,  cat:"Conditionals & Decisions", cc:"#f59e0b", cr:"245,158,11", use:"Ternary Operator ?:",
       keys:"ternary inline condition short one-line expression",
-      scenario:"What if you need to choose between exactly two values based on a condition, and you want to write the whole thing in a single compact line instead of a full if-else block?",
       world:"Express lane: items > 10 ? 'Regular Lane' : 'Express Lane'",
       visual:`condition ? valueIfTrue : valueIfFalse\n    ↑                ↑               ↑\n check         if true          if false`,
       syntax:`type result = condition ? trueValue : falseValue;`,
@@ -343,7 +628,6 @@
 
     { id:10, cat:"Conditionals & Decisions", cc:"#f59e0b", cr:"245,158,11", use:"switch",
       keys:"switch case default multiple choice menu option day month fixed",
-      scenario:"What if you have one variable — like a day number or a menu choice — and you need completely different code to run for each possible value it could be?",
       world:"A vending machine: A1→water, A2→juice, A3→snack.",
       visual:`switch(value)\n  case 1: → code  break\n  case 2: → code  break\n  default: → code  (fallback)\n⚠ Without break: falls through to next case!`,
       syntax:`switch (day) {\n    case 1: System.out.println("Mon"); break;\n    case 2: System.out.println("Tue"); break;\n    default: System.out.println("Other");\n}`,
@@ -353,7 +637,6 @@
     // ── 3: Loops ──
     { id:11, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"for loop",
       keys:"for loop repeat n times count iteration index range increment",
-      scenario:"What if you need to run the same block of code a fixed number of times — like printing numbers 1 to 100, or going through each element of an array from the first index to the last?",
       world:"A factory stamping 100 bottles — stamp exactly 100 times.",
       visual:`i=0 → body → i++\ni=1 → body → i++\n...\ni=N → STOP (condition false)\n init   condition   update`,
       syntax:`for (int i = 0; i < n; i++) {\n    // body — runs n times\n}`,
@@ -362,7 +645,6 @@
 
     { id:12, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"while loop",
       keys:"while condition unknown iterations read input repeat",
-      scenario:"What if you need to keep repeating something but you don't know in advance how many times — you just want to keep going as long as a condition stays true?",
       world:"Keep refilling a glass while it's not full — unknown number of pours.",
       visual:`┌─ check condition ─┐\n│   FALSE → STOP    │\n│   TRUE            │\n│     ↓ run body    │\n└───────────────────┘\nChecks BEFORE running body.`,
       syntax:`while (condition) {\n    // body\n    // must eventually make condition false!\n}`,
@@ -371,7 +653,6 @@
 
     { id:13, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"do-while",
       keys:"do while at least once first run menu prompt retry input",
-      scenario:"What if the loop body must run at least once before you even check whether to continue — like showing a menu to the user first, then asking if they want to go again?",
       world:"Eating dinner: take at least one bite before deciding if you want more.",
       visual:`run body  ← ALWAYS runs first\n    ↓\ncheck condition\n  TRUE  → back to body\n  FALSE → stop`,
       syntax:`do {\n    // body (runs at least once)\n} while (condition); // ← semicolon required`,
@@ -380,7 +661,6 @@
 
     { id:14, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"for-each",
       keys:"foreach enhanced for iterate array list collection elements read",
-      scenario:"What if you just want to go through every element in an array or list, one by one, without needing to track or even know the current index?",
       world:"Checking every item on a grocery list — pick it up, move to next.",
       visual:`[A][B][C][D][E]\n ↓  ↓  ↓  ↓  ↓\n A  B  C  D  E   ← visit in order\nNo index needed.`,
       syntax:`for (Type item : collectionOrArray) {\n    // use item\n}`,
@@ -389,7 +669,6 @@
 
     { id:15, cat:"Loops", cc:"#f97316", cr:"249,115,22", use:"while(true)",
       keys:"infinite loop forever server game loop break exit sentinel",
-      scenario:"What if you need a loop that just keeps running forever — like a server always waiting for the next request — and the only way it stops is when something specific inside it decides to break out?",
       world:"A 24/7 restaurant — stays open until the owner decides to shut it.",
       visual:`→ body runs\n→ check: should I stop?\n     YES → break → EXIT\n     NO  → body runs again\n→ body runs ... until break`,
       syntax:`while (true) {\n    // do work\n    if (exitCondition) break;\n}`,
@@ -399,7 +678,6 @@
     // ── 4: Methods & Recursion ──
     { id:16, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"void method",
       keys:"method function void reuse block define call parameter argument",
-      scenario:"What if you have the same block of code that needs to run in multiple places — how do you write it once, give it a name, and call it anywhere without copy-pasting?",
       world:"A pizza recipe: write the steps once, call 'makePizza()' whenever needed.",
       visual:`define once:\n  greet(String name) { ... }\n\ncall anywhere:\n  main() ─calls─→ greet("Alice")\n                       ↓ runs body\n                ←────── returns (void)`,
       syntax:`static void methodName(Type param) {\n    // body\n}`,
@@ -408,7 +686,6 @@
 
     { id:17, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"return-type method",
       keys:"return method int string boolean compute calculate result value output",
-      scenario:"What if you need a method that does some calculation and hands the result back to whoever called it — like a function that takes two numbers and gives you their sum?",
       world:"A calculator's 'add' button — give it two numbers, get back the result.",
       visual:`caller:  result = add(3, 4)\n                     ↓\nmethod:  add(3, 4) → computes 7\n                     ↑\ncaller receives: result = 7`,
       syntax:`static ReturnType methodName(params) {\n    // compute\n    return value;  // must match ReturnType\n}`,
@@ -417,7 +694,6 @@
 
     { id:18, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"Method Overloading",
       keys:"overloading same name different parameters signature multiple types",
-      scenario:"What if you want one method name to work with different types of input — like add(int,int) and add(double,double) — and you want Java to automatically pick the right version?",
       world:"A 'save' button that saves a file or a screenshot depending on what you pass in.",
       visual:`print(int x)    ← called with int\nprint(double x) ← called with double\nprint(String s) ← called with String\nResolved at compile time — zero runtime cost.`,
       syntax:`static void print(int x) { ... }\nstatic void print(double x) { ... }\nstatic void print(String s) { ... }`,
@@ -426,7 +702,6 @@
 
     { id:19, cat:"Methods & Recursion", cc:"#8b5cf6", cr:"139,92,246", use:"Recursion",
       keys:"recursion recursive self call stack factorial fibonacci base case depth",
-      scenario:"What if your problem breaks into a smaller version of exactly the same problem — like factorial of 5 using factorial of 4, which uses factorial of 3 — can the method call itself?",
       world:"Russian dolls — to open a doll, open the outer shell, then open a smaller doll.",
       visual:`factorial(4)\n  └→ 4 × factorial(3)\n         └→ 3 × factorial(2)\n                └→ 2 × factorial(1)\n                       └→ 1  ← BASE CASE\n                ← 2×1=2\n         ← 3×2=6\n  ← 4×6 = 24`,
       syntax:`static int method(int n) {\n    if (n == base) return baseValue; // STOP\n    return ... method(smaller n) ...;\n}`,
@@ -436,7 +711,6 @@
     // ── 5: Arrays & Strings ──
     { id:20, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"Array (1D)",
       keys:"array fixed size same type index access position fast lookup",
-      scenario:"What if you need to store multiple values of the same type and you already know the count in advance — like 5 test scores, 7 temperatures, or 10 names?",
       world:"Cinema seats — each seat has a fixed number, holds one person, jump straight to seat #5.",
       visual:`index: [0]  [1]  [2]  [3]  [4]\nvalue: [10] [20] [30] [40] [50]\n         ↑\n   arr[2] = 30  → O(1) direct access`,
       syntax:`int[] arr = new int[5];              // size 5, all zeros\nint[] arr = {10, 20, 30, 40, 50};    // initialized`,
@@ -445,7 +719,6 @@
 
     { id:21, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"2D Array",
       keys:"2d array grid matrix row column table board game",
-      scenario:"What if your data naturally fits in a grid with rows and columns — like a chessboard, a classroom seating chart, or a table of marks for students across subjects?",
       world:"A spreadsheet: row 2, col 3 holds sales for Feb, Product C.",
       visual:`      col0 col1 col2\nrow0: [ 1]  [ 2]  [ 3]\nrow1: [ 4]  [ 5]  [ 6]\nrow2: [ 7]  [ 8]  [ 9]\n\narr[1][2] = 6  (row 1, col 2)`,
       syntax:`int[][] grid = new int[rows][cols];\nint[][] g = {{1,2,3},{4,5,6},{7,8,9}};`,
@@ -454,7 +727,6 @@
 
     { id:22, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"String",
       keys:"string text immutable word name sentence characters methods search slice",
-      scenario:"What if you need to work with text — searching inside it, cutting a piece out, replacing a word, splitting by a separator, or checking how long it is?",
       world:"A printed name tag — you can't change it; you print a new one if the name changes.",
       visual:`"Hello"\n H  e  l  l  o\n[0][1][2][3][4]\ns.toUpperCase() doesn't change s — creates "HELLO"`,
       syntax:`String s = "Hello";\nString s2 = s + " World";  // creates new String`,
@@ -463,7 +735,6 @@
 
     { id:23, cat:"Arrays & Strings", cc:"#3b82f6", cr:"59,130,246", use:"StringBuilder",
       keys:"stringbuilder mutable string append build efficient concatenation loop",
-      scenario:"What if you are joining many strings together inside a loop — and using + each time creates a brand-new object every iteration, making it unnecessarily slow?",
       world:"Stamping one sentence at a time onto the same paper — not rewriting from scratch each time.",
       visual:`sb = []\nsb.append("Hi")     → [H][i]\nsb.append(" Java")  → [H][i][ ][J][a][v][a]\nsb.reverse()        → [a][v][a][J][ ][i][H]\nsb.toString()       → "avaJ iH"`,
       syntax:`StringBuilder sb = new StringBuilder();\nsb.append("text");\nString result = sb.toString();`,
@@ -473,7 +744,6 @@
     // ── 6: Collections ──
     { id:24, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"ArrayList",
       keys:"arraylist list dynamic ordered duplicates add remove get index size",
-      scenario:"What if you need a list of items but the size is not fixed — you add and remove as you go — and you still want to access items quickly by their position?",
       world:"A shopping cart — add items, remove items, size changes dynamically.",
       visual:`[Alice][Bob][Carol]\n  0      1     2\nadd("Dave")  → [Alice][Bob][Carol][Dave]\nremove(1)    → [Alice][Carol][Dave]`,
       syntax:`List<String> list = new ArrayList<>();\nlist.add("Alice");\nlist.get(0);\nlist.remove(0);`,
@@ -482,7 +752,6 @@
 
     { id:25, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"ArrayDeque",
       keys:"arraydeque deque front back insert remove fast O(1) double ended queue",
-      scenario:"What if you need to add or remove items from both the front AND the back of a list, and both operations must be instant — O(1) — not slow like ArrayList?",
       world:"A queue where VIP customers can join from the front.",
       visual:`front → [A] [B] [C] ← back\naddFirst("Z") → [Z][A][B][C]\naddLast("D")  → [Z][A][B][C][D]\npollFirst()   → "Z"  removed from front`,
       syntax:`Deque<String> dq = new ArrayDeque<>();\ndq.addFirst("x");  // O(1) front\ndq.addLast("y");   // O(1) back`,
@@ -491,7 +760,6 @@
 
     { id:26, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"Stack (use Deque)",
       keys:"stack LIFO push pop peek undo bracket parenthesis last in first out",
-      scenario:"What if you need to process things in reverse order of how they arrived — like an undo feature that undoes the most recent action first, or checking if brackets match?",
       world:"A stack of plates — always add and take from the TOP.",
       visual:`push(1) push(2) push(3)\n  ┌─────┐\n  │  3  │ ← TOP (peek/pop here)\n  │  2  │\n  │  1  │\n  └─────┘\npop() → 3, then 2, then 1`,
       syntax:`Deque<Integer> stack = new ArrayDeque<>();\nstack.push(x);   // add to top\nstack.pop();     // remove from top\nstack.peek();    // view top`,
@@ -500,7 +768,6 @@
 
     { id:27, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"Queue (use ArrayDeque)",
       keys:"queue FIFO BFS first in first out offer poll peek level order",
-      scenario:"What if you need to process items in the exact order they arrived — first in, first out — like a customer service line or BFS level-by-level traversal?",
       world:"A cinema ticket line — the person who arrived first gets served first.",
       visual:`enqueue → [A][B][C] → dequeue\n              add rear ↑   ↑ remove front\npoll() → A, then B, then C`,
       syntax:`Queue<Integer> q = new LinkedList<>();\nq.offer(x);  // add to back\nq.poll();    // remove from front\nq.peek();    // view front`,
@@ -509,7 +776,6 @@
 
     { id:28, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"PriorityQueue",
       keys:"priorityqueue heap min max smallest largest top k greedy dijkstra",
-      scenario:"What if you always need to grab the smallest or most urgent item next — even as new items keep arriving in random order — like an ER treating the most critical patient first?",
       world:"Hospital triage — most critical patient first, not who arrived first.",
       visual:`add 5,1,3,2,4 →\nMin-Heap (default):\n       [1]          ← peek/poll always returns this\n      /    \\\n   [2]    [3]\npoll() → 1, then 2, then 3...`,
       syntax:`PriorityQueue<Integer> minPQ = new PriorityQueue<>();\nPriorityQueue<Integer> maxPQ =\n    new PriorityQueue<>(Collections.reverseOrder());`,
@@ -518,7 +784,6 @@
 
     { id:29, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"HashMap",
       keys:"hashmap key value map lookup dictionary frequency count O(1) pair",
-      scenario:"What if you need to look up a value by a unique key in constant time — like finding a student's grade by their name, or counting how many times each word appears?",
       world:"Phone book: look up a name, get the phone number instantly.",
       visual:`"name" ──hash──→ bucket → "Alice"\n"age"  ──hash──→ bucket → 25\n"city" ──hash──→ bucket → "Delhi"\nget("name") → "Alice"  in O(1) average`,
       syntax:`Map<String,Integer> map = new HashMap<>();\nmap.put("a", 1);\nmap.get("a");\nmap.getOrDefault("b", 0); // 0`,
@@ -527,7 +792,6 @@
 
     { id:30, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"HashSet",
       keys:"hashset unique no duplicates contains O(1) distinct visited",
-      scenario:"What if you need a collection where every value must be unique — no duplicates — and you need to check in O(1) whether a value is already there?",
       world:"A guest list — each name appears once. Adding the same name again is silently ignored.",
       visual:`add 1,2,1,3,2,4:\nResult: {1, 2, 3, 4}  ← duplicates removed\nOrder NOT guaranteed.\ncontains(3) → true  in O(1)`,
       syntax:`Set<Integer> set = new HashSet<>();\nset.add(1);\nset.contains(1);  // true\nset.remove(1);`,
@@ -536,7 +800,6 @@
 
     { id:31, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"TreeMap",
       keys:"treemap sorted keys navigable floor ceiling ordered map BST range",
-      scenario:"What if you need key-value lookup like a HashMap, but the keys must always be in sorted order — so you can also find the smallest key, the largest, or all keys within a range?",
       world:"A sorted index at the back of a book — keys in alphabetical order.",
       visual:`put("banana",2)  put("apple",1)  put("cherry",3)\nStored sorted by key:\n"apple"  → 1\n"banana" → 2\n"cherry" → 3`,
       syntax:`TreeMap<String,Integer> tm = new TreeMap<>();\ntm.put("b", 2); tm.put("a", 1);\ntm.firstKey();      // "a"\ntm.floorKey("c");   // "b"`,
@@ -545,7 +808,6 @@
 
     { id:32, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"TreeSet",
       keys:"treeset sorted unique ordered BST floor ceiling range first last",
-      scenario:"What if you need a collection of unique values that is always kept sorted — so you can instantly find the minimum, the maximum, or the nearest value to any given number?",
       world:"A ranked leaderboard — unique scores, always in order.",
       visual:`add 5,1,3,2 → stored as:\n{1, 2, 3, 5}  ← sorted, no duplicates\nfirst()→1  last()→5\nfloor(4)→3  ceiling(4)→5`,
       syntax:`TreeSet<Integer> ts = new TreeSet<>();\nts.add(3); ts.add(1);\nts.first(); ts.floor(4);`,
@@ -555,7 +817,6 @@
     // ── 7: Search & Sort ──
     { id:33, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Linear Search O(n)",
       keys:"linear search brute force unsorted find O(n) iterate scan sequential",
-      scenario:"What if you need to find a specific value in a list that is in no particular order — you have no choice but to check each element one by one until you find it?",
       world:"Looking for your keys in a messy room — check every spot until found.",
       visual:`target = 30\n[10][20][30][40][50]\n  ↓   ↓   ↓\ncheck check FOUND! index=2\nBest O(1) · Worst O(n)`,
       syntax:`for (int i = 0; i < arr.length; i++) {\n    if (arr[i] == target) return i;\n}\nreturn -1; // not found`,
@@ -564,7 +825,6 @@
 
     { id:34, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Binary Search O(log n)",
       keys:"binary search sorted O(log n) mid half divide conquer faster",
-      scenario:"What if your array is already sorted and you need to find a value fast — can you jump to the middle each time and eliminate half of the remaining options with every single step?",
       world:"Searching a word in a dictionary — open to the middle, go left or right.",
       visual:`sorted: [1][3][5][7][9][11][13]  target=9\nlo=0 hi=6 mid=3 → arr[3]=7 < 9 → RIGHT\nlo=4 hi=6 mid=5 → arr[5]=11>9 → LEFT\nlo=4 hi=4 mid=4 → arr[4]=9 ✓ FOUND!`,
       syntax:`int lo=0, hi=arr.length-1;\nwhile (lo <= hi) {\n    int mid = lo + (hi-lo)/2;\n    if (arr[mid]==target) return mid;\n    else if (arr[mid]<target) lo=mid+1;\n    else hi=mid-1;\n}\nreturn -1;`,
@@ -573,7 +833,6 @@
 
     { id:35, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Arrays.sort / Collections.sort",
       keys:"sort arrays collections builtin O(n log n) ascending order",
-      scenario:"What if you just need your array or list sorted in standard ascending order — and you don't want to write a sorting algorithm yourself?",
       world:"Arranging test papers by score before handing them back.",
       visual:`Before: [5][2][8][1][9][3]\n          ↓ sort\nAfter:  [1][2][3][5][8][9]\nArrays.sort    → primitive arrays\nCollections.sort → List<T>`,
       syntax:`Arrays.sort(arr);                  // primitive array\nCollections.sort(list);            // List<T>\nArrays.sort(arr, fromIdx, toIdx);  // partial sort`,
@@ -582,7 +841,6 @@
 
     { id:36, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Comparator",
       keys:"comparator comparable custom sort order lambda objects rule descending",
-      scenario:"What if the default sort order isn't what you need — you want to sort by string length, by age descending, or by a second field as a tiebreaker?",
       world:"Sorting students by GPA (descending), then by name (ascending) as tiebreaker.",
       visual:`(a, b) -> a - b   ← ascending numeric\n(a, b) -> b - a   ← descending numeric\n(a, b) -> a.length() - b.length()  ← by length`,
       syntax:`list.sort((a, b) -> a.length() - b.length());\nlist.sort(Comparator.comparing(String::length));`,
@@ -592,7 +850,6 @@
     // ── 8: Patterns & Techniques ──
     { id:37, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Two Pointers",
       keys:"two pointers left right converge pair sum palindrome sorted meet",
-      scenario:"What if you have a sorted array and need to find a pair of elements that meets a condition — like two numbers adding up to a target — and you want O(n) instead of O(n²) nested loops?",
       world:"Two people searching for each other in a corridor — one from each end.",
       visual:`[1][2][3][4][5][6][7][8][9]\n ↑                             ↑\nleft                          right\nMove left→ or ←right based on condition.`,
       syntax:`int l=0, r=arr.length-1;\nwhile (l < r) {\n    // check / adjust\n    l++;  // or r--\n}`,
@@ -601,7 +858,6 @@
 
     { id:38, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Sliding Window (Fixed)",
       keys:"sliding window fixed size k sum maximum minimum subarray window",
-      scenario:"What if you need to check every consecutive group of exactly k elements in an array — like finding the maximum sum of any 3 consecutive numbers — without recalculating from scratch each time?",
       world:"A train with k carriages — at each station, one leaves one side and one joins the other.",
       visual:`arr=[1,2,3,4,5,6]  k=3\n[1 2 3]           sum=6\n  [2 3 4]         sum=9  ← add 4, remove 1\n    [3 4 5]       sum=12\n      [4 5 6]     sum=15`,
       syntax:`int ws=0;\nfor(int i=0;i<k;i++) ws+=arr[i];\nint max=ws;\nfor(int r=k;r<arr.length;r++){\n    ws+=arr[r]-arr[r-k];\n    max=Math.max(max,ws);\n}`,
@@ -610,7 +866,6 @@
 
     { id:39, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Sliding Window (Variable)",
       keys:"sliding window variable size expand shrink longest shortest subarray condition",
-      scenario:"What if you need to find the longest or shortest stretch of consecutive elements that satisfies a condition — and the window size needs to grow and shrink dynamically as you scan through?",
       world:"A rubber band around stamps — stretch until it holds too many, then shrink from the left.",
       visual:`[1][2][3][4][5]\nexpand right → sum grows\nsum > target? → shrink: left++\nTrack max window size`,
       syntax:`int left=0;\nfor(int right=0;right<n;right++){\n    // add arr[right]\n    while(condition violated){\n        // remove arr[left]; left++;\n    }\n    // update answer [left..right]\n}`,
@@ -619,7 +874,6 @@
 
     { id:40, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Prefix Sum",
       keys:"prefix sum range query cumulative sum precompute subarray O(1)",
-      scenario:"What if the same array will be asked 'what is the sum from index i to j?' many times — can you do a one-time setup so that each query is answered in O(1) instead of recalculating every time?",
       world:"Running bank balance — find the total change between any two dates instantly.",
       visual:`arr:    [3][1][4][1][5][9]\nprefix: [0][3][4][8][9][14][23]\n         ↑\n       extra 0 at the start\n\nsum(l,r) = prefix[r+1] - prefix[l]\nsum(1,3) = 9-3 = 6`,
       syntax:`int[] pre=new int[n+1];\nfor(int i=0;i<n;i++) pre[i+1]=pre[i]+arr[i];\n// query(l,r): pre[r+1] - pre[l]`,
@@ -628,7 +882,6 @@
 
     { id:41, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"HashMap Frequency",
       keys:"frequency count hashmap track occurrence most common anagram histogram",
-      scenario:"What if you need to count how many times each element appears in an array or string — in a single pass through the data?",
       world:"An election tally — each vote goes into a bin for that candidate.",
       visual:`input: "aabbc"\nfreq:  {a:2, b:2, c:1}\ngetOrDefault("a",0) → 2  O(1)`,
       syntax:`Map<T,Integer> freq=new HashMap<>();\nfor(T e:items)\n    freq.put(e,freq.getOrDefault(e,0)+1);`,
@@ -637,7 +890,6 @@
 
     { id:42, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"HashSet Visited",
       keys:"visited seen hashset mark track duplicate cycle graph detect boolean",
-      scenario:"What if you need to remember which elements you have already processed — so you can skip duplicates, avoid revisiting a node in a graph, or detect a cycle?",
       world:"A tour guide marking spots as visited — never go to the same place twice.",
       visual:`visited = {}\nvisit node 1 → add 1 → {1}\nvisit node 2 → add 2 → {1,2}\nnode 1 again → contains(1)=true → SKIP\nO(1) per check`,
       syntax:`Set<T> visited=new HashSet<>();\nif(visited.contains(x)) continue;\nvisited.add(x);`,
@@ -646,7 +898,6 @@
 
     { id:43, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Memoization (HashMap cache)",
       keys:"memoization cache memo dynamic programming top-down overlap fibonacci",
-      scenario:"What if your recursive solution is correct but crawls to a halt because the same smaller sub-problems get solved hundreds of times — can you cache each answer and reuse it instantly next time?",
       world:"An exam student writing answers on scratch paper — never re-solve what you already worked out.",
       visual:`fib(5) without memo → exponential calls\nWith memo: each n computed ONCE\nfib(5)→fib(4)→fib(3)→fib(2)→stored✓\n              →fib(3)→CACHED instantly✓`,
       syntax:`Map<Integer,Long> memo=new HashMap<>();\nlong solve(int n){\n    if(memo.containsKey(n)) return memo.get(n);\n    long r=...solve(n-1)...;\n    memo.put(n,r); return r;\n}`,
@@ -656,7 +907,6 @@
     // ── 9: DSA Structures ──
     { id:44, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Linked List",
       keys:"linked list node next pointer chain insert delete O(1) head traverse",
-      scenario:"What if you need a list where inserting or deleting at the front or middle should be fast — and you don't really need to jump to an element by its index?",
       world:"A treasure hunt — each clue tells you where the next one is hidden.",
       visual:`HEAD → [1|→] → [2|→] → [3|null]\ninsert at head: newNode.next=head; head=newNode\ndelete: prev.next = curr.next  (skip curr)\nAccess by index: O(n)   Insert at head: O(1)`,
       syntax:`class Node {\n    int data; Node next;\n    Node(int d) { data=d; }\n}\nNode head=new Node(1);\nhead.next=new Node(2);`,
@@ -665,7 +915,6 @@
 
     { id:45, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Binary Tree",
       keys:"binary tree node left right child parent root traverse preorder inorder postorder",
-      scenario:"What if your data is naturally hierarchical — like a folder structure, a company org chart, or a tournament bracket — where each item has at most two children?",
       world:"Company org chart — CEO has two VPs, each VP has managers.",
       visual:`        [10]         ← root\n       /    \\\n     [5]    [15]\n    /   \\      \\\n  [3]  [7]    [20]\nheight=3   nodes=6`,
       syntax:`class TreeNode {\n    int val; TreeNode left,right;\n    TreeNode(int v){val=v;}\n}`,
@@ -674,7 +923,6 @@
 
     { id:46, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"BST",
       keys:"BST binary search tree search insert delete left smaller right larger O(log n)",
-      scenario:"What if you need a data structure that always keeps values in sorted order automatically, and lets you search, insert, or delete any value in O(log n) time?",
       world:"A dictionary as a tree — every word to the left comes before the current word.",
       visual:`        [10]\n       /    \\\n     [5]    [15]\n    /   \\      \\\n  [3]  [7]    [20]\n\nsearch(7): 10→left→5→right→7 ✓`,
       syntax:`TreeNode insert(TreeNode r,int v){\n    if(r==null) return new TreeNode(v);\n    if(v<r.val) r.left=insert(r.left,v);\n    else r.right=insert(r.right,v);\n    return r;\n}`,
@@ -683,7 +931,6 @@
 
     { id:47, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Heap / PriorityQueue",
       keys:"heap min-heap max-heap priority queue complete binary tree O(log n) kth",
-      scenario:"What if you keep needing to grab the minimum or maximum value over and over — even as new values keep arriving — and each retrieval must be O(log n) fast?",
       world:"Hospital triage — the most critical patient is always next, even as new arrivals come in.",
       visual:`Min-Heap — parent ≤ both children:\n         [1]         ← peek/poll = always this\n        /    \\\n     [3]    [2]\n    /   \\\n  [5]  [4]\npoll() removes root and re-heapifies → O(log n)`,
       syntax:`PriorityQueue<Integer> minH=new PriorityQueue<>();\nPriorityQueue<Integer> maxH=\n    new PriorityQueue<>(Collections.reverseOrder());`,
@@ -692,7 +939,6 @@
 
     { id:48, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Graph — Adjacency List",
       keys:"graph adjacency list nodes edges BFS DFS neighbors sparse directed undirected",
-      scenario:"What if you need to represent connections between many things — like cities and roads, or users and friendships — where most pairs are NOT connected to each other?",
       world:"A social network — each person has a list of friends, not everyone knows everyone.",
       visual:`0 → [1, 2]\n1 → [0, 3]\n2 → [0, 3]\n3 → [1, 2, 4]\n4 → [3]\nSpace: O(V+E)   Neighbor query: O(degree)`,
       syntax:`List<List<Integer>> adj=new ArrayList<>();\nfor(int i=0;i<n;i++) adj.add(new ArrayList<>());\nadj.get(u).add(v); // add edge u→v`,
@@ -701,7 +947,6 @@
 
     { id:49, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Graph — Adjacency Matrix",
       keys:"graph adjacency matrix dense connected O(1) edge check grid 2d array",
-      scenario:"What if you need to instantly check in O(1): 'is there a direct connection between node A and node B?' — and the graph is small or dense enough to afford the memory?",
       world:"A flight route board — rows=departure, columns=arrival, 1=direct flight exists.",
       visual:`   0  1  2  3\n0 [0][1][1][0]  ← 0 connects to 1 and 2\n1 [1][0][0][1]\n2 [1][0][0][1]\n3 [0][1][1][0]\nSpace: O(V²)   Edge check: O(1)`,
       syntax:`int[][] mat=new int[n][n];\nmat[u][v]=1;       // directed\nmat[v][u]=1;       // undirected: add reverse`,
@@ -710,7 +955,6 @@
 
     { id:50, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Trie (Prefix Tree)",
       keys:"trie prefix tree autocomplete search word dictionary O(length)",
-      scenario:"What if you need to store thousands of words and quickly answer: does any stored word start with this prefix? — like an autocomplete feature or a spell checker?",
       world:"Google search suggestions — type 'ca', get 'cat', 'car', 'career'.",
       visual:`Insert "cat","car","cart":\nroot\n  └─ c\n      └─ a\n          ├─ t (END)\n          └─ r (END)\n              └─ t (END)\nsearch("car") → O(3) = O(length)`,
       syntax:`class TrieNode{TrieNode[] c=new TrieNode[26]; boolean end;}\nclass Trie{\n    TrieNode root=new TrieNode();\n    void insert(String w){...}\n    boolean startsWith(String p){...}\n}`,
@@ -720,7 +964,6 @@
     // ── 10: Algorithms ──
     { id:51, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"BFS",
       keys:"BFS breadth first search level order queue shortest path connected component",
-      scenario:"What if you need to explore a graph or tree level by level — visiting all nearest nodes before going further — or find the shortest path in a graph where all edges have equal weight?",
       world:"Wildfire spreading in a forest — nearby trees catch first, then farther ones.",
       visual:`     [1]\n    /   \\\n  [2]  [3]\n  /       \\\n[4]       [5]\n\nQueue → Visit: 1 → 2 → 3 → 4 → 5\n(level by level)`,
       syntax:`Queue<Integer> q=new LinkedList<>();\nq.offer(start); vis[start]=true;\nwhile(!q.isEmpty()){\n    int u=q.poll();\n    for(int v:adj.get(u))\n        if(!vis[v]){vis[v]=true;q.offer(v);}\n}`,
@@ -729,7 +972,6 @@
 
     { id:52, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"DFS",
       keys:"DFS depth first search recursion stack visited backtrack cycle detect",
-      scenario:"What if you need to explore a graph by going as deep as possible along one path before backing up — or find all connected components, detect a cycle, or do a topological sort?",
       world:"Solving a maze — walk one corridor to its end, then backtrack and try another.",
       visual:`     [1]\n    /   \\\n  [2]  [3]\n  /       \\\n[4]       [5]\n\nStack → Visit: 1 → 2 → 4 → 3 → 5\n(go deep, then backtrack)`,
       syntax:`static void dfs(List<List<Integer>> adj,int u,boolean[] vis){\n    vis[u]=true;\n    for(int v:adj.get(u))\n        if(!vis[v]) dfs(adj,v,vis);\n}`,
@@ -738,7 +980,6 @@
 
     { id:53, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Dijkstra's Algorithm",
       keys:"dijkstra shortest path weighted graph priority queue greedy distance",
-      scenario:"What if you have a map where each road has a different travel time, and you need to find the fastest route from one city to all other cities?",
       world:"Google Maps finding the fastest route — roads have different travel times.",
       visual:`Greedy: always pick unvisited node with smallest dist\ndist[src]=0, all others=∞\nPick min-dist node → relax neighbors\nRepeat until all visited`,
       syntax:`PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->a[0]-b[0]);\npq.offer(new int[]{0,src});\nint[] dist=new int[n]; Arrays.fill(dist,Integer.MAX_VALUE);\ndist[src]=0;`,
@@ -747,7 +988,6 @@
 
     { id:54, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Greedy",
       keys:"greedy local optimum coin change activity selection interval scheduling",
-      scenario:"What if at every step you just pick the best available option right now — like always using the largest coin when making change — and this local greedy choice always leads to the best overall result?",
       world:"Making change — always use the largest coin that fits. Fewest coins result.",
       visual:`Target: 36¢  Coins: [25¢, 10¢, 5¢, 1¢]\nStep 1: 25¢ fits → take it  (remaining=11)\nStep 2: 10¢ fits → take it  (remaining=1)\nStep 3: 1¢  fits → take it  (remaining=0)\nResult: 3 coins {25,10,1} ✓`,
       syntax:`Arrays.sort(arr);\nfor(int e:arr){\n    if(canTake(e)) take(e);\n}`,
@@ -756,7 +996,6 @@
 
     { id:55, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Backtracking",
       keys:"backtracking permutation combination subset recursion prune undo N-queens sudoku",
-      scenario:"What if you need to try every possible arrangement or combination — like all permutations, all subsets, or filling a Sudoku — but want to skip dead-end paths early before they are fully explored?",
       world:"Solving a maze — try every path, back up when you hit a dead end.",
       visual:`Subsets of [1,2,3]:\n[]\n├─[1]→[1,2]→[1,2,3]✓→back→[1,2]✓\n│     →[1,3]✓→[1]✓\n├─[2]→[2,3]✓→[2]✓\n└─[3]✓`,
       syntax:`void backtrack(state){\n    if(isSolution(state)){save();return;}\n    for(each choice){\n        makeChoice();\n        backtrack(state);\n        undoChoice(); // ← critical\n    }\n}`,
@@ -765,7 +1004,6 @@
 
     { id:56, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"DP — Memoization (Top-Down)",
       keys:"dynamic programming memoization top down cache fibonacci overlap subproblem",
-      scenario:"What if your recursive solution is correct but crawls to a halt because the same smaller sub-problems get solved hundreds of times — can you cache each answer and reuse it instantly next time?",
       world:"A chef writing down every recipe — next time someone asks, just read the notes.",
       visual:`fib(5) without memo → exponential calls\nWith memo: each n computed ONCE\nfib(5)→fib(4)→fib(3)→computed✓\n              →fib(3)→CACHED instantly✓`,
       syntax:`Map<Integer,Long> dp=new HashMap<>();\nlong solve(int n){\n    if(n<=1) return n;\n    if(dp.containsKey(n)) return dp.get(n);\n    long r=solve(n-1)+solve(n-2);\n    dp.put(n,r); return r;\n}`,
@@ -774,7 +1012,6 @@
 
     { id:57, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"DP — Tabulation (Bottom-Up)",
       keys:"dynamic programming tabulation bottom up array iterative fibonacci knapsack LCS",
-      scenario:"What if bigger answers always build on smaller answers in a predictable pattern — can you fill a table starting from the smallest base case upward, without any recursion at all?",
       world:"Building a house floor by floor — foundation first, each floor rests on the one below.",
       visual:`Fibonacci bottom-up:\ndp[0]=0  dp[1]=1\ndp[2]=dp[1]+dp[0]=1\ndp[3]=dp[2]+dp[1]=2\ndp[4]=dp[3]+dp[2]=3\nFill left to right. No recursion.`,
       syntax:`int[] dp=new int[n+1];\ndp[0]=base0; dp[1]=base1;\nfor(int i=2;i<=n;i++)\n    dp[i]=dp[i-1]+dp[i-2];`,
@@ -783,7 +1020,6 @@
 
     { id:58, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Merge Sort",
       keys:"merge sort divide conquer O(n log n) stable sort recursion linked list",
-      scenario:"What if you need a sort that is always O(n log n) even in the worst case — and equal elements must preserve their original relative order (stable sort)?",
       world:"Sorting papers by splitting in half, sorting each half, then merging the two sorted halves.",
       visual:`[5,3,8,1,9,2,6,4]  divide:\n[5,3,8,1]   [9,2,6,4]  merge back:\n[3,5][1,8]  [2,9][4,6]\n[1,3,5,8]   [2,4,6,9]   final merge:\n[1,2,3,4,5,6,8,9]`,
       syntax:`void mergeSort(int[] a,int l,int r){\n    if(l>=r) return;\n    int m=(l+r)/2;\n    mergeSort(a,l,m); mergeSort(a,m+1,r);\n    merge(a,l,m,r);\n}`,
@@ -792,7 +1028,6 @@
 
     { id:59, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Quick Sort",
       keys:"quicksort pivot partition O(n log n) average in-place sort fastest",
-      scenario:"What if you need the fastest average-case sort that works in-place — using no extra memory — and you are okay with a rare worst-case on already-sorted data?",
       world:"Sorting students by height using a reference student — shorter go left, taller go right.",
       visual:`[3,6,8,1,5,2,4]  pivot=4\nafter partition: [3,1,2][4][6,8,5]\nrecurse on each side\nresult: [1,2,3,4,5,6,8]`,
       syntax:`void quickSort(int[] a,int lo,int hi){\n    if(lo<hi){\n        int p=partition(a,lo,hi);\n        quickSort(a,lo,p-1);\n        quickSort(a,p+1,hi);\n    }\n}`,
@@ -802,7 +1037,6 @@
     // ── 11: Object-Oriented Programming ──
     { id:60, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"class / new",
       keys:"class object blueprint instance new create fields methods OOP model real world",
-      scenario:"What if you want to model a real-world thing — like a Car or a Student — by bundling its data and the actions it can perform together, so you can stamp out as many separate copies as you need?",
       world:"A cookie cutter is the class. Every cookie you stamp out is a separate object with its own shape.",
       visual:`class Dog {          ← blueprint (class)\n  String name;        ← field (data)\n  void bark() { }     ← method (action)\n}\n\nDog d1 = new Dog();  ← object 1\nDog d2 = new Dog();  ← object 2 (separate copy)`,
       syntax:`class MyClass {\n    Type field;\n    ReturnType method() { ... }\n}\nMyClass obj = new MyClass();`,
@@ -811,7 +1045,6 @@
 
     { id:61, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"Constructor",
       keys:"constructor initialize new object setup default parameterized this init",
-      scenario:"What if you want to automatically set up the initial state of an object the moment it is created — like giving a new Student a name and roll number right when you call new Student()?",
       world:"A registration form filled in at the exact moment you sign up — not some time later.",
       visual:`new Student("Alice", 101)\n        ↓\n  constructor runs:\n    this.name = "Alice"\n    this.roll = 101\n        ↓\n  object is ready to use`,
       syntax:`class ClassName {\n    ClassName(Type param) {   // same name as class, no return type\n        this.field = param;\n    }\n}`,
@@ -820,7 +1053,6 @@
 
     { id:62, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"extends (Inheritance)",
       keys:"extends inheritance parent child subclass superclass reuse hierarchy IS-A base derived",
-      scenario:"What if two classes are related — like Animal and Dog — where Dog has everything Animal has, plus its own extras? Can the child class borrow all the parent's code without rewriting it?",
       world:"A smartphone inherits everything a basic phone does, then adds a touchscreen and apps on top.",
       visual:`class Animal { void eat(){} void sleep(){} }\n          ↑ extends\nclass Dog extends Animal {\n    void bark(){}\n}\n\nDog d = new Dog();\nd.eat();    // ✓ inherited from Animal\nd.sleep();  // ✓ inherited from Animal\nd.bark();   // ✓ Dog's own method`,
       syntax:`class Child extends Parent {\n    // inherits all non-private fields and methods\n    // can add new ones or override existing ones\n}`,
@@ -829,7 +1061,6 @@
 
     { id:63, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"@Override",
       keys:"override method overriding polymorphism parent child replace redefine annotation runtime",
-      scenario:"What if a child class wants to keep the same method name as the parent but change what it actually does — like a Dog.speak() should say 'Woof' while Cat.speak() says 'Meow'?",
       world:"A regional franchise keeps the same brand name but rewrites the local menu to suit the region.",
       visual:`Animal:\n  speak() → prints "..."\n     ↑ child overrides\nDog:\n  speak() → prints "Woof!"\nCat:\n  speak() → prints "Meow!"\n\nAnimal a = new Dog();\na.speak();  // "Woof!" ← Dog's version called`,
       syntax:`@Override\npublic ReturnType methodName(params) {\n    // completely new implementation\n}`,
@@ -838,7 +1069,6 @@
 
     { id:64, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"abstract class",
       keys:"abstract class template partial implementation cannot instantiate subclass extend shape vehicle",
-      scenario:"What if you want a common template that multiple related classes must follow — some methods fully written and shared, others left blank for each subclass to fill in itself?",
       world:"A job offer letter template: some clauses are fixed, while 'Salary' and 'Role' are left blank for each hire.",
       visual:`abstract class Shape {\n    abstract double area();   ← no body — must override\n    void describe() { ... }  ← shared, fully written\n}\n// Shape s = new Shape(); ← ERROR — cannot instantiate!\nclass Circle extends Shape {\n    double area() { return Math.PI * r * r; } // required`,
       syntax:`abstract class Name {\n    abstract ReturnType method();    // no body\n    void concreteMethod() { ... }   // has body\n}`,
@@ -847,7 +1077,6 @@
 
     { id:65, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"interface",
       keys:"interface contract implements multiple Comparable Runnable Flyable default method type",
-      scenario:"What if you want to guarantee that completely unrelated classes all support a specific set of behaviors — like a contract they must sign, regardless of what else they do or inherit?",
       world:"A USB standard: any device that meets the spec can plug in, no matter who made it.",
       visual:`interface Flyable { void fly(); }\n\nclass Bird  implements Flyable { void fly(){...} }\nclass Plane implements Flyable { void fly(){...} }\nclass Drone implements Flyable { void fly(){...} }\n\n// One class can implement MANY interfaces:\nclass X implements A, B, C { ... }`,
       syntax:`interface InterfaceName {\n    void method();              // abstract by default\n    default void helper(){...}  // optional default impl\n}\nclass Cls implements InterfaceName { ... }`,
@@ -856,7 +1085,6 @@
 
     { id:66, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"Encapsulation",
       keys:"encapsulation private getter setter access control hidden field validated public method",
-      scenario:"What if you want to hide a class's internal data from outside code — so nothing can accidentally set someone's age to -5 — while still allowing controlled, validated access through specific methods?",
       world:"An ATM: you interact through buttons and a screen; the cash mechanism and vault are completely hidden.",
       visual:`class Person {\n    private int age;          // hidden from outside\n    public int getAge()       { return age; }\n    public void setAge(int a) {\n        if (a >= 0) age = a;  // validated write\n    }\n}\nPerson p = new Person();\np.age = -5;     // COMPILE ERROR — private!\np.setAge(-5);   // allowed call, but rejected inside`,
       syntax:`class Cls {\n    private Type field;\n    public Type getField() { return field; }\n    public void setField(Type v) { /* validate */ field=v; }\n}`,
@@ -865,7 +1093,6 @@
 
     { id:67, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"Polymorphism",
       keys:"polymorphism runtime dispatch parent reference child object dynamic binding list shape",
-      scenario:"What if you have a list of different objects — Dog, Cat, Bird — all stored as Animal references, and you want to call speak() on each one, letting each object automatically use its own version?",
       world:"A remote's play button — it plays music on a speaker, video on a TV, or a game on a console, depending on what's connected.",
       visual:`Animal[] arr = { new Dog(), new Cat(), new Bird() };\nfor (Animal a : arr) {\n    a.speak();  // each calls ITS OWN version\n}\n// Woof!\n// Meow!\n// Tweet!`,
       syntax:`ParentType ref = new ChildObject();  // upcasting\nref.method();  // child's overridden version runs at runtime`,
@@ -874,7 +1101,6 @@
 
     { id:68, cat:"Object-Oriented Programming", cc:"#0ea5e9", cr:"14,165,233", use:"enum",
       keys:"enum enumeration named constants fixed set days seasons direction card suit status type safe",
-      scenario:"What if you have a small, fixed set of named choices — like the four seasons, card suits, or weekdays — and you want the compiler to guarantee nothing outside that set is ever used?",
       world:"A traffic light can only ever be RED, YELLOW, or GREEN — never 'purple' or the number 5.",
       visual:`enum Day { MON, TUE, WED, THU, FRI, SAT, SUN }\n\nDay d = Day.SAT;\nif (d == Day.SAT || d == Day.SUN)\n    System.out.println("Weekend!");\n\nEach constant is an object.\nValues are fixed at compile time.`,
       syntax:`enum EnumName { VALUE1, VALUE2, VALUE3 }\nEnumName e = EnumName.VALUE1;`,
@@ -884,7 +1110,6 @@
     // ── 12: Java Essentials ──
     { id:69, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"try / catch / finally",
       keys:"exception handling try catch finally error runtime crash graceful recover IOException NumberFormat",
-      scenario:"What if a part of your code might fail at runtime — like reading a file that doesn't exist, or dividing by zero — and you want to catch that failure gracefully instead of crashing the whole program?",
       world:"A parachute backup — if the main chute fails, the backup deploys automatically.",
       visual:`try {\n    // risky code runs here\n} catch (ExceptionType e) {\n    // handle the failure\n} finally {\n    // ALWAYS runs — cleanup code\n}\n\nPath A: try runs fine  → skip catch → finally\nPath B: try throws     → catch runs → finally`,
       syntax:`try {\n    int x = Integer.parseInt(input);\n} catch (NumberFormatException e) {\n    System.out.println("Not a number: " + e.getMessage());\n} finally {\n    System.out.println("Always runs.");\n}`,
@@ -893,7 +1118,6 @@
 
     { id:70, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"throw / throws",
       keys:"throw throws exception custom create signal error checked unchecked declare propagate",
-      scenario:"What if you want to manually signal that something went wrong inside your method — like rejecting a negative age — or warn the caller that your method might throw an error they must handle?",
       world:"A bouncer throwing you out for breaking a rule, and the venue advertising upfront that rule violations get you removed.",
       visual:`void setAge(int a) {\n    if (a < 0) throw new IllegalArgumentException("Age negative!");\n    //            ↑ fire it             ↑ message\n    this.age = a;\n}\nvoid riskyMethod() throws IOException {\n    //                   ↑ warn callers`,
       syntax:`throw new ExceptionType("message");      // fire an exception\nvoid method() throws ExceptionType { }  // warn callers`,
@@ -902,7 +1126,6 @@
 
     { id:71, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Lambda (->)",
       keys:"lambda arrow function functional interface anonymous shorthand Comparator Runnable Consumer Predicate",
-      scenario:"What if you need to pass a tiny piece of logic — like 'sort by name length' — as an argument to a method, without writing an entire separate named method or verbose anonymous class?",
       world:"A sticky note instruction: 'double each number' — short, inline, used once.",
       visual:`// Before (anonymous class):\nComparator<String> c = new Comparator<String>() {\n    public int compare(String a, String b) { return a.length()-b.length(); }\n};\n// Lambda:\nComparator<String> c = (a, b) -> a.length() - b.length();`,
       syntax:`// single expression:\n(param) -> expression\n// multi-line:\n(a, b) -> { int r = a + b; return r; }`,
@@ -911,7 +1134,6 @@
 
     { id:72, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Stream API",
       keys:"stream filter map reduce collect toList forEach sorted distinct pipeline functional data",
-      scenario:"What if you want to filter, transform, and collect a list in clean readable one-liners — like 'give me all names starting with A, in uppercase, sorted'?",
       world:"A factory conveyor belt: filter defective parts, reshape good ones, pack them into a box.",
       visual:`source → filter → map → sorted → collect\n["Alice","Bob","Anna","Carol","Adam"]\n .filter(s->s.startsWith("A")) → [Alice,Anna,Adam]\n .map(String::toUpperCase)     → [ALICE,ANNA,ADAM]\n .sorted()                     → [ADAM,ALICE,ANNA]\n .collect(toList())            → List`,
       syntax:`list.stream()\n    .filter(e -> condition)\n    .map(e -> transform)\n    .collect(Collectors.toList());`,
@@ -920,7 +1142,6 @@
 
     { id:73, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Optional<T>",
       keys:"optional null safety NullPointerException absent present orElse ifPresent empty maybe nullable",
-      scenario:"What if a method might or might not return a value — can you wrap the result so that callers are forced to think about the 'empty' case instead of accidentally crashing on a null?",
       world:"A vending machine slot that might be empty — you look inside before reaching in.",
       visual:`Optional<String> opt = Optional.of("Java");\nopt.isPresent()  → true\nopt.get()        → "Java"\n\nOptional<String> empty = Optional.empty();\nempty.orElse("default") → "default"\nempty.get()             → THROWS NoSuchElementException!`,
       syntax:`Optional<T> opt = Optional.ofNullable(value);\nopt.ifPresent(v -> ...);\nT val = opt.orElse(defaultValue);`,
@@ -929,7 +1150,6 @@
 
     { id:74, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Scanner (Input)",
       keys:"scanner input read keyboard console nextInt nextLine user prompt stdin terminal",
-      scenario:"What if your program needs to read numbers or text that the user types in the terminal while the program is running — how do you listen for keyboard input?",
       world:"A cashier asking 'How many items?' and waiting for the customer to type a number.",
       visual:`Scanner reads from System.in (keyboard)\nnextInt()    → next integer token\nnextDouble() → next double token\nnextLine()   → full line including spaces\nnext()       → next word (stops at whitespace)\n\n⚠ nextInt() leaves newline in buffer!\n  call nextLine() after to consume it.`,
       syntax:`Scanner sc = new Scanner(System.in);\nint n    = sc.nextInt();\nString s = sc.nextLine();\nsc.close();`,
@@ -938,7 +1158,6 @@
 
     { id:75, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Math class",
       keys:"math abs max min sqrt pow floor ceil round random pi log trig static",
-      scenario:"What if you need common mathematical operations — square root, power, absolute value, rounding — without implementing them yourself?",
       world:"A scientific calculator: press sqrt, pow, abs — each button is a ready-made method.",
       visual:`Math.abs(-7)      → 7\nMath.max(5, 9)    → 9\nMath.sqrt(16)     → 4.0\nMath.pow(2, 10)   → 1024.0\nMath.floor(3.9)   → 3.0\nMath.ceil(3.1)    → 4.0\nMath.random()     → 0.0 to 0.999...\nMath.PI           → 3.14159265358979...`,
       syntax:`Math.methodName(args)   // all static — no new Math() needed`,
@@ -947,7 +1166,6 @@
 
     { id:76, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"String.format / printf",
       keys:"format printf string formatting decimal places padding align table output template specifier",
-      scenario:"What if you need to build a neatly formatted string — like a price with exactly 2 decimal places, a table with aligned columns, or a message with a variable plugged in?",
       world:"A receipt printer — every price aligned to 2 decimals, every item label padded to the same width.",
       visual:`"%d"    → integer:          42 → "42"\n"%.2f"  → 2 decimal places: 3.14159 → "3.14"\n"%s"    → string:          "hi" → "hi"\n"%10s"  → right-align 10:  "hi" → "        hi"\n"%-10s" → left-align 10:   "hi" → "hi        "`,
       syntax:`String s = String.format("format", args);\nSystem.out.printf("format%n", args);  // print directly`,
@@ -957,7 +1175,6 @@
     // ── Patterns & Techniques additions ──
     { id:77, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Monotonic Stack",
       keys:"monotonic stack next greater smaller element span stock temperature histogram O(n)",
-      scenario:"What if for each element you need to find the very next element that is larger (or smaller) than it — without using an O(n²) nested loop for every element?",
       world:"A queue at a concert where each person only sees the next taller person standing ahead of them.",
       visual:`arr = [2, 1, 5, 3, 6]  → Next Greater Element:\n2 → 5\n1 → 5\n5 → 6\n3 → 6\n6 → -1 (no next greater)\n\nStack stays in decreasing order.`,
       syntax:`Deque<Integer> stack = new ArrayDeque<>();\nfor (int i = 0; i < n; i++) {\n    while (!stack.isEmpty() && arr[stack.peek()] < arr[i])\n        result[stack.pop()] = arr[i];\n    stack.push(i);\n}`,
@@ -966,7 +1183,6 @@
 
     { id:78, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Kadane's Algorithm",
       keys:"kadane max subarray sum largest contiguous negative array O(n) dynamic programming",
-      scenario:"What if your array has both positive and negative numbers, and you need to find the contiguous subarray — any consecutive slice — that produces the largest possible sum?",
       world:"Finding the stretch of days in a month where a stock's daily gains and losses gave you the best total profit.",
       visual:`arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]\nbest subarray: [4, -1, 2, 1]  sum = 6\n\ncurMax: -2  1  -2  4  3  5  6  1  5\ngloMax: -2  1   1  4  4  5  6  6  6`,
       syntax:`int cur = arr[0], max = arr[0];\nfor (int i = 1; i < arr.length; i++) {\n    cur = Math.max(arr[i], cur + arr[i]);\n    max = Math.max(max, cur);\n}`,
@@ -975,7 +1191,6 @@
 
     { id:79, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Fast Power (Binary Exponentiation)",
       keys:"fast power binary exponentiation modular pow O(log n) large exponent competitive",
-      scenario:"What if you need to compute a very large power — like 2^50, or (base^exp) mod M — and doing it by multiplying n times in a loop is too slow?",
       world:"Folding a paper in half: each fold doubles the thickness, so you reach a million layers in just 20 folds.",
       visual:`pow(2, 10) — binary of 10 = 1010\n2^10 = 2^8 x 2^2\nSquare each time: 2 → 4 → 16 → 256\nOnly 4 multiplications instead of 10.\nO(n) → O(log n)`,
       syntax:`long r = 1;  b %= mod;\nwhile (e > 0) {\n    if ((e & 1) == 1) r = r * b % mod;\n    b = b * b % mod;  e >>= 1;\n}`,
@@ -985,16 +1200,14 @@
     // ── DSA Structures additions ──
     { id:80, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Union-Find (Disjoint Set)",
       keys:"union find disjoint set connected components cycle detection kruskals network group merge path compression",
-      scenario:"What if you need to group elements into connected sets and instantly answer 'are these two elements in the same group?' — like finding whether two computers are on the same network?",
       world:"Corporate mergers: find(A) and find(B) return the ultimate parent company. Same parent → same company.",
       visual:`Initially: {0} {1} {2} {3} {4}\nunion(0,1) → {0,1} {2} {3} {4}\nunion(1,2) → {0,1,2} {3} {4}\n\nfind(0) == find(2)?  YES → same group\nfind(0) == find(3)?  NO  → different group\nPath compression flattens the tree each find.`,
       syntax:`int[] p = new int[n];\nfor (int i=0;i<n;i++) p[i]=i;\nint find(int x){ return p[x]==x ? x : find(p[x]=p[p[x]]); }\nvoid union(int a,int b){ p[find(a)]=find(b); }`,
       code:`static int[] p;\nstatic int find(int x){ return p[x]==x?x:find(p[x]=p[p[x]]); }\nstatic void union(int a,int b){ p[find(a)]=find(b); }\n\np = new int[]{0,1,2,3,4};\nunion(0,1);  union(1,2);\nSystem.out.println(find(0)==find(2));  // true  (same group)\nSystem.out.println(find(0)==find(3));  // false (different)`,
-      methods:[["Path compression","p[x]=p[p[x]] flattens the tree on each find"],["Union by rank","attach shorter tree under taller"],["O(α(n)) per operation","α = inverse Ackermann ≈ constant in practice"],["Cycle detection","if find(u)==find(v) before union → cycle exists"]] },
+      methods:[["Path compression","p[x]=p[p[x]] flattens the tree on each find"],["Union by rank","attach shorter tree under taller"],["O(Î±(n)) per operation","Î± = inverse Ackermann ≈ constant in practice"],["Cycle detection","if find(u)==find(v) before union → cycle exists"]] },
 
     { id:81, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Floyd's Cycle Detection",
       keys:"cycle detection linked list slow fast two pointer tortoise hare duplicate O(1) space loop",
-      scenario:"What if you suspect a linked list has a loop — one node points back to an earlier node, making traversal infinite — and you need to detect it without any extra space?",
       world:"Two runners on a circular track — the faster one will eventually lap the slower one if the track loops.",
       visual:`1 → 2 → 3 → 4 → 5\n                ↑         |\n slow: 1  fast: 1         |\n slow: 2  fast: 3         |\n slow: 3  fast: 5         |\n slow: 4  fast: 4  ← MEET → cycle confirmed!`,
       syntax:`ListNode slow = head, fast = head;\nwhile (fast != null && fast.next != null) {\n    slow = slow.next;\n    fast = fast.next.next;\n    if (slow == fast) return true; // cycle!\n}\nreturn false;`,
@@ -1003,7 +1216,6 @@
 
     { id:82, cat:"DSA Structures", cc:"#d97706", cr:"217,119,6", use:"Topological Sort (Kahn's)",
       keys:"topological sort BFS Kahn indegree ordering directed acyclic graph DAG dependencies courses tasks",
-      scenario:"What if your tasks have prerequisites — course B requires course A first — and you need to find a valid order to complete all of them without violating any dependency?",
       world:"Building a house: pour foundation first, then walls, then roof, then paint — each step has prerequisites.",
       visual:`0→1→3\n0→2→3\nIndegree: {0:0, 1:1, 2:1, 3:2}\nStart queue: [0]  (indegree 0)\nProcess 0 → decrement 1,2 → queue [1,2]\nProcess 1 → decrement 3  → queue [2,3]\n... → order: 0 1 2 3`,
       syntax:`int[] deg = new int[n];\n// build adj + fill deg\nQueue<Integer> q = new LinkedList<>();\nfor (int i=0;i<n;i++) if(deg[i]==0) q.offer(i);\nwhile (!q.isEmpty()) {\n    int u = q.poll();  order.add(u);\n    for (int v : adj.get(u)) if (--deg[v]==0) q.offer(v);\n}`,
@@ -1013,7 +1225,6 @@
     // ── Algorithms additions ──
     { id:83, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Bit Manipulation",
       keys:"bit AND OR XOR NOT shift left right power of two toggle mask odd even unique duplicate",
-      scenario:"What if you need ultra-fast operations on individual bits of a number — like checking if it's even, finding the one unique number in an array of duplicates, or checking if it's a power of two?",
       world:"A panel of light switches — each switch controls one bit (on/off); flip, check, and combine them instantly.",
       visual:`n   = 0110 1100  (binary of 108)\n&   AND:  both bits 1 → 1\n|   OR:   any bit  1 → 1\n^   XOR:  bits differ → 1\n~   NOT:  flip all bits\n<<1 left shift  = multiply by 2\n>>1 right shift = divide by 2`,
       syntax:`n & 1          // check odd (1) or even (0)\nn & (n-1)      // clear lowest set bit; 0 iff power of 2\na ^ b          // XOR — cancel duplicates\n1 << k         // 2 to the power k`,
@@ -1022,7 +1233,6 @@
 
     { id:84, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"GCD (Euclidean Algorithm)",
       keys:"GCD LCM greatest common divisor euclidean algorithm modulo recursion number theory fraction simplify",
-      scenario:"What if you need the greatest common divisor of two numbers — a key building block for simplifying fractions, computing LCM, or solving number-theory problems?",
       world:"Splitting 48 apples and 36 oranges into the maximum number of identical bags — GCD(48,36) = 12 bags.",
       visual:`gcd(48, 36)\n= gcd(36, 48 % 36) = gcd(36, 12)\n= gcd(12, 36 % 12) = gcd(12,  0)\n= 12\n\nLCM(a, b) = a * b / gcd(a, b)`,
       syntax:`static int gcd(int a, int b) {\n    return b == 0 ? a : gcd(b, a % b);\n}\nstatic long lcm(long a, long b) {\n    return a / gcd((int)a, (int)b) * b;\n}`,
@@ -1031,7 +1241,6 @@
 
     { id:85, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Sieve of Eratosthenes",
       keys:"sieve primes prime numbers O(n log log n) precompute bulk generate boolean array limit",
-      scenario:"What if you need to find ALL prime numbers up to a large limit like 1,000,000 — all at once — far faster than testing each number individually with a loop?",
       world:"Cross off every multiple in a number grid — whatever's left uncrossed is prime.",
       visual:`[T T T T T T T T T T]  (index 0..9)\nMark 0, 1 → not prime (false)\nMark multiples of 2 → 4,6,8 = false\nMark multiples of 3 → 9 = false\nResult: indices {2,3,5,7} are prime.`,
       syntax:`boolean[] prime = new boolean[n+1];\nArrays.fill(prime, true);\nprime[0] = prime[1] = false;\nfor (int i=2; i*i<=n; i++)\n    if (prime[i])\n        for (int j=i*i; j<=n; j+=i) prime[j]=false;`,
@@ -1040,7 +1249,6 @@
 
     { id:86, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Counting Sort",
       keys:"counting sort O(n+k) range non-comparison frequency histogram bucket small range grades",
-      scenario:"What if all values in your array fall within a small, known range — like grades 0-100 or ages 0-150 — and you want to sort them in O(n) without making any comparisons at all?",
       world:"Sorting colored marbles into labeled buckets — count each color, then pour them out in order.",
       visual:`arr = [4, 2, 2, 8, 3, 3, 1]\nCount: {1:1, 2:2, 3:2, 4:1, 8:1}\nOutput: 1, 2, 2, 3, 3, 4, 8\n\nO(n + k)  where k = max value`,
       syntax:`int[] count = new int[max + 1];\nfor (int x : arr) count[x]++;\nint idx = 0;\nfor (int v=0; v<=max; v++)\n    while (count[v]-- > 0) arr[idx++] = v;`,
@@ -1049,7 +1257,6 @@
 
     { id:87, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Insertion Sort",
       keys:"insertion sort O(n squared) nearly sorted small array in-place stable simple cards hand",
-      scenario:"What if your array is tiny, or already nearly sorted with most elements in place — making a simple O(n²) sort surprisingly fast for this specific case?",
       world:"Sorting cards in your hand — pick up a new card and slide it left until it's in the right spot.",
       visual:`[5, 3, 8, 1, 2]\n[3, 5, 8, 1, 2]  ← slide 3 left\n[3, 5, 8, 1, 2]  ← 8 already right\n[1, 3, 5, 8, 2]  ← slide 1 left\n[1, 2, 3, 5, 8]  ← slide 2 left`,
       syntax:`for (int i=1; i<n; i++) {\n    int key = arr[i], j = i-1;\n    while (j>=0 && arr[j]>key) arr[j+1]=arr[j--];\n    arr[j+1] = key;\n}`,
@@ -1059,7 +1266,6 @@
     // ── Collections additions ──
     { id:88, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"LinkedHashMap",
       keys:"linkedhashmap insertion order access order LRU cache ordered iteration preserve sequence",
-      scenario:"What if you need a key-value map that also remembers the exact order in which you inserted entries — so when you iterate, they always come out in that same insertion order?",
       world:"A notebook where you write entries as you go — flipping through always gives the pages in the order you wrote them.",
       visual:`put("banana",2) → put("apple",1) → put("cherry",3)\n\nHashMap    iterate → any order: {cherry, banana, apple}\nLinkedHashMap  →  {banana, apple, cherry}  ← insertion order\n\nLinkedHashMap = HashMap + doubly-linked list`,
       syntax:`Map<K,V> map = new LinkedHashMap<>();\n// Same put/get/containsKey API as HashMap`,
@@ -1068,7 +1274,6 @@
 
     { id:89, cat:"Collections", cc:"#06b6d4", cr:"6,182,212", use:"Collections utility class",
       keys:"collections utility sort reverse shuffle min max frequency unmodifiable singleton fill nCopies",
-      scenario:"What if you need to find the max, reverse, shuffle, or make a list read-only — can you reach for a ready-made method instead of coding the logic yourself?",
       world:"A Swiss Army knife of list operations — one class, many tools.",
       visual:`List<Integer> list = [3, 1, 4, 1, 5, 9, 2, 6]\nCollections.sort(list)    → [1,1,2,3,4,5,6,9]\nCollections.reverse(list) → [9,6,5,4,3,2,1,1]\nCollections.max(list)     → 9\nCollections.shuffle(list) → random order`,
       syntax:`Collections.sort(list);\nCollections.reverse(list);\nCollections.max(list);\nCollections.shuffle(list);\nCollections.unmodifiableList(list);`,
@@ -1078,7 +1283,6 @@
     // ── Search & Sort additions ──
     { id:90, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Bubble Sort",
       keys:"bubble sort O(n squared) swap adjacent compare simple stable basic teaching",
-      scenario:"What if you want to understand how sorting works at the lowest level — by repeatedly walking through the array and swapping any two adjacent elements that are out of order, letting large values 'bubble up' to the end?",
       world:"Bubbles rising in water — heavier (larger) ones always float to the top of the glass.",
       visual:`Pass 1: [5,3,8,1] → compare & swap pairs\n[3,5,8,1] → [3,5,8,1] → [3,5,1,8]  ← 8 bubbled up\nPass 2: [3,5,1,8] → [3,1,5,8]\nPass 3: [1,3,5,8]  ← sorted!\nEach pass guarantees the largest unsorted moves to its final spot.`,
       syntax:`for (int i=0; i<n-1; i++)\n    for (int j=0; j<n-i-1; j++)\n        if (arr[j] > arr[j+1]) { /* swap */ }`,
@@ -1087,7 +1291,6 @@
 
     { id:91, cat:"Search & Sort", cc:"#f43f5e", cr:"244,63,94", use:"Selection Sort",
       keys:"selection sort O(n squared) minimum find place in-place unstable simple swap",
-      scenario:"What if you want to sort by always finding the smallest remaining element and placing it into its correct position at the front — one guaranteed placement per pass?",
       world:"Picking the shortest student from the remaining group and placing them at the front of a height-ordered line.",
       visual:`[5, 3, 8, 1, 2]\nPass 1: find min=1 at idx 3 → swap with idx 0 → [1, 3, 8, 5, 2]\nPass 2: find min=2 at idx 4 → swap with idx 1 → [1, 2, 8, 5, 3]\nPass 3: find min=3 at idx 4 → swap with idx 2 → [1, 2, 3, 5, 8]\n... done`,
       syntax:`for (int i=0; i<n-1; i++) {\n    int minIdx = i;\n    for (int j=i+1; j<n; j++)\n        if (arr[j] < arr[minIdx]) minIdx = j;\n    // swap arr[i] with arr[minIdx]\n}`,
@@ -1097,7 +1300,6 @@
     // ── Java Essentials additions ──
     { id:92, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Generics <T>",
       keys:"generics type parameter T E K V compile safe reusable generic method class box container",
-      scenario:"What if you want to write one method or class that works with any data type — like a Box that holds an Integer, or a Pair that holds a String and a Date — without casting or duplicating code?",
       world:"A shipping box that works for books, clothes, or electronics — the contents are typed when you pack it.",
       visual:`// Without generics:\nObject box = 42;  int n = (int) box;  // unsafe cast\n\n// With generics:\nBox<Integer> b = new Box<>(42);\nint n = b.get();   // no cast needed\n\nBox<String>  → can only hold String\nBox<Integer> → can only hold Integer\nType checked at compile time.`,
       syntax:`class Box<T> {\n    T value;\n    Box(T v) { this.value = v; }\n    T get()  { return value; }\n}\nBox<String> b = new Box<>("hello");`,
@@ -1106,7 +1308,6 @@
 
     { id:93, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"Comparable interface",
       keys:"comparable compareTo natural order custom objects sort TreeSet TreeMap PriorityQueue ordering",
-      scenario:"What if you have custom objects — like Student or Product — and you want Arrays.sort() or Collections.sort() to know how to order them without you always passing a Comparator?",
       world:"Students already know their own roll numbers — they can naturally line up in order without being told how.",
       visual:`class Student implements Comparable<Student> {\n    int roll;\n    public int compareTo(Student other) {\n        return this.roll - other.roll;  // ascending by roll\n    }\n}\n// Now Collections.sort(students) works automatically!`,
       syntax:`class Cls implements Comparable<Cls> {\n    public int compareTo(Cls other) {\n        return this.field - other.field; // negative/0/positive\n    }\n}`,
@@ -1115,7 +1316,6 @@
 
     { id:94, cat:"Java Essentials", cc:"#ec4899", cr:"236,72,153", use:"static & final",
       keys:"static final class level variable constant method shared instance keyword modifier",
-      scenario:"What if you need a variable or method that belongs to the class itself — not to any individual object — or a value that must never change after it is first set?",
       world:"A school's motto is shared by all students (static). A student's birth certificate ID never changes (final).",
       visual:`static → ONE copy shared by ALL objects\nfinal  → set once, cannot be reassigned\n\nstatic int count = 0;   // class-level, shared\nfinal  int ID;          // instance-level, immutable\nstatic final PI = 3.14; // constant: shared + immutable`,
       syntax:`static Type varName = value;         // class variable\nstatic ReturnType method() { }       // class method\nfinal Type varName;                  // immutable field\nstatic final Type CONST = value;     // constant`,
@@ -1125,7 +1325,6 @@
     // ── Patterns & Techniques additions ──
     { id:95, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Dutch National Flag",
       keys:"dutch national flag three way partition 0 1 2 sort colors three pointers low mid high",
-      scenario:"What if your array has only three distinct values — like 0s, 1s, and 2s — and you need to sort it in a single pass without counting or using extra space?",
       world:"Sorting Dutch flag stripes: red, white, blue — group all reds left, whites middle, blues right.",
       visual:`[2,0,1,2,0,1,0]\nlow=0  mid=0  high=6\narr[mid]=2 → swap(mid,high); high--\narr[mid]=0 → swap(mid,low); low++;mid++\n... single pass ...\n[0,0,0,1,1,2,2]`,
       syntax:`int low=0, mid=0, high=arr.length-1;\nwhile (mid <= high) {\n    if      (arr[mid]==0) { swap(low++, mid++); }\n    else if (arr[mid]==1) { mid++; }\n    else                  { swap(mid, high--); }\n}`,
@@ -1134,7 +1333,6 @@
 
     { id:96, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Merge Intervals",
       keys:"merge intervals overlapping ranges calendar events O(n log n) sort start end overlap",
-      scenario:"What if you have a list of time intervals — like meeting slots — and you need to merge all overlapping ones so that no two intervals in the result overlap at all?",
       world:"Combining overlapping calendar blocks: if two meetings overlap, show them as one longer merged block.",
       visual:`Input:  [[1,3],[2,6],[8,10],[15,18]]\n[1,3] and [2,6] overlap (3 >= 2) → merge → [1,6]\n[8,10] and [15,18] don't overlap  → keep separate\nOutput: [[1,6],[8,10],[15,18]]`,
       syntax:`Arrays.sort(intervals, (a,b) -> a[0]-b[0]);  // sort by start\nfor (int[] cur : intervals) {\n    if (result is empty || last.end < cur.start)\n        result.add(cur);       // no overlap\n    else\n        last.end = Math.max(last.end, cur.end);  // merge\n}`,
@@ -1143,7 +1341,6 @@
 
     { id:97, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Binary Search on Answer",
       keys:"binary search on answer parametric search minimize maximize feasible predicate guess check",
-      scenario:"What if the answer to a problem is a number in some range, and you can quickly check 'is X a valid answer?' — so instead of trying every value, you binary search over the answer space itself?",
       world:"Guessing the minimum speed to finish a task on time: try a speed, check if it works, then narrow the range.",
       visual:`Answer lies in range [lo, hi]\nwhile (lo < hi) {\n    mid = (lo+hi)/2\n    if feasible(mid): hi = mid    (can do better)\n    else:            lo = mid+1  (need more)\n}\nAnswer = lo\nOnly works when: feasible(x) true → feasible(x+1) also true`,
       syntax:`int lo = minPossible, hi = maxPossible;\nwhile (lo < hi) {\n    int mid = lo + (hi-lo)/2;\n    if (feasible(mid)) hi = mid;\n    else lo = mid + 1;\n}\n// lo is the answer`,
@@ -1152,7 +1349,6 @@
 
     { id:98, cat:"Patterns & Techniques", cc:"#6366f1", cr:"99,102,241", use:"Difference Array",
       keys:"difference array range update O(1) increment decrement prefix sum restore lazy propagation",
-      scenario:"What if you need to add a value to every element in a range [l, r] of an array — and you have many such range-update operations — and you want each update to be O(1) instead of O(n)?",
       world:"A waiter who marks '+1 coffee' at table 3 and '-1 coffee' after table 7, then tallies totals at the end — one pass instead of updating every table.",
       visual:`arr = [0, 0, 0, 0, 0]\nAdd +3 to range [1,3]: diff[1]+=3, diff[4]-=3\nAdd +2 to range [2,4]: diff[2]+=2, diff[5]-=2\ndiff = [0, 3, 2, 0,-3,-2]\nprefix sum of diff → [0, 3, 5, 5, 2, 0] = final values`,
       syntax:`int[] diff = new int[n+1];\ndiff[l]   += val;\ndiff[r+1] -= val;\n// after all updates, prefix sum diff[] to get final array`,
@@ -1162,7 +1358,6 @@
     // ── Algorithms additions ──
     { id:99, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"2D Grid BFS",
       keys:"2D grid BFS matrix traversal shortest path flood fill cells 4-directional 8-directional island",
-      scenario:"What if your problem is set on a 2D grid — like a maze or an island map — and you need to find the shortest path between two cells, or spread outward level by level from a starting cell?",
       world:"Flooding a terrain map from a source cell — water spreads to all reachable cells level by level.",
       visual:`grid (0=path, 1=wall):\n0 0 1 0\n0 0 0 0\n1 0 1 0\nBFS from (0,0): visit all 0-cells by distance\n4 directions: up, down, left, right\nUse visited[][] to avoid revisiting`,
       syntax:`int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};\nQueue<int[]> q = new LinkedList<>();\nq.offer(new int[]{sr, sc}); vis[sr][sc]=true;\nwhile (!q.isEmpty()) {\n    int[] cell = q.poll();\n    for (int[] d : dirs) {\n        int nr=cell[0]+d[0], nc=cell[1]+d[1];\n        if (inBounds && !wall && !vis) { vis=true; q.offer(...); }\n    }\n}`,
@@ -1171,13 +1366,117 @@
 
     { id:100, cat:"Algorithms", cc:"#c026d3", cr:"192,38,211", use:"Bellman-Ford",
       keys:"bellman ford shortest path negative weights negative cycle detect single source V-1 edges relax",
-      scenario:"What if your graph has edges with negative weights — like currency exchange losses — and Dijkstra's breaks because it assumes all weights are positive?",
       world:"A currency exchange network where some conversions lose money — Bellman-Ford finds the cheapest route even through losses.",
       visual:`Relax ALL edges V-1 times:\nV-1 rounds guarantee shortest path (if no neg cycle)\n\nRound 1: improve direct paths\nRound 2: improve 2-hop paths\n...\nRound V-1: improve (V-1)-hop paths\n\nCheck round V: if still improving → negative cycle!`,
       syntax:`int[] dist = new int[V]; Arrays.fill(dist, INF); dist[src]=0;\nfor (int i=1; i<V; i++)           // V-1 rounds\n    for (int[] e : edges)          // relax all edges\n        if (dist[e[0]]+e[2] < dist[e[1]])\n            dist[e[1]] = dist[e[0]]+e[2];`,
       code:`static int[] bellmanFord(int V, int[][] edges, int src){\n    int[] dist=new int[V];\n    Arrays.fill(dist, Integer.MAX_VALUE/2);\n    dist[src]=0;\n    for(int i=1;i<V;i++)\n        for(int[] e:edges)  // {from, to, weight}\n            if(dist[e[0]]+e[2]<dist[e[1]])\n                dist[e[1]]=dist[e[0]]+e[2];\n    // detect negative cycle:\n    for(int[] e:edges)\n        if(dist[e[0]]+e[2]<dist[e[1]])\n            System.out.println("Negative cycle detected!");\n    return dist;\n}`,
       methods:[["O(V×E) time","slower than Dijkstra's O((V+E)logV)"],["Handles negative edges","Dijkstra's does NOT"],["V-1 relaxation rounds","enough for any shortest path without a negative cycle"],["V-th round check","if improvement found → negative cycle"]] },
   ];
+
+  // ── Plain-English Scenario Overrides (simple enough for a beginner) ──
+  const SCENARIOS = {
+    1:  "Imagine you have a jar and you want to write down how many marbles are inside — like 5 marbles, or 42, or 1000. It will always be a plain whole number. Never three-and-a-half marbles, never 7.2 marbles — just a clean full number with nothing after the decimal point. What kind of box in your code do you use to hold a simple whole number like this?",
+    2:  "Imagine you go to a shop and the price tag says ₹49.75 — it has a dot with extra digits after it, not a round number. Or think about your body temperature — 98.6 degrees. You need to store a number that has a decimal point in the middle. What kind of box in your code is made for numbers that have digits after a decimal point?",
+    3:  "Imagine a light switch — it is either ON or it is OFF. It can never be halfway. Or think about a yes-or-no question: 'Did you eat breakfast?' The answer is only YES or NO, nothing in between. What kind of box in your code holds just one of two possible answers — true or false — and absolutely nothing else?",
+    4:  "Imagine your teacher writes a single letter grade on your paper — just the letter 'A'. Not the word 'Awesome', just that one single letter. Or imagine pressing one key on a keyboard and wanting to save exactly which key it was. What kind of box in your code holds exactly one single letter, digit, or symbol — no more, no less?",
+    5:  "Imagine you are trying to count every grain of sand on a long beach — you would easily need to count past one billion, two billion, maybe five billion grains! But a normal number box in your code can only hold up to about two billion before it breaks and gives a wrong answer. What bigger kind of number box do you use when your number is so massive that a regular box cannot hold it without overflowing?",
+    6:  "Imagine your friend sends you a text message — 'Hello! How are you doing today?' That message is a whole bunch of letters, spaces, and a question mark all stuck together as one piece of text. You want to store that whole message, search for a word inside it, or check how many characters it has. What kind of box in your code holds a full word, sentence, or any group of characters together as one piece of text?",
+    7:  "Imagine you have a regular coin (a plain number like 5), but you want to put it inside a fancy gift bag. The gift bag only accepts wrapped presents — not bare coins. So you have to put your coin inside a little gift box first, wrap it up, and then it can go in. What do you use in Java when a plain number or a true/false value needs to be wrapped up like a gift so it can go inside a collection like a list or a map that does not accept plain primitives?",
+    8:  "Imagine you are a robot standing at a fork in the road. Someone gives you a rule: 'If it is raining outside, take the left path. If it is NOT raining, take the right path.' You look at the sky, check the condition, and walk down exactly one of the two paths. What in your code lets you say 'IF this condition is true, do this — otherwise, do something completely different'?",
+    9:  "Imagine you need to write a label for a visitor — either the word 'ADULT' or the word 'CHILD' — based on how old they are. You want to decide and write it in one super short line instead of writing a big paragraph with if-then-else. What is the short one-line trick in Java that lets you pick between exactly two values based on a yes-or-no question, all in a single expression?",
+    10: "Imagine a vending machine with buttons labeled A1, A2, A3, A4. Pressing A1 gives you chips. A2 gives juice. A3 gives chocolate. A4 gives gum. Each button triggers something completely different. You have one value and need totally different code to run depending on which value it is. What do you use instead of writing a long chain of if-else-if-else-if blocks?",
+    11: "Imagine your teacher says 'Write your name 10 times in your notebook.' You know exactly how many times — 10. You do not want to paste the same line of code 10 times. You want to say: 'Repeat this block of code exactly 10 times, then stop.' What in your code runs the same block of instructions a known, specific number of times using a counter that goes up with each repetition?",
+    12: "Imagine you are filling a bucket from a tap, adding water little by little. You keep filling it — pour, pour, pour — until it is full. You had no idea before you started how many pours it would take — you just kept going until the condition (bucket is full) was met. What in your code keeps repeating an action again and again for as long as a condition stays true, even when you do not know ahead of time how many times it will run?",
+    13: "Imagine a game show where the host ALWAYS asks you at least one question before asking 'Would you like to play another round?' You always answer at least one question — there is no way to leave without playing at least once. The 'play again?' check only happens AFTER the first round. What in your code guarantees that a block of code always runs at least once before it checks whether to keep repeating?",
+    14: "Imagine you have a bag full of fruits — an apple, a banana, a mango, a grape. You want to look at each fruit one by one, in order, without caring about their position numbers. You just want to visit every single fruit. What in your code lets you walk through every item in a collection or array one by one, automatically, without you needing to track any index number at all?",
+    15: "Imagine a security guard whose job is to stand at a gate all day and all night checking IDs — forever — until their boss calls and says 'go home now'. The guard never stops on their own. They work until someone gives the signal to stop. What kind of loop in your code runs forever without stopping on its own, and the only way out is when something specific inside it triggers a special command to break out?",
+    16: "Imagine you teach your toy robot a new dance. You show it all 5 steps one time and give the dance a name: 'doWave'. From now on, any time you say 'doWave', the robot performs all 5 steps perfectly. The robot just performs — it does not hand you anything back when it is done. What in your code lets you package a set of steps under a name so you can call them anywhere without copying and pasting, and it performs the steps without returning anything?",
+    17: "Imagine you ask a shopkeeper 'How much do 3 apples cost?' The shopkeeper thinks for a moment, does the math, and says back '₹15.' They gave you the answer! What in your code lets you package up a calculation under a name, and when it finishes running it SENDS AN ANSWER BACK to whoever called it, so the caller can use that answer?",
+    18: "Imagine a magic blender with one button called BLEND. When you put fruits in, it makes a fruit smoothie. When you put ice cream in, it makes a milkshake. When you put soup ingredients in, it blends into soup. Same button name, but it works differently based on what you hand it. What concept lets you have multiple methods with the exact same name, but each one takes different types or numbers of inputs, and Java automatically picks the right one based on what you pass in?",
+    19: "Imagine you are searching for a hidden toy inside a big box. You open the box and find — another box inside! You open that and find — another smaller box! You keep opening smaller and smaller boxes until you reach a tiny box that is empty — that is where you stop. Each time you open a box, you do the exact same action but on a smaller version. What in your code lets a method solve a problem by calling ITSELF on a smaller version of the same problem, stopping only when the problem is small enough to answer directly?",
+    20: "Imagine a row of numbered school lockers — locker 0, locker 1, locker 2, all the way to locker 9. Each locker holds exactly one thing. You can jump straight to locker number 6 without opening the others. The number of lockers is decided when you build the row and cannot be changed later. What in your code gives you a fixed row of boxes, all holding the same type of thing, where you reach any box instantly by its number?",
+    21: "Imagine a bingo card — it has rows going across and columns going down, making a grid of squares. To point to any square, you say 'row 2, column 3'. You need TWO numbers to find any one square. Think of it like a classroom seating chart — row 1, seat 4 — a grid. What in your code lets you store data in a grid shape with rows AND columns, where you need two numbers (row index and column index) to find any specific value?",
+    22: "Imagine a word printed on a strip of paper with each letter in its own tiny box — H-E-L-L-O. You can count how many boxes there are, peek at the letter in box number 2, cut out a piece of the strip, or check if the letters 'ELL' are hiding somewhere inside it. What kind of value in your code holds a whole sequence of characters as one piece of text, with built-in tools for searching, slicing, and checking it?",
+    23: "Imagine you are building a long paper chain by gluing paper rings together one at a time. Every time you add a ring, you just glue it onto the end — you do NOT tear the whole chain apart and rebuild it from zero. Now imagine if every time you added one ring, you had to throw the entire chain in the bin and recreate it from scratch. That would be incredibly wasteful and slow! What do you use in your code when you need to build up text piece by piece inside a loop, without the slowness of creating a brand new object every single time you add something?",
+    24: "Imagine a shopping list on paper that you can add to or cross things off at any time. You start with 3 items, add 2 more, cross off one, add another — the list grows and shrinks freely as you go. But you can still instantly look up 'what is the first item on the list?' by position. What in your code gives you a list that can grow and shrink dynamically, while still letting you access any item by its position number?",
+    25: "Imagine a special queue at a theme park with two entry/exit doors — one at the very front and one at the very back. People can join or leave from EITHER end, and both doors open instantly with no waiting. What in your code gives you a collection where adding or removing items from BOTH the front and the back is lightning fast — equally fast from either end?",
+    26: "Imagine a stack of pancakes at breakfast. The first pancake cooked goes on the plate first, but gets buried under all the others. The most recently made pancake is always on top. You always take from the TOP. The last one placed is the first one eaten. What data structure follows this 'last in, first out' rule — where you can only add to the top and remove from the top?",
+    27: "Imagine a line of people waiting at a bus stop. The person who arrived first gets on the bus first. Nobody jumps the queue. New arrivals join the BACK of the line. The person at the FRONT leaves when the bus arrives. What data structure follows this 'first in, first out' rule — where the oldest item added is always the first one to come out?",
+    28: "Imagine an emergency room at a hospital. A person with a small cut waits patiently. But when someone arrives with a heart attack, they go straight in — not because they came first, but because they are the most critical. The MOST URGENT patient is always seen next, no matter who arrived when. What data structure automatically serves the highest-priority (smallest or largest) item first, no matter what order things were added in?",
+    29: "Imagine a school phone book where every student's name has their phone number written right next to it. When you want to call Priya, you look up 'Priya' and instantly see her number — you do not read through every name from the start. You go straight to it. What in your code lets you store pairs of items — a key and its value — and find any value instantly by looking up its key?",
+    30: "Imagine a guest list for a birthday party. Each guest's name appears only once — if someone tries to write 'Arjun' again, it is silently ignored because Arjun is already on the list. And you can instantly ask 'Is Priya on this list?' without reading every single name. What in your code holds a collection where every item must be unique, and checking whether something is already there is instant?",
+    31: "Imagine a phone directory that keeps itself in alphabetical order at ALL times — even as you add or remove names. You can ask 'Who is the very first name alphabetically?' or 'Who comes just before the name Kumar?' and get instant answers. What in your code gives you a key-value store that automatically keeps its keys sorted from smallest to largest at all times, with tools to find the nearest key?",
+    32: "Imagine a trophy shelf where every trophy is always placed in size order from smallest to biggest, no duplicates are ever allowed, and you can instantly grab the smallest or ask what the next size up from a specific trophy is. What in your code holds a collection of unique values that is automatically always sorted, letting you instantly find the minimum, maximum, or nearest value?",
+    33: "Imagine you lost your pen somewhere in your messy room. You check under the pillow — not there. Check on the desk — not there. Check inside the bag — found it! You checked every single spot one by one from the start until you found it. What kind of search in your code checks each element from the very beginning to the very end, one at a time, until it finds the target value?",
+    34: "Imagine looking up a word in a thick dictionary. You do not start from page one. You open straight to the MIDDLE. If your word comes after the words on that page, you ignore the entire first half. Open the middle of the remaining half. Each time you look, you throw away half the remaining pages. What search only works when the collection is sorted, but finds things super fast by cutting the search space exactly in half at every single step?",
+    35: "Imagine you have a jumbled pile of numbered cards spread on the floor. Instead of sorting them yourself by hand, you hand the whole pile to a sorting robot that returns them perfectly ordered from smallest to biggest. You do not need to know how the robot works — you just give it the pile and get back sorted cards. What single statement in Java does this — handing your array or list to a built-in sorter that arranges everything in ascending order?",
+    36: "Imagine you ask a sorting machine to arrange books on a shelf. Normally it sorts by title. But you want them sorted by the number of pages instead. You write a special instruction note that says 'ignore the title, sort by page count' and hand the note to the sorting machine along with the books. What in Java lets you write your own custom sorting rule and pass it to the sort function so it follows your rule instead of the default?",
+    37: "Imagine two friends standing at OPPOSITE ends of a long corridor. Friend A starts walking from the left end and Friend B starts walking from the right end. They walk toward each other, checking something at each step. If together they find what they are looking for — great! If what they are carrying combined is too small, Friend A takes one step to the right. If it is too big, Friend B takes one step to the left. They keep moving toward each other until they meet in the middle or find the answer. What technique uses two moving fingers, one at each end of a sorted collection, moving toward each other to find pairs that meet a condition?",
+    38: "Imagine a magnifying glass that shows exactly 3 items at a time as you slide it slowly across a long row of items. At each new position, one item slides out from the left side of the glass, and one new item slides in from the right. You are always looking at exactly 3 items — only which 3 changes. What technique lets you examine every consecutive group of exactly K items in a row, sliding the view one step at a time and updating efficiently by adding one new item and dropping one old item?",
+    39: "Imagine a rubber band stretched around some books on a shelf. You keep stretching it further and further to the right to include more books. But if it gets stretched TOO tight and breaks a rule, you release it a little from the LEFT side until the rule is satisfied again. The rubber band gets bigger and smaller as you move along. What technique uses a window that grows from the right and shrinks from the left to find the longest or shortest stretch of consecutive items that satisfies a given condition?",
+    40: "Imagine keeping a running money total in a diary — Day 1: spent ₹50 (running total: ₹50), Day 2: spent ₹30 (running total: ₹80), Day 3: spent ₹70 (running total: ₹150). Later, someone asks 'How much did you spend from Day 2 to Day 4 only?' Instead of adding those days up again from scratch, you just look at two saved running totals and subtract one from the other — instant answer! What technique pre-computes running totals so that the sum of any section of items can be answered in one instant calculation?",
+    41: "Imagine sorting letters into piles by sender — every time a letter from Priya arrives, it goes on Priya's pile; every letter from Arjun on Arjun's pile. At the end, the height of each pile tells you how many letters that person sent. What technique uses a map to count how many times each unique item appears, by walking through the data just once and keeping a growing tally for each item as it is seen?",
+    42: "Imagine you are exploring every room in a huge building. Before entering a room, you check the door — did you already stick a sticker on it? If yes, you skip it — already been there! If no sticker, you go in, look around, and stick a sticker on the door before leaving. What technique uses a set to remember everything already seen or visited, so the very next time that same item is encountered, you instantly know to skip it?",
+    43: "Imagine you are doing a long math test and you solve a very tough sub-problem. You write the answer on a sticky note and stick it to the corner of your desk. Ten minutes later, the EXACT same sub-problem appears in a different question. Instead of working it all out again from scratch, you just glance at your sticky note. What technique saves the answer to every sub-problem the first time it is solved, so that if the same sub-problem appears again — sometimes hundreds of times! — the saved answer is returned instantly instead of recalculating?",
+    44: "Imagine a treasure hunt game where each clue card has a message AND tells you where the NEXT clue card is hidden. You start at card 1 — it says 'look under the couch' and 'next card is in the bedroom'. You find it and it leads to the next one. There is no way to jump straight to card 5 — you MUST follow the chain from the start. What data structure works like this — where each item holds its own data AND an arrow pointing to where the next item lives?",
+    45: "Imagine drawing a family tree where every person can have at most 2 children — one child to the left and one child to the right. You start from one person at the very top and draw branches going downward. Every person can split into at most two branches below them. What data structure stores data in this branching, tree-like shape where each piece of data has at most two things connected below it — a left and a right?",
+    46: "Imagine an enchanted bookshelf where books are arranged in a very special way. At any spot on the shelf, every book to the LEFT has a title that comes EARLIER in the alphabet, and every book to the RIGHT comes LATER. So to find any book, you just keep deciding 'go left' or 'go right' at each step — and you find it fast without checking every book. What data structure keeps values in this smart 'smaller goes left, bigger goes right' arrangement that lets you find, add, or remove any value very quickly?",
+    47: "Imagine a pile of tasks on your desk, each with an urgency number written on it. No matter which order tasks arrive, the one with the highest urgency ALWAYS sits on top of the pile, ready to be picked up first. When you add a new task, it automatically floats to the right spot. When you finish the top task, the next most urgent one rises to the top. What data structure always keeps the most important item at the very top and automatically reorganizes itself whenever anything is added or removed?",
+    48: "Imagine a map of your neighborhood where some houses are connected by paths, but most pairs of houses have NO direct path between them. Instead of drawing a giant table with all possible pairs (mostly empty), each house just keeps a small personal list of its direct neighbors. What structure represents connections between things by giving each item a small list of only the things it directly connects to — saving space when most pairs are not connected?",
+    49: "Imagine a paper grid where the rows are 'departure city' and the columns are 'destination city'. If there is a direct road from City A to City B, you write a 1 in the box where row A meets column B. If there is no direct road, you write a 0. To instantly check if two cities are directly connected, you just look at one box in the grid. What structure represents all connections as a big table of 1s and 0s, where any connection can be checked in one instant look?",
+    50: "Imagine Google's search bar. You type just the letters 'ca' and it instantly suggests 'cat', 'car', 'career', 'cake'. How does it know so many words so fast? Because all words starting with 'ca' share the same first two steps in a tree — the letter 'c' then the letter 'a' are shared by all of them. What data structure stores words by letting them share their common starting letters in a branching tree, making it incredibly fast to find all words that start with what you have typed so far?",
+    51: "Imagine you drop a stone into a completely still pond. Ripples spread outward — first a tiny ring right where the stone hit, then a slightly bigger ring, then an even bigger ring. Everything the same distance from the center gets rippled at the exact same moment. What search technique explores a graph or tree in this exact same spreading pattern — visiting all items exactly 1 step away first, then all items exactly 2 steps away, spreading ring by ring from the starting point?",
+    52: "Imagine you are exploring a branching cave system. Whenever you reach a fork, you ALWAYS pick one tunnel and go as deep as you possibly can — deeper and deeper, ignoring the other tunnels — until you hit a dead end. Only then do you backtrack to the last fork and try a different tunnel. You always go deepest first before trying anything else. What search technique explores a graph or tree by always going as far as possible along one path before ever backing up?",
+    53: "Imagine planning a road trip where every single road has a sign showing how many minutes it takes to drive. You want to find the route from your home to your destination where all the road times add up to the SMALLEST possible total — not the fewest roads, but the cheapest total time. What algorithm finds the shortest (cheapest or fastest) path from one starting point to all other points in a map where each connection has a different travel cost?",
+    54: "Imagine you need to pay exactly ₹36 using as few coins as possible from your pocket, which holds coins of ₹25, ₹10, ₹5, and ₹1. You always grab the BIGGEST coin that fits without going over the amount needed: take ₹25 (need ₹11 more), take ₹10 (need ₹1 more), take ₹1 — done in just 3 coins! At every single step, you grabbed the biggest available option without overshooting. What approach always picks the locally best option at each step, trusting that these moment-by-moment best choices will lead to the best overall result?",
+    55: "Imagine solving a maze drawn on paper using a pencil. You try going right — right again — dead end! You erase back to the last fork and try going down instead. Dead end again! Erase, try another direction. You try every path, erasing and re-trying whenever you get stuck, until you find the exit or prove there is none. What technique builds a solution step by step, and when the current path hits a dead end, it UNDOES the last step (backtracks) and tries something different?",
+    56: "Imagine you are doing a hard exam. You work out a really tough calculation and write the answer in the margin of your paper. Twenty minutes later, the EXACT same calculation shows up in a completely different question. Instead of spending all that time working it out again, you just look at the margin of your paper. What technique saves the answer to each sub-problem the very first time it is solved, so that whenever the EXACT same sub-problem appears again — even hundreds of times — the saved answer is used instantly instead of recalculating?",
+    57: "Imagine building a block tower where each new floor can only be placed once the floor below it is finished. You start from the ground (floor 0) — figure out how many ways to build floor 0. Then use that to figure out floor 1. Then use floor 1 to figure out floor 2, all the way up to the top floor. You fill in answers from the bottom upward, and each answer depends on the already-filled answers below it. What technique builds solutions from the smallest base cases upward, filling in a table where each answer is built on previously computed answers?",
+    58: "Imagine you have a huge pile of exam papers to sort by score. You split the pile into two equal halves and give each half to a helper. Each helper sorts their pile, then you carefully MERGE the two sorted piles back together — looking at the top paper of each pile, taking whichever has the lower score, and repeating until both piles are empty. Each helper also splits their pile in half and gives to two more helpers — going all the way down until each helper has just one paper. What sorting method keeps splitting in half all the way down, then merges sorted halves back together all the way up?",
+    59: "Imagine sorting children in a class photo by height. You pick one child at random as the 'divider'. Every child SHORTER than the divider steps to the LEFT. Every child TALLER steps to the RIGHT. The divider is now in their correct final spot! You then do the exact same thing separately with the left group and the right group — pick a new divider in each, split them, repeat — until every group has only one person. What sorting method picks a pivot, puts everything smaller on its left and bigger on its right, then recursively repeats on each side?",
+    60: "Imagine a cookie cutter in the shape of a star. The cutter itself is just a piece of metal — it is not a real cookie, you cannot eat it. But every time you press it into dough, you create a REAL, separate star-shaped cookie. You can make 100 cookies from the same one cutter, and each cookie exists on its own with its own frosting and toppings. The cutter is the CLASS — a blueprint or template. Each real cookie is an OBJECT — a real thing made from that blueprint. What concept lets you write a blueprint once that describes data and actions, then create as many separate real things from that blueprint as you need?",
+    61: "Imagine ordering a custom notebook from a factory. The moment they make your notebook — right at the instant of creation — it AUTOMATICALLY comes with your name printed on the cover, 200 pages, and a blue cover — all set up perfectly from the start without you having to touch it afterwards. What special method in a class runs automatically the very instant a new object is created, setting up all its starting values so it is ready to use right away?",
+    62: "Imagine there is a recipe called 'Vehicle' that describes what ALL vehicles have: 4 wheels, an engine, the ability to move forward. Now someone creates a 'Car' recipe. Instead of writing 'wheels, engine, can move' all over again from scratch, the Car recipe simply says 'I have everything a Vehicle has — AND I also add air conditioning, a trunk, and seatbelts.' The Car BORROWED everything from Vehicle without rewriting it. What concept lets one class automatically get all the fields and methods of another class, and just layers its own extras on top?",
+    63: "Imagine a famous family recipe that says 'add one pinch of salt to the batter'. Your mum follows the recipe but changes just that one step: she adds a pinch of Himalayan pink salt instead of regular salt. The step name is the same — 'add salt' — but her version does it slightly differently. Everything else in the recipe stays exactly the same. What concept lets a child class keep the exact same method name as its parent class but completely replace what that method actually does when it is called on the child?",
+    64: "Imagine a job application form that already has most of the details filled in — company name, interview process, benefits package. But one important line is deliberately left BLANK: 'Starting Salary: ___'. You cannot submit the form with that line blank — it is incomplete. Every specific job that uses this form must fill in the salary section first. What kind of class in Java has some methods fully written and ready to use, but intentionally leaves other methods blank — forcing every class that extends it to provide their own implementation of those blank methods?",
+    65: "Imagine a universal charging port standard. Any phone, tablet, laptop, or earbud that has the right connector shape can plug into any charger that follows the standard. The charger does not care whether you are Apple, Samsung, or Sony — as long as you follow the connector standard, you are compatible. What concept in Java defines a set of method names that any class can agree to provide, making very different, unrelated classes all work together because they each promised to implement those same methods?",
+    66: "Imagine a medicine bottle with a child-proof cap. The medicine is locked inside — you cannot just open it and take any amount you want. You have to twist the cap in a special way to open it, and the instructions say to take only the correct dosage. The medicine is protected from careless access. What concept in Java hides the data inside a class behind a locked door, only allowing access through specific controlled methods that can check and validate what goes in and out?",
+    67: "Imagine you have a PLAY button on your music player, your TV, and your game console. Pressing PLAY on the music player starts a song. Pressing PLAY on the TV starts a video. Pressing PLAY on the console starts a game. The button name is the same — PLAY — but what actually happens is completely different depending on which device you press it on. What concept in Java lets many different objects all respond to the same method name, but each one does its own unique action when that method is called?",
+    68: "Imagine a traffic light controller. The light can ONLY ever be one of three states: Red, Yellow, or Green. It can never be Purple. It can never be the number 42. It can never be anything outside that fixed set of three. The possible states are decided once and locked forever. What in Java lets you define a type where the value can only ever be one of a small, specific list of named choices — so the compiler itself blocks anyone from using an invalid value?",
+    69: "Imagine you try to open a jar of jam. You twist the lid — but sometimes the jar slips and might crash to the floor. So you hold a folded towel underneath with your other hand just in case. If the jar drops, the towel catches it — no mess, no shattered glass! And whether the jar opened or fell, you ALWAYS put the towel away before walking away. What in Java wraps risky code so that if something goes wrong while it runs, you catch the problem and handle it gracefully — and always tidy up properly at the end, no matter what happened?",
+    70: "Imagine a strict librarian at a checkout desk. When you try to borrow a book but you have an unpaid fine, the librarian firmly says 'I cannot let you borrow this — you have outstanding fines' and signals a refusal. Also, on the library entrance sign, it warns you: 'Customers with unpaid fines may be refused borrowing.' — that is a warning to you before you even try. What in Java lets a method signal an error when something is wrong (throw an exception), and how does it warn callers in the method signature that this error might happen (throws)?",
+    71: "Imagine instead of writing your delivery person a full letter with your address, your instructions, and your signature — you just stick a tiny sticky note on the package: 'Leave at door if out.' Same instruction, much shorter! What in Java lets you write a tiny, one-time-use piece of logic — a short instruction right where you need it — without creating a whole separate named method just for one simple use?",
+    72: "Imagine items moving along a factory conveyor belt. The first station removes all broken items. The second station paints the remaining items blue. The third station wraps them in a box. Each item travels through every station automatically in order. What in Java lets you do the same thing with a collection — filter out items you do not want, transform the ones that pass through, sort them, and collect the final results — all written as a clean connected pipeline of steps?",
+    73: "Imagine a mystery prize box that MIGHT have a gift inside — or might be completely empty. On the outside it says 'CHECK BEFORE REACHING IN.' You always check first. If there is something inside, great — take it. If it is empty, use a backup prize instead. You never blindly reach in and crash when you find nothing. What wrapper in Java forces you to always check whether a value actually exists before using it, preventing your program from crashing when a value turns out to not be there?",
+    74: "Imagine your program is sitting at a desk and the keyboard is its ear. The program asks 'What is your name?' and then WAITS and LISTENS — completely paused — until the user types something and presses Enter. Then it reads what was typed and continues doing its work. What in Java allows your program to pause and actually read text, numbers, or sentences typed by the user from the keyboard while the program is live and running?",
+    75: "Imagine a scientific calculator already sitting on your desk, fully built and ready with all its buttons: square root, power, rounding, absolute value, random number. You just press the button — you do not have to invent square root yourself or figure out how rounding works. The tools are just there, ready. What class in Java gives you a collection of ready-made mathematical tools — square root, power, rounding, pi — that you can use any time without any setup?",
+    76: "Imagine a receipt-printing machine at a shop. You tell it exactly how to format things: 'Print the customer name left-aligned in a 10-character space, then the price right-aligned with exactly 2 decimal places.' Every single receipt comes out perfectly formatted. You define the TEMPLATE, and it fills in the actual values. What in Java lets you build perfectly formatted text by writing a template with special placeholders that get replaced by actual numbers, names, and values — always printed in exactly the right format?",
+    77: "Imagine you are standing in a crowd watching a parade and for each person in the crowd you want to know: who is the NEXT person standing AFTER them who is TALLER? If you had to check every possible pair, it would take forever. A smarter way keeps a list of 'unresolved' people waiting for their answer — whenever a tall person arrives, they instantly answer everyone in the list who was shorter than them. What technique uses a stack maintained in order to answer 'next bigger or smaller element' for every item in a single pass through the data?",
+    78: "Imagine you ran a small juice stand for 7 days. Some days you made profit, some days you had losses. You want to find which stretch of consecutive days gave you the highest total profit overall. You walk through each day keeping a running total. Whenever your running total drops below zero, you restart the total from zero — because adding a loss to your next stretch only drags it down further. What technique finds the highest sum of any consecutive section of a number array in a single pass?",
+    79: "Imagine you need to fold a piece of paper 50 times. Folding it one fold at a time would take 50 separate actions. But here is a smarter way: fold it once — now it is 2 layers thick. Fold THAT in half — now 4 layers. Fold again — 8 layers. Each fold doubles what you already have, so you reach 50 folds in only about 6 steps instead of 50. What technique computes a large power (like 2 to the power of 50) by repeatedly squaring the result instead of multiplying one at a time, finishing in just log(n) steps?",
+    80: "Imagine a school playground where at the start of term every student is their own lone group. Over time, students become friends — when two friend groups join, everyone in both groups becomes one big group. At any moment you might be asked: 'Are Arjun and Priya in the same friend group?' — and you need the answer instantly even after hundreds of mergers have happened. What data structure tracks which items belong to the same group, and makes both merging groups and checking 'same group?' super fast?",
+    81: "Imagine two runners starting from the same point on a race track. One runs slowly (one step at a time) and the other runs at double speed (two steps at a time). If the track is a straight line, the fast runner gets to the end first and they never meet again. But if the track secretly LOOPS BACK on itself — going in circles — the fast runner will lap the slow runner and they will find themselves at the SAME SPOT at the same time! What technique uses a slow pointer and a fast pointer moving through a linked list to figure out whether the list secretly loops back on itself instead of ending?",
+    82: "Imagine you need to build a house. You cannot put up walls before the foundation is done. You cannot put on the roof before the walls are up. You cannot paint before the roof is on. Some steps MUST happen before others — they have a required order. But you were only given a list of rules like 'A comes before B' and 'C comes before D' — not the full ordered plan. What technique works out a valid top-to-bottom order for all tasks when you are only given 'this must happen before that' rules?",
+    83: "Imagine every number in your computer is secretly stored as a row of tiny switches — like 8 switches, each either ON (1) or OFF (0). The number 6 looks like: OFF-OFF-OFF-OFF-OFF-ON-ON-OFF. You can flip individual switches, check if a specific switch is ON, or combine two rows of switches using special rules. These switch operations happen in ONE clock tick — incredibly fast, even faster than normal addition. What technique works directly on these individual 1s and 0s (bits) inside numbers to do things like check if a number is odd or even, cancel out duplicate values, or test if a number is a power of two?",
+    84: "Imagine you have 48 chocolates and 36 lollipops and you want to make party bags where every single bag has the EXACT same mix and there are absolutely no leftovers. The MOST bags you can make is the biggest number that divides evenly into both 48 and 36. How do you find that number fast, without testing every possible number? What algorithm finds the Greatest Common Divisor of two numbers by repeatedly dividing and using the leftover remainder, over and over, until the remainder becomes zero?",
+    85: "Imagine writing numbers 1 through 50 on a whiteboard. You cross out 1. You circle 2 and cross out ALL numbers that are multiples of 2 — 4, 6, 8, 10, and so on. You circle 3 and cross out all its NEW multiples — 9, 15, 21. You circle 5 and cross out ITS new multiples. You keep going. At the end, every number still circled and not crossed out is a PRIME number — you found every prime up to 50 in one sweeping process! What technique generates ALL prime numbers up to a limit by marking off multiples, rather than testing each number one by one?",
+    86: "Imagine you have 20 colored pencils all jumbled up — 5 red, 3 blue, 7 green, 5 yellow. To sort them, you just COUNT them by color: 3 blues, 5 reds, 7 greens, 5 yellows. Then you lay them back on the table in order: 3 blues first, then 5 reds, then 7 greens, then 5 yellows. You never once had to compare two pencils against each other — just counted and placed! What sorting technique counts how many of each value exists and uses those counts to place every element directly in its final position, with zero comparisons?",
+    87: "Imagine playing a card game where you draw cards one at a time from a face-down pile. Each time you pick up a new card, you SLIDE it into the right spot among the cards already in your hand so your hand stays sorted the whole time. Draw a 7 — slide it between 5 and 9. Draw a 2 — slide it all the way to the left end. Draw a King — it goes to the far right end. What sorting method takes one new element at a time and inserts it into its correct position among the already-sorted elements?",
+    88: "Imagine you are writing diary entries and noting the order you experienced things — first you saw a red bird, then a green frog, then a blue butterfly. When you flip back through your diary, the entries ALWAYS appear in the same order you wrote them. What in your code is like a map (key and value pairs) but it also remembers and keeps the exact order in which you inserted things, unlike a regular map that shuffles the order?",
+    89: "Imagine a toolbox that is already stocked with ready-made tools: a 'sort' tool to arrange your list in order, a 'reverse' tool to flip it backwards, a 'shuffle' tool to mix it randomly, a 'find the biggest' tool. You never build these yourself — they are already there, waiting. What class in Java gives you this ready-made toolbox of helpers that work on lists and collections with one simple method call?",
+    90: "Imagine children standing in a random height order in a line. You walk along and compare each pair of side-by-side children. If the left child is taller than the right child, they swap places. You walk the ENTIRE line doing this, and after one full walk, the tallest child has moved all the way to the last spot — like a heavy bubble rising to the surface of water. You do the whole walk again. Now the second-tallest is in second-to-last place. You keep doing full walks until nobody needs to swap anymore. What sorting method works by repeatedly walking and swapping neighboring pairs until everything is in order?",
+    91: "Imagine you are arranging crayons from shortest to longest. You look at ALL the crayons spread out, find the very shortest one, and place it at the far left. Now look at ALL the remaining crayons, find the shortest of THOSE, and place it in the second spot. Keep repeating — always scan everything remaining, always pick the absolute shortest one, always put it in the next open position. What sorting method always finds the minimum remaining item and places it in the correct position, one guaranteed placement per round?",
+    92: "Imagine a magic lunchbox that can hold ANY type of food you choose when you pack it — apples today, sandwiches tomorrow, a thermos of soup next week. When you pack it, you decide what type goes in, and from then on it only holds that type. What in Java lets you write a class or method just once that works with ANY type of data — so you can have a Box that holds an Integer, or a Box that holds a String, or a Box that holds a Student — without writing three separate Box classes?",
+    93: "Imagine a row of students standing in a line for a competition, and every student is wearing a numbered bib — bib 3, bib 7, bib 1, bib 12. The organiser wants them lined up from smallest bib number to largest. Every student can look at any other student and say 'My number is smaller — I go first' or 'My number is bigger — I go after.' Because every student knows how to compare themselves to any other student, the whole group can be sorted automatically! What in Java lets a class teach its objects how to compare themselves to each other, so they can be sorted without you needing to write a separate sorting rule every time?",
+    94: "Imagine a school building that has one single clock on the main hall wall. Every classroom uses THAT one shared clock — no class has its own private clock. It belongs to the whole school, not to any one classroom. Now imagine the school motto painted on the entrance wall in permanent stone: 'Learn. Grow. Serve.' It has not changed in 50 years and never will. What in Java lets you mark something as belonging to the class itself — shared by all objects, not copied per object — and lets you mark a value as permanently fixed so it can never be changed after it is set the very first time?",
+    95: "Imagine you spill a bag of red, white, and blue jelly beans all over the floor and want to group them — all reds on the left, all whites in the middle, all blues on the right — in ONE single pass without counting any of them first. You use three marker fingers: one marks 'everything to my left is sorted red', one is where you are currently looking, and one marks 'everything to my right is sorted blue'. What technique sorts exactly three kinds of values in one single walk using three pointer positions?",
+    96: "Imagine your calendar has some events that overlap — Meeting 9–11am and Standup 10–10:30am overlap. Instead of showing two confusing overlapping blocks, you want to combine them into one clean block: 9–11am. What technique takes a list of time ranges, sorts them by start time, and then merges any overlapping or touching ranges into single combined ranges, so the result has no overlaps at all?",
+    97: "Imagine you need to figure out the minimum speed a delivery truck must travel to finish all deliveries before midnight. You do not try every possible speed from 1 km/h to 200 km/h one at a time. Instead, you guess the middle speed — 100 km/h. Can all deliveries be done in time at 100 km/h? If YES, try slower. If NO, try faster. Each guess cuts your remaining options in half. What technique uses the binary search idea not on an array of items, but on the range of possible answer values, checking 'is this candidate answer good enough?' to narrow down the best answer?",
+    98: "Imagine a row of empty glasses on a table numbered 1 to 10. Your teacher says 'Add 3 cups of water to glasses 2 through 6!' Instead of going to glasses 2, 3, 4, 5, 6 and pouring into each one separately, you just write two notes: '+3 starting at glass 2' and '-3 starting at glass 7'. At the very end, you do ONE walk through all your notes to figure out the final water level in each glass. What technique handles many 'update a whole range' commands by recording just two tiny marks per command, then applying everything correctly in one final sweep?",
+    99: "Imagine you are a tiny ant lost in a maze drawn on graph paper. Some squares are open paths, some are walls. From any open square, you can step Up, Down, Left, or Right. You want to reach the cheese square in the FEWEST possible steps. You send out scouts in all 4 directions — those scouts send out their own scouts — spreading outward wave by wave, marking how many steps each square is from you. The first wave to reach the cheese tells you the shortest distance. What technique finds shortest paths in a 2D grid by spreading scouts outward level by level, like ripples in a pond?",
+    100:"Imagine a network of cities connected by flights, but some flights COST you loyalty points and some actually EARN you points (negative cost). You want to fly from City A to City Z spending the fewest points possible — even if some individual flights cost you points, the overall route might still be cheapest. What algorithm finds the shortest path in a network even when some connections have negative costs attached, and also catches the impossible situation where a loop of flights keeps giving you free points forever?"
+  };
+  CARDS.forEach(c => { if (SCENARIOS[c.id]) c.scenario = SCENARIOS[c.id]; });
 
   const TOTAL = CARDS.length;
 
@@ -1223,7 +1522,6 @@
       html += `
       <div class="vc-card" id="card-${c.id}"
         style="--cat-rgb:${c.cr};animation-delay:${(idx % 8) * 0.06}s">
-        <div class="vc-stripe" style="background:${c.cc}"></div>
         <div class="vc-badge-row">
           <span class="vc-badge" style="--cat-rgb:${c.cr}">${c.cat}</span>
         </div>
@@ -1313,6 +1611,91 @@
   });
 
   renderCards('');
+
+  // ── Index Panel ──
+  function buildIndex() {
+    const cats = {};
+    CARDS.forEach(c => { (cats[c.cat] = cats[c.cat] || []).push(c); });
+
+    let num = 0;
+    let html = `<div class="idx-stats" id="idxStats">100 topics across 12 categories</div>`;
+    Object.entries(cats).forEach(([cat, cards]) => {
+      const cc = cards[0].cc;
+      const catId = 'idxcat-' + cat.replace(/\W+/g,'_');
+      html += `
+      <div class="idx-cat">
+        <div class="idx-cat-label" onclick="toggleIdxCat('${catId}')">
+          <div class="idx-cat-dot" style="background:${cc}"></div>
+          <span class="idx-cat-name">${cat}</span>
+          <span class="idx-cat-toggle open" id="${catId}-arrow">▶</span>
+        </div>
+        <div class="idx-items open" id="${catId}">`;
+      cards.forEach(c => {
+        num++;
+        html += `<button class="idx-item" data-id="${c.id}" data-search="${c.use.toLowerCase()} ${c.cat.toLowerCase()}" onclick="goToCard(${c.id})">
+          <span class="idx-item-num">${num}.</span>
+          <span class="idx-item-use">${c.use}</span>
+        </button>`;
+      });
+      html += `</div></div>`;
+    });
+    document.getElementById('idxBody').innerHTML = html;
+  }
+
+  function toggleIdxCat(catId) {
+    const items = document.getElementById(catId);
+    const arrow = document.getElementById(catId + '-arrow');
+    const open = items.classList.toggle('open');
+    arrow.classList.toggle('open', open);
+  }
+
+  let indexBuilt = false;
+  function openIndex() {
+    if (!indexBuilt) { buildIndex(); indexBuilt = true; }
+    document.getElementById('idxOverlay').classList.add('open');
+    document.getElementById('idxPanel').classList.add('open');
+    document.getElementById('idxSearch').focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeIndex() {
+    document.getElementById('idxOverlay').classList.remove('open');
+    document.getElementById('idxPanel').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function goToCard(id) {
+    closeIndex();
+    setTimeout(() => {
+      const card = document.getElementById('card-' + id);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('idx-card-flash');
+      card.addEventListener('animationend', () => card.classList.remove('idx-card-flash'), { once: true });
+    }, 320);
+  }
+
+  document.getElementById('idxSearch').addEventListener('input', function () {
+    const q = this.value.trim().toLowerCase();
+    let visible = 0;
+    document.querySelectorAll('.idx-item').forEach(el => {
+      const match = !q || el.dataset.search.includes(q) || el.querySelector('.idx-item-use').textContent.toLowerCase().includes(q);
+      el.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    // auto-open all cats when searching
+    document.querySelectorAll('.idx-items').forEach(el => {
+      if (q) el.classList.add('open');
+    });
+    document.getElementById('idxStats').textContent =
+      q ? `${visible} match${visible !== 1 ? 'es' : ''}` : '100 topics across 12 categories';
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeIndex();
+  });
+
+  buildIndex();
   </script>
 </body>
 </html>
