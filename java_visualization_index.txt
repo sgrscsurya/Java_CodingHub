@@ -1,0 +1,272 @@
+JAVA MASTER VISUALIZATION SHEET — FULL TOPIC INDEX
+====================================================
+214 topics across 18 categories
+
+
+Variables & Data Types  (13 cards)
+----------------------------------
+    1. int
+    2. boolean
+    3. char
+    4. double
+    5. long
+    6. float
+    7. byte
+    8. short
+    9. String
+   10. Wrapper Classes
+   11. Type Casting (implicit)
+   12. Type Casting (explicit)
+   13. var (local type inference)
+
+Conditionals & Decisions  (3 cards)
+------------------------------------
+   14. if / else if / else
+   15. Ternary Operator ?:
+   16. switch
+
+Loops  (8 cards)
+-----------------
+   17. for loop
+   18. while loop
+   19. do-while
+   20. for-each
+   21. break
+   22. continue
+   23. while(true)
+   24. Labeled Loops
+
+Methods & Recursion  (8 cards)
+-------------------------------
+   25. void method
+   26. return-type method
+   27. static methods
+   28. Method Overloading
+   29. Varargs (...)
+   30. Recursion
+   31. Tail Recursion
+   32. Method References (::)
+
+Arrays & Strings  (8 cards)
+----------------------------
+   33. Array (1D)
+   34. String
+   35. 2D Array
+   36. Jagged Arrays
+   37. StringBuilder
+   38. StringBuffer (vs StringBuilder)
+   39. Arrays utility methods
+   40. String Pool / Immutability
+
+Object-Oriented Programming  (9 cards)
+---------------------------------------
+   41. class / new
+   42. Constructor
+   43. Encapsulation
+   44. extends (Inheritance)
+   45. @Override
+   46. Polymorphism
+   47. abstract class
+   48. interface
+   49. enum
+
+Java Essentials  (33 cards)
+---------------------------
+   50. Scanner (Input)
+   51. Math class
+   52. String.format / printf
+   53. Random class
+   54. Autoboxing / Unboxing
+   55. Text Blocks
+   56. static & final
+   57. try / catch / finally
+   58. throw / throws
+   59. Multi-catch block
+   60. Checked vs Unchecked Exceptions
+   61. try-with-resources
+   62. Custom Exceptions
+   63. BigInteger / BigDecimal
+   64. java.time (LocalDate, LocalTime, Duration)
+   65. Objects class
+   66. File I/O (BufferedReader/Writer)
+   67. Regex (Pattern/Matcher)
+   68. Generics 
+   69. Bounded Wildcards (? extends / ? super)
+   70. Comparable interface
+   71. Lambda (->)
+   72. Functional Interfaces
+   73. Optional
+   74. Stream API
+   75. Annotations
+   76. Interface default / static methods
+   77. Records (Java 14+)
+   78. Pattern Matching for instanceof
+   79. Sealed Classes
+   80. Multithreading (Thread / Runnable)
+   81. synchronized / ExecutorService
+   82. Reflection (basics)
+
+Collections  (16 cards)
+-----------------------
+   83. ArrayList
+   84. LinkedList (as List/Deque)
+   85. Stack (use Deque)
+   86. Queue (use ArrayDeque)
+   87. ArrayDeque
+   88. Vector
+   89. Iterator / ListIterator
+   90. HashSet
+   91. HashMap
+   92. LinkedHashMap
+   93. EnumMap / EnumSet
+   94. PriorityQueue
+   95. TreeSet
+   96. TreeMap
+   97. Collections utility class
+   98. Collections.unmodifiable*
+
+Search & Sort  (12 cards)
+-------------------------
+   99. Linear Search O(n)
+  100. Jump Search
+  101. Binary Search O(log n)
+  102. Exponential Search
+  103. Bubble Sort
+  104. Selection Sort
+  105. Shell Sort
+  106. Heap Sort
+  107. Radix Sort
+  108. Arrays.sort / Collections.sort
+  109. Timsort (Java's built-in)
+  110. Comparator
+
+Patterns & Techniques  (28 cards)
+---------------------------------
+  111. HashMap Frequency
+  112. Character Frequency Array (int[26])
+  113. HashSet Visited
+  114. Prefix Sum
+  115. Difference Array
+  116. Two Pointers
+  117. Anagram / Palindrome Check Patterns
+  118. Sliding Window (Fixed)
+  119. Sliding Window (Variable)
+  120. Divide and Conquer
+  121. Kadane's Algorithm
+  122. Dutch National Flag
+  123. Merge Intervals
+  124. Sliding Window Maximum
+  125. Monotonic Stack
+  126. Binary Search on Answer
+  127. Fast Power (Binary Exponentiation)
+  128. Memoization (HashMap cache)
+  129. Coin Change (DP)
+  130. Subset Sum
+  131. 0/1 Knapsack
+  132. Unbounded Knapsack
+  133. Longest Common Subsequence (LCS)
+  134. Longest Increasing Subsequence (LIS)
+  135. Edit Distance
+  136. Meet in the Middle
+  137. Bitmask DP
+  138. Matrix Exponentiation
+
+DSA Structures  (18 cards)
+--------------------------
+  139. Linked List
+  140. Doubly Linked List
+  141. Circular Linked List
+  142. Binary Tree
+  143. BST
+  144. AVL Tree
+  145. Heap / PriorityQueue
+  146. Floyd's Cycle Detection
+  147. Graph — Adjacency List
+  148. Graph — Adjacency Matrix
+  149. Topological Sort (Kahn's)
+  150. Union-Find (Disjoint Set)
+  151. Trie (Prefix Tree)
+  152. LRU Cache
+  153. Fenwick Tree (BIT)
+  154. Segment Tree
+  155. Sparse Table
+  156. Suffix Array / Suffix Tree
+
+Algorithms  (29 cards)
+----------------------
+  157. GCD (Euclidean Algorithm)
+  158. Sieve of Eratosthenes
+  159. Counting Sort
+  160. Insertion Sort
+  161. Bit Manipulation
+  162. BFS
+  163. DFS
+  164. Kruskal's Algorithm (MST)
+  165. Prim's Algorithm (MST)
+  166. Greedy
+  167. Merge Sort
+  168. Quick Sort
+  169. KMP Algorithm
+  170. Rabin-Karp Algorithm
+  171. Z-Algorithm
+  172. Backtracking
+  173. 2D Grid BFS
+  174. DP — Memoization (Top-Down)
+  175. DP — Tabulation (Bottom-Up)
+  176. Dijkstra's Algorithm
+  177. Bellman-Ford
+  178. Floyd-Warshall
+  179. Boyer-Moore Voting Algorithm
+  180. Huffman Coding
+  181. Articulation Points & Bridges
+  182. Kosaraju's Algorithm (SCC)
+  183. Tarjan's Algorithm (SCC)
+  184. A* Search
+  185. Manacher's Algorithm
+
+Concurrency & Multithreading  (8 cards)
+----------------------------------------
+  186. volatile keyword
+  187. wait() / notify() / notifyAll()
+  188. Runnable vs Callable
+  189. ExecutorService / Thread Pool
+  190. Atomic Classes (AtomicInteger etc.)
+  191. Locks (ReentrantLock / ReadWriteLock)
+  192. Producer-Consumer Pattern
+  193. CompletableFuture
+
+Design Patterns  (7 cards)
+---------------------------
+  194. Singleton Pattern
+  195. Factory Pattern
+  196. Builder Pattern
+  197. Adapter Pattern
+  198. Decorator Pattern
+  199. Strategy Pattern
+  200. Observer Pattern
+
+I/O & Serialization  (4 cards)
+-------------------------------
+  201. Serializable interface
+  202. InputStream / OutputStream
+  203. Reader / Writer (char streams)
+  204. Object Serialization (writeObject / readObject)
+
+Testing & Debugging  (2 cards)
+-------------------------------
+  205. JUnit 5 Basics (@Test, Assertions)
+  206. Debugging with Breakpoints & Logging
+
+Streams & Functional  (5 cards)
+--------------------------------
+  207. Stream API Basics
+  208. Stream Terminal Operations
+  209. Collectors (groupingBy, toMap, joining)
+  210. flatMap & Optional
+  211. Method References & Parallel Streams
+
+Modern Java Platform  (3 cards)
+--------------------------------
+  212. Classloading (JVM Internals)
+  213. Garbage Collection (JVM Internals)
+  214. Java Platform Module System (JPMS)

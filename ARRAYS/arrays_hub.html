@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arrays | Java Core Programs</title>
+  <title>Arrays | JPrime</title>
+  <link rel="icon" type="image/png" href="../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,9 +39,11 @@
       backdrop-filter: blur(20px); background: rgba(6,6,15,0.8);
       border-bottom: 1px solid var(--card-border);
     }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 14px 0; }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--blue), var(--cyan)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .nav-back { color: var(--text2); text-decoration: none; font-size: 13px; transition: color 0.2s; white-space: nowrap; }
+    .nav-back:hover { color: var(--text); }
+    .logo-icon { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; display: block; flex-shrink: 0; }
     .logo-text { font-size: 16px; font-weight: 700; background: linear-gradient(135deg, var(--blue-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text3); margin-left: 20px; }
     .breadcrumb a { color: var(--text2); text-decoration: none; transition: color 0.2s; }
@@ -50,17 +55,10 @@
       background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.28);
       color: var(--blue-l); padding: 6px 14px; border-radius: 100px;
       font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
+      display: flex; align-items: center; gap: 6px; white-space: nowrap;
     }
 
     .topic-hero { padding: 64px 0 48px; text-align: center; }
-    .topic-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.22);
-      color: var(--blue-l); border-radius: 100px;
-      padding: 7px 18px; font-size: 13px; margin-bottom: 24px;
-      animation: fadeUp 0.5s ease-out both;
-    }
     .topic-hero h1 { font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -2px; margin-bottom: 16px; animation: fadeUp 0.5s ease-out 0.1s both; }
     .grad { background: linear-gradient(135deg, var(--blue-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .topic-hero p { font-size: 16px; color: var(--text2); max-width: 520px; margin: 0 auto 36px; line-height: 1.6; animation: fadeUp 0.5s ease-out 0.2s both; }
@@ -230,10 +228,21 @@
     @media (max-width: 640px) {
       .levels-grid { grid-template-columns: 1fr; }
       .breadcrumb { display: none; }
+      .nav-inner { gap: 8px; }
+      .logo-text { font-size: 14px; }
+      .nav-back { font-size: 12px; }
+      .overall-progress-badge { font-size: 10.5px; padding: 5px 10px; gap: 4px; }
       .topic-meta-strip { gap: 16px; }
       .mastery-card { padding: 36px 20px; }
       .party-stats { gap: 12px; }
       .party-stat { padding: 12px 20px; }
+    }
+
+    @media (max-width: 420px) {
+      .logo-icon { width: 30px; height: 30px; }
+      .logo-text { font-size: 12.5px; }
+      .nav-back { font-size: 11px; }
+      .overall-progress-badge { font-size: 9.5px; padding: 4px 8px; }
     }
     ::-webkit-scrollbar{width:6px;height:6px;}
     ::-webkit-scrollbar-track{background:rgba(255,255,255,0.04);border-radius:100px;}
@@ -250,8 +259,8 @@
       <div class="nav-inner">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <a href="../index.html" class="nav-logo">
-            <div class="logo-icon">☕</div>
-            <span class="logo-text">Java Core</span>
+            <img src="../logo-circle.png" alt="JPrime logo" class="logo-icon">
+            <span class="logo-text">JPrime</span>
           </a>
           <div class="breadcrumb">
             <span class="sep">›</span>
@@ -260,9 +269,12 @@
             <span class="cur">Arrays</span>
           </div>
         </div>
-        <div class="overall-progress-badge">
-          <span>📊</span>
-          <span id="nav-progress">0 / 20 done</span>
+        <div class="nav-right">
+          <a href="../index.html" class="nav-back">&larr; Home</a>
+          <div class="overall-progress-badge">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></span>
+            <span id="nav-progress">0 / 20 done</span>
+          </div>
         </div>
       </div>
     </div>
@@ -270,15 +282,14 @@
 
   <div class="container">
     <section class="topic-hero">
-      <div class="topic-pill">📦 Arrays Topic</div>
       <h1>Array <span class="grad">Problems</span></h1>
       <p>From declaring your first array to DP, matrices, and interview-hard challenges — 12 progressively harder levels to master arrays in Java.</p>
 
       <div class="topic-meta-strip">
-        <div class="meta-item"><span class="meta-icon">📚</span><span>12 Levels</span></div>
-        <div class="meta-item"><span class="meta-icon">🧩</span><span><span class="meta-val">170</span> Problems</span></div>
-        <div class="meta-item"><span class="meta-icon">⏱️</span><span>O(n) Analysis</span></div>
-        <div class="meta-item"><span class="meta-icon">✅</span><span>Progress Saved</span></div>
+        <div class="meta-item"><span class="meta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span>12 Levels</span></div>
+        <div class="meta-item"><span class="meta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span><span><span class="meta-val">170</span> Problems</span></div>
+        <div class="meta-item"><span class="meta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg></span><span>O(n) Analysis</span></div>
+        <div class="meta-item"><span class="meta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9"/></svg></span><span>Progress Saved</span></div>
       </div>
 
       <div class="overall-prog">
@@ -303,7 +314,7 @@
     <div class="mastery-wrap">
       <div class="mastery-card">
         <div class="mastery-top-bar"></div>
-        <span class="mastery-fire">🚀</span>
+        <span class="mastery-fire"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:52px;height:52px"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>
         <h2 class="mastery-title">If You Finish This List:</h2>
         <p class="mastery-sub">You will master:</p>
         <ul class="mastery-list">
@@ -316,7 +327,7 @@
           <li><span class="dot"></span>Interview-level DSA</li>
         </ul>
         <div class="mastery-footer">
-          <span>🎯</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span>
           <span>Your current progress: <strong><span id="mastery-done">0</span> / 170 problems</strong></span>
         </div>
       </div>
@@ -325,7 +336,7 @@
 
   <footer>
     <div class="container">
-      <p>Java Core Programs &nbsp;·&nbsp; Arrays Topic &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+      <p>JPrime &nbsp;·&nbsp; Arrays Topic &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
     </div>
   </footer>
 
@@ -333,7 +344,7 @@
   <div class="party-overlay" id="party-overlay">
     <canvas id="party-canvas"></canvas>
     <div class="party-content">
-      <span class="party-emoji">🎉🏆🎊</span>
+      <span class="party-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:72px;height:72px"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg></span>
       <h2 class="party-title">Arrays Mastered!</h2>
       <p class="party-subtitle">All 170 problems completed. You've conquered every array challenge — from basics to interview-hard. You're DSA-ready!</p>
       <div class="party-stats">
@@ -350,7 +361,7 @@
           <div class="party-stat-label">Completion</div>
         </div>
       </div>
-      <button class="party-close" onclick="closeParty()">🚀 Keep Practicing!</button>
+      <button class="party-close" onclick="closeParty()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg> Keep Practicing!</button>
     </div>
   </div>
 
@@ -461,7 +472,7 @@
                 <div class="l-prog-label">${l.active?`${isDone}/${tot} completed`:'Locked'}</div>
                 <div class="l-prog-mini-bar"><div class="l-prog-mini-fill${isComplete?' full':''}" style="width:${filledPct}%"></div></div>
               </div>
-              ${l.active ? `<span class="level-arrow">${isComplete?'🏆':'→'}</span>` : '<span class="level-arrow">🔒</span>'}
+              ${l.active ? `<span class="level-arrow">${isComplete ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>' : '→'}</span>` : '<span class="level-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>'}
             </div>
           </${l.active?'a':'div'}>
         `;
@@ -470,5 +481,6 @@
 
     render();
   </script>
+  <script src="../history-widget.js"></script>
 </body>
 </html>

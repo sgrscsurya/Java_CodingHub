@@ -6,7 +6,10 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Java Master Visualization Sheet | Java Core</title>
+  <title>Java Master Visualization Sheet | JPrime</title>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <style>
@@ -17,6 +20,8 @@
     }
     html { scroll-behavior: smooth; }
     body { background: #0a0a0a; color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    .icon-inline { width: 1em; height: 1em; vertical-align: -0.15em; display: inline-block; }
+    .icon-inline * { vector-effect: non-scaling-stroke; }
 
     .container { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 0 24px; }
 
@@ -24,7 +29,7 @@
     nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); background: rgba(8,8,8,0.92); border-bottom: 1px solid rgba(255,255,255,0.06); }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg,var(--purple),var(--cyan)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .logo-icon { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; display: block; flex-shrink: 0; }
     .logo-text { font-size: 16px; font-weight: 700; background: linear-gradient(135deg,var(--purple-l),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .nav-right { display: flex; align-items: center; gap: 12px; }
     .nav-pill { background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.28); color: var(--purple-l); padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; }
@@ -33,9 +38,6 @@
 
     /* ── Hero ── */
     .hero { text-align: center; padding: 70px 0 48px; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.22); border-radius: 100px; padding: 7px 18px; font-size: 12px; color: var(--purple-l); margin-bottom: 28px; }
-    .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple-l); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.6)} }
     .hero-title { font-size: clamp(30px,5vw,58px); font-weight: 900; line-height: 1.08; letter-spacing: -2px; margin-bottom: 16px; }
     .grad { background: linear-gradient(135deg,var(--purple-l),var(--cyan),#10b981); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .hero-sub { font-size: 15px; color: var(--text2); max-width: 500px; margin: 0 auto 36px; line-height: 1.65; }
@@ -162,7 +164,7 @@
 
     /* Real-world */
     .vc-world { margin-bottom: 20px; }
-    .vc-world-label { font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: #bbb; margin-bottom: 7px; }
+    .vc-world-label { font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: #111; margin-bottom: 7px; }
     .vc-world-text { font-size: 14px; color: #555; line-height: 1.65; }
 
     /* Visualization */
@@ -196,8 +198,8 @@
     .vc-code-section.open { display: block; }
 
     .vc-code-label {
-      font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
-      color: #bbb; margin-bottom: 8px; margin-top: 20px;
+      font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #111; margin-bottom: 8px; margin-top: 20px;
     }
     .vc-code-label:first-child { margin-top: 0; }
 
@@ -208,7 +210,21 @@
       border-left: 4px solid rgba(var(--cat-rgb),0.7);
       box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
     }
-    .hljs { border-radius: 0 !important; font-size: 12.5px; font-family: 'JetBrains Mono',monospace; line-height: 1.7; padding: 14px 16px !important; border-left: 4px solid rgba(var(--cat-rgb),0.7) !important; box-shadow: 3px 3px 0 rgba(0,0,0,0.4) !important; }
+    .hljs { border-radius: 0 !important; font-size: 12.5px; font-family: 'JetBrains Mono',monospace; line-height: 1.7; padding: 14px 16px !important; border-left: 4px solid rgba(var(--cat-rgb),0.7) !important; box-shadow: 3px 3px 0 rgba(0,0,0,0.4) !important; overflow-x: auto !important; }
+
+    /* Themed scrollbars for code/visual blocks — match dark UI instead of the OS default */
+    .vc-visual, .vc-syntax-block, .hljs {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(var(--cat-rgb),0.55) transparent;
+    }
+    .vc-visual::-webkit-scrollbar, .vc-syntax-block::-webkit-scrollbar, .hljs::-webkit-scrollbar { height: 7px; }
+    .vc-visual::-webkit-scrollbar-track, .vc-syntax-block::-webkit-scrollbar-track, .hljs::-webkit-scrollbar-track { background: transparent; }
+    .vc-visual::-webkit-scrollbar-thumb, .vc-syntax-block::-webkit-scrollbar-thumb, .hljs::-webkit-scrollbar-thumb {
+      background: rgba(var(--cat-rgb),0.55); border-radius: 4px;
+    }
+    .vc-visual::-webkit-scrollbar-thumb:hover, .vc-syntax-block::-webkit-scrollbar-thumb:hover, .hljs::-webkit-scrollbar-thumb:hover {
+      background: rgba(var(--cat-rgb),0.85);
+    }
 
     .vc-methods { margin-top: 6px; }
     .vc-methods table { width: 100%; border-collapse: collapse; }
@@ -219,7 +235,8 @@
 
     /* ── Empty state ── */
     .empty-state { text-align: center; padding: 80px 20px; }
-    .empty-state .emoji { font-size: 48px; margin-bottom: 16px; }
+    .empty-state .emoji { width: 40px; height: 40px; margin: 0 auto 16px; color: var(--text3); }
+    .empty-state .emoji svg { width: 100%; height: 100%; }
     .empty-state h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
     .empty-state p { color: var(--text2); font-size: 14px; }
 
@@ -361,7 +378,6 @@
 
       /* Hero */
       .hero { padding: 48px 0 32px; }
-      .hero-badge { font-size: 11px; padding: 6px 14px; margin-bottom: 20px; }
       .hero-sub { font-size: 14px; margin-bottom: 24px; }
       .count-bar { margin-bottom: 40px; }
 
@@ -396,13 +412,12 @@
 
       /* Nav */
       .nav-inner { padding: 11px 0; }
-      .logo-icon  { width: 30px; height: 30px; font-size: 14px; border-radius: 8px; }
+      .logo-icon { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; display: block; flex-shrink: 0; }
       .logo-text  { font-size: 13px; }
       .nav-back   { font-size: 11px; }
 
       /* Hero */
       .hero { padding: 34px 0 24px; }
-      .hero-badge { font-size: 10.5px; padding: 5px 12px; flex-wrap: wrap; justify-content: center; }
       .hero-title { letter-spacing: -1.5px; }
       .hero-sub   { font-size: 13.5px; margin-bottom: 20px; }
       .search-input { font-size: 14px; padding: 13px 44px 13px 16px; border-radius: 12px; }
@@ -457,8 +472,8 @@
     @media (max-width: 400px) {
       .container { padding: 0 10px; }
 
-      /* Nav — hide logo text, keep icon + back */
-      .logo-text { display: none; }
+      /* Nav */
+      .logo-text { font-size: 12px; }
       .nav-back  { font-size: 12px; }
 
       /* Hero */
@@ -662,7 +677,8 @@
 
     /* Final score screen */
     .exam-final { display: none; text-align: center; padding: 56px 20px; }
-    .exam-final-emoji { font-size: 64px; margin-bottom: 20px; line-height: 1; }
+    .exam-final-emoji { width: 56px; height: 56px; margin: 0 auto 20px; }
+    .exam-final-emoji svg { width: 100%; height: 100%; }
     .exam-final-msg   { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 8px; }
     .exam-final-score { font-size: 60px; font-weight: 900; margin: 16px 0 4px; line-height: 1; }
     .exam-final-pct   { font-size: 14px; color: var(--text2); margin-bottom: 36px; }
@@ -705,7 +721,8 @@
     @media (max-width: 400px) {
       .exam-sc { display: none; }
       .exam-q-text { font-size: 14px; line-height: 1.6; }
-      .exam-nav-text { display: none; }
+      .exam-nav-btn { padding: 6px 9px; font-size: 11px; gap: 5px; }
+      .nav-back { font-size: 11px; }
     }
   </style>
 </head>
@@ -715,13 +732,13 @@
     <div class="container">
       <div class="nav-inner">
         <a href="index.html" class="nav-logo">
-          <div class="logo-icon">☕</div>
-          <span class="logo-text">Java Core Programs</span>
+          <img src="logo-circle.png" alt="JPrime logo" class="logo-icon">
+          <span class="logo-text">JPrime</span>
         </a>
         <div class="nav-right">
           <a href="index.html" class="nav-back">← Home</a>
-          <button class="exam-nav-btn" onclick="openExam()">🎯 <span class="exam-nav-text">Exam</span></button>
-          <span class="nav-pill">👁 Viz Sheet</span>
+          <button class="exam-nav-btn" onclick="openExam()"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg> <span class="exam-nav-text">Exam</span></button>
+          <span class="nav-pill"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg> Viz Sheet</span>
         </div>
       </div>
     </div>
@@ -729,16 +746,15 @@
 
   <div class="container">
     <section class="hero">
-      <div class="hero-badge"><div class="pulse-dot"></div> 209 Scenarios · 17 Categories · Basic → Advanced</div>
       <h1 class="hero-title">Java Master<br><span class="grad">Visualization</span> Sheet</h1>
       <p class="hero-sub">Read the scenario, identify with it — then reveal what Java tool to use, see it visualized, and expand the code.</p>
       <div class="search-wrap">
         <input class="search-input" id="searchInput" type="text"
           placeholder='Search... e.g. "repeat", "hashmap", "BFS", "sort", "recursion"'>
-        <span class="search-icon" id="searchIcon">🔍</span>
+        <span class="search-icon" id="searchIcon"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
       </div>
-      <div class="count-bar" id="countBar">Showing <strong>209</strong> of 209 scenarios</div>
+      <div class="count-bar" id="countBar">Showing <strong>214</strong> of 214 scenarios</div>
     </section>
 
     <div class="cards-wrap" id="cardsWrap"></div>
@@ -746,13 +762,13 @@
 
   <footer>
     <div class="container">
-      <p>Java Master Visualization Sheet · <strong>Java Core Programs</strong></p>
+      <p>Java Master Visualization Sheet · <strong>JPrime</strong></p>
     </div>
   </footer>
 
   <!-- Index FAB -->
   <button class="idx-fab" onclick="openIndex()">
-    <span class="idx-fab-icon">☰</span> Index
+    <span class="idx-fab-icon"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></span> Index
   </button>
 
   <!-- Overlay -->
@@ -761,7 +777,7 @@
   <!-- Index Panel -->
   <div class="idx-panel" id="idxPanel">
     <div class="idx-head">
-      <div class="idx-head-title">☰ &nbsp;Topic Index</div>
+      <div class="idx-head-title"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg> &nbsp;Topic Index</div>
       <button class="idx-close" onclick="closeIndex()">✕</button>
     </div>
     <input class="idx-search" id="idxSearch" type="text" placeholder="Filter topics…">
@@ -774,7 +790,7 @@
     <!-- Header -->
     <div class="exam-hdr">
       <div class="exam-hdr-l">
-        <span class="exam-title-tag">🎯 Exam Time!</span>
+        <span class="exam-title-tag"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg> Exam Time!</span>
         <span class="exam-prog" id="examProg">1 / 109</span>
       </div>
       <div class="exam-hdr-r">
@@ -792,7 +808,7 @@
           <div class="exam-q-label" id="examQLabel">SCENARIO 1</div>
           <div class="exam-q-text"  id="examQ"></div>
           <div class="exam-hint-row">
-            <button class="exam-hint-btn" id="examHintBtn" onclick="examHint()">💡 Hint</button>
+            <button class="exam-hint-btn" id="examHintBtn" onclick="examHint()"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 2z"/></svg> Hint</button>
             <div class="exam-hint-reveal" id="examHintReveal"></div>
           </div>
           <div class="exam-inp-area">
@@ -818,7 +834,7 @@
 
         <!-- Action buttons (appear after submit) -->
         <div class="exam-actions" id="examActions">
-          <button class="exam-prac-btn" id="examPracBtn" onclick="examTogglePractical()">👁 Show Practical</button>
+          <button class="exam-prac-btn" id="examPracBtn" onclick="examTogglePractical()"><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg> Show Practical</button>
           <button class="exam-next-btn" onclick="examNext()">Next Scenario →</button>
         </div>
 
@@ -836,7 +852,27 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js" defer></script>
   <script src="java_cards_data.js"></script>
+  <script src="history-widget.js"></script>
   <script>
+
+  // ── Simple line-art icons (used inline in place of emoji) ──
+  const ICON = {
+    target: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>',
+    eye: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>',
+    bulb: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 2z"/></svg>',
+    globe: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a13 13 0 0 1 0 18 13 13 0 0 1 0-18z"/></svg>',
+    edit: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+    code: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    wrench: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 1-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 1 1 5.4-5.4l3.35-3.35a1 1 0 0 0-1.41-1.41L14.7 6.3z"/></svg>',
+    check: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9"/></svg>',
+    xCircle: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>',
+    trophy: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>',
+    book: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+    trending: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+    refresh: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
+    search: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+    menu: '<svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>'
+  };
 
   // ── Plain-English Scenario Overrides (simple enough for a beginner) ──
   const SCENARIOS = {
@@ -1044,7 +1080,12 @@
     206:"Imagine you have a stream of one million transaction amounts and you need to answer several questions in a single pass: How many transactions are there? What is the total? What is the highest single amount? Did any transaction exceed ten thousand? What is the first transaction above five thousand? Each of these questions ends the stream and produces a single result rather than another stream. What are Java Stream terminal operations — the operations that trigger pipeline execution and produce a final value — and how do count, reduce, min, max, anyMatch, allMatch, findFirst, and the IntStream arithmetic methods like sum and average each work?",
     207:"Imagine you have a list of orders and you need to group them by customer city, count how many orders each city placed, find the city with the most orders, and also produce a comma-separated summary string of all order IDs. Each of these tasks takes a stream and summarises it into a completely different shape of result — a grouped map, a count, a joined string. What is the Collectors utility class, how does groupingBy let you partition a stream into a Map keyed by a classification function, how do you chain a downstream Collector like counting or joining inside groupingBy, and what does partitioningBy produce?",
     208:"Imagine you have a list of sentences and you need to produce a single flat list of every individual word across all sentences — but when you call map with a split function, you get a list of arrays rather than a flat list of strings. You also have a method that looks up a user by ID in a database and might return null if no user exists, and every caller has to add a null check before accessing any field. What is flatMap and how does it flatten a stream of streams into a single stream, and what is Optional — the container type that represents a value that may or may not be present — and how do its map, filter, orElse, and orElseGet methods let you chain operations without any explicit null checks?",
-    209:"Imagine you are writing a stream pipeline and you notice that instead of the lambda x -> x.toUpperCase() you can write a shorter expression that simply points to the toUpperCase method directly, because the lambda does nothing except forward to an existing method. You also have a list of one million numbers to process and want to use all available CPU cores to compute the result faster, splitting the work automatically without managing threads yourself. What are Java method references — the four kinds (static, bound instance, unbound instance, and constructor) and what lambda each replaces — and what does parallelStream do, when is it safe to use, and why must you never add results to a non-thread-safe collection inside a parallel pipeline?"
+    209:"Imagine you are writing a stream pipeline and you notice that instead of the lambda x -> x.toUpperCase() you can write a shorter expression that simply points to the toUpperCase method directly, because the lambda does nothing except forward to an existing method. You also have a list of one million numbers to process and want to use all available CPU cores to compute the result faster, splitting the work automatically without managing threads yourself. What are Java method references — the four kinds (static, bound instance, unbound instance, and constructor) and what lambda each replaces — and what does parallelStream do, when is it safe to use, and why must you never add results to a non-thread-safe collection inside a parallel pipeline?",
+    210:"Imagine a company office building with three security desks stacked one above another — ground floor, first floor, and a locked executive floor. Whenever someone requests a file, the ground floor clerk does NOT go looking immediately; they first ask the first floor supervisor, who first asks the executive floor manager. Only if nobody above already has that file does the ground floor clerk go fetch it themselves and file it away. This way, no file is ever duplicated by two different clerks, and core files kept in the executive vault are always found there first, never accidentally overridden by a copy on the ground floor. In Java, when your program references a class for the very first time, the same layered request happens before any actual bytecode is loaded from disk. What mechanism describes this three-tier hierarchy (Bootstrap → Platform → Application) and the rule that a loader always delegates to its parent before attempting to load a class itself?",
+    211:"Imagine a huge self-cleaning warehouse. You never file a request to remove empty boxes — the warehouse itself constantly walks every aisle, and the instant a box has no worker anywhere holding a claim ticket to it, the box is automatically crushed and its shelf space reused for new deliveries. Boxes that survive many walkthroughs (because they're still being used) eventually get moved to a slower-moving, deep-storage section of the warehouse that is checked less often, since experience shows most boxes are used briefly and thrown away quickly, while a few are kept for a very long time. What part of the Java Virtual Machine automatically reclaims memory used by objects that are no longer reachable from any live reference, without the programmer ever calling a 'free' or 'delete' operation, and organizes the heap into generations based on how long objects tend to live?",
+    212:"Imagine a large corporate office building built before modern security policy — anyone who gets past the main entrance can walk into every single room, including HR's confidential filing cabinets, just because they are all technically inside the same building. Now imagine the building is renovated: every department gets its own locked suite with a sign-in sheet at the door, and unless a department explicitly lists a room as a 'public visitor area', nobody from another department can enter it — not even if that room's door isn't locked, and not even if two departments are standing right next to each other. Java's classic classpath worked like the old building: any public class was visible to any other class on the classpath, with no real boundaries. What feature, introduced in Java 9 and declared in a special file at the root of your source, lets you explicitly define a module's dependencies and which of its packages are actually exposed to the outside world — enforcing true encapsulation that the compiler and JVM both check?",
+    214:"Imagine a mailroom that, instead of writing a name on a sticky note and searching a big pile of packages every time someone asks 'how many letters has Priya received?' (a general filing cabinet), builds exactly 26 labeled mailboxes ahead of time — one per letter of the alphabet — so recording or checking any letter's count is just walking straight to its numbered slot, no searching at all. This only works because you know in advance there are exactly 26 possible labels; it would fall apart if names could be written in any alphabet in the world. What simple, extremely common trick lets you count occurrences of lowercase letters using a fixed-size array of 26 integers instead of a general-purpose map, by turning each character directly into an array index?",
+    213:"Imagine two friends each holding a bag of Scrabble tiles. To prove their bags contain exactly the same letters (just rearranged), they don't compare the bags tile-by-tile in order — they each sort their tiles alphabetically first, or count how many of each letter they have, and then compare those counts. Separately, imagine checking if a word reads the same forwards and backwards: you don't need to reverse the whole word and compare it — you can just place one finger at the very first letter and one at the very last letter, and walk them toward each other, checking that every pair matches along the way. What are the standard patterns for these two extremely common interview problem types — proving two strings contain the same letters in different order, and proving a string reads identically in both directions?"
   };
   CARDS.forEach(c => { if (SCENARIOS[c.id]) c.scenario = SCENARIOS[c.id]; });
 
@@ -1069,7 +1110,7 @@
     // 9 · Search & Sort
     33, 128, 34, 127, 90, 91, 123, 124, 125, 35, 126, 36,
     // 10 · Patterns & Techniques
-    41, 42, 40, 98, 37, 38, 39, 129, 78, 95, 96, 130, 77, 97, 79, 43, 176, 177, 171, 172, 173, 174, 175, 131, 132, 133,
+    41, 214, 42, 40, 98, 37, 213, 38, 39, 129, 78, 95, 96, 130, 77, 97, 79, 43, 176, 177, 171, 172, 173, 174, 175, 131, 132, 133,
     // 11 · DSA Structures
     44, 134, 135, 45, 46, 136, 47, 81, 48, 49, 82, 80, 50, 140, 138, 137, 139, 178,
     // 12 · Algorithms
@@ -1083,7 +1124,9 @@
     // 16 · Testing & Debugging
     203, 204,
     // 17 · Streams & Functional Programming (easy → hard)
-    205, 206, 207, 208, 209
+    205, 206, 207, 208, 209,
+    // 18 · Modern Java Platform (easy → hard)
+    210, 211, 212
   ];
   CARDS.sort((a, b) => {
     const ai = CARD_ID_ORDER.indexOf(a.id);
@@ -1109,7 +1152,7 @@
       `Showing <strong>${filtered.length}</strong> of ${TOTAL} scenarios`;
 
     if (filtered.length === 0) {
-      wrap.innerHTML = `<div class="empty-state"><div class="emoji">🔍</div>
+      wrap.innerHTML = `<div class="empty-state"><div class="emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
         <h3>No match for "${query}"</h3>
         <p>Try: "hashmap", "for loop", "BFS", "recursion", "array", "two pointers"</p></div>`;
       return;
@@ -1155,7 +1198,7 @@
               <span class="vc-use-tag" style="--cat-rgb:${c.cr}">${esc(c.use)}</span>
             </div>
             <div class="vc-world">
-              <div class="vc-world-label">🌍 Real-World Example</div>
+              <div class="vc-world-label">${ICON.globe} Real-World Example</div>
               <div class="vc-world-text">${c.world}</div>
             </div>
             <div class="vc-visual">${esc(c.visual)}</div>
@@ -1167,11 +1210,11 @@
             </button>
 
             <div class="vc-code-section" id="code-${c.id}">
-              <div class="vc-code-label">✍ Syntax</div>
+              <div class="vc-code-label">${ICON.edit} Syntax</div>
               <div class="vc-syntax-block">${esc(c.syntax)}</div>
-              <div class="vc-code-label">💻 Code Example</div>
+              <div class="vc-code-label">${ICON.code} Code Example</div>
               <pre><code class="language-java">${esc(c.code)}</code></pre>
-              <div class="vc-code-label">🔧 Built-In Methods</div>
+              <div class="vc-code-label">${ICON.wrench} Built-In Methods</div>
               <div class="vc-methods"><table>${methodRows}</table></div>
             </div>
           </div>
@@ -1182,6 +1225,28 @@
     wrap.innerHTML = html;
   }
 
+  // Builds a URL that, when opened, lands back on this exact card with its
+  // answer expanded — used by the site-wide History widget's Resume feature.
+  function cardResumeUrl(id) {
+    return location.origin + location.pathname + '?resume=' + id;
+  }
+
+  function openCardFromResume(id) {
+    goToCard(id);
+    setTimeout(() => {
+      const ans = document.getElementById('ans-' + id);
+      if (ans && !ans.classList.contains('open')) toggleAnswer(id);
+    }, 340);
+  }
+
+  // Same-page resume (History panel open while already on this page)
+  window.onJPrimeHistoryResume = function (url) {
+    const id = Number(new URLSearchParams(url.search).get('resume'));
+    if (id) openCardFromResume(id);
+  };
+  // History panel opening should close any other overlay this page has
+  window.onJPrimeHistoryOpen = function () { closeIndex(); closeExam(); };
+
   function toggleAnswer(id) {
     const ans  = document.getElementById('ans-' + id);
     const btn  = document.getElementById('abtn-' + id);
@@ -1191,6 +1256,10 @@
     btn.classList.toggle('open', open);
     txt.textContent = open ? 'Hide Answer' : 'Show Answer';
     ico.style.transform = open ? 'rotate(180deg)' : '';
+    if (open) {
+      const c = CARDS.find(x => x.id === id);
+      if (c) JPrimeHistory.log('Viewed answer', { key: 'card:' + id, label: c.use, cat: c.cat, url: cardResumeUrl(id) });
+    }
   }
 
   function toggleSyntax(id) {
@@ -1206,6 +1275,8 @@
       sec.querySelectorAll('code.language-java').forEach(el => {
         if (!el.dataset.highlighted && typeof hljs !== 'undefined') hljs.highlightElement(el);
       });
+      const c = CARDS.find(x => x.id === id);
+      if (c) JPrimeHistory.log('Viewed code', { key: 'card:' + id, label: c.use, cat: c.cat, url: cardResumeUrl(id) });
     }
   }
 
@@ -1216,13 +1287,22 @@
     renderCards('');
   }
 
-  let debounceTimer;
+  let debounceTimer, searchLogTimer, lastLoggedSearch = '';
   document.getElementById('searchInput').addEventListener('input', function () {
     const val = this.value;
     document.getElementById('searchClear').style.display = val ? 'block' : 'none';
     document.getElementById('searchIcon').style.display = val ? 'none' : 'block';
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => renderCards(val), 180);
+
+    clearTimeout(searchLogTimer);
+    searchLogTimer = setTimeout(() => {
+      const q = val.trim();
+      if (q && q !== lastLoggedSearch) {
+        lastLoggedSearch = q;
+        JPrimeHistory.log('Searched "' + q + '"');
+      }
+    }, 700);
   });
 
   renderCards('');
@@ -1233,7 +1313,7 @@
     CARDS.forEach(c => { (cats[c.cat] = cats[c.cat] || []).push(c); });
 
     let num = 0;
-    let html = `<div class="idx-stats" id="idxStats">209 topics across 17 categories</div>`;
+    let html = `<div class="idx-stats" id="idxStats">${CARDS.length} topics across ${Object.keys(cats).length} categories</div>`;
     Object.entries(cats).forEach(([cat, cards]) => {
       const cc = cards[0].cc;
       const catId = 'idxcat-' + cat.replace(/\W+/g,'_');
@@ -1266,6 +1346,7 @@
 
   let indexBuilt = false;
   function openIndex() {
+    JPrimeHistory.close();
     if (!indexBuilt) { buildIndex(); indexBuilt = true; }
     document.getElementById('idxOverlay').classList.add('open');
     document.getElementById('idxPanel').classList.add('open');
@@ -1284,7 +1365,7 @@
     setTimeout(() => {
       const card = document.getElementById('card-' + id);
       if (!card) return;
-      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.scrollIntoView?.({ behavior: 'smooth', block: 'center' });
       card.classList.add('idx-card-flash');
       card.addEventListener('animationend', () => card.classList.remove('idx-card-flash'), { once: true });
     }, 320);
@@ -1302,12 +1383,13 @@
     document.querySelectorAll('.idx-items').forEach(el => {
       if (q) el.classList.add('open');
     });
+    const catCount = new Set(CARDS.map(c => c.cat)).size;
     document.getElementById('idxStats').textContent =
-      q ? `${visible} match${visible !== 1 ? 'es' : ''}` : '209 topics across 17 categories';
+      q ? `${visible} match${visible !== 1 ? 'es' : ''}` : `${CARDS.length} topics across ${catCount} categories`;
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeIndex(); closeExam(); }
+    if (e.key === 'Escape') { closeIndex(); closeExam(); JPrimeHistory.close(); }
   });
 
   // ══════════════════════════════════════════════
@@ -1325,12 +1407,14 @@
   }
 
   function openExam() {
+    JPrimeHistory.close(); closeIndex();
     examQueue   = shuffle(CARDS);
     examIdx     = 0;
     examCorrect = 0;
     document.getElementById('examOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
     loadExamCard();
+    JPrimeHistory.log('Started Exam');
   }
 
   function closeExam() {
@@ -1366,7 +1450,7 @@
     document.getElementById('examActions').style.display  = 'none';
     const pb = document.getElementById('examPracBody');
     pb.style.display = 'none'; pb.innerHTML = ''; delete pb.dataset.loaded;
-    document.getElementById('examPracBtn').innerHTML = '👁 Show Practical';
+    document.getElementById('examPracBtn').innerHTML = ICON.eye + ' Show Practical';
 
     // Show question card, hide final
     document.getElementById('examQCard').style.display  = 'block';
@@ -1381,9 +1465,22 @@
     const c = examQueue[examIdx];
     document.getElementById('examHintBtn').style.display = 'none';
     const rev = document.getElementById('examHintReveal');
-    rev.innerHTML = `💡 Category: <strong style="margin-left:5px">${esc(c.cat)}</strong>`;
+    rev.innerHTML = `${ICON.bulb} Category: <strong style="margin-left:5px">${esc(c.cat)}</strong>`;
     rev.className = 'exam-hint-reveal show';
     document.getElementById('examInput').focus();
+  }
+
+  // Normalize an answer for lenient comparison: drop Big-O complexity notation
+  // (e.g. "O(n)", "O(log n)") and collapse punctuation/whitespace differences —
+  // but keep other parenthetical qualifiers (e.g. "(implicit)" vs "(explicit)",
+  // "(Fixed)" vs "(Variable)") intact, since those distinguish different answers.
+  function normalizeExamAnswer(s) {
+    return s
+      .toLowerCase()
+      .replace(/\bo\([^)]*\)/gi, '')
+      .replace(/[.,;:!?'"]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   function examSubmit() {
@@ -1393,8 +1490,9 @@
     if (!raw) { document.getElementById('examInput').focus(); return; }
 
     examAnswered = true;
-    const ok = raw.toLowerCase() === c.use.toLowerCase();
+    const ok = normalizeExamAnswer(raw) === normalizeExamAnswer(c.use);
     if (ok) examCorrect++;
+    JPrimeHistory.log(ok ? 'Exam — correct' : 'Exam — incorrect', { key: 'card:' + c.id, label: c.use, cat: c.cat, url: cardResumeUrl(c.id) });
 
     document.getElementById('examInput').disabled  = true;
     document.getElementById('examSubmit').disabled = true;
@@ -1408,11 +1506,11 @@
     document.getElementById('examResIcon').textContent = ok ? '✓' : '✗';
 
     if (ok) {
-      document.getElementById('examResTitle').textContent = 'Correct! 🎉';
+      document.getElementById('examResTitle').textContent = 'Correct!';
       document.getElementById('examResBody').innerHTML =
         `The answer is <span class="exam-res-tag">${esc(c.use)}</span>`;
     } else {
-      document.getElementById('examResTitle').textContent = 'Not quite! 😔';
+      document.getElementById('examResTitle').textContent = 'Not quite!';
       document.getElementById('examResBody').innerHTML =
         `Correct answer: <span class="exam-res-tag">${esc(c.use)}</span><br>` +
         `You typed: <em style="color:#888">${esc(raw)}</em>`;
@@ -1422,7 +1520,7 @@
     document.getElementById('examActions').style.display = 'flex';
 
     // Scroll result into view smoothly
-    res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    res.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' });
   }
 
   function examTogglePractical() {
@@ -1432,7 +1530,7 @@
 
     if (pb.style.display === 'block') {
       pb.style.display = 'none';
-      btn.innerHTML = '👁 Show Practical';
+      btn.innerHTML = ICON.eye + ' Show Practical';
     } else {
       pb.style.display = 'block';
       btn.innerHTML = '▲ Hide Practical';
@@ -1447,21 +1545,21 @@
               <span class="vc-use-tag" style="--cat-rgb:${c.cr}">${esc(c.use)}</span>
             </div>
             <div class="vc-world">
-              <div class="vc-world-label">🌍 Real-World Example</div>
+              <div class="vc-world-label">${ICON.globe} Real-World Example</div>
               <div class="vc-world-text">${c.world}</div>
             </div>
             <div class="vc-visual">${esc(c.visual)}</div>
-            ${c.syntax ? `<div class="vc-code-label">✍ Syntax</div>
+            ${c.syntax ? `<div class="vc-code-label">${ICON.edit} Syntax</div>
             <div class="vc-syntax-block">${esc(c.syntax)}</div>` : ''}
-            <div class="vc-code-label">💻 Code Example</div>
+            <div class="vc-code-label">${ICON.code} Code Example</div>
             <pre><code class="language-java">${esc(c.code)}</code></pre>
-            <div class="vc-code-label">🔧 Built-In Methods</div>
+            <div class="vc-code-label">${ICON.wrench} Built-In Methods</div>
             <div class="vc-methods"><table>${mRows}</table></div>
           </div>`;
         if (typeof hljs !== 'undefined') pb.querySelectorAll('.language-java').forEach(el => hljs.highlightElement(el));
         pb.dataset.loaded = '1';
       }
-      pb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      pb.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' });
     }
   }
 
@@ -1475,21 +1573,21 @@
 
     const total = examQueue.length;
     const pct   = Math.round(examCorrect / total * 100);
-    const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🎯' : pct >= 50 ? '📚' : '💪';
+    const emoji = pct >= 90 ? ICON.trophy : pct >= 70 ? ICON.target : pct >= 50 ? ICON.book : ICON.trending;
     const color = pct >= 70 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
     const msg   = pct >= 90 ? 'Outstanding!' : pct >= 70 ? 'Great work!' : pct >= 50 ? 'Keep practising!' : 'Keep going — you got this!';
 
     const fin = document.getElementById('examFinal');
     fin.style.display = 'block';
     fin.innerHTML = `
-      <div class="exam-final-emoji">${emoji}</div>
+      <div class="exam-final-emoji" style="color:${color}">${emoji}</div>
       <div class="exam-final-msg">${msg}</div>
       <div class="exam-final-score" style="color:${color}">${examCorrect}
         <span style="font-size:28px;color:var(--text2);font-weight:700"> / ${total}</span>
       </div>
       <div class="exam-final-pct">${pct}% correct · ${total} scenarios</div>
       <div class="exam-final-btns">
-        <button class="exam-final-btn primary" onclick="openExam()">🔄 Restart Exam</button>
+        <button class="exam-final-btn primary" onclick="openExam()">${ICON.refresh} Restart Exam</button>
         <button class="exam-final-btn secondary" onclick="closeExam()">✕ Exit</button>
       </div>`;
   }
@@ -1500,6 +1598,15 @@
   });
 
   buildIndex();
+
+  // Landed here via a History "Resume" link from another page (?resume=<id>)
+  (function () {
+    const resumeId = Number(new URLSearchParams(location.search).get('resume'));
+    if (resumeId) {
+      history.replaceState(null, '', location.pathname);
+      setTimeout(() => openCardFromResume(resumeId), 200);
+    }
+  })();
   </script>
 </body>
 </html>

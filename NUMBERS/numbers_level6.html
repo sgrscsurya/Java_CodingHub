@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Level 6 – Advanced Number Logic | Numbers | Java Core</title>
+  <title>Level 6 – Advanced Number Logic | Numbers | JPrime</title>
+  <link rel="icon" type="image/png" href="../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" id="hljs-theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <style>
@@ -34,8 +37,10 @@
     .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
     .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    .logo-ico { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--cyan)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .logo-ico { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: block; flex-shrink: 0; }
     .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--purple-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-back { color: var(--text2); text-decoration: none; font-size: 13px; transition: color 0.2s; white-space: nowrap; }
+    .nav-back:hover { color: var(--text); }
     .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
     .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
     .bc a:hover { color: var(--accent-l); }
@@ -259,8 +264,8 @@
       <div class="nav-inner">
         <div class="nav-left">
           <a href="../index.html" class="nav-logo">
-            <div class="logo-ico">☕</div>
-            <span class="logo-txt">Java Core</span>
+            <img src="../logo-circle.png" alt="JPrime logo" class="logo-ico">
+            <span class="logo-txt">JPrime</span>
           </a>
           <div class="bc">
             <span class="sep">›</span><a href="../index.html">Home</a>
@@ -269,10 +274,11 @@
           </div>
         </div>
         <div class="nav-actions">
-          <button class="nav-act-btn" onclick="openRevision()">📋 <span class="btn-label">Revision</span></button>
+          <a href="numbers_hub.html" class="nav-back">&larr; Back</a>
+          <button class="nav-act-btn" onclick="openRevision()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z"/><rect x="5" y="4" width="14" height="18" rx="2"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg> <span class="btn-label">Revision</span></button>
           <button class="nav-act-btn" onclick="openSettings()">⚙️ <span class="btn-label">Settings</span></button>
         </div>
-        <span class="nav-pill">🩵 Advanced Math</span>
+        <span class="nav-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#67e8f9;margin-right:2px;vertical-align:1px;"></span> Advanced Math</span>
       </div>
     </div>
   </nav>
@@ -314,16 +320,16 @@
 
   <footer>
     <div class="container">
-      <p>Java Core Programs &nbsp;·&nbsp; Numbers Level 6 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+      <p>JPrime &nbsp;·&nbsp; Numbers Level 6 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
     </div>
   </footer>
 
   <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
     <div class="modal-box">
-      <div class="modal-emoji">🤔</div>
+      <div class="modal-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 4"/><line x1="12" y1="17" x2="12" y2="17.01"/></svg></div>
       <h3>Before You Peek...</h3>
       <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this? These are advanced topics — one more attempt builds real depth!</p>
-      <div class="modal-hint-label">💡 Clue — Topic Tags:</div>
+      <div class="modal-hint-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 2z"/></svg> Clue — Topic Tags:</div>
       <div class="modal-hint-tags" id="modal-tags"></div>
       <div class="modal-btns">
         <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
@@ -334,7 +340,7 @@
 
   <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
     <div class="modal-box">
-      <div class="modal-emoji">⚠️</div>
+      <div class="modal-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
       <h3>Reset Progress?</h3>
       <p class="modal-question">This will clear all <b>completed problems</b> for Level 6. This action <b>cannot be undone</b>.</p>
       <div class="modal-btns">
@@ -347,7 +353,7 @@
   <!-- REVISION SHEET -->
   <div id="rev-overlay" class="rev-overlay" style="display:none">
     <div class="rev-header">
-      <div><div class="rev-title">📋 Revision Sheet</div><div class="rev-subtitle">Key logic for every problem — great for interview prep</div></div>
+      <div><div class="rev-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;vertical-align:-3px"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z"/><rect x="5" y="4" width="14" height="18" rx="2"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg> Revision Sheet</div><div class="rev-subtitle">Key logic for every problem — great for interview prep</div></div>
       <button class="rev-close" onclick="closeRevision()">✕</button>
     </div>
     <div class="rev-body"><div id="rev-grid" class="rev-grid"></div></div>
@@ -368,12 +374,12 @@
       <div>
         <div class="sp-sec-title">Visible Sections When Expanded</div>
         <div class="sec-list">
-          <div class="sec-item"><input type="checkbox" id="sp-sec-problem"><label for="sp-sec-problem">📝 Problem Description</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-problem"><label for="sp-sec-problem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg> Problem Description</label></div>
           <div class="sec-item"><input type="checkbox" id="sp-sec-code"><label for="sp-sec-code">☕ Java Code</label></div>
           <div class="sec-item"><input type="checkbox" id="sp-sec-io"><label for="sp-sec-io">▶ Sample I/O</label></div>
           <div class="sec-item"><input type="checkbox" id="sp-sec-complexity"><label for="sp-sec-complexity">⏱ Complexity (Time &amp; Space)</label></div>
-          <div class="sec-item"><input type="checkbox" id="sp-sec-topics"><label for="sp-sec-topics">🏷 Topics Covered</label></div>
-          <div class="sec-item"><input type="checkbox" id="sp-sec-concept"><label for="sp-sec-concept">💡 Key Concept</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-topics"><label for="sp-sec-topics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M20.59 13.41L11 3.83a2 2 0 0 0-1.42-.58H4a2 2 0 0 0-2 2v5.59c0 .53.21 1.04.59 1.41l9.58 9.58a2 2 0 0 0 2.82 0l6-6a2 2 0 0 0 0-2.82z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg> Topics Covered</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-concept"><label for="sp-sec-concept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 2z"/></svg> Key Concept</label></div>
         </div>
         <button class="sp-save-btn" onclick="saveSettings()">✓ Save Preferences</button>
       </div>
@@ -381,8 +387,8 @@
       <div>
         <div class="sp-sec-title">Theme</div>
         <div class="theme-row" id="sp-theme-row">
-          <button class="theme-btn active" id="sp-theme-dark" onclick="setTheme('dark')">🌙 Dark</button>
-          <button class="theme-btn" id="sp-theme-light" onclick="setTheme('light')">☀️ Light</button>
+          <button class="theme-btn active" id="sp-theme-dark" onclick="setTheme('dark')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Dark</button>
+          <button class="theme-btn" id="sp-theme-light" onclick="setTheme('light')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Light</button>
         </div>
       </div>
     </div>
@@ -1293,5 +1299,6 @@ function closeRevision(){document.getElementById('rev-overlay').style.display='n
 function applyDataSec(){const map={'Problem':'problem','Java Code':'code','Sample I/O':'io','Complexity':'complexity','Topics Covered':'topics','Key Concept':'concept'};document.querySelectorAll('.body-section').forEach(sec=>{const lbl=sec.querySelector('.body-label');if(!lbl)return;const txt=lbl.textContent.trim();const key=Object.keys(map).find(k=>txt.startsWith(k));if(key)sec.setAttribute('data-sec',map[key]);});}
 applyDataSec();jcApply(jcS);
 </script>
+  <script src="../history-widget.js"></script>
 </body>
 </html>
