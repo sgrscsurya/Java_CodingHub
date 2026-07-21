@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 2 – Basic Transformations | Strings | JPrime</title>
+  <link rel="icon" type="image/png" href="../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" id="hljs-theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060f; --bg2: #0a0a1a;
+      --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.07);
+      --blue: #06b6d4; --blue-l: #67e8f9; --cyan: #0d9488;
+      --green: #10b981; --orange: #f97316; --yellow: #eab308;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #475569;
+      --code-bg: #0d1117;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .bg-anim { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09; animation: flt 24s ease-in-out infinite; }
+    .orb-1 { width: 700px; height: 700px; background: var(--blue); top: -300px; left: -200px; }
+    .orb-2 { width: 500px; height: 500px; background: var(--cyan); bottom: -100px; right: -150px; animation-delay: -12s; }
+    @keyframes flt { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-30px)} }
+
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(6,6,15,0.85); border-bottom: 1px solid var(--card-border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-ico { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: block; flex-shrink: 0; }
+    .logo-txt { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--blue-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-back { color: var(--text2); text-decoration: none; font-size: 13px; transition: color 0.2s; white-space: nowrap; }
+    .nav-back:hover { color: var(--text); }
+    .bc { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
+    .bc a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .bc a:hover { color: var(--blue-l); }
+    .bc .sep { color: var(--text3); }
+    .bc .cur { color: var(--blue-l); font-weight: 600; }
+    .nav-pill { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); color: #34d399; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    .level-hero { padding: 56px 0 44px; }
+    .level-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .lh-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.25); color: var(--blue-l); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+    .lh-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-l); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .level-hero h1 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+    .grad { background: linear-gradient(135deg, var(--blue-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .level-hero p { font-size: 15px; color: var(--text2); line-height: 1.6; max-width: 480px; }
+
+    .prog-card { background: rgba(6,182,212,0.07); border: 1px solid rgba(6,182,212,0.22); border-radius: 16px; padding: 22px 26px; min-width: 220px; }
+    .prog-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; letter-spacing: .5px; }
+    .prog-nums { font-size: 32px; font-weight: 800; color: var(--blue-l); letter-spacing: -1px; line-height: 1; margin-bottom: 14px; }
+    .prog-nums span { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .prog-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); border-radius: 100px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+    .prog-pct { font-size: 12px; color: var(--text3); margin-top: 6px; text-align: right; }
+
+    .tags-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 44px; }
+    .ts-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+    .ts-tag { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: var(--blue-l); font-size: 12px; padding: 4px 10px; border-radius: 100px; }
+
+    .problems-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .problems-header h2 { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+    .reset-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text3); padding: 7px 14px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: all .2s; font-family: inherit; }
+    .reset-btn:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+    #problems-list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 80px; }
+
+    .pc { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s, transform .2s; }
+    .pc:hover { border-color: rgba(255,255,255,0.12); }
+    .pc.done {
+      border-color: rgba(16,185,129,0.6);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,6,15,0.55) 60%, rgba(16,185,129,0.04) 100%);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.22), 0 4px 32px rgba(16,185,129,0.24), 0 0 80px rgba(16,185,129,0.1), inset 0 0 40px rgba(16,185,129,0.06), inset 0 1px 0 rgba(52,211,153,0.18);
+    }
+    .pc.done::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent 0%,rgba(52,211,153,0.4) 15%,#10b981 40%,#34d399 50%,#10b981 60%,rgba(52,211,153,0.4) 85%,transparent 100%); z-index:2; }
+    .pc.done:hover { border-color:rgba(16,185,129,0.82); background:linear-gradient(135deg,rgba(16,185,129,0.14) 0%,rgba(6,6,15,0.45) 60%,rgba(16,185,129,0.06) 100%); box-shadow:0 0 0 1px rgba(16,185,129,0.35),0 8px 44px rgba(16,185,129,0.34),0 0 110px rgba(16,185,129,0.15),inset 0 0 50px rgba(16,185,129,0.08),inset 0 1px 0 rgba(52,211,153,0.25); transform:translateY(-2px); }
+    .pc.open { border-color: rgba(6,182,212,0.3); box-shadow: 0 8px 40px rgba(6,182,212,0.08); }
+
+    .pc-head { display:flex; align-items:center; gap:16px; padding:18px 22px; cursor:pointer; user-select:none; transition:background .2s; }
+    .pc-head:hover { background: rgba(255,255,255,0.02); }
+    .pc-num { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; color:var(--text3); min-width:28px; }
+    .pc.done .pc-num { color: var(--green); }
+    .pc-main { flex:1; min-width:0; }
+    .pc-title { font-size:15px; font-weight:700; margin-bottom:6px; line-height:1.35; word-break:break-word; overflow-wrap:break-word; }
+    .pc.done .pc-title { color: var(--text2); }
+    .pc-tags { display:flex; flex-wrap:wrap; gap:5px; }
+    .pc-tag { font-size:11px; padding:2px 8px; border-radius:100px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.18); color:var(--blue-l); }
+    .pc.done .pc-tag { background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2); color:#34d399; }
+    .pc-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+
+    .check-btn { width:30px; height:30px; border-radius:50%; border:2px solid var(--card-border); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; transition:all .2s; color:var(--text3); flex-shrink:0; }
+    .check-btn:hover { border-color:var(--green); color:var(--green); }
+    .check-btn.checked { background:rgba(16,185,129,0.15); border-color:var(--green); color:var(--green); }
+
+    .show-ans-btn{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.28);color:var(--blue-l);padding:5px 13px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;letter-spacing:.3px;}
+    .show-ans-btn:hover{background:rgba(6,182,212,0.18);border-color:rgba(6,182,212,0.5);}
+    .pc.open .show-ans-btn{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.28);color:#f87171;}
+    .pc.open .show-ans-btn:hover{background:rgba(239,68,68,0.16);border-color:rgba(239,68,68,0.5);}
+    body.light-mode .show-ans-btn{background:rgba(6,182,212,0.08);border-color:rgba(6,182,212,0.25);color:var(--blue-l);}
+    body.light-mode .pc.open .show-ans-btn{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.25);color:#dc2626;}
+
+    .pc-body { max-height:0; overflow:hidden; transition:max-height 0.45s cubic-bezier(.4,0,.2,1); }
+    .pc.open .pc-body { max-height:3000px; }
+    .pc-body-inner { padding:0 22px 24px; border-top:1px solid var(--card-border); }
+
+    .body-section { margin-top:22px; }
+    .body-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:10px; font-weight:600; display:flex; align-items:center; gap:8px; }
+    .body-label::after { content:''; flex:1; height:1px; background:var(--card-border); }
+    .desc-text { font-size:14px; color:var(--text2); line-height:1.65; }
+    .desc-text b { color:var(--text); }
+
+    .code-wrap { border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); }
+    .code-toolbar { display:flex; align-items:center; justify-content:space-between; background:#161b22; padding:10px 16px; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .code-lang { font-size:12px; font-weight:600; color:var(--orange); font-family:'JetBrains Mono',monospace; }
+    .copy-btn { background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text2); padding:4px 12px; border-radius:6px; font-size:11px; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .copy-btn:hover { border-color:var(--blue-l); color:var(--blue-l); }
+    .copy-btn.copied { border-color:var(--green); color:var(--green); }
+
+    pre { background:var(--code-bg) !important; margin:0 !important; border-radius:0 !important; font-feature-settings:'liga' 0,'calt' 0; font-variant-ligatures:none; }
+    code { font-feature-settings:'liga' 0,'calt' 0; font-variant-ligatures:none; }
+    pre code.hljs { padding:18px 20px !important; font-size:13px !important; font-family:'JetBrains Mono',monospace !important; line-height:1.65 !important; }
+
+    .io-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .io-box { background:var(--code-bg); border:1px solid rgba(255,255,255,0.07); border-radius:10px; padding:14px 16px; }
+    .io-box-label { font-size:11px; font-weight:600; letter-spacing:1px; margin-bottom:8px; }
+    .io-inp .io-box-label { color:var(--cyan); }
+    .io-out .io-box-label { color:var(--green); }
+    .io-val { font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--text2); white-space:pre-wrap; line-height:1.6; }
+
+    .cx-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; }
+    .cx-box { background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:10px; padding:14px; text-align:center; }
+    .cx-label { font-size:11px; color:var(--text3); margin-bottom:6px; }
+    .cx-val { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:700; }
+    .cx-time { color:var(--orange); }
+    .cx-space { color:var(--cyan); }
+
+    .topics-wrap { display:flex; flex-wrap:wrap; gap:8px; }
+    .t-pill { background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.2); color:var(--blue-l); font-size:12px; padding:5px 12px; border-radius:100px; }
+
+    .concept-box { background:rgba(6,182,212,0.06); border:1px solid rgba(6,182,212,0.18); border-left:3px solid var(--blue); border-radius:10px; padding:14px 16px; }
+    .concept-box p { font-size:13.5px; color:var(--text2); line-height:1.65; }
+    .concept-box code { background:rgba(6,182,212,0.15); color:var(--blue-l); padding:2px 6px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:12px; }
+    .concept-box b { color:var(--text); }
+
+    footer { border-top:1px solid var(--card-border); padding:28px 0; text-align:center; }
+    footer p { color:var(--text3); font-size:13px; }
+    footer strong { color:var(--blue-l); }
+
+    .try-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.28);color:var(--blue-l);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+    .try-btn:hover{background:rgba(6,182,212,0.2);border-color:var(--blue-l);transform:scale(1.03);}
+
+    .pc-testcases{padding:10px 22px 14px;}
+    .tc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .tc-box{background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:9px;padding:10px 12px;}
+    .tc-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px;}
+    .tc-row{display:flex;gap:6px;font-size:11.5px;margin-bottom:3px;align-items:flex-start;}
+    .tc-key{color:var(--text3);min-width:50px;font-family:'JetBrains Mono',monospace;flex-shrink:0;}
+    .tc-val{color:var(--text2);font-family:'JetBrains Mono',monospace;white-space:pre-wrap;word-break:break-word;}
+
+    .modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;}
+    .modal-box{background:#0d0d20;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 28px;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,0.7);animation:mboxin 0.25s ease-out;}
+    @keyframes mboxin{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .modal-emoji{font-size:40px;text-align:center;margin-bottom:12px;}
+    .modal-box h3{font-size:19px;font-weight:800;text-align:center;margin-bottom:8px;}
+    .modal-question{font-size:14px;color:var(--text2);text-align:center;line-height:1.55;margin-bottom:20px;}
+    .modal-hint-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+    .modal-hint-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;}
+    .modal-hint-tag{background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:var(--blue-l);font-size:11.5px;padding:4px 10px;border-radius:100px;}
+    .modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .btn-yes{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit;}
+    .btn-yes:hover{opacity:.85;}
+    .btn-no{background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--card-border);padding:13px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;}
+    .btn-no:hover{border-color:rgba(239,68,68,.4);color:#f87171;}
+    .btn-reset-confirm{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit;}
+    .btn-reset-confirm:hover{opacity:.85;}
+
+    .nav-actions{display:flex;align-items:center;gap:6px;}
+    .nav-act-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;border:1px solid var(--card-border);background:rgba(255,255,255,0.04);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;}
+    .nav-act-btn:hover{border-color:rgba(255,255,255,0.18);color:var(--text);background:rgba(255,255,255,0.09);}
+
+    .rev-overlay{position:fixed;inset:0;z-index:1000;background:rgba(4,4,18,0.96);backdrop-filter:blur(14px);display:flex;flex-direction:column;}
+    .rev-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--card-border);flex-shrink:0;gap:12px;}
+    .rev-title{font-size:15px;font-weight:700;}.rev-subtitle{font-size:12px;color:var(--text3);margin-top:3px;}
+    .rev-close{background:transparent;border:1px solid var(--card-border);color:var(--text2);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+    .rev-close:hover{color:var(--text);border-color:rgba(255,255,255,0.2);}
+    .rev-body{flex:1;overflow-y:auto;padding:20px 24px;}
+    .rev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+    .rev-card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;}
+    .rev-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text3);}
+    .rev-name{font-size:13px;font-weight:700;line-height:1.3;color:var(--text);word-break:break-word;}
+    .rev-tags{display:flex;flex-wrap:wrap;gap:4px;}
+    .rev-tag{font-size:9px;padding:2px 6px;border-radius:100px;background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid var(--card-border);}
+    .rev-code-wrap{background:#0d1117;border:1px solid rgba(16,185,129,0.3);border-radius:8px;overflow:auto;max-height:180px;}
+    .rev-code-wrap pre{margin:0!important;border-radius:0!important;}
+    .rev-code-wrap code.hljs{font-size:10.5px!important;padding:10px 12px!important;line-height:1.5!important;}
+    .rev-card-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+    .rev-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+    .rev-col-code,.rev-col-io{display:flex;flex-direction:column;gap:4px;min-width:0;overflow:hidden;}
+    .rev-col-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px;}
+    .rev-col-code .rev-col-label{color:#34d399;}
+    .rev-col-io .rev-col-label{color:#f87171;}
+    .rev-io-box{background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.22);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:180px;flex:1;}
+    .rev-io-key{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#f87171;display:block;margin-bottom:2px;}
+    .rev-io-pre{margin:0;white-space:pre-wrap;word-break:break-all;color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.5;}
+
+    .sp-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);}
+    @keyframes spSlide{from{transform:translateX(100%)}to{transform:translateX(0)}}
+    @keyframes spSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .sp-panel{position:fixed;top:0;right:0;bottom:0;width:340px;max-width:100vw;background:#0d0d20;border-left:1px solid var(--card-border);z-index:1001;display:flex;flex-direction:column;animation:spSlide .25s ease;}
+    .sp-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--card-border);flex-shrink:0;}
+    .sp-title{font-size:15px;font-weight:700;}
+    .sp-close{background:transparent;border:1px solid var(--card-border);color:var(--text2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+    .sp-close:hover{color:var(--text);border-color:rgba(255,255,255,0.18);}
+    .sp-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px;}
+    .sp-sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:10px;}
+    .sp-divider{height:1px;background:var(--card-border);}
+    .toggle-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
+    .toggle-label{font-size:13px;color:var(--text);font-weight:500;line-height:1.3;}
+    .toggle-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4;}
+    .sw{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;margin-top:2px;}
+    .sw input{opacity:0;width:0;height:0;position:absolute;}
+    .sw-track{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:100px;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,0.12);}
+    .sw-track::before{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;bottom:2px;left:2px;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,0.4);}
+    .sw input:checked + .sw-track{background:var(--green);border-color:var(--green);}
+    .sw input:checked + .sw-track::before{transform:translateX(20px);}
+    .sec-list{display:flex;flex-direction:column;gap:6px;}
+    .sec-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:9px;cursor:pointer;transition:border-color .2s;}
+    .sec-item:hover{border-color:rgba(255,255,255,0.14);}
+    .sec-item input[type="checkbox"]{width:16px;height:16px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
+    .sec-item label{font-size:13px;color:var(--text2);cursor:pointer;flex:1;user-select:none;}
+    .sp-save-btn{width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit;margin-top:8px;}
+    .sp-save-btn:hover{opacity:.85;}
+    .theme-row{position:relative;display:flex;align-items:center;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:100px;padding:4px;gap:0;overflow:hidden;}
+    .theme-row::before{content:'';position:absolute;top:4px;left:4px;width:calc(50% - 4px);bottom:4px;border-radius:100px;background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 0 18px rgba(99,102,241,0.55);transition:transform .38s cubic-bezier(.34,1.56,.64,1),background .38s,box-shadow .38s;z-index:0;}
+    .theme-row.theme-is-light::before{transform:translateX(calc(100% + 4px));background:linear-gradient(135deg,#f59e0b,#fbbf24);box-shadow:0 0 18px rgba(245,158,11,0.55);}
+    .theme-btn{flex:1;position:relative;z-index:1;padding:9px 10px;border-radius:100px;border:none;background:transparent;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;transition:color .25s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;letter-spacing:.2px;}
+    .theme-btn.active{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.25);}
+
+    body.light-mode{--code-bg:#f6f8fa;--bg:#eef0f7;--card:rgba(255,255,255,0.9);--card-border:rgba(0,0,0,0.1);--text:#0f172a;--text2:#334155;--text3:#64748b;}
+    body.light-mode .bg-anim .orb{opacity:.04;}
+    body.light-mode .grid-bg{background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);}
+    body.light-mode nav{background:rgba(238,240,247,0.92);border-bottom-color:rgba(0,0,0,0.08);}
+    body.light-mode .modal-box{background:#fff;border-color:rgba(0,0,0,0.1);}
+    body.light-mode .sp-panel{background:#fff;}
+    body.light-mode .rev-overlay{background:rgba(238,240,247,0.97);}
+    body.light-mode .sec-item{background:rgba(0,0,0,0.03);}
+    body.light-mode .theme-row{background:rgba(0,0,0,0.07);}
+    body.light-mode .theme-btn{color:var(--text3);}body.light-mode .theme-btn.active{color:#fff;}
+    body.light-mode .btn-no{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.1);}
+    body.light-mode .code-toolbar{background:#f0f2f5;border-bottom-color:rgba(0,0,0,0.08);}
+    body.light-mode .code-wrap{border-color:rgba(0,0,0,0.1);}
+    body.light-mode .copy-btn{border-color:rgba(0,0,0,0.15);color:#334155;}
+    body.light-mode .copy-btn:hover{border-color:var(--blue-l);color:var(--blue-l);}
+    body.light-mode .io-box{border-color:rgba(0,0,0,0.08);}
+    body.light-mode .rev-code-wrap{background:#f6f8fa;border-color:rgba(16,185,129,0.35);}
+    body.light-mode .rev-io-box{background:rgba(239,68,68,0.05);border-color:rgba(239,68,68,0.2);}
+    body.light-mode .pc.done{background:linear-gradient(135deg,rgba(16,185,129,0.1) 0%,rgba(255,255,255,0.7) 60%,rgba(16,185,129,0.05) 100%);box-shadow:0 0 0 1px rgba(16,185,129,0.25),0 4px 32px rgba(16,185,129,0.15),0 0 80px rgba(16,185,129,0.08);}
+    body.light-mode .pc.done:hover{background:linear-gradient(135deg,rgba(16,185,129,0.14) 0%,rgba(255,255,255,0.6) 60%,rgba(16,185,129,0.07) 100%);box-shadow:0 0 0 1px rgba(16,185,129,0.38),0 8px 44px rgba(16,185,129,0.2),0 0 110px rgba(16,185,129,0.1);}
+
+    body.hide-sec-problem .body-section[data-sec="problem"]{display:none;}
+    body.hide-sec-code .body-section[data-sec="code"]{display:none;}
+    body.hide-sec-io .body-section[data-sec="io"]{display:none;}
+    body.hide-sec-complexity .body-section[data-sec="complexity"]{display:none;}
+    body.hide-sec-topics .body-section[data-sec="topics"]{display:none;}
+    body.hide-sec-concept .body-section[data-sec="concept"]{display:none;}
+
+    ::-webkit-scrollbar{width:6px;height:6px;}
+    ::-webkit-scrollbar-track{background:rgba(255,255,255,0.04);border-radius:100px;}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:100px;}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.32);}
+    body.light-mode ::-webkit-scrollbar-track{background:rgba(0,0,0,0.06);}
+    body.light-mode ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.2);}
+    body.light-mode ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.35);}
+
+    @media(max-width:600px){
+      .level-hero-top{flex-direction:column;}
+      .prog-card{width:100%;min-width:unset;}
+      .io-grid{grid-template-columns:1fr;}
+      .bc{display:none;}
+      .pc-head{padding:14px 16px;gap:12px;}
+      .pc-body-inner{padding:0 16px 20px;}
+    }
+    @media(max-width:700px){
+      .nav-actions{gap:4px;}
+      .nav-act-btn .btn-label{display:none;}
+      .sp-panel{width:100%;border-left:none;border-top:1px solid var(--card-border);top:auto;max-height:88vh;border-radius:20px 20px 0 0;animation:spSlideUp .25s ease;}
+      .sp-body{padding:16px;gap:16px;}
+      .sp-head{padding:14px 16px;}
+      .rev-grid{grid-template-columns:1fr;gap:10px;}
+      .rev-header{padding:12px 16px;}
+      .rev-body{padding:12px 16px;}
+      .rev-subtitle{display:none;}
+      .rev-title{font-size:14px;}
+      .rev-code-wrap{max-height:140px;}
+    }
+    @media(max-width:480px){
+      .tc-grid{grid-template-columns:1fr;}
+      .modal-btns{grid-template-columns:1fr;}
+      .try-btn{font-size:0;padding:5px 7px;gap:0;border-radius:50%;}
+      .try-btn::before{content:'⚡';font-size:13px;}
+      .pc-right{gap:6px;flex-shrink:0;align-self:flex-start;margin-top:2px;}
+      .pc-head{gap:8px;padding:12px 14px;}
+      .pc-num{min-width:22px;font-size:12px;}
+      .pc-main{min-width:0;overflow:hidden;}
+      .pc-title{font-size:13px;word-break:break-word;}
+      .check-btn{width:26px;height:26px;font-size:12px;flex-shrink:0;}
+      .show-ans-btn{font-size:0!important;padding:6px 8px;min-width:30px;justify-content:center;}
+      .show-ans-btn::after{font-size:12px;content:'▶';}
+      .pc.open .show-ans-btn::after{content:'✕';}
+      .sp-panel{max-height:92vh;}
+      .nav-act-btn{padding:6px 8px;}
+      .rev-cols{grid-template-columns:1fr;}
+      .rev-code-wrap{max-height:220px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+  <div class="grid-bg"></div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="../index.html" class="nav-logo">
+            <img src="../logo-circle.png" alt="JPrime logo" class="logo-ico">
+            <span class="logo-txt">JPrime</span>
+          </a>
+          <div class="bc">
+            <span class="sep">›</span>
+            <a href="../index.html">Home</a>
+            <span class="sep">›</span>
+            <a href="strings_hub.html">Strings</a>
+            <span class="sep">›</span>
+            <span class="cur">Level 2</span>
+          </div>
+        </div>
+        <div class="nav-actions">
+          <a href="strings_hub.html" class="nav-back">&larr; Back</a>
+          <button class="nav-act-btn" onclick="openRevision()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z"/><rect x="5" y="4" width="14" height="18" rx="2"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg> <span class="btn-label">Revision</span></button>
+          <button class="nav-act-btn" onclick="openSettings()">⚙️ <span class="btn-label">Settings</span></button>
+        </div>
+        <span class="nav-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;margin-right:2px;vertical-align:1px;"></span> Beginner</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="level-hero">
+      <div class="level-hero-top">
+        <div class="lh-left">
+          <div class="lh-badge"><div class="dot"></div>Level 2 of 12</div>
+          <h1>Basic <span class="grad">Transformations</span></h1>
+          <p>20 practical string transformation problems — anagram checks, duplicate removal, case toggling, substring operations, character search, frequency maps, and word-level reversal.</p>
+        </div>
+        <div class="prog-card">
+          <div class="prog-label">YOUR PROGRESS</div>
+          <div class="prog-nums"><span id="prog-done">0</span><span> / 20</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <div class="prog-pct" id="prog-pct">0% complete</div>
+        </div>
+      </div>
+      <div class="tags-strip">
+        <span class="ts-label">Topics:</span>
+        <span class="ts-tag">Anagram</span>
+        <span class="ts-tag">Remove Duplicates</span>
+        <span class="ts-tag">Char Removal</span>
+        <span class="ts-tag">Vowels / Consonants</span>
+        <span class="ts-tag">Swap Chars</span>
+        <span class="ts-tag">Toggle Case</span>
+        <span class="ts-tag">contains() / substring()</span>
+        <span class="ts-tag">indexOf / lastIndexOf</span>
+        <span class="ts-tag">Validation (matches)</span>
+        <span class="ts-tag">Char Arrays</span>
+        <span class="ts-tag">Word Reversal</span>
+        <span class="ts-tag">Frequency Map</span>
+      </div>
+    </section>
+
+    <div class="problems-header">
+      <h2>All Problems</h2>
+      <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+    <div id="problems-list"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>JPrime &nbsp;·&nbsp; Strings Level 2 &nbsp;·&nbsp; Curated by <strong>MajestiQ</strong></p>
+    </div>
+  </footer>
+
+  <!-- PEEK MODAL -->
+  <div id="confirm-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)confirmNo()">
+    <div class="modal-box">
+      <div class="modal-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 4"/><line x1="12" y1="17" x2="12" y2="17.01"/></svg></div>
+      <h3>Before You Peek...</h3>
+      <p class="modal-question">Have you thought of <b>all possible ways</b> to solve this problem? Give it one more attempt — growth happens in the struggle!</p>
+      <div class="modal-hint-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 2z"/></svg> Clue — Topic Tags:</div>
+      <div class="modal-hint-tags" id="modal-tags"></div>
+      <div class="modal-btns">
+        <button class="btn-yes" onclick="confirmYes()">✓ Yes, show solution</button>
+        <button class="btn-no" onclick="confirmNo()">↩ Let me try more</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET MODAL -->
+  <div id="reset-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cancelReset()">
+    <div class="modal-box">
+      <div class="modal-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <h3>Reset Progress?</h3>
+      <p class="modal-question">This will clear all <b>completed problems</b> for Level 2. This action <b>cannot be undone</b>.</p>
+      <div class="modal-btns">
+        <button class="btn-reset-confirm" onclick="confirmReset()">✕ Yes, Reset</button>
+        <button class="btn-no" onclick="cancelReset()">↩ Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVISION SHEET -->
+  <div id="rev-overlay" class="rev-overlay" style="display:none">
+    <div class="rev-header">
+      <div><div class="rev-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;vertical-align:-3px"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z"/><rect x="5" y="4" width="14" height="18" rx="2"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg> Revision Sheet — Strings Level 2</div><div class="rev-subtitle">Key logic for every problem — great for interview prep</div></div>
+      <button class="rev-close" onclick="closeRevision()">✕</button>
+    </div>
+    <div class="rev-body"><div id="rev-grid" class="rev-grid"></div></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="sp-overlay" class="sp-overlay" style="display:none" onclick="closeSettings()"></div>
+  <div id="sp-panel" class="sp-panel" style="display:none">
+    <div class="sp-head"><span class="sp-title">⚙️ Settings</span><button class="sp-close" onclick="closeSettings()">✕</button></div>
+    <div class="sp-body">
+      <div>
+        <div class="sp-sec-title">Solution Reveal</div>
+        <div class="toggle-row">
+          <div><div class="toggle-label">Ask before peeking at solution</div><div class="toggle-hint">Shows a "have you tried?" prompt before expanding any answer</div></div>
+          <label class="sw"><input type="checkbox" id="sp-peek-toggle" onchange="jcS.peekConfirm=this.checked;localStorage.setItem(JC_KEY,JSON.stringify(jcS))"><span class="sw-track"></span></label>
+        </div>
+      </div>
+      <div class="sp-divider"></div>
+      <div>
+        <div class="sp-sec-title">Visible Sections When Expanded</div>
+        <div class="sec-list">
+          <div class="sec-item"><input type="checkbox" id="sp-sec-problem"><label for="sp-sec-problem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg> Problem Description</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-code"><label for="sp-sec-code">☕ Java Code</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-io"><label for="sp-sec-io">▶ Sample I/O</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-complexity"><label for="sp-sec-complexity">⏱ Complexity (Time &amp; Space)</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-topics"><label for="sp-sec-topics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M20.59 13.41L11 3.83a2 2 0 0 0-1.42-.58H4a2 2 0 0 0-2 2v5.59c0 .53.21 1.04.59 1.41l9.58 9.58a2 2 0 0 0 2.82 0l6-6a2 2 0 0 0 0-2.82z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg> Topics Covered</label></div>
+          <div class="sec-item"><input type="checkbox" id="sp-sec-concept"><label for="sp-sec-concept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 2z"/></svg> Key Concept</label></div>
+        </div>
+        <button class="sp-save-btn" onclick="saveSettings()">✓ Save Preferences</button>
+      </div>
+      <div class="sp-divider"></div>
+      <div>
+        <div class="sp-sec-title">Theme</div>
+        <div class="theme-row" id="sp-theme-row">
+          <button class="theme-btn active" id="sp-theme-dark" onclick="setTheme('dark')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Dark</button>
+          <button class="theme-btn" id="sp-theme-light" onclick="setTheme('light')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Light</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script>
+  const STORAGE_KEY = 'java-strings-level2';
+  const JC_KEY = 'jc-settings-strings-L2';
+
+  const PROBLEMS = [
+    {
+      id: 21,
+      title: "Check Anagram",
+      tags: ["Anagram", "Arrays.sort()", "Frequency array"],
+      desc: "Two strings are <b>anagrams</b> if they contain the same characters with the same frequencies, regardless of order (e.g., \"listen\" and \"silent\"). Sort both strings and compare, or use a frequency array.",
+      code: `import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("First string : ");
+        String s1 = sc.nextLine().toLowerCase().replace(" ", "");
+        System.out.print("Second string: ");
+        String s2 = sc.nextLine().toLowerCase().replace(" ", "");
+
+        if (s1.length() != s2.length()) {
+            System.out.println("NOT anagrams (different length)");
+        } else {
+            char[] a1 = s1.toCharArray();
+            char[] a2 = s2.toCharArray();
+            Arrays.sort(a1);
+            Arrays.sort(a2);
+
+            if (Arrays.equals(a1, a2))
+                System.out.println("YES — they are anagrams!");
+            else
+                System.out.println("NO  — not anagrams.");
+        }
+        sc.close();
+    }
+}`,
+      input: "listen\nsilent",
+      output: "YES — they are anagrams!",
+      time: "O(n log n)", space: "O(n)",
+      topics: ["Anagram definition", "Arrays.sort()", "Arrays.equals()", "Frequency array approach"],
+      concept: "<b>Sort approach</b>: O(n log n) — sort both char arrays and compare. <b>Frequency approach</b>: O(n) — build an int[26] count array, increment for s1, decrement for s2; anagram if all zeros. The O(n) approach is preferred in interviews. Always lowercase and remove spaces before comparing."
+    },
+    {
+      id: 22,
+      title: "Remove Duplicate Characters",
+      tags: ["LinkedHashSet", "Seen set", "First-occurrence"],
+      desc: "Remove all duplicate characters from a string, keeping only the <b>first occurrence</b> of each character. Preserve the original order of first appearances.",
+      code: `import java.util.LinkedHashSet;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        StringBuilder sb = new StringBuilder();
+        LinkedHashSet<Character> seen = new LinkedHashSet<>();
+
+        for (char c : s.toCharArray()) {
+            if (seen.add(c)) {   // add() returns false if already present
+                sb.append(c);
+            }
+        }
+
+        System.out.println("Original     : " + s);
+        System.out.println("No duplicates: " + sb);
+        sc.close();
+    }
+}`,
+      input: "programming",
+      output: "Original     : programming\nNo duplicates: progamin",
+      time: "O(n)", space: "O(k)",
+      topics: ["LinkedHashSet (insertion-order)", "Set.add() return value", "StringBuilder"],
+      concept: "<code>LinkedHashSet</code> maintains insertion order and rejects duplicates. <code>set.add(c)</code> returns <b>true</b> on first insertion and <b>false</b> if already present — one clean condition handles both tracking and filtering. O(k) space where k is the number of distinct characters (max 26 for lowercase letters)."
+    },
+    {
+      id: 23,
+      title: "Remove a Specific Character",
+      tags: ["replace()", "replaceAll()", "Pattern.quote()"],
+      desc: "Remove every occurrence of a user-specified character from a string using <b>replace()</b> or <b>replaceAll()</b>. Handle special regex characters safely.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string         : ");
+        String s = sc.nextLine();
+        System.out.print("Character to remove    : ");
+        char c = sc.nextLine().charAt(0);
+
+        // replace(char, char) — simplest; no regex involved
+        String result = s.replace(String.valueOf(c), "");
+
+        System.out.println("Original: " + s);
+        System.out.println("Result  : " + result);
+        System.out.println("Removed : " + (s.length() - result.length()) + " occurrence(s)");
+        sc.close();
+    }
+}`,
+      input: "hello world\nl",
+      output: "Original: hello world\nResult  : heo word\nRemoved : 3 occurrence(s)",
+      time: "O(n)", space: "O(n)",
+      topics: ["replace(String, String)", "Character count via length diff", "replaceAll with Pattern.quote"],
+      concept: "<code>replace(String, String)</code> does <b>literal</b> replacement — safe for any character including regex specials like <code>.</code>, <code>*</code>, <code>+</code>. If you use <code>replaceAll()</code>, wrap the target in <code>Pattern.quote(c)</code> to escape regex metacharacters. The length difference before and after gives the removal count for free."
+    },
+    {
+      id: 24,
+      title: "Remove All Vowels",
+      tags: ["replaceAll()", "Character class regex", "[aeiouAEIOU]"],
+      desc: "Remove every vowel (a, e, i, o, u — both cases) from a string using <b>replaceAll()</b> with a character class regex.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        // [aeiouAEIOU] matches any single vowel
+        String result = s.replaceAll("[aeiouAEIOU]", "");
+
+        System.out.println("Original      : " + s);
+        System.out.println("Without vowels: " + result);
+        sc.close();
+    }
+}`,
+      input: "Hello World",
+      output: "Original      : Hello World\nWithout vowels: Hll Wrld",
+      time: "O(n)", space: "O(n)",
+      topics: ["replaceAll() with regex", "Character class [...]", "Case-inclusive vowel pattern"],
+      concept: "<code>[aeiouAEIOU]</code> is a regex <b>character class</b> — it matches exactly one character that is any of the listed vowels. It's more compact than <code>[aeiou]</code> after <code>toLowerCase()</code>. Equivalent manual approach: iterate with <code>toCharArray()</code> and skip if <code>\"aeiouAEIOU\".indexOf(c) != -1</code>."
+    },
+    {
+      id: 25,
+      title: "Remove All Consonants",
+      tags: ["Manual filter", "isLetter()", "Vowel check"],
+      desc: "Keep only vowels, spaces, digits, and punctuation — remove every character that is a letter but <b>not</b> a vowel. Iterate manually to precisely control what stays.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            // Keep character if it is NOT a consonant
+            // Consonant = letter that is not a vowel
+            boolean isConsonant = Character.isLetter(c)
+                               && "aeiouAEIOU".indexOf(c) == -1;
+            if (!isConsonant) {
+                sb.append(c);
+            }
+        }
+
+        System.out.println("Original          : " + s);
+        System.out.println("Without consonants: " + sb);
+        sc.close();
+    }
+}`,
+      input: "Hello World",
+      output: "Original          : Hello World\nWithout consonants: eo o",
+      time: "O(n)", space: "O(n)",
+      topics: ["Consonant = letter && !vowel", "Character.isLetter()", "Manual filter loop"],
+      concept: "Consonant = <code>isLetter(c) && NOT a vowel</code>. The double condition is crucial — without <code>isLetter()</code>, spaces and digits would also be removed. Regex equivalent: <code>replaceAll(\"[^aeiouAEIOU\\\\s\\\\d\\\\p{Punct}]\", \"\")</code> — but the manual loop is far clearer and easier to reason about."
+    },
+    {
+      id: 26,
+      title: "Swap First and Last Character",
+      tags: ["charAt()", "substring()", "String reconstruction"],
+      desc: "Swap the first and last character of a string using <b>charAt()</b> and <b>substring()</b> to rebuild it. Handle edge cases: empty string and single character.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        if (s.length() <= 1) {
+            System.out.println("Result: " + s);
+        } else {
+            char first = s.charAt(0);
+            char last  = s.charAt(s.length() - 1);
+
+            // last + middle + first
+            String result = last + s.substring(1, s.length() - 1) + first;
+
+            System.out.println("Original: " + s);
+            System.out.println("Swapped : " + result);
+        }
+        sc.close();
+    }
+}`,
+      input: "Hello",
+      output: "Original: Hello\nSwapped : oellH",
+      time: "O(n)", space: "O(n)",
+      topics: ["charAt(0) / charAt(n-1)", "substring(1, n-1) — middle slice", "String concatenation"],
+      concept: "<code>substring(1, s.length()-1)</code> extracts the middle portion (exclusive of both ends). The result is built as <code>last + middle + first</code>. For a 2-character string, <code>substring(1, 1)</code> returns an empty string — the formula still works correctly. Always guard against length 0 or 1."
+    },
+    {
+      id: 27,
+      title: "Toggle Case of Each Character",
+      tags: ["Character.isUpperCase()", "toUpperCase / toLowerCase", "Toggle"],
+      desc: "Convert every uppercase letter to lowercase and every lowercase letter to uppercase. Leave digits, spaces, and symbols unchanged.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isUpperCase(c))
+                sb.append(Character.toLowerCase(c));
+            else if (Character.isLowerCase(c))
+                sb.append(Character.toUpperCase(c));
+            else
+                sb.append(c);   // digit, space, symbol — unchanged
+        }
+
+        System.out.println("Original: " + s);
+        System.out.println("Toggled : " + sb);
+        sc.close();
+    }
+}`,
+      input: "Hello World 123",
+      output: "Original: Hello World 123\nToggled : hELLO wORLD 123",
+      time: "O(n)", space: "O(n)",
+      topics: ["Character.isUpperCase()", "Character.isLowerCase()", "Toggle per-character"],
+      concept: "The three-branch structure is required: uppercase → lower, lowercase → upper, and everything else → unchanged. <b>Do NOT use a single condition</b> like <code>Character.isLetter(c)</code> — that still wouldn't tell you which direction to toggle. Digits and spaces fall into the else branch untouched."
+    },
+    {
+      id: 28,
+      title: "Check if String Contains a Substring",
+      tags: ["contains()", "indexOf()", "Case-insensitive check"],
+      desc: "Determine whether one string contains another as a <b>contiguous substring</b> using <b>contains()</b>. Find its position with <b>indexOf()</b>.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Main string : ");
+        String s = sc.nextLine();
+        System.out.print("Substring   : ");
+        String sub = sc.nextLine();
+
+        boolean found = s.contains(sub);
+        System.out.println("Contains \"" + sub + "\": " + found);
+
+        if (found) {
+            System.out.println("First index : " + s.indexOf(sub));
+            System.out.println("Count       : " + countOccurrences(s, sub));
+        }
+
+        // Case-insensitive version
+        boolean foundCI = s.toLowerCase().contains(sub.toLowerCase());
+        System.out.println("Case-insensitive: " + foundCI);
+
+        sc.close();
+    }
+
+    static int countOccurrences(String s, String sub) {
+        int count = 0, idx = 0;
+        while ((idx = s.indexOf(sub, idx)) != -1) {
+            count++;
+            idx += sub.length();
+        }
+        return count;
+    }
+}`,
+      input: "Hello World Hello\nHello",
+      output: "Contains \"Hello\": true\nFirst index : 0\nCount       : 2\nCase-insensitive: true",
+      time: "O(n·m)", space: "O(1)",
+      topics: ["contains()", "indexOf(fromIndex)", "Count all occurrences", "Case-insensitive check"],
+      concept: "<code>contains(sub)</code> is shorthand for <code>indexOf(sub) != -1</code>. To find all occurrences, loop <code>indexOf(sub, startFrom)</code> advancing <code>startFrom</code> by <code>sub.length()</code> each time — prevents re-matching at the same position. Average complexity is O(n·m); real-world JVM implementations use optimized algorithms."
+    },
+    {
+      id: 29,
+      title: "Extract a Substring",
+      tags: ["substring(start, end)", "0-based, end exclusive"],
+      desc: "Extract a portion of a string using <b>substring(start, end)</b> where <code>start</code> is inclusive and <code>end</code> is exclusive. Validate indices before calling.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+        System.out.print("Start index   : ");
+        int start = Integer.parseInt(sc.nextLine().trim());
+        System.out.print("End index     : ");
+        int end = Integer.parseInt(sc.nextLine().trim());
+
+        if (start < 0 || end > s.length() || start > end) {
+            System.out.println("Invalid indices! Valid range: 0 to " + s.length());
+        } else {
+            // substring(start, end): start inclusive, end exclusive
+            String extracted = s.substring(start, end);
+            System.out.println("Extracted : \"" + extracted + "\"");
+            System.out.println("Length    : " + extracted.length());
+
+            // substring(start) — from start to end of string
+            System.out.println("From start: \"" + s.substring(start) + "\"");
+        }
+        sc.close();
+    }
+}`,
+      input: "Hello World\n6\n11",
+      output: "Extracted : \"World\"\nLength    : 5\nFrom start: \"World\"",
+      time: "O(n)", space: "O(n)",
+      topics: ["substring(start, end)", "substring(start)", "Index validation", "End-exclusive range"],
+      concept: "<code>substring(start, end)</code> — <b>start is inclusive, end is exclusive</b>. To extract the last n characters: <code>s.substring(s.length() - n)</code>. Common error: passing <code>end > s.length()</code> throws <code>StringIndexOutOfBoundsException</code>. Always validate before calling."
+    },
+    {
+      id: 30,
+      title: "Find First Occurrence of a Character",
+      tags: ["indexOf(char)", "indexOf(String)", "Not found = -1"],
+      desc: "Find the <b>first occurrence</b> of a character or substring using <b>indexOf()</b>. It returns -1 when the target is not found.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string   : ");
+        String s = sc.nextLine();
+        System.out.print("Find (char/word) : ");
+        String target = sc.nextLine();
+
+        int idx = s.indexOf(target);
+
+        if (idx == -1) {
+            System.out.println("\"" + target + "\" not found.");
+        } else {
+            System.out.println("First occurrence : index " + idx);
+            System.out.println("Character there  : '" + s.charAt(idx) + "'");
+        }
+
+        // Search from a given offset
+        int fromIdx = (idx == -1) ? -1 : s.indexOf(target, idx + 1);
+        System.out.println("Next occurrence  : " + (fromIdx == -1 ? "none" : "index " + fromIdx));
+        sc.close();
+    }
+}`,
+      input: "programming\ng",
+      output: "First occurrence : index 3\nCharacter there  : 'g'\nNext occurrence  : index 10",
+      time: "O(n)", space: "O(1)",
+      topics: ["indexOf(String)", "indexOf(String, fromIndex)", "-1 sentinel", "Chaining searches"],
+      concept: "<code>indexOf()</code> scans left-to-right and returns the index of the <b>first match</b>, or <b>-1</b> if not found. <code>indexOf(target, fromIndex)</code> starts searching from <code>fromIndex</code> — use it to find subsequent matches. Works for both single characters and multi-character substrings."
+    },
+    {
+      id: 31,
+      title: "Find Last Occurrence of a Character",
+      tags: ["lastIndexOf()", "Right-to-left search"],
+      desc: "Find the <b>last occurrence</b> of a character or substring using <b>lastIndexOf()</b>, which scans from right to left. Compare with first occurrence to locate all positions.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string   : ");
+        String s = sc.nextLine();
+        System.out.print("Find (char/word) : ");
+        String target = sc.nextLine();
+
+        int first = s.indexOf(target);
+        int last  = s.lastIndexOf(target);
+
+        if (last == -1) {
+            System.out.println("\"" + target + "\" not found.");
+        } else {
+            System.out.println("First occurrence : index " + first);
+            System.out.println("Last  occurrence : index " + last);
+            System.out.println("Same position    : " + (first == last));
+        }
+        sc.close();
+    }
+}`,
+      input: "programming\ng",
+      output: "First occurrence : index 3\nLast  occurrence : index 10\nSame position    : false",
+      time: "O(n)", space: "O(1)",
+      topics: ["lastIndexOf()", "indexOf() vs lastIndexOf()", "Single-occurrence detection"],
+      concept: "<code>lastIndexOf()</code> scans <b>right-to-left</b>, returning the index of the rightmost match. When <code>indexOf()</code> and <code>lastIndexOf()</code> return the same value, the character appears exactly once. Useful for splitting at the last dot (file extension: <code>s.substring(s.lastIndexOf('.'))</code>)."
+    },
+    {
+      id: 32,
+      title: "Check String Contains Only Digits",
+      tags: ["matches()", "\\\\d+", "Character.isDigit()"],
+      desc: "Verify that every character in a string is a digit (0–9). Use <b>matches(\"\\\\d+\")</b> for a concise regex check, or iterate with <b>Character.isDigit()</b>.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        // Method 1: regex — \\d+ means one or more digits, full match
+        boolean byRegex = !s.isEmpty() && s.matches("\\d+");
+
+        // Method 2: manual — all characters must be digits
+        boolean byLoop = !s.isEmpty();
+        for (char c : s.toCharArray()) {
+            if (!Character.isDigit(c)) { byLoop = false; break; }
+        }
+
+        System.out.println("Input           : \"" + s + "\"");
+        System.out.println("Only digits     : " + byRegex);
+        System.out.println("Consistent check: " + (byRegex == byLoop));
+        sc.close();
+    }
+}`,
+      input: "123456",
+      output: "Input           : \"123456\"\nOnly digits     : true\nConsistent check: true",
+      time: "O(n)", space: "O(1)",
+      topics: ["String.matches() — full-string match", "\\d+ regex", "Character.isDigit()", "isEmpty() guard"],
+      concept: "<code>matches()</code> does a <b>full-string match</b> — unlike <code>find()</code>, the entire string must match the pattern. <code>\\\\d+</code> means one-or-more digits. The <code>!s.isEmpty()</code> guard is essential — an empty string would match <code>\\d*</code> but not <code>\\d+</code>. <code>Character.isDigit()</code> accepts some Unicode digit characters beyond '0'–'9'."
+    },
+    {
+      id: 33,
+      title: "Check String Contains Only Alphabets",
+      tags: ["matches()", "[a-zA-Z]+", "Character.isLetter()"],
+      desc: "Check whether every character in a string is an English letter (a–z, A–Z) using <b>matches(\"[a-zA-Z]+\")</b> or <b>Character.isLetter()</b>.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        // Only letters, no digits or spaces
+        boolean onlyAlpha = !s.isEmpty() && s.matches("[a-zA-Z]+");
+
+        // Letters AND digits (alphanumeric)
+        boolean alphaNum  = !s.isEmpty() && s.matches("[a-zA-Z0-9]+");
+
+        System.out.println("Input          : \"" + s + "\"");
+        System.out.println("Only letters   : " + onlyAlpha);
+        System.out.println("Alphanumeric   : " + alphaNum);
+        sc.close();
+    }
+}`,
+      input: "HelloWorld",
+      output: "Input          : \"HelloWorld\"\nOnly letters   : true\nAlphanumeric   : true",
+      time: "O(n)", space: "O(1)",
+      topics: ["[a-zA-Z]+ character class", "matches() full match", "Character.isLetter()", "Alphanumeric \\w+"],
+      concept: "<code>[a-zA-Z]+</code> restricts to ASCII letters only — it will reject accented characters like 'é'. <code>Character.isLetter()</code> accepts Unicode letters. Use <code>[a-zA-Z0-9]+</code> or <code>\\\\w+</code> (note: <code>\\\\w</code> also includes underscore) for alphanumeric. Always check for empty string before calling <code>matches()</code>."
+    },
+    {
+      id: 34,
+      title: "Remove Leading Zeros",
+      tags: ["replaceFirst()", "^0+ regex", "Lookahead (?!$)"],
+      desc: "Strip all leading zeros from a numeric string. Use a regex with a <b>negative lookahead</b> to preserve the value \"0\" (don't remove the only zero).",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a numeric string: ");
+        String s = sc.nextLine().trim();
+
+        // ^0+(?!$) — one or more leading zeros NOT followed by end-of-string
+        // This preserves "0" → "0", but "000" → "0", "007" → "7"
+        String result = s.replaceFirst("^0+(?!$)", "");
+
+        System.out.println("Original: " + s);
+        System.out.println("Result  : " + result);
+        sc.close();
+    }
+}`,
+      input: "000123",
+      output: "Original: 000123\nResult  : 123",
+      time: "O(n)", space: "O(n)",
+      topics: ["replaceFirst() with regex", "^ anchor (start of string)", "(?!$) negative lookahead", "Edge case: all zeros"],
+      concept: "<code>^0+(?!$)</code> — <code>^</code> anchors to string start, <code>0+</code> matches one or more zeros, <code>(?!$)</code> is a <b>negative lookahead</b> ensuring the match is not immediately followed by end-of-string. This preserves <code>\"0\"</code> → <code>\"0\"</code> and <code>\"000\"</code> → <code>\"0\"</code>. Simpler alternative without regex: <code>String.valueOf(Integer.parseInt(s))</code> — but fails for very large numbers."
+    },
+    {
+      id: 35,
+      title: "Convert String to Char Array",
+      tags: ["toCharArray()", "Arrays.toString()", "Mutation"],
+      desc: "Convert a String to a <b>char[]</b> using <b>toCharArray()</b>. This gives you a mutable copy you can sort, modify, or iterate — the original string remains unchanged.",
+      code: `import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        // Convert to char array
+        char[] chars = s.toCharArray();
+
+        System.out.println("String      : " + s);
+        System.out.println("char[]      : " + Arrays.toString(chars));
+        System.out.println("Array length: " + chars.length);
+
+        // Demonstrate mutation — sort the array
+        Arrays.sort(chars);
+        System.out.println("Sorted char[]: " + Arrays.toString(chars));
+        System.out.println("Original (unchanged): " + s);
+
+        sc.close();
+    }
+}`,
+      input: "java",
+      output: "String      : java\nchar[]      : [j, a, v, a]\nArray length: 4\nSorted char[]: [a, a, j, v]\nOriginal (unchanged): java",
+      time: "O(n)", space: "O(n)",
+      topics: ["toCharArray()", "Arrays.toString() for char[]", "Mutable copy", "String immutability"],
+      concept: "<code>toCharArray()</code> creates a <b>new char[]</b> — a mutable copy. Sorting it does NOT affect the original String (strings are immutable). This is the standard way to sort the characters of a String: convert → sort → convert back. <code>Arrays.toString(chars)</code> prints <code>[j, a, v, a]</code> with commas; to get the plain string use <code>new String(chars)</code>."
+    },
+    {
+      id: 36,
+      title: "Convert Char Array to String",
+      tags: ["new String(char[])", "String.valueOf(char[])", "StringBuilder"],
+      desc: "Convert a <b>char[]</b> back to a String using <b>new String(charArray)</b> or <b>String.valueOf(charArray)</b>. Both produce identical results.",
+      code: `import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String original = sc.nextLine();
+
+        // Step 1: String → char[]
+        char[] chars = original.toCharArray();
+
+        // Modify the array (e.g., sort it)
+        Arrays.sort(chars);
+
+        // Step 2: char[] → String — three equivalent ways
+        String s1 = new String(chars);       // Method 1: constructor
+        String s2 = String.valueOf(chars);   // Method 2: static factory
+        StringBuilder sb = new StringBuilder();
+        for (char c : chars) sb.append(c);
+        String s3 = sb.toString();           // Method 3: StringBuilder
+
+        System.out.println("Original       : " + original);
+        System.out.println("new String()   : " + s1);
+        System.out.println("valueOf()      : " + s2);
+        System.out.println("StringBuilder  : " + s3);
+        sc.close();
+    }
+}`,
+      input: "dcba",
+      output: "Original       : dcba\nnew String()   : abcd\nvalueOf()      : abcd\nStringBuilder  : abcd",
+      time: "O(n)", space: "O(n)",
+      topics: ["new String(char[])", "String.valueOf(char[])", "StringBuilder.append(char)", "Round-trip conversion"],
+      concept: "<code>new String(char[])</code> and <code>String.valueOf(char[])</code> are identical in output — both copy the array into a new immutable String. Prefer <code>new String(chars)</code> for clarity. The StringBuilder approach is useful when you want to selectively append characters (e.g., skip certain ones) rather than convert the whole array."
+    },
+    {
+      id: 37,
+      title: "Reverse Each Word in a Sentence",
+      tags: ["split()", "StringBuilder.reverse()", "Word-level reversal"],
+      desc: "Reverse the characters within each word while keeping the <b>word order</b> the same. Split on spaces, reverse each token, then rejoin.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a sentence: ");
+        String s = sc.nextLine();
+
+        String[] words = s.split(" ");
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < words.length; i++) {
+            result.append(new StringBuilder(words[i]).reverse());
+            if (i < words.length - 1) result.append(" ");
+        }
+
+        System.out.println("Original: " + s);
+        System.out.println("Result  : " + result);
+        sc.close();
+    }
+}`,
+      input: "Hello World Java",
+      output: "Original: Hello World Java\nResult  : olleH dlroW avaJ",
+      time: "O(n)", space: "O(n)",
+      topics: ["split(\" \")", "StringBuilder.reverse() per word", "Word-level vs sentence-level reversal"],
+      concept: "Distinct from <b>reversing word order</b> (Problem 38): here the words stay in place but each word's characters are reversed. <code>new StringBuilder(word).reverse().toString()</code> is the one-liner per word. Split on <code>\" \"</code> (single space) — be careful if the input has multiple spaces; use <code>\"\\\\s+\"</code> with a trim for robustness."
+    },
+    {
+      id: 38,
+      title: "Reverse Word Order",
+      tags: ["split()", "Reverse array iteration", "Sentence reversal"],
+      desc: "Reverse the <b>order of words</b> in a sentence while keeping each word's characters intact. Split, iterate backwards, and rejoin.",
+      code: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a sentence: ");
+        String s = sc.nextLine().trim();
+
+        // \\s+ handles multiple spaces between words
+        String[] words = s.split("\\s+");
+
+        StringBuilder result = new StringBuilder();
+        for (int i = words.length - 1; i >= 0; i--) {
+            result.append(words[i]);
+            if (i > 0) result.append(" ");
+        }
+
+        System.out.println("Original: " + s);
+        System.out.println("Reversed: " + result);
+        sc.close();
+    }
+}`,
+      input: "Hello World Java",
+      output: "Original: Hello World Java\nReversed: Java World Hello",
+      time: "O(n)", space: "O(n)",
+      topics: ["split(\"\\\\s+\")", "Reverse iteration", "trim() before split", "Word-order reversal"],
+      concept: "Trim first so a leading space doesn't create an empty first word. <code>\\\\s+</code> correctly handles multiple consecutive spaces. In-place approach (no extra array): two-pointer swap on the words array — swap <code>words[lo]</code> and <code>words[hi]</code> moving inward, then join. O(n) time, O(n) space either way."
+    },
+    {
+      id: 39,
+      title: "Count Frequency of Each Character",
+      tags: ["LinkedHashMap", "getOrDefault()", "Frequency map"],
+      desc: "Count how many times each character appears in a string. Use a <b>LinkedHashMap</b> to preserve insertion order when printing results.",
+      code: `import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        Map<Character, Integer> freq = new LinkedHashMap<>();
+        for (char c : s.toCharArray()) {
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        }
+
+        System.out.println("Character frequencies:");
+        for (Map.Entry<Character, Integer> e : freq.entrySet()) {
+            System.out.printf("  '%c'  →  %d%n", e.getKey(), e.getValue());
+        }
+
+        sc.close();
+    }
+}`,
+      input: "hello",
+      output: "Character frequencies:\n  'h'  →  1\n  'e'  →  1\n  'l'  →  2\n  'o'  →  1",
+      time: "O(n)", space: "O(k)",
+      topics: ["LinkedHashMap (insertion order)", "getOrDefault(key, 0)", "Map.Entry iteration", "int[256] array alternative"],
+      concept: "<code>getOrDefault(c, 0) + 1</code> is the compact increment pattern for frequency maps. <code>LinkedHashMap</code> preserves insertion order (first-seen order); <code>HashMap</code> would be faster but unordered. For ASCII-only input, <code>int[256] count; count[c]++</code> is O(1) space (constant 256 slots) and simpler."
+    },
+    {
+      id: 40,
+      title: "Find First Non-Repeating Character",
+      tags: ["Frequency map", "LinkedHashMap", "Single pass"],
+      desc: "Find the first character in a string that appears <b>exactly once</b>. Build a frequency map, then scan for the first entry with count 1.",
+      code: `import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String s = sc.nextLine();
+
+        // Pass 1: build frequency map
+        Map<Character, Integer> freq = new LinkedHashMap<>();
+        for (char c : s.toCharArray()) {
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        }
+
+        // Pass 2: find first with count == 1
+        char answer = '\\0';
+        for (Map.Entry<Character, Integer> e : freq.entrySet()) {
+            if (e.getValue() == 1) { answer = e.getKey(); break; }
+        }
+
+        if (answer == '\\0')
+            System.out.println("No non-repeating character found.");
+        else
+            System.out.println("First non-repeating: '" + answer + "'");
+
+        sc.close();
+    }
+}`,
+      input: "swiss",
+      output: "First non-repeating: 'w'",
+      time: "O(n)", space: "O(k)",
+      topics: ["Two-pass frequency map", "First unique character", "\\0 sentinel", "int[26] O(1) space"],
+      concept: "Two-pass O(n): build freq map, then re-scan. <code>LinkedHashMap</code> preserves insertion order so the first entry with count 1 is automatically the first unique character in the original string. Alternative with <code>int[26]</code>: O(1) space (26 letters), works for lowercase-only input. Classic interview question — the <code>LinkedHashMap</code> version handles all Unicode inputs."
+    }
+  ];
+
+  const TESTCASES = {
+    21: [{in:"listen\nsilent",out:"YES — they are anagrams!"},{in:"hello\nworld",out:"NOT anagrams (different length)"}],
+    22: [{in:"programming",out:"Original     : programming\nNo duplicates: progamin"},{in:"aabbcc",out:"Original     : aabbcc\nNo duplicates: abc"}],
+    23: [{in:"hello world\nl",out:"Original: hello world\nResult  : heo word\nRemoved : 3 occurrence(s)"},{in:"banana\na",out:"Original: banana\nResult  : bnn\nRemoved : 3 occurrence(s)"}],
+    24: [{in:"Hello World",out:"Original      : Hello World\nWithout vowels: Hll Wrld"},{in:"Java Programming",out:"Original      : Java Programming\nWithout vowels: Jv Prgrmmng"}],
+    25: [{in:"Hello World",out:"Original          : Hello World\nWithout consonants: eo o"},{in:"Java",out:"Original          : Java\nWithout consonants: aa"}],
+    26: [{in:"Hello",out:"Original: Hello\nSwapped : oellH"},{in:"Java",out:"Original: Java\nSwapped : avaJ"}],
+    27: [{in:"Hello World 123",out:"Original: Hello World 123\nToggled : hELLO wORLD 123"},{in:"Java Rocks",out:"Original: Java Rocks\nToggled : jAVA rOCKS"}],
+    28: [{in:"Hello World Hello\nHello",out:"Contains \"Hello\": true\nFirst index : 0\nCount       : 2\nCase-insensitive: true"},{in:"Hello World\nJava",out:"Contains \"Java\": false\nCase-insensitive: false"}],
+    29: [{in:"Hello World\n6\n11",out:"Extracted : \"World\"\nLength    : 5\nFrom start: \"World\""},{in:"Programming\n0\n7",out:"Extracted : \"Program\"\nLength    : 7\nFrom start: \"Programming\""}],
+    30: [{in:"programming\ng",out:"First occurrence : index 3\nCharacter there  : 'g'\nNext occurrence  : index 10"},{in:"hello\nz",out:"\"z\" not found.\nNext occurrence  : none"}],
+    31: [{in:"programming\ng",out:"First occurrence : index 3\nLast  occurrence : index 10\nSame position    : false"},{in:"hello\nl",out:"First occurrence : index 2\nLast  occurrence : index 3\nSame position    : false"}],
+    32: [{in:"123456",out:"Input           : \"123456\"\nOnly digits     : true\nConsistent check: true"},{in:"123a56",out:"Input           : \"123a56\"\nOnly digits     : false\nConsistent check: true"}],
+    33: [{in:"HelloWorld",out:"Input          : \"HelloWorld\"\nOnly letters   : true\nAlphanumeric   : true"},{in:"Hello123",out:"Input          : \"Hello123\"\nOnly letters   : false\nAlphanumeric   : true"}],
+    34: [{in:"000123",out:"Original: 000123\nResult  : 123"},{in:"000",out:"Original: 000\nResult  : 0"}],
+    35: [{in:"java",out:"String      : java\nchar[]      : [j, a, v, a]\nArray length: 4\nSorted char[]: [a, a, j, v]\nOriginal (unchanged): java"},{in:"hello",out:"String      : hello\nchar[]      : [h, e, l, l, o]\nArray length: 5\nSorted char[]: [e, h, l, l, o]\nOriginal (unchanged): hello"}],
+    36: [{in:"dcba",out:"Original       : dcba\nnew String()   : abcd\nvalueOf()      : abcd\nStringBuilder  : abcd"},{in:"java",out:"Original       : java\nnew String()   : aajv\nvalueOf()      : aajv\nStringBuilder  : aajv"}],
+    37: [{in:"Hello World Java",out:"Original: Hello World Java\nResult  : olleH dlroW avaJ"},{in:"Java is fun",out:"Original: Java is fun\nResult  : avaJ si nuf"}],
+    38: [{in:"Hello World Java",out:"Original: Hello World Java\nReversed: Java World Hello"},{in:"I love Java",out:"Original: I love Java\nReversed: Java love I"}],
+    39: [{in:"hello",out:"Character frequencies:\n  'h'  →  1\n  'e'  →  1\n  'l'  →  2\n  'o'  →  1"},{in:"aabbc",out:"Character frequencies:\n  'a'  →  2\n  'b'  →  2\n  'c'  →  1"}],
+    40: [{in:"swiss",out:"First non-repeating: 'w'"},{in:"aabb",out:"No non-repeating character found."}],
+  };
+
+  // ── State ──
+  const completed = new Set();
+  let openId = null, pendingId = null;
+
+  function loadProgress() {
+    try { const r=localStorage.getItem(STORAGE_KEY); if(r) JSON.parse(r).forEach(id=>completed.add(id)); } catch(e){}
+  }
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed]));
+  }
+  function updateProgressUI() {
+    const done = completed.size, total = PROBLEMS.length;
+    const pct = Math.round((done/total)*100);
+    document.getElementById('prog-done').textContent = done;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '% complete';
+  }
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render() {
+    const list = document.getElementById('problems-list');
+    list.innerHTML = PROBLEMS.map(p => `
+      <div class="pc ${completed.has(p.id)?'done':''}" id="pc-${p.id}">
+        <div class="pc-head" onclick="requestToggle(event,${p.id})">
+          <span class="pc-num">${String(p.id).padStart(2,'0')}</span>
+          <div class="pc-main">
+            <div class="pc-title">${p.title}</div>
+            <div class="pc-tags">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="pc-right">
+            <a class="try-btn" href="https://www.programiz.com/java-programming/online-compiler/" target="_blank" onclick="event.stopPropagation()">⚡ Try Now</a>
+            <button class="check-btn ${completed.has(p.id)?'checked':''}" onclick="markDone(event,${p.id})" title="${completed.has(p.id)?'Mark incomplete':'Mark as done'}">${completed.has(p.id)?'✓':'○'}</button>
+            <button class="show-ans-btn" onclick="requestToggle(event,${p.id})">Show Answer</button>
+          </div>
+        </div>
+        <div class="pc-testcases"><div class="tc-grid">${(TESTCASES[p.id]||[]).map((tc,i)=>`<div class="tc-box"><div class="tc-title">Test Case ${i+1}</div><div class="tc-row"><span class="tc-key">Input: </span><span class="tc-val">${escHtml(tc.in)}</span></div><div class="tc-row"><span class="tc-key">Output:</span><span class="tc-val">${escHtml(tc.out)}</span></div></div>`).join('')}</div></div>
+        <div class="pc-body">
+          <div class="pc-body-inner">
+            <div class="body-section">
+              <div class="body-label">Problem</div>
+              <p class="desc-text">${p.desc}</p>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Java Code</div>
+              <div class="code-wrap">
+                <div class="code-toolbar">
+                  <span class="code-lang">Java</span>
+                  <button class="copy-btn" onclick="copyCode(event,${p.id})">Copy</button>
+                </div>
+                <pre><code class="language-java" id="code-${p.id}">${escHtml(p.code)}</code></pre>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Sample I/O</div>
+              <div class="io-grid">
+                <div class="io-box io-inp"><div class="io-box-label">▶ INPUT</div><div class="io-val">${escHtml(p.input)}</div></div>
+                <div class="io-box io-out"><div class="io-box-label">◀ OUTPUT</div><div class="io-val">${escHtml(p.output)}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Complexity</div>
+              <div class="cx-grid">
+                <div class="cx-box"><div class="cx-label">TIME COMPLEXITY</div><div class="cx-val cx-time">${p.time}</div></div>
+                <div class="cx-box"><div class="cx-label">SPACE COMPLEXITY</div><div class="cx-val cx-space">${p.space}</div></div>
+              </div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Topics Covered</div>
+              <div class="topics-wrap">${p.topics.map(t=>`<span class="t-pill">${t}</span>`).join('')}</div>
+            </div>
+            <div class="body-section">
+              <div class="body-label">Key Concept</div>
+              <div class="concept-box"><p>${p.concept}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    applyDataSec();
+    updateProgressUI();
+  }
+
+  function toggle(id) {
+    const card = document.getElementById('pc-'+id);
+    const isOpen = card.classList.contains('open');
+    if (openId && openId !== id) {
+      document.getElementById('pc-'+openId).classList.remove('open');
+      const pb = document.querySelector('#pc-'+openId+' .show-ans-btn');
+      if(pb) pb.textContent='Show Answer';
+    }
+    card.classList.toggle('open', !isOpen);
+    openId = isOpen ? null : id;
+    const cb = card.querySelector('.show-ans-btn');
+    if(cb) cb.textContent = isOpen ? 'Show Answer' : 'Hide Answer';
+  }
+
+  function requestToggle(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById('pc-'+id);
+    if(card.classList.contains('open')){ toggle(id); return; }
+    if(jcS.peekConfirm === false){ toggle(id); return; }
+    pendingId = id;
+    const p = PROBLEMS.find(x => x.id === id);
+    document.getElementById('modal-tags').innerHTML = p.tags.map(t=>`<span class="modal-hint-tag">${t}</span>`).join('');
+    document.body.style.overflow='hidden';
+    document.getElementById('confirm-modal').style.display='flex';
+  }
+  function confirmYes() {
+    document.getElementById('confirm-modal').style.display='none';
+    document.body.style.overflow='';
+    if(pendingId !== null){ toggle(pendingId); pendingId=null; }
+  }
+  function confirmNo() {
+    document.getElementById('confirm-modal').style.display='none';
+    document.body.style.overflow='';
+    pendingId=null;
+  }
+
+  function markDone(e, id) {
+    e.stopPropagation();
+    if(completed.has(id)) completed.delete(id); else completed.add(id);
+    saveProgress(); render();
+    if(openId) document.getElementById('pc-'+openId)?.classList.add('open');
+  }
+
+  function copyCode(e, id) {
+    e.stopPropagation();
+    const p = PROBLEMS.find(x => x.id === id);
+    if(!p) return;
+    navigator.clipboard.writeText(p.code).then(()=>{
+      const btn=e.target; btn.textContent='Copied!'; btn.classList.add('copied');
+      setTimeout(()=>{ btn.textContent='Copy'; btn.classList.remove('copied'); },2000);
+    });
+  }
+
+  function resetProgress() {
+    document.body.style.overflow='hidden';
+    document.getElementById('reset-modal').style.display='flex';
+  }
+  function confirmReset() {
+    document.getElementById('reset-modal').style.display='none';
+    document.body.style.overflow='';
+    completed.clear(); saveProgress(); openId=null; render();
+  }
+  function cancelReset() {
+    document.getElementById('reset-modal').style.display='none';
+    document.body.style.overflow='';
+  }
+
+  // ── Settings ──
+  const JC_DEF = {peekConfirm:true, sections:{problem:true,code:true,io:true,complexity:true,topics:true,concept:true}, theme:'dark'};
+  let jcS = (()=>{ try{ const s=JSON.parse(localStorage.getItem(JC_KEY)||'{}'); return{...JC_DEF,...s,sections:{...JC_DEF.sections,...(s.sections||{})}}; }catch{ return{...JC_DEF}; } })();
+
+  function jcApply(s) {
+    document.body.classList.toggle('light-mode', s.theme==='light');
+    const _ht=document.getElementById('hljs-theme');
+    if(_ht) _ht.href = s.theme==='light'
+      ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'
+      : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
+    ['problem','code','io','complexity','topics','concept'].forEach(k=>document.body.classList.toggle('hide-sec-'+k, s.sections[k]===false));
+    const d=document.getElementById('sp-theme-dark'), l=document.getElementById('sp-theme-light');
+    if(d) d.classList.toggle('active', s.theme!=='light');
+    if(l) l.classList.toggle('active', s.theme==='light');
+    const _tr=document.getElementById('sp-theme-row');
+    if(_tr) _tr.classList.toggle('theme-is-light', s.theme==='light');
+  }
+
+  function openSettings() {
+    document.getElementById('sp-peek-toggle').checked = jcS.peekConfirm!==false;
+    ['problem','code','io','complexity','topics','concept'].forEach(k=>{ const el=document.getElementById('sp-sec-'+k); if(el) el.checked=jcS.sections[k]!==false; });
+    document.getElementById('sp-theme-dark').classList.toggle('active', jcS.theme!=='light');
+    document.getElementById('sp-theme-light').classList.toggle('active', jcS.theme==='light');
+    document.getElementById('sp-overlay').style.display='block';
+    document.getElementById('sp-panel').style.display='flex';
+    document.body.style.overflow='hidden';
+  }
+  function closeSettings() {
+    document.getElementById('sp-overlay').style.display='none';
+    document.getElementById('sp-panel').style.display='none';
+    document.body.style.overflow='';
+  }
+  function setTheme(t) {
+    jcS.theme=t;
+    localStorage.setItem(JC_KEY, JSON.stringify(jcS));
+    document.body.classList.toggle('light-mode', t==='light');
+    const _ht=document.getElementById('hljs-theme');
+    if(_ht) _ht.href = t==='light'
+      ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'
+      : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
+    document.getElementById('sp-theme-dark').classList.toggle('active', t!=='light');
+    document.getElementById('sp-theme-light').classList.toggle('active', t==='light');
+    const _tr=document.getElementById('sp-theme-row');
+    if(_tr) _tr.classList.toggle('theme-is-light', t==='light');
+  }
+  function saveSettings() {
+    jcS.peekConfirm = document.getElementById('sp-peek-toggle').checked;
+    ['problem','code','io','complexity','topics','concept'].forEach(k=>{ const el=document.getElementById('sp-sec-'+k); if(el) jcS.sections[k]=el.checked; });
+    localStorage.setItem(JC_KEY, JSON.stringify(jcS));
+    jcApply(jcS);
+    const btn=document.querySelector('.sp-save-btn');
+    if(btn){ const orig=btn.textContent; btn.textContent='✓ Saved!'; btn.style.opacity='0.75'; setTimeout(()=>{ btn.textContent=orig; btn.style.opacity=''; closeSettings(); },900); }
+    else closeSettings();
+  }
+
+  function applyShortcuts(code) {
+    return code
+      .replace(/System\.out\.println\(/g,'syso(')
+      .replace(/System\.out\.print\(/g,'sysp(')
+      .replace(/System\.out\.printf\(/g,'sysf(');
+  }
+
+  function extractLogic(code) {
+    if(!code) return '';
+    const lines=code.split('\n'); const out=[]; let inside=false,depth=0,base=-1;
+    for(const line of lines){
+      const t=line.trim();
+      const o=(line.match(/\{/g)||[]).length, cl=(line.match(/\}/g)||[]).length;
+      if(!inside){
+        if(/public\s+static\s+void\s+main/.test(t)){inside=true;depth+=o-cl;base=depth-1;continue;}
+        depth+=o-cl; continue;
+      }
+      depth+=o-cl;
+      if(depth<=base) break;
+      if(/^Scanner\s+/.test(t)) continue;
+      if(/^\w[\w<>\[\]]*\s+\w+\s*=\s*\w+\.next\w*\(\s*\)/.test(t)) continue;
+      if(/^\w+\.close\(\s*\)\s*;$/.test(t)) continue;
+      if(t===''&&out.length===0) continue;
+      out.push(line);
+    }
+    while(out.length&&!out[out.length-1].trim()) out.pop();
+    const filled=out.filter(l=>l.trim());
+    if(!filled.length) return code;
+    const minI=Math.min(...filled.map(l=>l.match(/^\s*/)[0].length));
+    return out.map(l=>l.slice(minI)).join('\n');
+  }
+
+  function openRevision() {
+    const grid=document.getElementById('rev-grid');
+    const eh=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    grid.innerHTML = PROBLEMS.map(p=>`<div class="rev-card">
+      <div class="rev-card-head"><span class="rev-num">#${p.id}</span><span class="rev-name">${eh(p.title)}</span></div>
+      <div class="rev-tags">${(p.tags||[]).map(t=>`<span class="rev-tag">${eh(t)}</span>`).join('')}</div>
+      <div class="rev-cols">
+        <div class="rev-col-code"><div class="rev-col-label">Logic</div>
+          <div class="rev-code-wrap"><pre><code class="language-java">${eh(applyShortcuts(extractLogic(p.code||'')))}</code></pre></div>
+        </div>
+        <div class="rev-col-io"><div class="rev-col-label">Sample I/O</div>
+          <div class="rev-io-box">
+            <div><span class="rev-io-key">▶ In</span><pre class="rev-io-pre">${eh(p.input||'—')}</pre></div>
+            <div><span class="rev-io-key">◀ Out</span><pre class="rev-io-pre">${eh(p.output||'—')}</pre></div>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+    grid.querySelectorAll('code.language-java').forEach(el=>hljs.highlightElement(el));
+    document.getElementById('rev-overlay').style.display='flex';
+    document.body.style.overflow='hidden';
+  }
+  function closeRevision() {
+    document.getElementById('rev-overlay').style.display='none';
+    document.body.style.overflow='';
+  }
+
+  function applyDataSec() {
+    const map={'Problem':'problem','Java Code':'code','Sample I/O':'io','Complexity':'complexity','Topics Covered':'topics','Key Concept':'concept'};
+    document.querySelectorAll('.body-section').forEach(sec=>{
+      const lbl=sec.querySelector('.body-label'); if(!lbl) return;
+      const txt=lbl.textContent.trim();
+      const key=Object.keys(map).find(k=>txt.startsWith(k));
+      if(key) sec.setAttribute('data-sec', map[key]);
+    });
+  }
+
+  // ── Boot ──
+  loadProgress();
+  render();
+  applyDataSec();
+  jcApply(jcS);
+  </script>
+  <script src="../history-widget.js"></script>
+</body>
+</html>
